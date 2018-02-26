@@ -35,7 +35,7 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
     private GameObject controllerPrefab = null;
     private GameObject originalControllerPrefab = null;
     private string controllerFileName = "";
-    private string controllerModelFoler = "Controller/";
+    private string controllerModelFolder = "Controller/";
     private string genericControllerFileName = "Generic_";
 
     private WVR_DeviceType deviceType = WVR_DeviceType.WVR_DeviceType_Controller_Right;
@@ -136,10 +136,10 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
                 genericControllerFileName += "L";
             }
 
-            originalControllerPrefab = Resources.Load(controllerModelFoler + genericControllerFileName) as GameObject;
+            originalControllerPrefab = Resources.Load(controllerModelFolder + genericControllerFileName) as GameObject;
             if (originalControllerPrefab == null)
             {
-                Debug.Log("Cant load generic controller model, Please check file under Resources/" + controllerModelFoler + genericControllerFileName + ".prefab is exist!");
+                Debug.Log("Cant load generic controller model, Please check file under Resources/" + controllerModelFolder + genericControllerFileName + ".prefab is exist!");
             }
             else
             {
@@ -211,7 +211,7 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
 
         Log.i(LOG_TAG, "controller file name is " + controllerFileName);
 
-        originalControllerPrefab = Resources.Load(controllerModelFoler + controllerFileName) as GameObject;
+        originalControllerPrefab = Resources.Load(controllerModelFolder + controllerFileName) as GameObject;
         var found = true;
 
         if (originalControllerPrefab == null)
@@ -226,10 +226,10 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
             }
             Log.w(LOG_TAG, "cant find preferred controller model, load generic controller : " + genericControllerFileName);
             Log.i(LOG_TAG, "Please download controller model from .... to have better experience!");
-            originalControllerPrefab = Resources.Load(controllerModelFoler + genericControllerFileName) as GameObject;
+            originalControllerPrefab = Resources.Load(controllerModelFolder + genericControllerFileName) as GameObject;
             if (originalControllerPrefab == null)
             {
-                Log.e(LOG_TAG, "Cant load generic controller model, Please check file under Resources/" + controllerModelFoler + genericControllerFileName + ".prefab is exist!");
+                Log.e(LOG_TAG, "Cant load generic controller model, Please check file under Resources/" + controllerModelFolder + genericControllerFileName + ".prefab is exist!");
                 found = false;
             } else
             {
