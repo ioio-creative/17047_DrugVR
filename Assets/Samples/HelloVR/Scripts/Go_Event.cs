@@ -28,7 +28,7 @@ IPointerHoverHandler
 	private const string LOG_TAG = "WaveVR_HelloVR";
 	Vector3 originalPos;
     WVR_DeviceType curFocusControllerType=WVR_DeviceType.WVR_DeviceType_HMD;
-    public  bool isControllerFocus_R;
+    public bool isControllerFocus_R;
     public bool  isControllerFocus_L;
     private GameObject m_RightController;
     private GameObject m_LeftController;
