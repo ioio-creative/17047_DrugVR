@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(FadeManger))]
+[RequireComponent(typeof(FadeManager))]
 public class ControllerFadeManager : MonoBehaviour {
-    private FadeManger fadeManager;
+    private FadeManager fadeManager;
 
     void Start () {
-        fadeManager = GetComponent<FadeManger>();
+        fadeManager = GetComponent<FadeManager>();
 
         MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();
         fadeManager.Materials = new List<Material>();
