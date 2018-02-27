@@ -11,9 +11,9 @@ using VRStandardAssets.Utils;
 // either a UI slider or a mesh with the SlidingUV shader.  The
 // functions as a bar that fills up whilst the user looks at it
 // and holds down the Fire1 button.
-public class MySelectionSlider : MonoBehaviour, 
-    IPointerEnterHandler,
-    IPointerExitHandler
+public class MySelectionSlider : MonoBehaviour //, 
+    //IPointerEnterHandler,
+    //IPointerExitHandler
 {
     public event Action OnBarFilled;
 
@@ -49,6 +49,8 @@ public class MySelectionSlider : MonoBehaviour,
     private bool m_GazeOver;                                            // Whether the user is currently looking at the bar.
     private float m_Timer;                                              // Used to determine how much of the bar should be filled.
     private Coroutine m_FillBarRoutine;                                 // Reference to the coroutine that controls the bar filling up, used to stop it if required.
+
+    private bool m_ButtonPressed;
 
 
     private const string k_SliderMaterialPropertyName = "_SliderValue"; // The name of the property on the SlidingUV shader that needs to be changed in order for it to fill.
@@ -118,7 +120,7 @@ public class MySelectionSlider : MonoBehaviour,
             yield return null;
 
             // If the user is still looking at the bar, go on to the next iteration of the loop.
-            if (m_GazeOver)
+            if (m_GazeOver && m_ButtonPressed)
                 continue;
 
             // If the user is no longer looking at the bar, reset the timer and bar and leave the function.
@@ -135,8 +137,11 @@ public class MySelectionSlider : MonoBehaviour,
             OnBarFilled();
 
         // Play the clip for when the bar is filled.
-        m_Audio.clip = m_OnFilledClip;
-        m_Audio.Play();
+        if (m_Audio != null)
+        {
+            m_Audio.clip = m_OnFilledClip;
+            m_Audio.Play();
+        }
 
         // If the bar should be disabled once it is filled, do so now.
         if (m_DisableOnBarFill)
@@ -163,32 +168,49 @@ public class MySelectionSlider : MonoBehaviour,
 
     /* UnityEngine.EventSystems pointer event handler interface */
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("OnPointerEnter: MySelectionSlider");
-        HandleOver();
-    }
+    //public void OnPointerEnter(PointerEventData eventData)
+    //{
+    //    Debug.Log("OnPointerEnter: MySelectionSlider");
+    //    HandleOver();
+    //}
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        Debug.Log("OnPointerExit: MySelectionSlider");
-        HandleOut();
-    }
+    //public void OnPointerExit(PointerEventData eventData)
+    //{
+    //    Debug.Log("OnPointerExit: MySelectionSlider");
+    //    HandleOut();
+    //}
 
     /* end of UnityEngine.EventSystems pointer event handler interface */
 
 
     /* real pointer handlers */
 
-    private void HandleDown()
+    public void HandleDown()
     {
+        Debug.Log("HandleDown: MySelectionSlider");
+
+        m_ButtonPressed = true;
+
         // If the user is looking at the bar start the FillBar coroutine and store a reference to it.
         if (m_GazeOver)
+        {
+            // Play the clip appropriate for when the user starts looking at the bar.
+            if (m_Audio)
+            {
+                m_Audio.clip = m_OnOverClip;
+                m_Audio.Play();
+            }
+
             m_FillBarRoutine = StartCoroutine(FillBar());
+        }
     }
 
-    private void HandleUp()
+    public void HandleUp()
     {
+        Debug.Log("HandleUp: MySelectionSlider");
+
+        m_ButtonPressed = false;
+
         // If the coroutine has been started (and thus we have a reference to it) stop it.
         if (m_FillBarRoutine != null)
             StopCoroutine(m_FillBarRoutine);
@@ -198,20 +220,27 @@ public class MySelectionSlider : MonoBehaviour,
         SetSliderValue(0f);
     }
 
-    private void HandleOver()
+    public void HandleOver()
     {
+        Debug.Log("HandleOver: MySelectionSlider");
+
         // The user is now looking at the bar.
         m_GazeOver = true;
 
-        // Play the clip appropriate for when the user starts looking at the bar.
-        m_Audio.clip = m_OnOverClip;
-        m_Audio.Play();
+        //// Play the clip appropriate for when the user starts looking at the bar.
+        //if (m_Audio)
+        //{
+        //    m_Audio.clip = m_OnOverClip;
+        //    m_Audio.Play();
+        //}
 
-        m_FillBarRoutine = StartCoroutine(FillBar());
+        //m_FillBarRoutine = StartCoroutine(FillBar());
     }
 
-    private void HandleOut()
+    public void HandleOut()
     {
+        Debug.Log("HandleOut: MySelectionSlider");
+
         // The user is no longer looking at the bar.
         m_GazeOver = false;
 
