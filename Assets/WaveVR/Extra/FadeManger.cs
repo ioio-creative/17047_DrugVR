@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // The target materials shoud have "_FadeAlpha" property.
-public class FadeManger : MonoBehaviour {
+public class FadeManager : MonoBehaviour {
     public float FadeTime = 0.2f;  // 2ms
     public List<Material> Materials;
 
