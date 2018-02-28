@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114846975307748066}
   - component: {fileID: 223453253253142314}
   m_Layer: 5
-  m_Name: Transition Controller
+  m_Name: Fade Black Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
