@@ -20,7 +20,7 @@ public class MySelectionRadial : MonoBehaviour
     [SerializeField]
     private Image m_Selection;                                             // Reference to the image who's fill amount is adjusted to display the bar.
     [SerializeField]
-    private VRInput m_VRInput;
+    //private VRInput m_VRInput;
 
 
     private Coroutine m_SelectionFillRoutine;                                               // Used to start and stop the filling coroutine based on input.
