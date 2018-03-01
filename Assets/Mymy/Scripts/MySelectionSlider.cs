@@ -19,7 +19,7 @@ public class MySelectionSlider : MonoBehaviour //,
 
 
     [SerializeField]
-    private float m_Duration;                          // The length of time it takes for the bar to fill.
+    private float m_Duration = 2f;                          // The length of time it takes for the bar to fill.
     [SerializeField]
     private AudioSource m_Audio;                       // Reference to the audio source that will play effects when the user looks at it and when it fills.
     [SerializeField]
@@ -136,12 +136,9 @@ public class MySelectionSlider : MonoBehaviour //,
         if (OnBarFilled != null)
             OnBarFilled();
 
-        // Play the clip for when the bar is filled.
-        if (m_Audio != null)
-        {
-            m_Audio.clip = m_OnFilledClip;
-            m_Audio.Play();
-        }
+        // Play the clip for when the bar is filled.        
+        m_Audio.clip = m_OnFilledClip;
+        m_Audio.Play();        
 
         // If the bar should be disabled once it is filled, do so now.
         if (m_DisableOnBarFill)
@@ -195,11 +192,8 @@ public class MySelectionSlider : MonoBehaviour //,
         if (m_GazeOver)
         {
             // Play the clip appropriate for when the user starts looking at the bar.
-            if (m_Audio)
-            {
-                m_Audio.clip = m_OnOverClip;
-                m_Audio.Play();
-            }
+            m_Audio.clip = m_OnOverClip;
+            m_Audio.Play();            
 
             m_FillBarRoutine = StartCoroutine(FillBar());
         }
@@ -227,12 +221,9 @@ public class MySelectionSlider : MonoBehaviour //,
         // The user is now looking at the bar.
         m_GazeOver = true;
 
-        //// Play the clip appropriate for when the user starts looking at the bar.
-        //if (m_Audio)
-        //{
-        //    m_Audio.clip = m_OnOverClip;
-        //    m_Audio.Play();
-        //}
+        // Play the clip appropriate for when the user starts looking at the bar.        
+        m_Audio.clip = m_OnOverClip;
+        m_Audio.Play();        
 
         //m_FillBarRoutine = StartCoroutine(FillBar());
     }

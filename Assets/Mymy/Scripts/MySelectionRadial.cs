@@ -19,13 +19,17 @@ public class MySelectionRadial : MonoBehaviour
     private bool m_HideOnStart = true;                                     // Whether or not the bar should be visible at the start.
     [SerializeField]
     private Image m_Selection;                                             // Reference to the image who's fill amount is adjusted to display the bar.
-    [SerializeField]
+    //[SerializeField]
     //private VRInput m_VRInput;
-
+ 
 
     private Coroutine m_SelectionFillRoutine;                                               // Used to start and stop the filling coroutine based on input.
     private bool m_IsSelectionRadialActive;                                                    // Whether or not the bar is currently useable.
-    private bool m_RadialFilled;                                                               // Used to allow the coroutine to wait for the bar to fill.
+    private bool m_RadialFilled;                                                        // Used to allow the coroutine to wait for the bar to fill.
+
+
+    private bool m_GazeOver;
+    private bool m_ButtonPressed;
 
 
     public float SelectionDuration { get { return m_SelectionDuration; } }
@@ -39,7 +43,13 @@ public class MySelectionRadial : MonoBehaviour
         m_Selection.fillAmount = 0f;
 
         if (m_HideOnStart)
+        {
             Hide();
+        }
+        else
+        {
+            Show();
+        }
     }
 
     /* end of MonoBehavior */
@@ -118,8 +128,12 @@ public class MySelectionRadial : MonoBehaviour
 
     /* real pointer handlers */
 
-    private void HandleDown()
+    public void HandleDown()
     {
+        Debug.Log("HandleDown: MySelectionRadial");
+
+        m_ButtonPressed = true;
+
         // If the radial is active start filling it.
         if (m_IsSelectionRadialActive)
         {
@@ -128,8 +142,12 @@ public class MySelectionRadial : MonoBehaviour
     }
 
 
-    private void HandleUp()
+    public void HandleUp()
     {
+        Debug.Log("HandleUp: MySelectionRadial");
+
+        m_ButtonPressed = false;
+
         // If the radial is active stop filling it and reset it's amount.
         if (m_IsSelectionRadialActive)
         {
@@ -140,14 +158,36 @@ public class MySelectionRadial : MonoBehaviour
         }
     }
 
-    private void HandleOver()
+    public void HandleOver()
     {
+        Debug.Log("HandleOver: MySelectionRadial");
 
+        // The user is now looking at the bar.
+        m_GazeOver = true;
+
+        //// Play the clip appropriate for when the user starts looking at the bar.
+        //if (m_Audio)
+        //{
+        //    m_Audio.clip = m_OnOverClip;
+        //    m_Audio.Play();
+        //}
     }
 
-    private void HandleOut()
+    public void HandleOut()
     {
+        Debug.Log("HandleOut: MySelectionRadial");
 
+        // The user is no longer looking at the bar.
+        m_GazeOver = false;
+
+        // If the radial is active stop filling it and reset it's amount.
+        if (m_IsSelectionRadialActive)
+        {
+            if (m_SelectionFillRoutine != null)
+                StopCoroutine(m_SelectionFillRoutine);
+
+            m_Selection.fillAmount = 0f;
+        }
     }
 
     /* end of real pointer handlers */
