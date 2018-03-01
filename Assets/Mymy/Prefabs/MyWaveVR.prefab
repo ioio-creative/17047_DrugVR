@@ -120,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   inversePosition: 0
-  trackPosition: 1
+  trackPosition: 0
   inverseRotation: 0
   trackRotation: 1
   timing: 1
@@ -142,5 +142,5 @@ MonoBehaviour:
   distortion: {fileID: 0}
   loadingCanvas: {fileID: 0}
   ear: {fileID: 0}
-  _origin: 1
+  _origin: 0
   needTimeControl: 0
