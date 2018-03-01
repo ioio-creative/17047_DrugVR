@@ -11,9 +11,3 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Mymy/Scenes/Test1.unity
     guid: 9d78e8b2def7f2b4d8cbcf3498225e9a
-  - enabled: 0
-    path: Assets/Samples/ControllerInputModule_Test/ControllerInputModule_Test.unity
-    guid: 565f01ad7a41b3840bf92c045693c4df
-  - enabled: 1
-    path: Assets/Samples/GetPose/GetPose.unity
-    guid: dac4744444c96644985662e74f43ef4d
