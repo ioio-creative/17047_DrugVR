@@ -72,8 +72,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4459634426868382}
-  - component: {fileID: 114098305919124298}
   - component: {fileID: 82504895850579354}
+  - component: {fileID: 114220738152412998}
+  - component: {fileID: 114012676063225622}
   m_Layer: 0
   m_Name: SelectionRadial
   m_TagString: Untagged
@@ -296,7 +297,7 @@ MonoBehaviour:
   m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114098305919124298
+--- !u!114 &114012676063225622
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -304,12 +305,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1691671938473520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed645704f1a8d245a2711d1edbe3a49, type: 3}
+  m_Script: {fileID: 11500000, guid: 83fba8b179fb8a14f9132017f2227281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SelectionDuration: 1
+  m_SelectionDuration: 1.5
   m_HideOnStart: 0
-  m_Selection: {fileID: 114009336528763496}
+  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
+  m_OnFilledClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
+  m_SelectionCanvas: {fileID: 1989247735781862}
+  m_DisappearOnSelectionFill: 1
 --- !u!114 &114141287510570742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -326,8 +330,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114098305919124298}
-          m_MethodName: HandleOver
+        - m_Target: {fileID: 114012676063225622}
+          m_MethodName: HandleEnter
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -343,8 +347,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114098305919124298}
-          m_MethodName: HandleOut
+        - m_Target: {fileID: 114012676063225622}
+          m_MethodName: HandleExit
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -360,7 +364,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114098305919124298}
+        - m_Target: {fileID: 114012676063225622}
           m_MethodName: HandleUp
           m_Mode: 1
           m_Arguments:
@@ -377,7 +381,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114098305919124298}
+        - m_Target: {fileID: 114012676063225622}
           m_MethodName: HandleDown
           m_Mode: 1
           m_Arguments:
@@ -439,6 +443,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114220738152412998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691671938473520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a82a70f2c748f9942a7550eb456566e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Selection: {fileID: 114009336528763496}
 --- !u!114 &114570874270643716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -603,7 +619,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224638670221302746}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -621,7 +637,6 @@ RectTransform:
   m_LocalScale: {x: 0.003, y: 0.003, z: 0.003}
   m_Children:
   - {fileID: 224638670221302746}
-  - {fileID: 224923386742615914}
   m_Father: {fileID: 4459634426868382}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -655,10 +670,11 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1556518658536362}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 224923386742615914}
   - {fileID: 224222113764188090}
   m_Father: {fileID: 224549192209810912}
   m_RootOrder: 0
@@ -679,8 +695,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224622015038177486}
-  m_Father: {fileID: 224549192209810912}
-  m_RootOrder: 1
+  m_Father: {fileID: 224638670221302746}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
