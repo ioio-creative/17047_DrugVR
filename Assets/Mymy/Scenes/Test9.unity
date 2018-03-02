@@ -356,10 +356,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 326258025}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d84ed34c8bed8704faee68bf0c203a0e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1daf6e748157c7d4c883402da4890ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ObjectName: Plane A
 --- !u!23 &326258027
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -426,7 +425,7 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1001 &558238395
 Prefab:
@@ -701,7 +700,7 @@ Transform:
   - {fileID: 1702213901}
   - {fileID: 1603271932}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1600505567
 Prefab:
@@ -1146,17 +1145,17 @@ Prefab:
     - target: {fileID: 224420017257371630, guid: 6e945b5141c87a545af15d950f78298d,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224420017257371630, guid: 6e945b5141c87a545af15d950f78298d,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224420017257371630, guid: 6e945b5141c87a545af15d950f78298d,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6e945b5141c87a545af15d950f78298d, type: 2}
