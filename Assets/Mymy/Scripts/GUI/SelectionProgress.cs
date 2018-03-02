@@ -113,12 +113,9 @@ public class SelectionProgress : MonoBehaviour,
     }
 
     public IEnumerator WaitForSelectionToFill()
-    {        
+    {
         // Check every frame if the selection is filled.
-        while (!m_SelectionFilled)
-        {
-            yield return null;
-        }        
+        return new WaitUntil(() => m_SelectionFilled);
     }
 
     private IEnumerator FillSelection()

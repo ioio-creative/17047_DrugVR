@@ -467,6 +467,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114941369545796800, guid: 5eaf7586b35b5de45824df0df00875a1,
+        type: 2}
+      propertyPath: nextUiFader
+      value: 
+      objectReference: {fileID: 1702213905}
+    - target: {fileID: 114941369545796800, guid: 5eaf7586b35b5de45824df0df00875a1,
+        type: 2}
+      propertyPath: nextSelectionProgress
+      value: 
+      objectReference: {fileID: 1702213902}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5eaf7586b35b5de45824df0df00875a1, type: 2}
   m_IsPrefabParent: 0
@@ -745,6 +755,18 @@ Transform:
   m_PrefabParentObject: {fileID: 4271256760124324, guid: 6e945b5141c87a545af15d950f78298d,
     type: 2}
   m_PrefabInternal: {fileID: 2109039565}
+--- !u!114 &1702213902 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114716792402862406, guid: 6e945b5141c87a545af15d950f78298d,
+    type: 2}
+  m_PrefabInternal: {fileID: 2109039565}
+  m_Script: {fileID: 11500000, guid: 83fba8b179fb8a14f9132017f2227281, type: 3}
+--- !u!114 &1702213905 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114293167574382640, guid: 6e945b5141c87a545af15d950f78298d,
+    type: 2}
+  m_PrefabInternal: {fileID: 2109039565}
+  m_Script: {fileID: 11500000, guid: 82beeac61799dc34e99146981f498189, type: 3}
 --- !u!1 &1740475344
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +841,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1740475344}
+--- !u!114 &1794605150 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114565674256367152, guid: 5eaf7586b35b5de45824df0df00875a1,
+    type: 2}
+  m_PrefabInternal: {fileID: 558238395}
+  m_Script: {fileID: 11500000, guid: 82beeac61799dc34e99146981f498189, type: 3}
+--- !u!114 &1794605152 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114012676063225622, guid: 5eaf7586b35b5de45824df0df00875a1,
+    type: 2}
+  m_PrefabInternal: {fileID: 558238395}
+  m_Script: {fileID: 11500000, guid: 83fba8b179fb8a14f9132017f2227281, type: 3}
 --- !u!1 &1815073950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1061,49 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1957523434}
+--- !u!1 &2060529489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2060529490}
+  - component: {fileID: 2060529491}
+  m_Layer: 0
+  m_Name: StoryStartManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2060529490
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2060529489}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2060529491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2060529489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b111fc366280654cb5896b143c0ff1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SecondsToWaitBeforeStart: 0
+  m_StartFader: {fileID: 1794605150}
+  m_StartSelectionProgess: {fileID: 1794605152}
 --- !u!1001 &2109039565
 Prefab:
   m_ObjectHideFlags: 0
@@ -1068,7 +1145,17 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 224420017257371630, guid: 6e945b5141c87a545af15d950f78298d,
         type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224420017257371630, guid: 6e945b5141c87a545af15d950f78298d,
+        type: 2}
       propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224420017257371630, guid: 6e945b5141c87a545af15d950f78298d,
+        type: 2}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -75,6 +75,8 @@ GameObject:
   - component: {fileID: 82504895850579354}
   - component: {fileID: 114220738152412998}
   - component: {fileID: 114012676063225622}
+  - component: {fileID: 114565674256367152}
+  - component: {fileID: 114941369545796800}
   m_Layer: 0
   m_Name: SelectionRadial
   m_TagString: Untagged
@@ -293,10 +295,10 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 2
   m_FillAmount: 0
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 3
 --- !u!114 &114012676063225622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -313,7 +315,7 @@ MonoBehaviour:
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnFilledClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_SelectionCanvas: {fileID: 1989247735781862}
-  m_DisappearOnSelectionFill: 1
+  m_DisappearOnSelectionFill: 0
 --- !u!114 &114141287510570742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -455,6 +457,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Selection: {fileID: 114009336528763496}
+--- !u!114 &114565674256367152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691671938473520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82beeac61799dc34e99146981f498189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FadeInAlphaThreshold: 1
+  m_FadeOutAlphaThreshold: 0
+  m_FadeSpeed: 0.5
+  m_UiGroupsToFade:
+  - {fileID: 225187656090194416}
+  m_NonUiGroupsContainers: []
 --- !u!114 &114570874270643716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -558,6 +577,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114941369545796800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691671938473520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc0d2fba10c70f44bc5aab6fa768310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastUiFader: {fileID: 114565674256367152}
+  lastSelectionProgress: {fileID: 114012676063225622}
+  nextUiFader: {fileID: 0}
+  nextSelectionProgress: {fileID: 0}
 --- !u!222 &222199600968268382
 CanvasRenderer:
   m_ObjectHideFlags: 1

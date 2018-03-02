@@ -155,6 +155,8 @@ GameObject:
   - component: {fileID: 82600497547698662}
   - component: {fileID: 114687372331777904}
   - component: {fileID: 114716792402862406}
+  - component: {fileID: 114070196846732354}
+  - component: {fileID: 114293167574382640}
   m_Layer: 0
   m_Name: SelectionSlider
   m_TagString: Untagged
@@ -630,6 +632,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114070196846732354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1419188385584186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc0d2fba10c70f44bc5aab6fa768310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastUiFader: {fileID: 114293167574382640}
+  lastSelectionProgress: {fileID: 114716792402862406}
+  nextUiFader: {fileID: 0}
+  nextSelectionProgress: {fileID: 0}
 --- !u!114 &114191497869722756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -651,6 +668,24 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114293167574382640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1419188385584186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82beeac61799dc34e99146981f498189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FadeInAlphaThreshold: 1
+  m_FadeOutAlphaThreshold: 0
+  m_FadeSpeed: 0.5
+  m_UiGroupsToFade:
+  - {fileID: 225866223925917666}
+  m_NonUiGroupsContainers:
+  - {fileID: 1012536748416870}
 --- !u!114 &114315602004940066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -689,7 +724,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 224420017257371630}
   m_HandleRect: {fileID: 0}
-  m_Direction: 2
+  m_Direction: 1
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
@@ -911,7 +946,7 @@ MonoBehaviour:
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnFilledClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_SelectionCanvas: {fileID: 1431151248372338}
-  m_DisappearOnSelectionFill: 1
+  m_DisappearOnSelectionFill: 0
 --- !u!114 &114846881679244064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1164,7 +1199,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1371930905874536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.01001358}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224868002283176648}
@@ -1213,7 +1248,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: 0}
+  m_SizeDelta: {x: 0, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224996653661945190
 RectTransform:
