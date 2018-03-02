@@ -11,6 +11,11 @@ public class SliderSelectionProgressable : SelectionProgressable
 
     /* SelectionProgressable interfaces */
 
+    public override float GetValue()
+    {
+        return m_Slider.value;
+    }
+
     public override void SetValue(float normedProgessValue)
     {
         m_Slider.value = 
@@ -18,4 +23,9 @@ public class SliderSelectionProgressable : SelectionProgressable
     }
 
     /* end of SelectionProgressable interfaces */
+
+    private void Update()
+    {
+        Debug.Log("Slider: " + m_Slider.value);
+    }
 }

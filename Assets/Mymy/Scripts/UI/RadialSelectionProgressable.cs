@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class RadialSelectionProgressable : SelectionProgressable
@@ -10,6 +11,11 @@ public class RadialSelectionProgressable : SelectionProgressable
 
 
     /* SelectionProgressable interfaces */
+
+    public override float GetValue()
+    {
+        return m_Selection.fillAmount;
+    }
 
     public override void SetValue(float normedProgessValue)
     {

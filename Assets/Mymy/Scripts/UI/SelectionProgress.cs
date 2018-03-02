@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using VRStandardAssets.Utils;
 
 // This class is used to control the property of another 
 // GameObject ISelectionProgressable, e.g. slider value, that fills 
@@ -135,7 +133,22 @@ public class SelectionProgress : MonoBehaviour,
 
             // Increase the timer by the time between frames and wait for the next frame.
             timer += Time.deltaTime;
+
+            // Wait until next frame.
             yield return null;
+
+            // The following code is just to play safe
+            // if the StopCoroutine() is somehow not called
+
+            // If the user is still looking at the selection,
+            // go on to the next iteration of the loop.
+            if (m_GazeOver && m_ButtonPressed)
+                continue;
+
+            // If the user is no longer looking at the selection,
+            // reset the selection and leave the function.
+            m_Selection.SetValueToMin();
+            yield break;
         }
 
         // When the loop is finished set the fill amount to be full.
@@ -191,8 +204,9 @@ public class SelectionProgress : MonoBehaviour,
         {
             if (m_SelectionFillRoutine != null)
             {
-                StopCoroutine(m_SelectionFillRoutine);
+                StopCoroutine(m_SelectionFillRoutine);                
             }
+            m_SelectionFillRoutine = null;
             m_Selection.SetValueToMin();
         }
     }    

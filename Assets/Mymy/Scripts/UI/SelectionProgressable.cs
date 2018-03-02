@@ -7,6 +7,8 @@ public abstract class SelectionProgressable : MonoBehaviour
     private const float MinValue = 0f;
     private const float MaxValue = 1f;
 
+    // 0 <= value to return <= 1
+    public abstract float GetValue(); 
 
     // 0 <= normedProgessValue <= 1
     public abstract void SetValue(float normedProgessValue);
