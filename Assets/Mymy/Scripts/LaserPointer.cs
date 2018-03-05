@@ -22,76 +22,97 @@
 
 using UnityEngine;
 
+// https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
+// https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr
 public class LaserPointer : MonoBehaviour
 {
-    public GameObject laserPrefab;
-    public GameObject trackedObj;
+    [SerializeField]
+    private GameObject trackedObj;
+    [SerializeField]
+    private GameObject laserPrefab;    
+    [SerializeField]
+    private GameObject reticlePrefab;
+    [SerializeField]
+    private Vector3 reticleOffset;
+    [SerializeField]
+    private float maxPointerDist = 100f;
 
 
     private GameObject laser;
     private Transform laserTransform;
-    private Vector3 hitPoint;
-        
-    
+    private Transform trackedObjTransform;
+    private GameObject reticle;
+    private Transform reticleTransform;
+    // used when ray cast doesn't hit any object
+    private RaycastHit defaultHit;
+    private Vector3 originalReticleScale;
+    private Quaternion originalReticleRotation;
+
+
+    private void Awake()
+    {
+        originalReticleScale = reticleTransform.localScale;        
+    }
+
     private void Start()
     {
+        trackedObjTransform = trackedObj.transform;
+
         laser = Instantiate(laserPrefab);
-        laserTransform = laser.transform;        
+        laserTransform = laser.transform;
+
+        reticle = Instantiate(reticlePrefab);
+        reticleTransform = reticle.transform;
+
+        defaultHit = new RaycastHit()
+        {
+            point = trackedObjTransform.position + trackedObjTransform.forward * maxPointerDist,
+            normal = trackedObjTransform.forward,
+            distance = maxPointerDist
+        };
     }
 
     private void Update()
-    {        
-        RaycastHit hit;
+    {
+        // set default values, used when ray cast doesn't hit any object
+        RaycastHit hit = defaultHit;
 
         // Send out a raycast from the controller
-        if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100))
-        {
-            hitPoint = hit.point;
-            ShowLaser(hit.point, hit.distance);
-        }
-        else
-        {
-            //RaycastHit2D btnHit = Physics2D.Raycast(trackedObj.transform.position, transform.forward, 100);
-            //if (btnHit)
-            //{
-            //    ShowLaser(btnHit.point, btnHit.distance);
-            //}
-            //else
-            //{
-                ShowLaser(trackedObj.transform.position + trackedObj.transform.forward * 100, 100);
-            //}
-        }
+        bool isHit = Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, maxPointerDist);
+
+        ShowReticle(hit);      
     }
 
-    private void ShowLaser(Vector3 hitTarget, float hitDistance)
+    // // https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
+    private void ShowLaser(RaycastHit hitTarget)
     {
         // Show the laser
         laser.SetActive(true);
 
         // Move laser to the middle between the controller and the position the raycast hit
-        laserTransform.position = Vector3.Lerp(trackedObj.transform.position, hitTarget, .5f);
+        laserTransform.position = Vector3.Lerp(trackedObjTransform.position, hitTarget.point, .5f);
 
         // Rotate laser facing the hit point
-        laserTransform.LookAt(hitTarget);
+        laserTransform.LookAt(hitTarget.point);
 
         // Scale laser so it fits exactly between the controller & the hit point
         laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
-            hitDistance);
+            hitTarget.distance);
     }
 
-    //private void ShowLaser(RaycastHit hit)
-    //{
-    //    // Show the laser
-    //    laser.SetActive(true);
+    // // https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr
+    private void ShowReticle(RaycastHit hitTarget)
+    {
+        // set visible
+        reticle.SetActive(true);
 
-    //    // Move laser to the middle between the controller and the position the raycast hit
-    //    laserTransform.position = Vector3.Lerp(trackedObj.transform.position, hitPoint, .5f);
+        // set position
+        reticleTransform.position = hitTarget.point;
 
-    //    // Rotate laser facing the hit point
-    //    laserTransform.LookAt(hitPoint);
+        // set scale
+        reticleTransform.localScale = 
 
-    //    // Scale laser so it fits exactly between the controller & the hit point
-    //    laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
-    //        hit.distance);
-    //}    
+        // set rotation
+        reticleTransform.forward = hitTarget.normal;
+    }   
 }
