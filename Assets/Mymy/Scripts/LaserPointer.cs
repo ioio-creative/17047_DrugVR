@@ -21,13 +21,18 @@
  */
 
 using UnityEngine;
+using wvr;
 
 // https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
 // https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr
 public class LaserPointer : MonoBehaviour
 {
     [SerializeField]
-    private GameObject trackedObj;
+    private WVR_DeviceType device = WVR_DeviceType.WVR_DeviceType_Controller_Right;
+    [SerializeField]
+    private WVR_InputId inputToListen = WVR_InputId.WVR_InputId_16;
+    [SerializeField]
+    private Transform trackedObjTransform;
     [SerializeField]
     private GameObject laserPrefab;    
     [SerializeField]
@@ -36,12 +41,10 @@ public class LaserPointer : MonoBehaviour
     private Vector3 reticleOffset;
     [SerializeField]
     private float maxPointerDist = 100f;
+    [SerializeField]
+    private bool isUseRaycastNormalForReticleOrientation;
 
-
-    private GameObject laser;
     private Transform laserTransform;
-    private Transform trackedObjTransform;
-    private GameObject reticle;
     private Transform reticleTransform;
     // used when ray cast doesn't hit any object
     private RaycastHit defaultHit;
@@ -49,20 +52,16 @@ public class LaserPointer : MonoBehaviour
     private Quaternion originalReticleRotation;
 
 
-    private void Awake()
-    {
-        originalReticleScale = reticleTransform.localScale;        
-    }
-
     private void Start()
     {
-        trackedObjTransform = trackedObj.transform;
-
-        laser = Instantiate(laserPrefab);
+        GameObject laser = Instantiate(laserPrefab);
         laserTransform = laser.transform;
 
-        reticle = Instantiate(reticlePrefab);
+        GameObject reticle = Instantiate(reticlePrefab);
         reticleTransform = reticle.transform;
+
+        originalReticleScale = reticleTransform.localScale;
+        originalReticleRotation = reticleTransform.localRotation;
 
         defaultHit = new RaycastHit()
         {
@@ -74,20 +73,37 @@ public class LaserPointer : MonoBehaviour
 
     private void Update()
     {
+        defaultHit.point = trackedObjTransform.position + trackedObjTransform.forward * maxPointerDist;
+        defaultHit.normal = trackedObjTransform.forward;
+
         // set default values, used when ray cast doesn't hit any object
         RaycastHit hit = defaultHit;
 
         // Send out a raycast from the controller
-        bool isHit = Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, maxPointerDist);
+        bool isHit = Physics.Raycast(trackedObjTransform.position, trackedObjTransform.forward, out hit, maxPointerDist);
 
-        ShowReticle(hit);      
+        ShowReticle(hit);
+
+        if (WaveVR_Controller.Input(device).GetPress(inputToListen))
+        {
+            ShowLaser(hit);
+        }
+        else
+        {
+            HideLaser();
+        }
+    }
+
+    private void HideLaser()
+    {
+        laserTransform.gameObject.SetActive(false);
     }
 
     // // https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
     private void ShowLaser(RaycastHit hitTarget)
     {
         // Show the laser
-        laser.SetActive(true);
+        laserTransform.gameObject.SetActive(true);
 
         // Move laser to the middle between the controller and the position the raycast hit
         laserTransform.position = Vector3.Lerp(trackedObjTransform.position, hitTarget.point, .5f);
@@ -100,19 +116,31 @@ public class LaserPointer : MonoBehaviour
             hitTarget.distance);
     }
 
+    private void HideReticle()
+    {
+        reticleTransform.gameObject.SetActive(false);
+    }
+
     // // https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr
     private void ShowReticle(RaycastHit hitTarget)
     {
         // set visible
-        reticle.SetActive(true);
+        reticleTransform.gameObject.SetActive(true);
 
         // set position
         reticleTransform.position = hitTarget.point;
 
         // set scale
-        reticleTransform.localScale = 
+        reticleTransform.localScale = originalReticleScale * hitTarget.distance;
 
         // set rotation
-        reticleTransform.forward = hitTarget.normal;
+        if (isUseRaycastNormalForReticleOrientation)
+        {
+            reticleTransform.forward = hitTarget.normal;
+        }
+        else
+        {
+            reticleTransform.localRotation = originalReticleRotation;
+        }
     }   
 }

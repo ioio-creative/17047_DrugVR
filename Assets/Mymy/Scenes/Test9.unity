@@ -5904,12 +5904,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b1905c537e46b4da4d0d2409231aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trackedObjTransform: {fileID: 1308782511}
   laserPrefab: {fileID: 1890484192014690, guid: 9b409376561da5444bc78bf3a60cf312,
     type: 2}
-  trackedObj: {fileID: 1308782504}
   reticlePrefab: {fileID: 1422287368203380, guid: a8dcfdc2a9e3a7249993be239984248a,
     type: 2}
   reticleOffset: {x: 0, y: 0, z: 0}
+  maxPointerDist: 100
+  isUseRaycastNormalForReticleOrientation: 1
 --- !u!114 &1308782506
 MonoBehaviour:
   m_ObjectHideFlags: 0
