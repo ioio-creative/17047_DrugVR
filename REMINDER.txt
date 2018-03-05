@@ -1,0 +1,4 @@
+- WaveVR_ControllerPoseTracker controls handler position in 3D space
+- EvntSystem property of AddPhysicalRaycaster in controller prefab has to be assigned in every scene
+- ArmsLoader prefab put under MyWaveVR prefab? Requires further testing (very likely no real difference)
+- GUI arrow warning to be shown based on Camera rotation angle (reference: Unity VR Samples: intro scene)
