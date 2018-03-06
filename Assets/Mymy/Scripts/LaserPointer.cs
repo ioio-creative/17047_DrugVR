@@ -43,6 +43,9 @@ public class LaserPointer : MonoBehaviour
     private float maxPointerDist = 100f;
     [SerializeField]
     private bool isUseRaycastNormalForReticleOrientation;
+    [SerializeField]
+    private LayerMask layersForRaycast;
+    private int pickableObjLayer = 10;
 
     private Transform laserTransform;
     private Transform reticleTransform;
@@ -51,6 +54,12 @@ public class LaserPointer : MonoBehaviour
     private Vector3 originalReticleScale;
     private Quaternion originalReticleRotation;
 
+    // Serves as a reference to the GameObject that the player is currently grabbing
+    private GameObject objectInHand;
+    private float objectInHandOriginalDistance;
+    
+
+    /* MonoBehaviour */
 
     private void Start()
     {
@@ -80,11 +89,13 @@ public class LaserPointer : MonoBehaviour
         RaycastHit hit = defaultHit;
 
         // Send out a raycast from the controller
-        bool isHit = Physics.Raycast(trackedObjTransform.position, trackedObjTransform.forward, out hit, maxPointerDist);
+        bool isHit = Physics.Raycast(trackedObjTransform.position, trackedObjTransform.forward, out hit, maxPointerDist, layersForRaycast);
+
+        bool isBtnPressed = WaveVR_Controller.Input(device).GetPress(inputToListen);
 
         ShowReticle(hit);
 
-        if (WaveVR_Controller.Input(device).GetPress(inputToListen))
+        if (isBtnPressed)
         {
             ShowLaser(hit);
         }
@@ -92,14 +103,35 @@ public class LaserPointer : MonoBehaviour
         {
             HideLaser();
         }
+
+        if (isHit && isBtnPressed)
+        {
+            GrabObject(hit.collider);            
+        }
+        else
+        {            
+            ReleaseObject();
+        }
+
+        // set objectInHand position
+        if (objectInHand)
+        {
+            objectInHand.transform.position = trackedObjTransform.position + 
+                trackedObjTransform.forward * objectInHandOriginalDistance;
+        }
     }
+
+    /* end of MonoBehaviour */
+
+
+    /* show laser & pointer */
 
     private void HideLaser()
     {
         laserTransform.gameObject.SetActive(false);
     }
 
-    // // https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
+    // https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
     private void ShowLaser(RaycastHit hitTarget)
     {
         // Show the laser
@@ -142,5 +174,29 @@ public class LaserPointer : MonoBehaviour
         {
             reticleTransform.localRotation = originalReticleRotation;
         }
-    }   
+    }
+
+    /* end of show laser & pointer */
+
+
+    /* grab object */
+    /* https://www.raywenderlich.com/149239/htc-vive-tutorial-unity */
+
+    private void GrabObject(Collider col)
+    {
+        if (objectInHand == null && col.gameObject.layer == pickableObjLayer)
+        {
+            objectInHand = col.gameObject;
+            objectInHandOriginalDistance = 
+                (objectInHand.transform.position - trackedObjTransform.position).magnitude;
+        }
+    }
+
+    private void ReleaseObject()
+    {
+        // Remove the reference to the formerly attached object
+        objectInHand = null;
+    }
+  
+    /* end of grab object */
 }

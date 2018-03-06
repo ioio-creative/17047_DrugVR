@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - EventCanvas
+  - ball
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - 
   - 
   - Ignore Shadow Projector
-  - 
-  - 
+  - Selection UI
+  - Pickable
   - 
   - 
   - 
