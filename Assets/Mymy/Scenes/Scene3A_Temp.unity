@@ -1205,6 +1205,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114456977467590862, guid: 4f869faf05141a9488a7dff6f5806fd7,
+        type: 2}
+      propertyPath: targetGameObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4347673543896578, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1245,6 +1250,11 @@ Prefab:
     - target: {fileID: 1665397567862610, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114699334289595610, guid: 4f869faf05141a9488a7dff6f5806fd7,
+        type: 2}
+      propertyPath: maxPointerDist
+      value: 75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
