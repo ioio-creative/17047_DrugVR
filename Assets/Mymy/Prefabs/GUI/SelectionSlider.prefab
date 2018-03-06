@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 114191497869722756}
   - component: {fileID: 114571656709881528}
   - component: {fileID: 225866223925917666}
+  - component: {fileID: 65888982135374076}
   m_Layer: 5
   m_Name: SelectionSliderUI
   m_TagString: EventCanvas
@@ -552,6 +553,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1413119226462720}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65888982135374076
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1431151248372338}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 200, y: 200, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82600497547698662
 AudioSource:
   m_ObjectHideFlags: 1
@@ -946,7 +959,11 @@ MonoBehaviour:
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnFilledClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_SelectionCanvas: {fileID: 1431151248372338}
+  m_UIFader: {fileID: 114293167574382640}
+  m_Collider: {fileID: 65888982135374076}
   m_DisappearOnSelectionFill: 0
+  device: 2
+  inputToListen: 16
 --- !u!114 &114846881679244064
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 114159324633528380}
   - component: {fileID: 114748744721881094}
   - component: {fileID: 225187656090194416}
+  - component: {fileID: 65856664906819120}
   m_Layer: 0
   m_Name: SelectionRadialUI
   m_TagString: EventCanvas
@@ -151,6 +152,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65856664906819120
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1989247735781862}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 200, y: 200, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82504895850579354
 AudioSource:
   m_ObjectHideFlags: 1
@@ -315,7 +328,11 @@ MonoBehaviour:
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnFilledClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_SelectionCanvas: {fileID: 1989247735781862}
+  m_UIFader: {fileID: 114565674256367152}
+  m_Collider: {fileID: 65856664906819120}
   m_DisappearOnSelectionFill: 0
+  device: 2
+  inputToListen: 16
 --- !u!114 &114141287510570742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -380,6 +397,23 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114012676063225622}
+          m_MethodName: HandleDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 4
     callback:
       m_PersistentCalls:
         m_Calls:

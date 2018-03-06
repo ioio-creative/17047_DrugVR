@@ -23,9 +23,4 @@ public class SliderSelectionProgressable : SelectionProgressable
     }
 
     /* end of SelectionProgressable interfaces */
-
-    private void Update()
-    {
-        Debug.Log("Slider: " + m_Slider.value);
-    }
 }
