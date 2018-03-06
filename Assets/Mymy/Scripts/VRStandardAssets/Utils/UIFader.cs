@@ -24,7 +24,7 @@ namespace VRStandardAssets.Utils
         public float m_FadeOutAlphaThreshold = 0f;     // OnFadeOutReachThreshold is triggered when this value is reached.
 
         [SerializeField]
-        public float m_FadeSpeed = 1f;        // The amount the alpha of the UI elements changes per second.
+        public float m_FadeSpeed = 1f;        // The amount the alpha of the UI elements changes per second.        
         [SerializeField]
         private CanvasGroup[] m_UiGroupsToFade;  // All the groups of UI elements that will fade in and out.
 
@@ -135,7 +135,7 @@ namespace VRStandardAssets.Utils
                     {
                         // ... and increment their alpha based on the fade speed.
                         //float currentAlpha = renderer.material.color.a + m_FadeSpeed * Time.deltaTime;
-                        float currentAlpha = renderer.material.color.a + m_FadeSpeed * Time.fixedDeltaTime;
+                        float currentAlpha = renderer.material.color.a + m_FadeSpeed * Time.fixedDeltaTime;                        
                         renderer.material.color = renderer.material.color = new Color(m_FadeColor.r, m_FadeColor.g, m_FadeColor.b, currentAlpha);
 
                         // Also we need to check what the lowest alpha is.
@@ -210,7 +210,7 @@ namespace VRStandardAssets.Utils
                 for (int i = 0; i < m_UiGroupsToFade.Length; i++)
                 {
                     //m_UiGroupsToFade[i].alpha -= m_FadeSpeed * Time.deltaTime;
-                    m_UiGroupsToFade[i].alpha -= m_FadeSpeed * Time.fixedDeltaTime;
+                    m_UiGroupsToFade[i].alpha -= m_FadeSpeed * Time.fixedDeltaTime;                    
 
                     if (m_UiGroupsToFade[i].alpha > highestAlpha)
                         highestAlpha = m_UiGroupsToFade[i].alpha;

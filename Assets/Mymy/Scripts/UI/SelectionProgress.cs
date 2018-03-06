@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using VRStandardAssets.Utils;
+using wvr;
 
 // This class is used to control the property of another 
 // GameObject ISelectionProgressable, e.g. slider value, that fills 
@@ -47,9 +49,27 @@ public class SelectionProgress : MonoBehaviour,
     [SerializeField]    
     private GameObject m_SelectionCanvas;
 
+    // Optional reference to a UIFader, used if the Selection needs to fade out.
+    [SerializeField]
+    private UIFader m_UIFader;
+
+    // Optional reference to the Collider 
+    // used to "block" the user's gaze, 
+    // turned off when the UIFader is not visible.
+    [SerializeField]
+    private Collider m_Collider;
+
     // Whether the selection should disappear instantly once it's been filled.
     [SerializeField]
     private bool m_DisappearOnSelectionFill;
+
+    // For listening which button of a controller device is pressed in HandleEnter()
+    [SerializeField]
+    private WVR_DeviceType device = WVR_DeviceType.WVR_DeviceType_Controller_Right;
+
+    // For listening which button of a controller device is pressed in HandleEnter()
+    [SerializeField]
+    private WVR_InputId inputToListen = WVR_InputId.WVR_InputId_16;
 
     // Used to start and stop the filling coroutine based on input.
     private Coroutine m_SelectionFillRoutine;
@@ -89,6 +109,16 @@ public class SelectionProgress : MonoBehaviour,
         {
             Show();
         }
+    }
+
+    private void Update()
+    {
+        if (!m_UIFader)
+            return;
+
+        // If this selection is using a UIFader 
+        // turn off the collider when it's invisible.
+        m_Collider.enabled = m_UIFader.Visible;
     }
 
     /* end of MonoBehavior */
@@ -147,7 +177,7 @@ public class SelectionProgress : MonoBehaviour,
 
             // If the user is no longer looking at the selection,
             // reset the selection and leave the function.
-            m_Selection.SetValueToMin();
+            ResetSelectionProgress();
             yield break;
         }
 
@@ -206,10 +236,15 @@ public class SelectionProgress : MonoBehaviour,
             {
                 StopCoroutine(m_SelectionFillRoutine);                
             }
-            m_SelectionFillRoutine = null;
-            m_Selection.SetValueToMin();
+            ResetSelectionProgress();
         }
-    }    
+    }
+    
+    private void ResetSelectionProgress()
+    {
+        m_SelectionFillRoutine = null;
+        m_Selection.SetValueToMin();
+    }   
 
 
     /* IHandleUiButton interfaces */
@@ -230,6 +265,18 @@ public class SelectionProgress : MonoBehaviour,
             // Play the clip appropriate when the user
             // starts looking at the selection.
             PlayOnOverClip();
+        }
+
+        // Get button press state from controller device
+        if (WaveVR_Controller.Input(device).GetPress(inputToListen))
+        {
+            m_ButtonPressed = true;
+            StartSelectionFillRoutineIfActive();
+        }
+        else
+        {
+            m_ButtonPressed = false;
+            StopSelectionFillRoutineIfActive();
         }
     }
 
