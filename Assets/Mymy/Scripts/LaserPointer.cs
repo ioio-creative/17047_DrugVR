@@ -59,8 +59,8 @@ public class LaserPointer : MonoBehaviour
     // Serves as a reference to the GameObject that the player is currently grabbing
     private GameObject objectInHand;
     private float objectInHandOriginalDistance;
-    
 
+    bool isGrabbing = false;
     /* MonoBehaviour */
 
     private void Start()
@@ -82,7 +82,7 @@ public class LaserPointer : MonoBehaviour
         };
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // set objectInHand position BEFORE setting reticle position,
         // this makes objectInHand follow reticle position (i.e. trackedObjTransform) better
@@ -103,6 +103,8 @@ public class LaserPointer : MonoBehaviour
 
         bool isBtnPressed = WaveVR_Controller.Input(device).GetPress(inputToListen);
 
+        
+
         ShowReticle(hit);
 
         if (isBtnPressed)
@@ -114,12 +116,17 @@ public class LaserPointer : MonoBehaviour
             HideLaser();
         }
 
-        if (isHit && isBtnPressed)
+        if (isGrabbing && isBtnPressed)
         {
-            GrabObject(hit.collider);            
+            GrabObject(hit.collider);
         }
-        else
-        {            
+        else if (isHit && isBtnPressed)
+        {
+            isGrabbing = true;
+        }      
+        else if(isGrabbing && !isBtnPressed)
+        {
+            isGrabbing = false;
             ReleaseObject();
         }        
     }

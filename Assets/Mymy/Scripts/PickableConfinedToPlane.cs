@@ -28,7 +28,7 @@ public class PickableConfinedToPlane : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         bool isShowLaser = false;
 
