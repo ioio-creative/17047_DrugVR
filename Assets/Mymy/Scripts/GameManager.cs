@@ -16,10 +16,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    private Scene scene;
-    private VideoPlayer video;
-    private Animator anim;
-    private Image fadeImage;
+    private Scene m_scene;
+    private VideoPlayer m_video;
+    private Animator m_anim;
+    private Image m_fadeImage;
 
     public string nextSceneName;
     public SkyboxType nextSkyType = SkyboxType.ImageSky;
@@ -51,8 +51,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        scene = SceneManager.GetActiveScene();
-        activeSceneName = scene.buildIndex + " - " + scene.name;
+        m_scene = SceneManager.GetActiveScene();
+        activeSceneName = m_scene.buildIndex + " - " + m_scene.name;
     }
 
     private void FixedUpdate()
@@ -90,14 +90,14 @@ public class GameManager : MonoBehaviour
     IEnumerator FadeOutAndIn(string sceneToLoad, SkyboxType skyboxType)
     {
         //get references to animatior and image component from children Game Object 
-        anim = instance.GetComponentInChildren<Animator>();
-        fadeImage = instance.GetComponentInChildren<Image>();
+        m_anim = instance.GetComponentInChildren<Animator>();
+        m_fadeImage = instance.GetComponentInChildren<Image>();
 
         //Trigger FadeOut on the animator so our image will fade out
-        anim.SetTrigger("FadeOut");
+        m_anim.SetTrigger("FadeOut");
 
         //wait until the fade image is entirely black (alpha=1) then load next scene
-        yield return new WaitUntil(() => fadeImage.color.a == 1);
+        yield return new WaitUntil(() => m_fadeImage.color.a == 1);
         SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Additive);
         Scene nextScene = SceneManager.GetSceneByName(sceneToLoad);
         Debug.Log("loading scene:" + nextScene.name);
@@ -106,8 +106,8 @@ public class GameManager : MonoBehaviour
         if (skyboxType == SkyboxType.VideoSky)
         {
             //grab video and wait until it is loaded and prepared before starting the fade out
-            video = FindObjectOfType<VideoPlayer>();
-            yield return new WaitUntil(() => video.isPrepared);
+            m_video = FindObjectOfType<VideoPlayer>();
+            yield return new WaitUntil(() => m_video.isPrepared);
         }
         else if (skyboxType == SkyboxType.ImageSky)
         {
@@ -115,32 +115,32 @@ public class GameManager : MonoBehaviour
         }
 
         //SceneManager.UnloadSceneAsync(scene);
-        scene = nextScene;
+        m_scene = nextScene;
         activeSceneName = nextScene.name;
         //trigger FadeIn on the animator so our image will fade back in 
-        anim.SetTrigger("FadeIn");
+        m_anim.SetTrigger("FadeIn");
 
         //wait until the fade image is completely transparent (alpha = 0) and control UI back on
-        yield return new WaitUntil(() => fadeImage.color.a == 0);
+        yield return new WaitUntil(() => m_fadeImage.color.a == 0);
     }
 
     //Find the video in the scene and pause it
     public void PauseVideo()
     {
-        if (!video)
+        if (!m_video)
         {
-            video = FindObjectOfType<VideoPlayer>();
+            m_video = FindObjectOfType<VideoPlayer>();
         }
-        video.Pause();
+        m_video.Pause();
     }
 
     //Find the video in the scene and play it
     public void PlayVideo()
     {
-        if (!video)
+        if (!m_video)
         {
-            video = FindObjectOfType<VideoPlayer>();
+            m_video = FindObjectOfType<VideoPlayer>();
         }
-        video.Play();
+        m_video.Play();
     }
 }

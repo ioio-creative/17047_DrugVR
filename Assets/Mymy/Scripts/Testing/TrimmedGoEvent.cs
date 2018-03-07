@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class TrimmedGoEvent : MonoBehaviour, 
     IHandlePointer
 {
+
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("OnPointerDown: TrimmedGoEvent");
