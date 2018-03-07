@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
 
 
     public bool FadeToBlack = true;
-    public GameObject fadeImageObj;
 
     private bool isLoadingScene = false;
 
@@ -90,9 +89,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator FadeOutAndIn(string sceneToLoad, SkyboxType skyboxType)
     {
-        //get references to animatior and image component 
-        anim = fadeImageObj.GetComponent<Animator>();
-        fadeImage = fadeImageObj.GetComponent<Image>();
+        //get references to animatior and image component from children Game Object 
+        anim = instance.GetComponentInChildren<Animator>();
+        fadeImage = instance.GetComponentInChildren<Image>();
 
         //Trigger FadeOut on the animator so our image will fade out
         anim.SetTrigger("FadeOut");
