@@ -70,12 +70,28 @@ public class PickableConfinedToPlane : MonoBehaviour
     {
         m_ObjectPicked = objectPicked;
         m_RaycastOriginObject = raycastOriginObject;
+
+        Rigidbody objectPickedRigidBody =
+            m_ObjectPicked.GetComponent<Rigidbody>();
+        if (objectPickedRigidBody)
+        {
+            // make the object not respond to physics
+            objectPickedRigidBody.isKinematic = true;
+        }
     }
 
     public void OnObjectReleased()
     {
+        Rigidbody objectPickedRigidBody =
+            m_ObjectPicked.GetComponent<Rigidbody>();
+        if (objectPickedRigidBody)
+        {
+            // make the object respond to physics
+            objectPickedRigidBody.isKinematic = false;
+        }
+
         m_ObjectPicked = null;
-        m_RaycastOriginObject = null;
+        m_RaycastOriginObject = null;        
     }
 
 

@@ -60,7 +60,7 @@ public class LaserPointer : MonoBehaviour
     private GameObject objectInHand;
     private float objectInHandOriginalDistance;
 
-    bool isGrabbing = false;
+
     /* MonoBehaviour */
 
     private void Start()
@@ -84,14 +84,6 @@ public class LaserPointer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // set objectInHand position BEFORE setting reticle position,
-        // this makes objectInHand follow reticle position (i.e. trackedObjTransform) better
-        //if (objectInHand)
-        //{
-        //    objectInHand.transform.position = trackedObjTransform.position +
-        //        trackedObjTransform.forward * objectInHandOriginalDistance;
-        //}
-
         defaultHit.point = trackedObjTransform.position + trackedObjTransform.forward * maxPointerDist;
         defaultHit.normal = trackedObjTransform.forward;
 
@@ -102,33 +94,32 @@ public class LaserPointer : MonoBehaviour
         bool isHit = Physics.Raycast(trackedObjTransform.position, trackedObjTransform.forward, out hit, maxPointerDist, layersForRaycast);
 
         bool isBtnPressed = WaveVR_Controller.Input(device).GetPress(inputToListen);
-
         
-
         ShowReticle(hit);
 
         if (isBtnPressed)
         {
-            ShowLaser(hit);
+            ShowLaser(hit);            
         }
         else
         {
             HideLaser();
         }
 
-        if (isGrabbing && isBtnPressed)
+        if (objectInHand == null)  // nothing in hand yet
         {
-            GrabObject(hit.collider);
+            if (isHit && isBtnPressed)
+            {
+                GrabObject(hit.collider.gameObject);
+            }
         }
-        else if (isHit && isBtnPressed)
+        else  // something is in hand
         {
-            isGrabbing = true;
-        }      
-        else if(isGrabbing && !isBtnPressed)
-        {
-            isGrabbing = false;
-            ReleaseObject();
-        }        
+            if (!isBtnPressed)
+            {
+                ReleaseObject();
+            }
+        }
     }
 
     /* end of MonoBehaviour */
@@ -192,17 +183,14 @@ public class LaserPointer : MonoBehaviour
     /* grab object */
     /* https://www.raywenderlich.com/149239/htc-vive-tutorial-unity */
 
-    private void GrabObject(Collider col)
+    private void GrabObject(GameObject objectToGrab)
     {
-        if (objectInHand == null && col.gameObject.layer == pickableObjLayer)
+        if (objectInHand == null && objectToGrab.layer == pickableObjLayer)
         {
-            objectInHand = col.gameObject;
+            objectInHand = objectToGrab;
             objectInHandOriginalDistance = 
                 (objectInHand.transform.position - trackedObjTransform.position).magnitude;
-
-            // make the object not respond to physics
-            objectInHand.GetComponent<Rigidbody>().isKinematic = true;
-
+                       
             objectInHand.GetComponent<PickableConfinedToPlane>().
                 OnObjectPicked(objectInHand, 
                     trackedObjTransform.gameObject);
@@ -215,10 +203,7 @@ public class LaserPointer : MonoBehaviour
         {
             objectInHand.GetComponent<PickableConfinedToPlane>().
                 OnObjectReleased();
-
-            // make the object respond to physics
-            objectInHand.GetComponent<Rigidbody>().isKinematic = false;
-
+  
             // Remove the reference to the formerly attached object
             objectInHand = null;
         }
