@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224923386742615914}
   - component: {fileID: 222374772074879092}
   - component: {fileID: 114868083174834148}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GUIReticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114160788121239530}
   - component: {fileID: 114008801337732906}
   - component: {fileID: 114141287510570742}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SelectionRadialButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 224956673590704126}
   - component: {fileID: 222199600968268382}
   - component: {fileID: 114570874270643716}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 114012676063225622}
   - component: {fileID: 114565674256367152}
   - component: {fileID: 114941369545796800}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SelectionRadial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 224622015038177486}
   - component: {fileID: 222978063614176546}
   - component: {fileID: 114009336528763496}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UISelectionBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 224222113764188090}
   - component: {fileID: 222359287382098024}
   - component: {fileID: 114606925162259870}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SelectionRadialText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 114748744721881094}
   - component: {fileID: 225187656090194416}
   - component: {fileID: 65856664906819120}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SelectionRadialUI
   m_TagString: EventCanvas
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1989247735781862}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 200, y: 200, z: 1}

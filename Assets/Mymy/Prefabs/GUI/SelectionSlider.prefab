@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224996653661945190}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4044368636773906}
   - component: {fileID: 33048063823934254}
   - component: {fileID: 23799965859307654}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4364102417816798}
   - component: {fileID: 33152050582833442}
   - component: {fileID: 23021366923563022}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Underline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224525548905223204}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 224332766647934006}
   - component: {fileID: 222381335938940792}
   - component: {fileID: 114356029551750182}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: SelectionSliderText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 114608569526909278}
   - component: {fileID: 114890834443232062}
   - component: {fileID: 114480107789219356}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: SelectionSliderButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224514524852716322}
   - component: {fileID: 114315602004940066}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 4550637436949942}
   - component: {fileID: 33332086363302402}
   - component: {fileID: 23012624389371510}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 114716792402862406}
   - component: {fileID: 114070196846732354}
   - component: {fileID: 114293167574382640}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SelectionSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 114571656709881528}
   - component: {fileID: 225866223925917666}
   - component: {fileID: 65888982135374076}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: SelectionSliderUI
   m_TagString: EventCanvas
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 4745626309392474}
   - component: {fileID: 33254445649513500}
   - component: {fileID: 23105567472443838}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 4677176555796628}
   - component: {fileID: 33049806331490776}
   - component: {fileID: 23585970231412472}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 224211233014012444}
   - component: {fileID: 222635116233778876}
   - component: {fileID: 114992742399038220}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: SelectionSliderCaption
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 224868002283176648}
   - component: {fileID: 222343965028655102}
   - component: {fileID: 114541574169546536}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 224420017257371630}
   - component: {fileID: 222384515185104316}
   - component: {fileID: 114846881679244064}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +560,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1431151248372338}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 200, y: 200, z: 1}
