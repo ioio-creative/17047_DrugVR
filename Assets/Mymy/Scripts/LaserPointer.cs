@@ -45,7 +45,9 @@ public class LaserPointer : MonoBehaviour
     private bool isUseRaycastNormalForReticleOrientation;
     [SerializeField]
     private LayerMask layersForRaycast;
+    [SerializeField]
     private int pickableObjLayer = 10;
+        
 
     private Transform laserTransform;
     private Transform reticleTransform;
@@ -82,6 +84,14 @@ public class LaserPointer : MonoBehaviour
 
     private void Update()
     {
+        // set objectInHand position BEFORE setting reticle position,
+        // this makes objectInHand follow reticle position (i.e. trackedObjTransform) better
+        //if (objectInHand)
+        //{
+        //    objectInHand.transform.position = trackedObjTransform.position +
+        //        trackedObjTransform.forward * objectInHandOriginalDistance;
+        //}
+
         defaultHit.point = trackedObjTransform.position + trackedObjTransform.forward * maxPointerDist;
         defaultHit.normal = trackedObjTransform.forward;
 
@@ -111,14 +121,7 @@ public class LaserPointer : MonoBehaviour
         else
         {            
             ReleaseObject();
-        }
-
-        // set objectInHand position
-        if (objectInHand)
-        {
-            objectInHand.transform.position = trackedObjTransform.position + 
-                trackedObjTransform.forward * objectInHandOriginalDistance;
-        }
+        }        
     }
 
     /* end of MonoBehaviour */
@@ -153,7 +156,7 @@ public class LaserPointer : MonoBehaviour
         reticleTransform.gameObject.SetActive(false);
     }
 
-    // // https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr
+    // https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr
     private void ShowReticle(RaycastHit hitTarget)
     {
         // set visible
@@ -173,7 +176,7 @@ public class LaserPointer : MonoBehaviour
         else
         {
             reticleTransform.localRotation = originalReticleRotation;
-        }
+        }        
     }
 
     /* end of show laser & pointer */
@@ -189,13 +192,29 @@ public class LaserPointer : MonoBehaviour
             objectInHand = col.gameObject;
             objectInHandOriginalDistance = 
                 (objectInHand.transform.position - trackedObjTransform.position).magnitude;
+
+            // make the object not respond to physics
+            objectInHand.GetComponent<Rigidbody>().isKinematic = true;
+
+            objectInHand.GetComponent<PickableConfinedToPlane>().
+                OnObjectPicked(objectInHand, 
+                    trackedObjTransform.gameObject);
         }
     }
 
     private void ReleaseObject()
     {
-        // Remove the reference to the formerly attached object
-        objectInHand = null;
+        if (objectInHand != null)
+        {
+            objectInHand.GetComponent<PickableConfinedToPlane>().
+                OnObjectReleased();
+
+            // make the object respond to physics
+            objectInHand.GetComponent<Rigidbody>().isKinematic = false;
+
+            // Remove the reference to the formerly attached object
+            objectInHand = null;
+        }
     }
   
     /* end of grab object */
