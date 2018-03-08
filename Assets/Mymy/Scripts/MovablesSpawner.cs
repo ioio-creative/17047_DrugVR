@@ -21,7 +21,7 @@ public class MovablesSpawner : MonoBehaviour
 
             for (int i = 0; i < spawnObj.spawnNumber; i++)
             {
-                spawnObjArr[i] = Instantiate(spawnObj.objectPrefab, new Vector3(-60, -45 + i*5 , 50), new Quaternion());
+                spawnObjArr[i] = Instantiate(spawnObj.objectPrefab, new Vector3(-60, -45 + i * 5, 50), new Quaternion(), transform.Find("Movables"));
             }
         }
     }

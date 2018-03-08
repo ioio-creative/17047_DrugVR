@@ -1,0 +1,11 @@
+A lighter with realistic flame effects.
+
+Hold the left mouse button to light the lighter.
+
+Load "Lighter_with_Flame_FX.unity" for an example scene, or simply drag the Lighter.prefab from the Prefabs folder (in the Project window) into the Hierarchy window.
+
+Have fun!
+
+Thanks for purchasing this asset, please consider rating or writing a review about it. If you have any questions then please get in touch at bendurrant@rivermillstudios.com
+
+
