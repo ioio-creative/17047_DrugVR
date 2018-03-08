@@ -62,10 +62,7 @@ public class PickableConfinedToPlane : MonoBehaviour
                 if (hit.collider == m_ConfinedPlane)
                 {
                     m_PickupContainer.transform.position = hit.point;
-                    m_PickupContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
-
-
-                    //gameObject.transform.position = hit.point + m_GrabPosOffset;                  
+                    m_PickupContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;           
 
                     if (m_IsShowDebugRay)
                     {
@@ -105,12 +102,6 @@ public class PickableConfinedToPlane : MonoBehaviour
                 m_PickupContainer.transform.position = hit.point;
                 m_PickupContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
                 gameObject.transform.parent = m_PickupContainer.transform;
-
-                //m_GrabPosOffset = gameObject.transform.position - hit.point;
-                //gameObject.transform.position = hit.point + m_GrabPosOffset;
-
-                //m_GrabRotOffset = gameObject.transform.rotation.eulerAngles - m_RaycastOriginObject.transform.rotation.eulerAngles;
-                //gameObject.transform.rotation.eulerAngles = m_RaycastOriginObject.transform.rotation.eulerAngles + m_GrabRotOffset;
 
                 if (m_IsShowDebugRay)
                 {
