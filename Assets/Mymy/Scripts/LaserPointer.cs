@@ -192,8 +192,7 @@ public class LaserPointer : MonoBehaviour
                 (objectInHand.transform.position - trackedObjTransform.position).magnitude;
                        
             objectInHand.GetComponent<PickableConfinedToPlane>().
-                OnObjectPicked(objectInHand, 
-                    trackedObjTransform.gameObject);
+                OnObjectPicked(trackedObjTransform.gameObject);
         }
     }
 
