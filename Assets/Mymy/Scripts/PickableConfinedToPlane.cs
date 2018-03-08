@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
 public class PickableConfinedToPlane : MonoBehaviour
 {
     [SerializeField]
@@ -7,20 +11,27 @@ public class PickableConfinedToPlane : MonoBehaviour
     [SerializeField]
     private GameObject m_DebugLaserPrefab;    
     [SerializeField]
-    private LayerMask m_PlaneLayer;
+    private BoxCollider m_ConfinedPlane;
     [SerializeField]
     private float m_MaxPointerDist = 100f;
 
-
-    private Transform m_DebugLaserTransform;
-    private GameObject m_ObjectPicked;
+    
+    private Transform m_DebugLaserTransform;    
     private GameObject m_RaycastOriginObject;
+    private Rigidbody m_ThisRigidBody;
+    private LayerMask m_ConfinedPlaneLayer;
 
 
     /* MonoBehaviour */
 
-    private void Start()
+    private void Awake()
     {
+        m_ThisRigidBody = GetComponent<Rigidbody>();
+        m_ConfinedPlaneLayer = 1 << m_ConfinedPlane.gameObject.layer;
+    }
+
+    private void Start()
+    { 
         if (m_DebugLaserPrefab)
         {
             GameObject laser = Instantiate(m_DebugLaserPrefab);
@@ -31,28 +42,32 @@ public class PickableConfinedToPlane : MonoBehaviour
     private void FixedUpdate()
     {
         bool isShowLaser = false;
-
-        if (m_ObjectPicked && m_RaycastOriginObject)
+       
+        // m_RaycastOriginObject is assigned when OnObjectPicked()
+        // i.e. if this gameObject is picked by LaserPointer
+        if (m_RaycastOriginObject)
         {
-            RaycastHit hit;
+            // !!! Important !!!
+            // use RaycastAll
+            RaycastHit[] hits = Physics.RaycastAll(m_RaycastOriginObject.transform.position,
+                m_RaycastOriginObject.transform.forward,
+                m_MaxPointerDist, m_ConfinedPlaneLayer);
 
-            if (Physics.Raycast(m_RaycastOriginObject.transform.position,
-                    m_RaycastOriginObject.transform.forward, 
-                    out hit, m_MaxPointerDist, m_PlaneLayer))
+            foreach (RaycastHit hit in hits)
             {
-                m_ObjectPicked.transform.position = hit.point;
-
-                if (m_IsShowDebugRay)
+                // hit corresponding to this gameObject
+                if (hit.collider == m_ConfinedPlane)
                 {
-                    ShowLaser(hit, m_RaycastOriginObject.transform);
-                    isShowLaser = true;
+                    gameObject.transform.position = hit.point;
+
+                    if (m_IsShowDebugRay)
+                    {
+                        ShowLaser(hit, m_RaycastOriginObject.transform);
+                        isShowLaser = true;
+                    }
+
+                    break;
                 }
-            }
-            else
-            {
-                //float distance = (m_ObjectPicked.transform.position - m_RaycastOriginObject.transform.position).magnitude;
-                //m_ObjectPicked.transform.position = m_RaycastOriginObject.transform.position +
-                //    m_RaycastOriginObject.transform.forward * distance;                
             }
         }
 
@@ -65,17 +80,20 @@ public class PickableConfinedToPlane : MonoBehaviour
     /* end of MonoBehaviour */
 
 
-    public void OnObjectPicked(GameObject objectPicked,
-        GameObject raycastOriginObject)
-    {
-        m_ObjectPicked = objectPicked;
+    public void OnObjectPicked(GameObject raycastOriginObject)
+    {        
         m_RaycastOriginObject = raycastOriginObject;
+
+        // make the object not respond to physics
+        m_ThisRigidBody.isKinematic = true;        
     }
 
     public void OnObjectReleased()
     {
-        m_ObjectPicked = null;
-        m_RaycastOriginObject = null;
+        // make the object respond to physics
+        m_ThisRigidBody.isKinematic = false;        
+        
+        m_RaycastOriginObject = null;        
     }
 
 
