@@ -191,7 +191,7 @@ public class LaserPointer : MonoBehaviour
             objectInHandOriginalDistance = 
                 (objectInHand.transform.position - trackedObjTransform.position).magnitude;
                        
-            objectInHand.GetComponent<PickableConfinedToPlane>().
+            objectInHand.GetComponentInParent<PickableConfinedToPlane>().
                 OnObjectPicked(trackedObjTransform.gameObject);
         }
     }
@@ -200,7 +200,7 @@ public class LaserPointer : MonoBehaviour
     {
         if (objectInHand != null)
         {
-            objectInHand.GetComponent<PickableConfinedToPlane>().
+            objectInHand.GetComponentInParent<PickableConfinedToPlane>().
                 OnObjectReleased();
   
             // Remove the reference to the formerly attached object
