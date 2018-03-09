@@ -110,7 +110,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1748084754088670}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -212,11 +212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7c615b3ed85234195a6f3978d949f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsShowDebugRay: 1
-  m_DebugLaserPrefab: {fileID: 1706606274029698, guid: 1795e2969650bd447bbd7ac943c6bfdc,
-    type: 2}
   m_ConfinedPlane: {fileID: 65965992266249944}
   m_MaxPointerDist: 100
+  m_UseGravityWhenPicked: 1
+  m_IsKinematicWhenPicked: 0
 --- !u!224 &224207122641827844
 RectTransform:
   m_ObjectHideFlags: 1

@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
 public class PickableConfinedToPlane : MonoBehaviour
-{
-    [SerializeField]
-    private bool m_IsShowDebugRay;
-    [SerializeField]
-    private GameObject m_DebugLaserPrefab;    
+{   
     [SerializeField]
     private BoxCollider m_ConfinedPlane;
     [SerializeField]
     private float m_MaxPointerDist = 100f;
+    [SerializeField]
+    private bool m_UseGravityWhenPicked = true;
+    [SerializeField]
+    private bool m_IsKinematicWhenPicked = false;
 
     
     private Transform m_DebugLaserTransform;    
@@ -21,6 +19,8 @@ public class PickableConfinedToPlane : MonoBehaviour
     private Rigidbody m_ThisRigidBody;
     private LayerMask m_ConfinedPlaneLayer;
     private GameObject m_PickUpContainer;
+    private bool m_OriginalUseGravity;
+    private bool m_OriginalIsKinematic;
 
 
     /* MonoBehaviour */
@@ -29,45 +29,24 @@ public class PickableConfinedToPlane : MonoBehaviour
     {
         m_ThisRigidBody = GetComponent<Rigidbody>();
         m_ConfinedPlaneLayer = 1 << m_ConfinedPlane.gameObject.layer;
-    }
-
-    private void Start()
-    { 
-        if (m_DebugLaserPrefab)
-        {
-            GameObject laser = Instantiate(m_DebugLaserPrefab);
-            m_DebugLaserTransform = laser.transform;
-        }
-    }
+    }    
 
     private void FixedUpdate()
     {
-        bool isShowLaser = false;
-       
         // m_RaycastOriginObject is assigned when OnObjectPicked()
         // i.e. if this gameObject is picked by LaserPointer
         if (m_RaycastOriginObject)
         {
             bool isHitConfinedPlane = 
-                UpdatePickUpContainerOrientationByRaycastToConfinedPlane();
-
-            if (isHitConfinedPlane)
-            {
-                isShowLaser = true;
-            }
-        }
-
-        if (!isShowLaser)
-        {
-            HideLaser();
-        }
+                UpdatePickUpContainerOrientationByRaycastToConfinedPlane();            
+        }        
     }
 
-    /* end of MonoBehaviour */    
+    /* end of MonoBehaviour */
 
 
     public void OnObjectPicked(GameObject raycastOriginObject)
-    {        
+    {
         m_RaycastOriginObject = raycastOriginObject;
 
         // instantiate empty m_PickUpContainer
@@ -75,25 +54,29 @@ public class PickableConfinedToPlane : MonoBehaviour
 
         // set parent of m_PickUpContainer to that of this.gameObject
         m_PickUpContainer.transform.parent = gameObject.transform.parent;
-               
-        bool isHitConfinedPlane = 
+
+        bool isHitConfinedPlane =
             UpdatePickUpContainerOrientationByRaycastToConfinedPlane();
-                
+
         // change parent of this.gameObject to be m_PickUpContainer
         // so that position & orientation offset between hit.point / raycast and this.gameObject can be preserved
-        gameObject.transform.parent = m_PickUpContainer.transform;        
+        gameObject.transform.parent = m_PickUpContainer.transform;
 
-        // make the object not respond to physics
-        m_ThisRigidBody.isKinematic = true;
+        m_OriginalIsKinematic = m_ThisRigidBody.isKinematic;
+        m_ThisRigidBody.isKinematic = m_IsKinematicWhenPicked;
+
+        m_OriginalUseGravity = m_ThisRigidBody.useGravity;
+        m_ThisRigidBody.useGravity = m_UseGravityWhenPicked;
     }
 
     public void OnObjectReleased()
     {
+        m_ThisRigidBody.useGravity = m_OriginalUseGravity;
+
+        m_ThisRigidBody.isKinematic = m_OriginalIsKinematic;
+
         // set parent back to the original one
         gameObject.transform.parent = m_PickUpContainer.transform.parent;
-        
-        // make the object respond to physics
-        m_ThisRigidBody.isKinematic = false;
 
         Destroy(m_PickUpContainer);
         m_PickUpContainer = null;
@@ -125,10 +108,7 @@ public class PickableConfinedToPlane : MonoBehaviour
                 m_PickUpContainer.transform.position = hit.point;
                 m_PickUpContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
 
-                if (m_IsShowDebugRay)
-                {
-                    ShowLaser(hit, m_RaycastOriginObject.transform);
-                }
+                Debug.DrawRay(m_RaycastOriginObject.transform.position, hit.point, Color.green);
 
                 isHitConfinedPlane = true;
                 break;
@@ -136,28 +116,5 @@ public class PickableConfinedToPlane : MonoBehaviour
         }
 
         return isHitConfinedPlane;
-    }
-
-    private void ShowLaser(RaycastHit hitTarget, Transform raycastOriginObjTransform)
-    {
-        // Show the laser
-        m_DebugLaserTransform.gameObject.SetActive(true);
-
-        // Move laser to the middle between the controller and the position the raycast hit
-        m_DebugLaserTransform.position = Vector3.Lerp(raycastOriginObjTransform.position, hitTarget.point, .5f);
-
-        // Rotate laser facing the hit point
-        m_DebugLaserTransform.LookAt(hitTarget.point);
-
-        // Scale laser so it fits exactly between the controller & the hit point
-        m_DebugLaserTransform.localScale = new Vector3(
-            m_DebugLaserTransform.localScale.x,
-            m_DebugLaserTransform.localScale.y,
-            hitTarget.distance);
-    }
-
-    private void HideLaser()
-    {
-        m_DebugLaserTransform.gameObject.SetActive(false);
     }
 }
