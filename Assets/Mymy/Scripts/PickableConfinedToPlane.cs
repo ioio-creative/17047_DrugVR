@@ -15,16 +15,14 @@ public class PickableConfinedToPlane : MonoBehaviour
     [SerializeField]
     private float m_MaxPointerDist = 100f;
 
-    public GameObject m_PickableContainer;
-    public GameObject m_PickupContainer;
     
     private Transform m_DebugLaserTransform;    
     private GameObject m_RaycastOriginObject;
     private Rigidbody m_ThisRigidBody;
     private LayerMask m_ConfinedPlaneLayer;
+    private GameObject m_PickUpContainer;
 
-    private Vector3 m_GrabPosOffset;
-    private Vector3 m_GrabRotOffset;
+
     /* MonoBehaviour */
 
     private void Awake()
@@ -50,28 +48,12 @@ public class PickableConfinedToPlane : MonoBehaviour
         // i.e. if this gameObject is picked by LaserPointer
         if (m_RaycastOriginObject)
         {
-            // !!! Important !!!
-            // use RaycastAll
-            RaycastHit[] hits = Physics.RaycastAll(m_RaycastOriginObject.transform.position,
-                m_RaycastOriginObject.transform.forward,
-                m_MaxPointerDist, m_ConfinedPlaneLayer);
+            bool isHitConfinedPlane = 
+                UpdatePickUpContainerOrientationByRaycastToConfinedPlane();
 
-            foreach (RaycastHit hit in hits)
+            if (isHitConfinedPlane)
             {
-                // hit corresponding to confined plane
-                if (hit.collider == m_ConfinedPlane)
-                {
-                    m_PickupContainer.transform.position = hit.point;
-                    m_PickupContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;           
-
-                    if (m_IsShowDebugRay)
-                    {
-                        ShowLaser(hit, m_RaycastOriginObject.transform);
-                        isShowLaser = true;
-                    }
-
-                    break;
-                }
+                isShowLaser = true;
             }
         }
 
@@ -81,12 +63,48 @@ public class PickableConfinedToPlane : MonoBehaviour
         }
     }
 
-    /* end of MonoBehaviour */
+    /* end of MonoBehaviour */    
 
 
     public void OnObjectPicked(GameObject raycastOriginObject)
     {        
         m_RaycastOriginObject = raycastOriginObject;
+
+        // instantiate empty m_PickUpContainer
+        m_PickUpContainer = new GameObject("PickUpContainer");
+
+        // set parent of m_PickUpContainer to that of this.gameObject
+        m_PickUpContainer.transform.parent = gameObject.transform.parent;
+               
+        bool isHitConfinedPlane = 
+            UpdatePickUpContainerOrientationByRaycastToConfinedPlane();
+                
+        // change parent of this.gameObject to be m_PickUpContainer
+        // so that position & orientation offset between hit.point / raycast and this.gameObject can be preserved
+        gameObject.transform.parent = m_PickUpContainer.transform;        
+
+        // make the object not respond to physics
+        m_ThisRigidBody.isKinematic = true;
+    }
+
+    public void OnObjectReleased()
+    {
+        // set parent back to the original one
+        gameObject.transform.parent = m_PickUpContainer.transform.parent;
+        
+        // make the object respond to physics
+        m_ThisRigidBody.isKinematic = false;
+
+        Destroy(m_PickUpContainer);
+        m_PickUpContainer = null;
+        
+        m_RaycastOriginObject = null;
+    }
+
+
+    private bool UpdatePickUpContainerOrientationByRaycastToConfinedPlane()
+    {
+        bool isHitConfinedPlane = false;
 
         // !!! Important !!!
         // use RaycastAll
@@ -99,33 +117,26 @@ public class PickableConfinedToPlane : MonoBehaviour
             // hit corresponding to confined plane
             if (hit.collider == m_ConfinedPlane)
             {
-                m_PickupContainer.transform.position = hit.point;
-                m_PickupContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
-                gameObject.transform.parent = m_PickupContainer.transform;
+                // change m_PickUpContainer.transform
+                // so that its position is same as hit.point
+                // and its orientation is same as m_RaycastOriginObject.
+                // since m_PickUpContainer is parent of this.gameObject,
+                // this.gameObject's orientation will be affected
+                m_PickUpContainer.transform.position = hit.point;
+                m_PickUpContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
 
                 if (m_IsShowDebugRay)
                 {
                     ShowLaser(hit, m_RaycastOriginObject.transform);
                 }
 
+                isHitConfinedPlane = true;
                 break;
             }
         }
 
-        // make the object not respond to physics
-        m_ThisRigidBody.isKinematic = true;        
+        return isHitConfinedPlane;
     }
-
-    public void OnObjectReleased()
-    {
-        gameObject.transform.parent = m_PickableContainer.transform;
-        
-        // make the object respond to physics
-        m_ThisRigidBody.isKinematic = false;        
-        
-        m_RaycastOriginObject = null;        
-    }
-
 
     private void ShowLaser(RaycastHit hitTarget, Transform raycastOriginObjTransform)
     {
