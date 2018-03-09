@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(Rigidbody))]
 public class PickableConfinedToPlane : MonoBehaviour
 {   
     [SerializeField]
     private BoxCollider m_ConfinedPlane;
+    [SerializeField]
+    private Rigidbody m_ControlledRigidBody;
     [SerializeField]
     private float m_MaxPointerDist = 100f;
     [SerializeField]
@@ -13,10 +13,8 @@ public class PickableConfinedToPlane : MonoBehaviour
     [SerializeField]
     private bool m_IsKinematicWhenPicked = false;
 
-    
-    private Transform m_DebugLaserTransform;    
-    private GameObject m_RaycastOriginObject;
-    private Rigidbody m_ThisRigidBody;
+      
+    private GameObject m_RaycastOriginObject;    
     private LayerMask m_ConfinedPlaneLayer;
     private GameObject m_PickUpContainer;
     private bool m_OriginalUseGravity;
@@ -26,8 +24,7 @@ public class PickableConfinedToPlane : MonoBehaviour
     /* MonoBehaviour */
 
     private void Awake()
-    {
-        m_ThisRigidBody = GetComponent<Rigidbody>();
+    {        
         m_ConfinedPlaneLayer = 1 << m_ConfinedPlane.gameObject.layer;
     }    
 
@@ -62,18 +59,24 @@ public class PickableConfinedToPlane : MonoBehaviour
         // so that position & orientation offset between hit.point / raycast and this.gameObject can be preserved
         gameObject.transform.parent = m_PickUpContainer.transform;
 
-        m_OriginalIsKinematic = m_ThisRigidBody.isKinematic;
-        m_ThisRigidBody.isKinematic = m_IsKinematicWhenPicked;
+        if (m_ControlledRigidBody)
+        {
+            m_OriginalIsKinematic = m_ControlledRigidBody.isKinematic;
+            m_ControlledRigidBody.isKinematic = m_IsKinematicWhenPicked;
 
-        m_OriginalUseGravity = m_ThisRigidBody.useGravity;
-        m_ThisRigidBody.useGravity = m_UseGravityWhenPicked;
+            m_OriginalUseGravity = m_ControlledRigidBody.useGravity;
+            m_ControlledRigidBody.useGravity = m_UseGravityWhenPicked;
+        }
     }
 
     public void OnObjectReleased()
     {
-        m_ThisRigidBody.useGravity = m_OriginalUseGravity;
+        if (m_ControlledRigidBody)
+        {
+            m_ControlledRigidBody.useGravity = m_OriginalUseGravity;
 
-        m_ThisRigidBody.isKinematic = m_OriginalIsKinematic;
+            m_ControlledRigidBody.isKinematic = m_OriginalIsKinematic;
+        }
 
         // set parent back to the original one
         gameObject.transform.parent = m_PickUpContainer.transform.parent;
@@ -109,6 +112,8 @@ public class PickableConfinedToPlane : MonoBehaviour
                 m_PickUpContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
 
                 Debug.DrawRay(m_RaycastOriginObject.transform.position, hit.point, Color.green);
+
+                Debug.Log(hit.point);
 
                 isHitConfinedPlane = true;
                 break;

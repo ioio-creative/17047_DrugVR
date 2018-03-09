@@ -199,8 +199,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 50, y: 50, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 100, y: 50, z: 0.02}
+  m_Center: {x: 0, y: 0, z: 0.01}
 --- !u!114 &114555818390989296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -213,9 +213,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ConfinedPlane: {fileID: 65965992266249944}
+  m_ControlledRigidBody: {fileID: 54714207464490366}
   m_MaxPointerDist: 100
-  m_UseGravityWhenPicked: 1
-  m_IsKinematicWhenPicked: 0
+  m_UseGravityWhenPicked: 0
+  m_IsKinematicWhenPicked: 1
 --- !u!224 &224207122641827844
 RectTransform:
   m_ObjectHideFlags: 1
@@ -223,7 +224,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886385746888756}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4970697494560338}
@@ -232,5 +233,5 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

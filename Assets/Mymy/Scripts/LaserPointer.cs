@@ -34,9 +34,9 @@ public class LaserPointer : MonoBehaviour
     [SerializeField]
     private Transform trackedObjTransform;
     [SerializeField]
-    private GameObject laserPrefab;    
+    private Transform laserTransform;    
     [SerializeField]
-    private GameObject reticlePrefab;
+    private Transform reticleTransform;
     [SerializeField]
     private Vector3 reticleOffset;
     [SerializeField]
@@ -49,8 +49,6 @@ public class LaserPointer : MonoBehaviour
     private int pickableObjLayer = 10;
         
 
-    private Transform laserTransform;
-    private Transform reticleTransform;
     // used when ray cast doesn't hit any object
     private RaycastHit defaultHit;
     private Vector3 originalReticleScale;
@@ -58,6 +56,7 @@ public class LaserPointer : MonoBehaviour
 
     // Serves as a reference to the GameObject that the player is currently grabbing
     private GameObject objectInHand;
+    private PickableConfinedToPlane pickableComponentInObjectInHand;
     private float objectInHandOriginalDistance;
 
 
@@ -65,11 +64,8 @@ public class LaserPointer : MonoBehaviour
 
     private void Start()
     {
-        GameObject laser = Instantiate(laserPrefab);
-        laserTransform = laser.transform;
-
-        GameObject reticle = Instantiate(reticlePrefab);
-        reticleTransform = reticle.transform;
+        laserTransform.gameObject.SetActive(false);
+        reticleTransform.gameObject.SetActive(true);        
 
         originalReticleScale = reticleTransform.localScale;
         originalReticleRotation = reticleTransform.localRotation;
@@ -190,9 +186,20 @@ public class LaserPointer : MonoBehaviour
             objectInHand = objectToGrab;
             objectInHandOriginalDistance = 
                 (objectInHand.transform.position - trackedObjTransform.position).magnitude;
-                       
-            objectInHand.GetComponentInParent<PickableConfinedToPlane>().
-                OnObjectPicked(trackedObjTransform.gameObject);
+
+            pickableComponentInObjectInHand = objectInHand.GetComponent<PickableConfinedToPlane>();
+            
+            if (pickableComponentInObjectInHand == null)
+            {
+                pickableComponentInObjectInHand = objectInHand.GetComponentInParent<PickableConfinedToPlane>();
+            }
+
+            if (pickableComponentInObjectInHand == null)
+            {
+                pickableComponentInObjectInHand = objectInHand.GetComponentInChildren<PickableConfinedToPlane>();
+            }
+
+            pickableComponentInObjectInHand.OnObjectPicked(trackedObjTransform.gameObject);            
         }
     }
 
@@ -200,8 +207,8 @@ public class LaserPointer : MonoBehaviour
     {
         if (objectInHand != null)
         {
-            objectInHand.GetComponentInParent<PickableConfinedToPlane>().
-                OnObjectReleased();
+            pickableComponentInObjectInHand.OnObjectReleased();
+            pickableComponentInObjectInHand = null;
   
             // Remove the reference to the formerly attached object
             objectInHand = null;
