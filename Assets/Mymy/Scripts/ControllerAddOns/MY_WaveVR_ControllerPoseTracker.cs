@@ -22,7 +22,7 @@ using WaveVR_Log;
 /// It is responsible for:
 /// -  Determining the orientation and location of the controller.
 /// -  Predict the location of the shoulder, elbow, wrist, and pointer.
-public class WaveVR_ControllerPoseTracker : MonoBehaviour
+public class MY_WaveVR_ControllerPoseTracker : MonoBehaviour
 {
     private static string LOG_TAG = "WaveVR_ControllerPoseTracker";
     #region Developer variables
@@ -31,6 +31,7 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
     public bool trackPosition = true;
     public bool inverseRotation = false;
     public bool trackRotation = true;
+    public bool lockRotation = false;
 
     public enum TrackingEvent {
         WhenUpdate,  // Pose will delay one frame.
@@ -404,7 +405,7 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
             }
         }
         transform.localPosition = Vector3.Lerp(transform.localPosition, controllerArmModelPosition, smoothMoveSpeed); ;
-        transform.localRotation = controllerArmModelRotation;
+        if (!lockRotation)transform.localRotation = controllerArmModelRotation;
     }
 
     private Vector3 GetHeadForward()

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using wvr;
 
 public class Lighter : MonoBehaviour {
 
@@ -19,13 +20,13 @@ void Start (){
   
 void Update (){
  
-	if (Input.GetButtonDown("Fire1")) //check to see if the left mouse was pressed
+	if (Input.GetButtonDown("Fire1") || WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_17)) //check to see if the left mouse was pressed
     {
 		StartCoroutine("LighterOn");
        
          
     }
-    if (Input.GetButtonUp("Fire1"))
+    if (Input.GetButtonUp("Fire1") || WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(WVR_InputId.WVR_InputId_17))
     {
 
     LighterMesh.GetComponent<Animation>().Play("Release Button");
