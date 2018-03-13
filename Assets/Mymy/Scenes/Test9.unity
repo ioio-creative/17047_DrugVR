@@ -945,7 +945,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -1285,6 +1285,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4970697494560338, guid: 402454ac8a4c2fd49ade5e911d79242d, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65965992266249944, guid: 402454ac8a4c2fd49ade5e911d79242d,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 114555818390989296, guid: 402454ac8a4c2fd49ade5e911d79242d,
+        type: 2}
+      propertyPath: m_IsKinematicWhenPicked
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
