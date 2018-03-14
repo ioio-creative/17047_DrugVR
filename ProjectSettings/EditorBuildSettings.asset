@@ -8,18 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Mymy/Scenes/Test9.unity
     guid: 2f9de970d326bb045ba13527cddb9815
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Test1.unity
     guid: 9d78e8b2def7f2b4d8cbcf3498225e9a
   - enabled: 0
     path: Assets/Mymy/Scenes/Test2.unity
     guid: 98358b8a7d11a0945bcdfffa8d20db90
   - enabled: 0
-    path: Assets/Samples/Controller_Test/Scenes/Controller_Test.unity
-    guid: a3d72d03107354b42aac2da36ff8b585
-  - enabled: 0
-    path: Assets/Samples/Raycast_Test/Scenes/Raycast_Test.unity
-    guid: a06236d0d24296043bd081e91d42a06c
-  - enabled: 0
     path: Assets/Mymy/Scenes/Scene3A_Temp.unity
     guid: 106ee3845bfad944891c5d3eb0bfa783
+  - enabled: 1
+    path: Assets/Mymy/Scenes/Scene6_Temp.unity
+    guid: ad89cc556ad2a204e895bff02ee419e2

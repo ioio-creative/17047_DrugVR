@@ -291,12 +291,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4835430291899344}
-  - component: {fileID: 114462008950677996}
   - component: {fileID: 114974561549950772}
   - component: {fileID: 114951239137234398}
   - component: {fileID: 20961885355625880}
   - component: {fileID: 114485283359744150}
   - component: {fileID: 114575016029923280}
+  - component: {fileID: 114746767902727116}
   m_Layer: 0
   m_Name: FocusController
   m_TagString: Untagged
@@ -1089,26 +1089,6 @@ MonoBehaviour:
   - 0.4
   - 0.2
   - 0
---- !u!114 &114462008950677996
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1946889884298364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d98a4e659663d14e8649dd9b59479db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
-  inversePosition: 0
-  trackPosition: 0
-  inverseRotation: 0
-  trackRotation: 1
-  timing: 1
-  ElbowRaiseYaxis: 0
-  ElbowRaiseZaxis: 0
-  pointerTiltAngle: 15
 --- !u!114 &114484442627603608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1187,6 +1167,27 @@ MonoBehaviour:
   ear: {fileID: 0}
   _origin: 0
   needTimeControl: 0
+--- !u!114 &114746767902727116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1946889884298364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a65f880ed89b6f4da239258e8ece7fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  inversePosition: 0
+  trackPosition: 0
+  inverseRotation: 0
+  trackRotation: 1
+  lockRotation: 0
+  timing: 1
+  ElbowRaiseYaxis: 0
+  ElbowRaiseZaxis: 0
+  pointerTiltAngle: 15
 --- !u!114 &114785179516896944
 MonoBehaviour:
   m_ObjectHideFlags: 1
