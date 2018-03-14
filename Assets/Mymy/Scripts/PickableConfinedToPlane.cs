@@ -111,9 +111,7 @@ public class PickableConfinedToPlane : MonoBehaviour
                 m_PickUpContainer.transform.position = hit.point;
                 m_PickUpContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
 
-                Debug.DrawRay(m_RaycastOriginObject.transform.position, hit.point, Color.green);
-
-                Debug.Log(hit.point);
+                Debug.DrawLine(m_RaycastOriginObject.transform.position, hit.point, Color.green);
 
                 isHitConfinedPlane = true;
                 break;
