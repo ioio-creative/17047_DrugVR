@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     {
         if(Input.GetKey("f") == true)
         {
-            SelectNextScene();           
+            SelectNextScene();       
         }
     }
 
@@ -98,6 +98,11 @@ public class GameManager : MonoBehaviour
         if(!isLoadingScene) SelectScene(Scribbler.SceneDictionary[nextScene]);
     }
 
+    public void SelectScene(DrugVR_ENUM sceneEnum)
+    {
+        SelectScene(Scribbler.SceneDictionary[sceneEnum]);
+    }
+    
 
     //Select scene is called from either the menu manager or hotspot manager, and is used to load the desired scene
     public void SelectScene(string sceneToLoad)
