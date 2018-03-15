@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
-
+using DrugVR_Scribbler;
 
 public enum SkyboxType
 {
@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     private Animator m_anim;
     private Image m_fadeImage;
 
-    public string nextSceneName;
+    private ICollection<DrugVR_ENUM> sceneList = Scribbler.SceneDictionary.Keys;
+    public DrugVR_ENUM nextScene;
     public SkyboxType nextSkyType = SkyboxType.ImageSky;
     public Material nextSkyMat;
     public string ActiveSceneName
@@ -35,6 +36,34 @@ public class GameManager : MonoBehaviour
 
     private bool isLoadingScene = false;
 
+    #region Scribbler Fields
+    public bool Side01
+    {
+        get { return Scribbler.side01; }
+        set { Scribbler.side01 = value; }
+    }
+    public bool Side02
+    {
+        get { return Scribbler.side02; }
+        set { Scribbler.side02 = value; }
+    }
+    public bool Side03
+    {
+        get { return Scribbler.side01; }
+        set { Scribbler.side01 = value; }
+    }
+    public bool Side04
+    {
+        get { return Scribbler.side05; }
+        set { Scribbler.side05 = value; }
+    }
+    public bool Side05
+    {
+        get { return Scribbler.side05; }
+        set { Scribbler.side05 = value; }
+    }
+    #endregion
+
     //make sure that we only have a single instance of the game manager
     private void Awake()
     {
@@ -47,6 +76,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
     }
 
     private void Start()
@@ -65,7 +95,7 @@ public class GameManager : MonoBehaviour
 
     public void SelectNextScene()
     {
-        if(!isLoadingScene) SelectScene(nextSceneName);
+        if(!isLoadingScene) SelectScene(Scribbler.SceneDictionary[nextScene]);
     }
 
 
