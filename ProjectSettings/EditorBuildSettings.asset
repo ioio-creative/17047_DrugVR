@@ -17,6 +17,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Mymy/Scenes/Scene3A_Temp.unity
     guid: 106ee3845bfad944891c5d3eb0bfa783
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene6_Temp.unity
     guid: ad89cc556ad2a204e895bff02ee419e2

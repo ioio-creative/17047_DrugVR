@@ -65,11 +65,11 @@ public class SelectionProgress : MonoBehaviour,
 
     // For listening which button of a controller device is pressed in HandleEnter()
     [SerializeField]
-    private WVR_DeviceType device = WVR_DeviceType.WVR_DeviceType_Controller_Right;
+    private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
 
     // For listening which button of a controller device is pressed in HandleEnter()
     [SerializeField]
-    private WVR_InputId inputToListen = WVR_InputId.WVR_InputId_16;
+    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_16;
 
     // Used to start and stop the filling coroutine based on input.
     private Coroutine m_SelectionFillRoutine;
@@ -87,7 +87,7 @@ public class SelectionProgress : MonoBehaviour,
     private bool m_ButtonPressed;
 
 
-    /* MonoBehavior */
+    /* MonoBehaviour */
 
     private void Awake()
     {
@@ -121,7 +121,7 @@ public class SelectionProgress : MonoBehaviour,
         m_Collider.enabled = m_UIFader.Visible;
     }
 
-    /* end of MonoBehavior */
+    /* end of MonoBehaviour */
 
 
     public void Show()
@@ -268,7 +268,7 @@ public class SelectionProgress : MonoBehaviour,
         }
 
         // Get button press state from controller device
-        if (WaveVR_Controller.Input(device).GetPress(inputToListen))
+        if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))
         {
             m_ButtonPressed = true;
             StartSelectionFillRoutineIfActive();
