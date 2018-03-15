@@ -129,8 +129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0f7c7b604130742b3d4fac4a0a25ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FocusControllerGO: {fileID: 796685548}
+  FocusControllerGO: {fileID: 0}
   OriginalControllerModel: {fileID: 763932703}
+  ControllerLaser: {fileID: 0}
 --- !u!1001 &386443442
 Prefab:
   m_ObjectHideFlags: 0
@@ -174,6 +175,10 @@ Prefab:
         type: 2}
       propertyPath: lockRotation
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1261896024980020, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
@@ -223,11 +228,6 @@ Prefab:
 --- !u!1 &763932703 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1261896024980020, guid: 4f869faf05141a9488a7dff6f5806fd7,
-    type: 2}
-  m_PrefabInternal: {fileID: 386443442}
---- !u!1 &796685548 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1946889884298364, guid: 4f869faf05141a9488a7dff6f5806fd7,
     type: 2}
   m_PrefabInternal: {fileID: 386443442}
 --- !u!1 &1938993246
