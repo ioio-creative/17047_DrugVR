@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using VRStandardAssets.Utils;
+using UnityEngine.UI;
 using wvr;
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioClauseSelection : MonoBehaviour,
     IHandleUiButton
 {
-    public event Action OnSelected;
+    public event Action<AudioClip, Text> OnSelected;
 
 
     [SerializeField]
@@ -23,7 +21,9 @@ public class AudioClauseSelection : MonoBehaviour,
     [SerializeField]
     private AudioClip m_OnSelectedClip;
     [SerializeField]
-    private AudioClip m_AudioClauseClip;    
+    private AudioClip m_AudioClauseClip;
+    [SerializeField]
+    private Text m_AudioClauseText;
     [SerializeField]
     private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;    
     [SerializeField]
@@ -81,13 +81,28 @@ public class AudioClauseSelection : MonoBehaviour,
         m_Audio.Play();
     }
 
+    private void RaiseOnSelectedEvent()
+    {
+        PlayOnSelectedClip();
+
+        if (OnSelected != null)
+        {
+            OnSelected(m_AudioClauseClip, m_AudioClauseText);
+        }
+    }
+
 
     /* IHandleUiButton interfaces */
 
     public void HandleDown()
     {
         Debug.Log("HandleDown: AudioClauseSelection");
-        m_ButtonPressed = true;        
+        m_ButtonPressed = true;
+        
+        if (m_GazeOver)
+        {
+            RaiseOnSelectedEvent();
+        }
     }
 
     public void HandleEnter()
@@ -109,6 +124,11 @@ public class AudioClauseSelection : MonoBehaviour,
         else
         {
             m_ButtonPressed = false;            
+        }
+
+        if (m_ButtonPressed)
+        {
+            RaiseOnSelectedEvent();
         }
     }
 
