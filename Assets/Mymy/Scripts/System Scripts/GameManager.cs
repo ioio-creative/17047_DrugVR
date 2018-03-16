@@ -175,7 +175,13 @@ public class GameManager : MonoBehaviour
         if (!m_video)
         {
             m_video = FindObjectOfType<VideoPlayer>();
+            m_video.loopPointReached += OnVideoEnd；
         }
         m_video.Play();
+    }
+
+    private void OnVideoEnd(VideoPlayer e)
+    {
+
     }
 }
