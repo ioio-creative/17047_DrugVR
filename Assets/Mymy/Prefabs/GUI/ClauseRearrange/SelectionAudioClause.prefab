@@ -252,7 +252,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1266948677906708}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.78, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224700538336745830}
@@ -858,7 +858,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: E
+  m_Text: A
 --- !u!114 &114696523654962986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -891,7 +891,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Get away from me!
+  m_Text: Am I totally screwed?
 --- !u!114 &114806436814735996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -904,7 +904,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HideOnStart: 0
-  m_IsDisappearOnSelected: 0
+  m_IsDisappearOnSelected: 1
+  m_Collider: {fileID: 65754588858800294}
+  m_UIFader: {fileID: 114168154005701502}
   m_SelectionCanvas: {fileID: 1022195111741668}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
@@ -912,6 +914,10 @@ MonoBehaviour:
   m_AudioClauseText: {fileID: 114696523654962986}
   m_DeviceToListen: 2
   m_InputToListen: 16
+  m_ClauseCaption: {fileID: 114674455166157804}
+  m_ClauseText: {fileID: 114696523654962986}
+  m_ClauseCaptionStr: A
+  m_ClauseTextStr: Am I totally screwed?
 --- !u!222 &222006513817315996
 CanvasRenderer:
   m_ObjectHideFlags: 1

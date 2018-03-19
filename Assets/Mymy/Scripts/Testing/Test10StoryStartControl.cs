@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using VRStandardAssets.Utils;
 
 public class Test10StoryStartControl : MonoBehaviour
@@ -6,6 +7,7 @@ public class Test10StoryStartControl : MonoBehaviour
     [SerializeField]
     private GameObject m_FadersToStartContainer;
     
+    [SerializeField]
     private UIFader[] m_FadersToStart;
 
 
@@ -21,5 +23,5 @@ public class Test10StoryStartControl : MonoBehaviour
         {
             StartCoroutine(fader.InteruptAndFadeIn());
         }
-	}
+    }
 }
