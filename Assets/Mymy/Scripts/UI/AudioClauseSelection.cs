@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VRStandardAssets.Utils;
 using wvr;
@@ -11,24 +12,27 @@ public class AudioClauseSelection : MonoBehaviour,
     public event Action<AudioClauseSelection> OnSelected;
     public Image ClauseImage { get { return m_ClauseImage; } }
     public bool IsDisappearOnSelected { get { return m_IsDisappearOnSelected; } }
+    public AudioClip AudioClauseClip { get { return m_AudioClauseClip; } }
 
     
     [SerializeField]
-    private bool m_HideOnStart;
-    [SerializeField]
     private bool m_IsDisappearOnSelected;
-    [SerializeField]
-    private Collider m_Collider;
     [SerializeField]
     private UIFader m_UIFader;
     [SerializeField]
-    private GameObject m_SelectionCanvas;
+    private Collider m_Collider;
+    [SerializeField]
+    private Button m_Button;
+    [SerializeField]
+    private EventTrigger m_EventTrigger;
     [SerializeField]
     private AudioSource m_Audio;
     [SerializeField]
     private AudioClip m_OnOverClip;  
     [SerializeField]
     private AudioClip m_OnSelectedClip;
+    [SerializeField]
+    private AudioClip m_OnErrorClip;
     [SerializeField]
     private AudioClip m_AudioClauseClip;
     [SerializeField]
@@ -41,49 +45,27 @@ public class AudioClauseSelection : MonoBehaviour,
 
     private bool m_GazeOver;
     private bool m_ButtonPressed;
-    private bool m_IsSelectionActive;
 
 
     /* MonoBehaviour */
 
-    private void Awake()
-    {
-        m_Audio = GetComponent<AudioSource>();
-    }
-
-    private void Start()
-    {
-        if (m_HideOnStart)
-        {
-            Hide();
-        }
-        else
-        {
-            Show();
-        }
-    }
-
     private void Update()
     {
         // If this selection is using a UIFader 
-        // turn off the collider when it's invisible.
-        m_Collider.enabled = m_UIFader.Visible;
+        // turn off the "interaction" when it's invisible.
+        bool isEnableCollider = m_UIFader.Visible && !m_UIFader.Fading;
+        SetInteractionEnabled(isEnableCollider);        
     }
 
     /* end of MonoBehaviour */
 
 
-    public void Show()
+    private void SetInteractionEnabled(bool isEnabled)
     {
-        m_SelectionCanvas.SetActive(true);
-        m_IsSelectionActive = true;
+        m_EventTrigger.enabled = isEnabled;
+        m_Button.enabled = isEnabled;
+        m_Collider.enabled = isEnabled;
     }
-
-    public void Hide()
-    {
-        m_SelectionCanvas.SetActive(false);
-        m_IsSelectionActive = false;
-    }    
 
     private void RaiseOnSelectedEvent()
     {
@@ -102,6 +84,12 @@ public class AudioClauseSelection : MonoBehaviour,
     public void PlayOnSelectedClip()
     {
         m_Audio.clip = m_OnSelectedClip;
+        m_Audio.Play();
+    }
+
+    public void PlayOnErrorClip()
+    {
+        m_Audio.clip = m_OnErrorClip;
         m_Audio.Play();
     }
 
@@ -168,12 +156,10 @@ public class AudioClauseSelection : MonoBehaviour,
     {
         Debug.Log("HandleEnter: AudioClauseSelection");
         m_GazeOver = true;
-        if (m_IsSelectionActive)
-        {
-            // Play the clip appropriate when the user
-            // starts looking at the selection.
-            PlayOnOverClip();
-        }
+
+        // Play the clip appropriate when the user
+        // starts looking at the selection.
+        PlayOnOverClip();        
 
         // Get button press state from controller device
         if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))

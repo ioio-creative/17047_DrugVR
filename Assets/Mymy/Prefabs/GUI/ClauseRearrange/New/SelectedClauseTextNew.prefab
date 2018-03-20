@@ -228,8 +228,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HideOnStart: 0
   m_IsDisappearOnSelected: 1
-  m_Collider: {fileID: 65698718707718868}
   m_UIFader: {fileID: 114443286442038172}
+  m_Collider: {fileID: 65698718707718868}
+  m_Button: {fileID: 114246641391466822}
+  m_EventTrigger: {fileID: 114985610821315250}
   m_SelectionCanvas: {fileID: 1558124029348896}
   m_Audio: {fileID: 82256667974638796}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
@@ -254,6 +256,7 @@ MonoBehaviour:
   m_UiGroupsToFade:
   - {fileID: 225341908929708800}
   m_NonUiGroupsContainers: []
+  m_Fading: 0
 --- !u!114 &114827406342027200
 MonoBehaviour:
   m_ObjectHideFlags: 1

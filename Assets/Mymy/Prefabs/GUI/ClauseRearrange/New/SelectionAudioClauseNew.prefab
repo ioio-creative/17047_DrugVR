@@ -205,10 +205,13 @@ MonoBehaviour:
   m_IsDisappearOnSelected: 1
   m_Collider: {fileID: 65238401579479790}
   m_UIFader: {fileID: 114346524157532192}
+  m_Button: {fileID: 114585239304376162}
+  m_EventTrigger: {fileID: 114853145758136358}
   m_SelectionCanvas: {fileID: 1377806081205280}
   m_Audio: {fileID: 82702031597915236}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_AudioClauseClip: {fileID: 8300000, guid: 3bfbde3793b434c4588b158fde9be486, type: 3}
   m_ClauseImage: {fileID: 114821356518652556}
   m_DeviceToListen: 2
@@ -230,6 +233,7 @@ MonoBehaviour:
   m_UiGroupsToFade:
   - {fileID: 225959256382662096}
   m_NonUiGroupsContainers: []
+  m_Fading: 0
 --- !u!114 &114585239304376162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,7 +294,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: dfa947548d2af6749a7287f1a3848fdc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a660d53c0a93a7e46a425ecbcbed877b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

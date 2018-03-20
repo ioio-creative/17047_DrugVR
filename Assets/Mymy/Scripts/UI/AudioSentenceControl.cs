@@ -1,21 +1,27 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VRStandardAssets.Utils;
 using wvr;
 
-[RequireComponent(typeof(AudioSource))]
 public class AudioSentenceControl : MonoBehaviour,
     IHandleUiButton
 {
     [SerializeField]
-    private bool m_HideOnStart;
-    [SerializeField]
     private bool m_IsDisappearOnSelected;
     [SerializeField]
-    private GameObject m_SelectionCanvas;
+    private UIFader m_UIFader;
+    [SerializeField]
+    private Collider m_Collider;
+    [SerializeField]
+    private Button m_Button;
+    [SerializeField]
+    private EventTrigger m_EventTrigger;
+    [SerializeField]
+    private AudioSource m_Audio;
     [SerializeField]
     private AudioClip m_OnOverClip;
     [SerializeField]
@@ -40,10 +46,8 @@ public class AudioSentenceControl : MonoBehaviour,
         }
     }
 
-    private AudioSource m_Audio;
     private bool m_GazeOver;
-    private bool m_ButtonPressed;
-    private bool m_IsSelectionActive;
+    private bool m_ButtonPressed;    
     private Coroutine m_PlayClipsInSeqRoutine = null;
 
 
@@ -51,7 +55,6 @@ public class AudioSentenceControl : MonoBehaviour,
 
     private void Awake()
     {        
-        m_Audio = GetComponent<AudioSource>();
         m_ClauseAvailableOptions =
             m_ClauseAvailableOptionsContainer.GetComponentsInChildren<AudioClauseSelection>();
 
@@ -75,31 +78,22 @@ public class AudioSentenceControl : MonoBehaviour,
         }
     }
 
-    private void Start()
+    private void Update()
     {
-        if (m_HideOnStart)
-        {
-            Hide();
-        }
-        else
-        {
-            Show();
-        }
+        // If this selection is using a UIFader 
+        // turn off the "interaction" when it's invisible.
+        bool isEnableCollider = m_UIFader.Visible && !m_UIFader.Fading;
+        SetInteractionEnabled(isEnableCollider);
     }
 
     /* end of MonoBehaviour */
 
 
-    private void Show()
+    private void SetInteractionEnabled(bool isEnabled)
     {
-        m_SelectionCanvas.SetActive(true);
-        m_IsSelectionActive = true;
-    }
-
-    private void Hide()
-    {
-        m_SelectionCanvas.SetActive(false);
-        m_IsSelectionActive = false;
+        m_EventTrigger.enabled = isEnabled;
+        m_Button.enabled = isEnabled;
+        m_Collider.enabled = isEnabled;
     }
 
     private void PlayOnOverClip()
@@ -110,24 +104,28 @@ public class AudioSentenceControl : MonoBehaviour,
 
     private void StartPlayClipsInSequence()
     {
-        //if (m_PlayClipsInSeqRoutine == null &&
-        //    m_SelectedClauseClipSeq.Length == m_NumOfClausesRequiredInSentence)
-        //{
-        //    m_PlayClipsInSeqRoutine =
-        //        StartCoroutine(PlayClipsInSequence());
-        //}
+        // if the coroutine has not been started
+        // and all audio clause slots are filled
+        if (m_PlayClipsInSeqRoutine == null &&
+            m_FirstNotYetFilledAudioClauseSlot == null)
+        {
+            m_PlayClipsInSeqRoutine =
+                StartCoroutine(PlayClipsInSequence());
+        }
     }
 
     private IEnumerator PlayClipsInSequence()
     {
-        //foreach (AudioClip clip in m_SelectedClauseClipSeq)
-        //{
-        //    m_Audio.clip = clip;
-        //    m_Audio.Play();
-        //    yield return new WaitWhile(() => m_Audio.isPlaying);
-        //}
+        AudioClip[] clips = m_SelectedClauseSeq.Select(x => x.AudioClause.AudioClauseClip).ToArray();
 
-        //m_PlayClipsInSeqRoutine = null;
+        foreach (AudioClip clip in clips)
+        {
+            m_Audio.clip = clip;
+            m_Audio.Play();
+            yield return new WaitWhile(() => m_Audio.isPlaying);
+        }
+
+        m_PlayClipsInSeqRoutine = null;
 
         yield return null;
     }
@@ -138,15 +136,21 @@ public class AudioSentenceControl : MonoBehaviour,
     private void HandleClauseOptionSelected(AudioClauseSelection audioClauseSelected)
     {
         AudioClauseSelected firstNotYetFilledAudioClauseSlot = 
-            m_FirstNotYetFilledAudioClauseSlot;
+            m_FirstNotYetFilledAudioClauseSlot;        
 
         if (firstNotYetFilledAudioClauseSlot)
         {
+            audioClauseSelected.PlayOnSelectedClip();
+
             firstNotYetFilledAudioClauseSlot.FillSlotWithAudioClause(audioClauseSelected);
             if (audioClauseSelected.IsDisappearOnSelected)
             {
-
+                StartCoroutine(audioClauseSelected.InteruptAndFadeOut());
             }
+        }
+        else
+        {
+            audioClauseSelected.PlayOnErrorClip();
         }
     }
 
@@ -170,12 +174,10 @@ public class AudioSentenceControl : MonoBehaviour,
     {
         Debug.Log("HandleEnter: AudioClauseSelection");
         m_GazeOver = true;
-        if (m_IsSelectionActive)
-        {
-            // Play the clip appropriate when the user
-            // starts looking at the selection.
-            PlayOnOverClip();
-        }
+
+        // Play the clip appropriate when the user
+        // starts looking at the selection.
+        PlayOnOverClip();        
 
         // Get button press state from controller device
         if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))

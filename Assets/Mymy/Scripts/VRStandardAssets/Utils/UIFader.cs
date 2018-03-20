@@ -10,21 +10,27 @@ namespace VRStandardAssets.Utils
     // fading in different ways.
     public class UIFader : MonoBehaviour
     {
+        public float FadeSpeed { get { return m_FadeSpeed; } }
+        public float FadeInAlphaThreshold { get { return m_FadeInAlphaThreshold; } }
+        public float FadeOutAlphaThreshold { get { return m_FadeOutAlphaThreshold; } }
+        public bool Fading { get { return m_Fading; } }
+
+
         public event Action OnFadeInComplete;                   // This event is triggered when the UI elements have finished fading in.
         public event Action OnFadeOutComplete;                  // This event is triggered when the UI elements have finished fading out.
 
         public event Action OnFadeInReachThreshold;                    // This event is triggered when the UI elements have reached certain alpha value when fading in.
         private bool m_FadeInThresholdTriggered;                       // If OnFadeInReachThreshold is triggered
         [SerializeField]
-        public float m_FadeInAlphaThreshold = 1f;    // OnFadeInReachThreshold is triggered when this value is reached.
+        private float m_FadeInAlphaThreshold = 1f;    // OnFadeInReachThreshold is triggered when this value is reached.
 
         public event Action OnFadeOutReachThreshold;                     // This event is triggered when the UI elements have reached certain alpha value when fading out.
         private bool m_FadeOutThresholdTriggered;                        // If OnFadeOutReachThreshold is triggered
         [SerializeField]
-        public float m_FadeOutAlphaThreshold = 0f;     // OnFadeOutReachThreshold is triggered when this value is reached.
+        private float m_FadeOutAlphaThreshold = 0f;     // OnFadeOutReachThreshold is triggered when this value is reached.
 
         [SerializeField]
-        public float m_FadeSpeed = 1f;        // The amount the alpha of the UI elements changes per second.        
+        private float m_FadeSpeed = 1f;        // The amount the alpha of the UI elements changes per second.        
         [SerializeField]
         private CanvasGroup[] m_UiGroupsToFade;  // All the groups of UI elements that will fade in and out.
 
@@ -69,6 +75,7 @@ namespace VRStandardAssets.Utils
             // earlier than Start()
             SetInvisible();
         }
+
 
         public IEnumerator WaitForFadeIn()
         {

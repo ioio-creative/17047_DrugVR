@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using VRStandardAssets.Utils;
 
 public class Scene4ATempStoryStartControl : MonoBehaviour
 {
     [SerializeField]
-    private GameObject m_FadersToStartContainer;
+    private GameObject[] m_FaderToStartContainers;
 
 
     private UIFader[] m_FadersToStart;
@@ -12,8 +13,25 @@ public class Scene4ATempStoryStartControl : MonoBehaviour
 
     private void Awake()
     {
-        m_FadersToStart =
-            m_FadersToStartContainer.GetComponentsInChildren<UIFader>();
+        List<UIFader> faders = new List<UIFader>();
+        foreach (GameObject faderToStartContainer in m_FaderToStartContainers)
+        {
+            // check if the game object contains UIFader component
+            UIFader fader = faderToStartContainer.GetComponent<UIFader>();
+
+            if (fader)
+            {
+                faders.Add(fader);
+            }
+            // if the game object does not contain UIFader component,
+            // chect the game object's children
+            else
+            {
+                faders.AddRange(faderToStartContainer.GetComponentsInChildren<UIFader>());
+            }
+        }
+
+        m_FadersToStart = faders.ToArray();
     }
 
     private void Start()

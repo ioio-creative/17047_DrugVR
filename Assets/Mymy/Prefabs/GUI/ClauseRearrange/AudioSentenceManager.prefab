@@ -218,9 +218,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd1ae187543464b9e467c71bfadbb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HideOnStart: 0
   m_IsDisappearOnSelected: 0
-  m_SelectionCanvas: {fileID: 1643264939276700}
+  m_UIFader: {fileID: 114079776634909420}
+  m_Collider: {fileID: 65542443593418978}
+  m_Button: {fileID: 114775603970395448}
+  m_EventTrigger: {fileID: 114881438670055112}
+  m_Audio: {fileID: 82474183551768992}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_ClauseAvailableOptionsContainer: {fileID: 0}
   m_SelectedClauseContainer: {fileID: 0}
