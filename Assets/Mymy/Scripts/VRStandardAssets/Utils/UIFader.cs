@@ -61,14 +61,14 @@ namespace VRStandardAssets.Utils
                     m_FadeColor = m_NonUiGroupsToFade[0].material.color;
                 }
             }
-        }
 
-
-        public void Start()
-        {
+            // !!! Important !!! 
+            // better to call SetInvisible() in Awake() rather than in Start()
+            // because I may have called StartCoroutine(UIFader.InteruptAndFadeIn()) elsewhere,
+            // say in the Start() of another game object, in that case InteruptAndFadeIn() will be run
+            // earlier than Start()
             SetInvisible();
         }
-
 
         public IEnumerator WaitForFadeIn()
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using VRStandardAssets.Utils;
 using wvr;
 
 [RequireComponent(typeof(AudioSource))]
@@ -15,6 +16,10 @@ public class AudioClauseSelection : MonoBehaviour,
     [SerializeField]
     private bool m_IsDisappearOnSelected;
     [SerializeField]
+    private Collider m_Collider;
+    [SerializeField]
+    private UIFader m_UIFader;
+    [SerializeField]
     private GameObject m_SelectionCanvas;
     [SerializeField]
     private AudioClip m_OnOverClip;  
@@ -28,6 +33,15 @@ public class AudioClauseSelection : MonoBehaviour,
     private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;    
     [SerializeField]
     private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_16;
+    [SerializeField]
+    private Text m_ClauseCaption;
+    [SerializeField]
+    private Text m_ClauseText;
+    [SerializeField]
+    private string m_ClauseCaptionStr;
+    [SerializeField]
+    private string m_ClauseTextStr;    
+
 
     private AudioSource m_Audio;
     private bool m_GazeOver;
@@ -44,6 +58,9 @@ public class AudioClauseSelection : MonoBehaviour,
 
     private void Start()
     {
+        m_ClauseCaption.text = m_ClauseCaptionStr;
+        m_ClauseText.text = m_ClauseTextStr;
+
         if (m_HideOnStart)
         {
             Hide();
@@ -52,6 +69,16 @@ public class AudioClauseSelection : MonoBehaviour,
         {
             Show();
         }
+    }
+
+    private void Update()
+    {
+        if (!m_UIFader)
+            return;
+
+        // If this selection is using a UIFader 
+        // turn off the collider when it's invisible.
+        m_Collider.enabled = m_UIFader.Visible;
     }
 
     /* end of MonoBehaviour */
@@ -88,6 +115,18 @@ public class AudioClauseSelection : MonoBehaviour,
         if (OnSelected != null)
         {
             OnSelected(m_AudioClauseClip, m_AudioClauseText);
+        }
+
+        if (m_IsDisappearOnSelected)
+        {
+            if (m_UIFader)
+            {
+                StartCoroutine(m_UIFader.CheckAndFadeOut());
+            }
+            else
+            {
+                Hide();
+            }
         }
     }
 
