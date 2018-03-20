@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Collider: {fileID: 65776619714442830}
   m_UIFader: {fileID: 114074804211138116}
   m_SelectionCanvas: {fileID: 1950819606995220}
+  m_Audio: {fileID: 82242541608748540}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_AudioClauseClip: {fileID: 8300000, guid: 01a7770e14086b345a1062e55b8cb589, type: 3}
