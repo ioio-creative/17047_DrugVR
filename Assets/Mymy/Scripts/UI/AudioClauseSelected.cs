@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using VRStandardAssets.Utils;
 using wvr;
 
-public class AudioClauseSelection : MonoBehaviour,
+public class AudioClauseSelected : MonoBehaviour,
     IHandleUiButton
 {
-    public event Action<AudioClauseSelection> OnSelected;
-    public Image ClauseImage { get { return m_ClauseImage; } }
-    public bool IsDisappearOnSelected { get { return m_IsDisappearOnSelected; } }
+    public AudioClauseSelection AudioClause { get { return m_AudioClause; } }
 
-    
+
     [SerializeField]
     private bool m_HideOnStart;
     [SerializeField]
@@ -26,19 +25,18 @@ public class AudioClauseSelection : MonoBehaviour,
     [SerializeField]
     private AudioSource m_Audio;
     [SerializeField]
-    private AudioClip m_OnOverClip;  
+    private AudioClip m_OnOverClip;
     [SerializeField]
     private AudioClip m_OnSelectedClip;
     [SerializeField]
-    private AudioClip m_AudioClauseClip;
+    private Image m_ClauseImg; 
     [SerializeField]
-    private Image m_ClauseImage;
-    [SerializeField]
-    private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;    
+    private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
     private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_16;
-    
 
+
+    private AudioClauseSelection m_AudioClause = null;    
     private bool m_GazeOver;
     private bool m_ButtonPressed;
     private bool m_IsSelectionActive;
@@ -83,90 +81,58 @@ public class AudioClauseSelection : MonoBehaviour,
     {
         m_SelectionCanvas.SetActive(false);
         m_IsSelectionActive = false;
-    }    
-
-    private void RaiseOnSelectedEvent()
-    {
-        if (OnSelected != null)
-        {
-            OnSelected(this);
-        }
     }
 
-    public void PlayOnOverClip()
+    private void PlayOnOverClip()
     {
         m_Audio.clip = m_OnOverClip;
         m_Audio.Play();
     }
 
-    public void PlayOnSelectedClip()
+    private void PlayOnSelectedClip()
     {
         m_Audio.clip = m_OnSelectedClip;
         m_Audio.Play();
     }
 
-
-    /* exposing UIFader interfaces */
-
-    public IEnumerator WaitForFadeIn()
+    private void HandleOnSelected()
     {
-        yield return StartCoroutine(m_UIFader.WaitForFadeIn());
+        PlayOnSelectedClip();
+
+        StartCoroutine(m_AudioClause.InteruptAndFadeIn());
+        m_AudioClause = null;
+
+        if (m_IsDisappearOnSelected)
+        {
+            StartCoroutine(m_UIFader.CheckAndFadeOut());
+        }
     }
 
-    public IEnumerator InteruptAndFadeIn()
+    public void FillSlotWithAudioClause(
+        AudioClauseSelection audioClause)
     {
-        yield return StartCoroutine(m_UIFader.InteruptAndFadeIn());
+        m_AudioClause = audioClause;
+        m_ClauseImg.sprite = audioClause.ClauseImage.sprite;
+        StartCoroutine(m_UIFader.InteruptAndFadeIn());
     }
-
-    public IEnumerator CheckAndFadeIn()
-    {
-        yield return StartCoroutine(m_UIFader.CheckAndFadeIn());
-    }
-
-    public IEnumerator FadeIn()
-    {
-        yield return StartCoroutine(m_UIFader.FadeIn());
-    }
-
-    public IEnumerator WaitForFadeOut()
-    {
-        yield return StartCoroutine(m_UIFader.WaitForFadeOut());
-    }
-
-    public IEnumerator InteruptAndFadeOut()
-    {
-        yield return StartCoroutine(m_UIFader.InteruptAndFadeOut());
-    }
-
-    public IEnumerator CheckAndFadeOut()
-    {
-        yield return StartCoroutine(m_UIFader.CheckAndFadeOut());
-    }
-
-    public IEnumerator FadeOut()
-    {
-        yield return StartCoroutine(m_UIFader.FadeOut());
-    }
-
-    /* end of exposing UIFader interfaces */
 
 
     /* IHandleUiButton interfaces */
 
     public void HandleDown()
     {
-        Debug.Log("HandleDown: AudioClauseSelection");
+        Debug.Log("HandleDown: AudioClauseSelected");
         m_ButtonPressed = true;
-        
+
         if (m_GazeOver)
         {
-            RaiseOnSelectedEvent();
+            HandleOnSelected();
         }
     }
 
     public void HandleEnter()
     {
-        Debug.Log("HandleEnter: AudioClauseSelection");
+        Debug.Log("HandleEnter: AudioClauseSelected");
         m_GazeOver = true;
         if (m_IsSelectionActive)
         {
@@ -178,29 +144,29 @@ public class AudioClauseSelection : MonoBehaviour,
         // Get button press state from controller device
         if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))
         {
-            m_ButtonPressed = true;            
+            m_ButtonPressed = true;
         }
         else
         {
-            m_ButtonPressed = false;            
+            m_ButtonPressed = false;
         }
 
         if (m_ButtonPressed)
         {
-            RaiseOnSelectedEvent();
+            HandleOnSelected();
         }
     }
 
     public void HandleExit()
     {
-        Debug.Log("HandleExit: AudioClauseSelection");
+        Debug.Log("HandleExit: AudioClauseSelected");
         m_GazeOver = false;
     }
 
     public void HandleUp()
     {
-        Debug.Log("HandleUp: AudioClauseSelection");
-        m_ButtonPressed = false;        
+        Debug.Log("HandleUp: AudioClauseSelected");
+        m_ButtonPressed = false;
     }
 
     /* end of IHandleUiButton interfaces */

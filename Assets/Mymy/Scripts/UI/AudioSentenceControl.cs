@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using wvr;
@@ -19,7 +21,7 @@ public class AudioSentenceControl : MonoBehaviour,
     [SerializeField]
     private GameObject m_ClauseAvailableOptionsContainer;
     [SerializeField]
-    private GameObject m_SelectedClauseTextContainer;
+    private GameObject m_SelectedClauseContainer;
     [SerializeField]
     private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
@@ -27,11 +29,16 @@ public class AudioSentenceControl : MonoBehaviour,
 
 
     private AudioClauseSelection[] m_ClauseAvailableOptions;
-    [SerializeField]
-    private AudioClip[] m_SelectedClauseClipSeq;
-    private Text[] m_SelectedClauseTextSeq; 
-    private int m_ActiveSelectedClauseIdxInSeq = 0;
+    private AudioClauseSelected[] m_SelectedClauseSeq;  // fixed in length
     private int m_NumOfClausesRequiredInSentence;
+
+    private AudioClauseSelected m_FirstNotYetFilledAudioClauseSlot
+    {
+        get
+        {            
+            return m_SelectedClauseSeq.FirstOrDefault(x => x.AudioClause == null);
+        }
+    }
 
     private AudioSource m_Audio;
     private bool m_GazeOver;
@@ -47,9 +54,9 @@ public class AudioSentenceControl : MonoBehaviour,
         m_Audio = GetComponent<AudioSource>();
         m_ClauseAvailableOptions =
             m_ClauseAvailableOptionsContainer.GetComponentsInChildren<AudioClauseSelection>();
-        m_SelectedClauseTextSeq =
-            m_SelectedClauseTextContainer.GetComponentsInChildren<Text>();
-        m_NumOfClausesRequiredInSentence = m_SelectedClauseTextSeq.Length;
+
+        m_SelectedClauseSeq = m_SelectedClauseContainer.GetComponentsInChildren<AudioClauseSelected>();
+        m_NumOfClausesRequiredInSentence = m_SelectedClauseSeq.Length;
     }
 
     private void OnEnable()
@@ -70,9 +77,6 @@ public class AudioSentenceControl : MonoBehaviour,
 
     private void Start()
     {
-        m_SelectedClauseClipSeq = 
-            new AudioClip[m_NumOfClausesRequiredInSentence];
-
         if (m_HideOnStart)
         {
             Hide();
@@ -106,39 +110,44 @@ public class AudioSentenceControl : MonoBehaviour,
 
     private void StartPlayClipsInSequence()
     {
-        if (m_PlayClipsInSeqRoutine == null && 
-            m_SelectedClauseClipSeq.Length == m_NumOfClausesRequiredInSentence)
-        {
-            m_PlayClipsInSeqRoutine =
-                StartCoroutine(PlayClipsInSequence());
-        }
+        //if (m_PlayClipsInSeqRoutine == null &&
+        //    m_SelectedClauseClipSeq.Length == m_NumOfClausesRequiredInSentence)
+        //{
+        //    m_PlayClipsInSeqRoutine =
+        //        StartCoroutine(PlayClipsInSequence());
+        //}
     }
 
     private IEnumerator PlayClipsInSequence()
     {
-        foreach (AudioClip clip in m_SelectedClauseClipSeq)
-        {
-            m_Audio.clip = clip;
-            m_Audio.Play();
-            yield return new WaitWhile(() => m_Audio.isPlaying);
-        }
+        //foreach (AudioClip clip in m_SelectedClauseClipSeq)
+        //{
+        //    m_Audio.clip = clip;
+        //    m_Audio.Play();
+        //    yield return new WaitWhile(() => m_Audio.isPlaying);
+        //}
 
-        m_PlayClipsInSeqRoutine = null;
+        //m_PlayClipsInSeqRoutine = null;
 
         yield return null;
     }
 
 
-    /* AudioClauseSelection.OnSelected(AudioClip) event handler */
+    /* AudioClauseSelection.OnSelected() event handler */
 
-    private void HandleClauseOptionSelected(AudioClip audioClauseClip, 
-        Text audioClauseText)
+    private void HandleClauseOptionSelected(AudioClauseSelection audioClauseSelected)
     {
-        m_SelectedClauseClipSeq[m_ActiveSelectedClauseIdxInSeq] = audioClauseClip;
-        m_SelectedClauseTextSeq[m_ActiveSelectedClauseIdxInSeq].text = audioClauseText.text;
+        AudioClauseSelected firstNotYetFilledAudioClauseSlot = 
+            m_FirstNotYetFilledAudioClauseSlot;
 
-        m_ActiveSelectedClauseIdxInSeq =
-            (m_ActiveSelectedClauseIdxInSeq + 1) % m_NumOfClausesRequiredInSentence;
+        if (firstNotYetFilledAudioClauseSlot)
+        {
+            firstNotYetFilledAudioClauseSlot.FillSlotWithAudioClause(audioClauseSelected);
+            if (audioClauseSelected.IsDisappearOnSelected)
+            {
+
+            }
+        }
     }
 
     /* end of AudioClauseSelection.OnSelected(AudioClip) event handler */

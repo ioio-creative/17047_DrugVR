@@ -911,13 +911,9 @@ MonoBehaviour:
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_AudioClauseClip: {fileID: 8300000, guid: 01a7770e14086b345a1062e55b8cb589, type: 3}
-  m_AudioClauseText: {fileID: 114696523654962986}
+  m_ClauseImage: {fileID: 0}
   m_DeviceToListen: 2
   m_InputToListen: 16
-  m_ClauseCaption: {fileID: 114674455166157804}
-  m_ClauseText: {fileID: 114696523654962986}
-  m_ClauseCaptionStr: A
-  m_ClauseTextStr: Am I totally screwed?
 --- !u!222 &222006513817315996
 CanvasRenderer:
   m_ObjectHideFlags: 1

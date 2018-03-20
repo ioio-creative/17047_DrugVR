@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using VRStandardAssets.Utils;
 
-public class Test10StoryStartControl : MonoBehaviour
+public class Scene4ATempStoryStartControl : MonoBehaviour
 {
     [SerializeField]
     private GameObject m_FadersToStartContainer;
-    
+
 
     private UIFader[] m_FadersToStart;
 
