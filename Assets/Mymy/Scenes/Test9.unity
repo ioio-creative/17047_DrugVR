@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -127,7 +127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &115261113
 Transform:
   m_ObjectHideFlags: 0
@@ -887,6 +887,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 73243169e313a5c45ac877f2e0ad113c, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &646654637 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 646654636}
 --- !u!1 &665027601
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,6 +904,7 @@ GameObject:
   - component: {fileID: 665027603}
   - component: {fileID: 665027602}
   - component: {fileID: 665027607}
+  - component: {fileID: 665027608}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -918,7 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccdbaaae702ed42ec8692b27dbb2c630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isControllerFocus_R: 0
+  isControllerFocus_R: 1
   isControllerFocus_L: 0
 --- !u!23 &665027603
 MeshRenderer:
@@ -1001,6 +1006,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &665027608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 665027601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 6
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 665027602}
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1094983285 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1946889884298364, guid: 4f869faf05141a9488a7dff6f5806fd7,
@@ -1274,14 +1309,10 @@ Transform:
   m_LocalPosition: {x: 2, y: -5, z: 5}
   m_LocalScale: {x: 1, y: 1, z: -1}
   m_Children:
-  - {fileID: 1701455594}
+  - {fileID: 646654637}
   m_Father: {fileID: 1177403214}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: -90}
---- !u!4 &1701455594 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400000, guid: 73243169e313a5c45ac877f2e0ad113c, type: 3}
-  m_PrefabInternal: {fileID: 646654636}
 --- !u!4 &1702213901 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4271256760124324, guid: 6e945b5141c87a545af15d950f78298d,

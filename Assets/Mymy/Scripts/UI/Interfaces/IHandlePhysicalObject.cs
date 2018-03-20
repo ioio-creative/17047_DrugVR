@@ -2,11 +2,13 @@
 
 // for 3D physical objects to interact 
 // with raycast from controllers
-public interface IHandlePointer :    
+public interface IHandlePhysicalObject:    
     IPointerEnterHandler,
     IPointerDownHandler,
     IPointerExitHandler,
-    IPointerUpHandler
+    IPointerUpHandler,
+    IDragHandler,
+    IDropHandler
 {
 
 }
