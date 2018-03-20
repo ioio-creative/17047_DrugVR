@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
-using DrugVR_Scribbler;
+using DrugVR_Scribe;
 
 public enum SkyboxType
 {
@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     private Animator m_anim;
     private Image m_fadeImage;
 
-    private ICollection<DrugVR_ENUM> sceneList = Scribbler.SceneDictionary.Keys;
     public DrugVR_ENUM nextScene;
     public SkyboxType nextSkyType = SkyboxType.ImageSky;
     public Material nextSkyMat;
@@ -39,31 +38,48 @@ public class GameManager : MonoBehaviour
     #region Scribbler Fields
     public bool Side01
     {
-        get { return Scribbler.side01; }
-        set { Scribbler.side01 = value; }
+        get { return Scribe.side01; }
+        set { Scribe.side01 = value; }
     }
     public bool Side02
     {
-        get { return Scribbler.side02; }
-        set { Scribbler.side02 = value; }
+        get { return Scribe.side02; }
+        set { Scribe.side02 = value; }
     }
     public bool Side03
     {
-        get { return Scribbler.side01; }
-        set { Scribbler.side01 = value; }
+        get { return Scribe.side01; }
+        set { Scribe.side01 = value; }
     }
     public bool Side04
     {
-        get { return Scribbler.side05; }
-        set { Scribbler.side05 = value; }
+        get { return Scribe.side05; }
+        set { Scribe.side05 = value; }
     }
     public bool Side05
     {
-        get { return Scribbler.side05; }
-        set { Scribbler.side05 = value; }
+        get { return Scribe.side05; }
+        set { Scribe.side05 = value; }
     }
     #endregion
 
+    private void OnEnable()
+    {
+        if (!m_video)
+        {
+            m_video = FindObjectOfType<VideoPlayer>();
+            m_video.loopPointReached += OnVideoEnd;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (!m_video)
+        {
+            m_video = FindObjectOfType<VideoPlayer>();
+            m_video.loopPointReached -= OnVideoEnd;
+        }
+    }
     //make sure that we only have a single instance of the game manager
     private void Awake()
     {
@@ -89,23 +105,29 @@ public class GameManager : MonoBehaviour
     {
         if(Input.GetKey("f") == true)
         {
-            SelectNextScene();       
+            GoToNextScene();       
         }
     }
 
-    public void SelectNextScene()
+    public void ReadScroll(Scroll scroll)
     {
-        if(!isLoadingScene) SelectScene(Scribbler.SceneDictionary[nextScene]);
+        nextScene = scroll.Scene;
+        nextSkyType = scroll.Skybox;
     }
 
-    public void SelectScene(DrugVR_ENUM sceneEnum)
+    public void GoToNextScene()
     {
-        SelectScene(Scribbler.SceneDictionary[sceneEnum]);
+        if(!isLoadingScene) GoToScene(Scribe.SceneDictionary[nextScene]);
+    }
+
+    public void GoToScene(DrugVR_ENUM sceneEnum)
+    {
+        GoToScene(Scribe.SceneDictionary[sceneEnum]);
     }
     
 
     //Select scene is called from either the menu manager or hotspot manager, and is used to load the desired scene
-    public void SelectScene(string sceneToLoad)
+    public void GoToScene(string sceneToLoad)
     {
         //if we want to use the fading between scenes, start the coroutine here
         if (FadeToBlack)
@@ -175,13 +197,12 @@ public class GameManager : MonoBehaviour
         if (!m_video)
         {
             m_video = FindObjectOfType<VideoPlayer>();
-            m_video.loopPointReached += OnVideoEnd；
         }
         m_video.Play();
     }
 
-    private void OnVideoEnd(VideoPlayer e)
+    private void OnVideoEnd(VideoPlayer source)
     {
-
+        GoToNextScene();
     }
 }
