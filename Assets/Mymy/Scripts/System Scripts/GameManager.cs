@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     private bool isLoadingScene = false;
 
-    #region Scribbler Fields
+    #region Scribe Fields
     public bool Side01
     {
         get { return Scribe.side01; }
