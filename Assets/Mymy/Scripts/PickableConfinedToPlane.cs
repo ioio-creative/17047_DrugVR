@@ -5,9 +5,7 @@ public class PickableConfinedToPlane : MonoBehaviour
     [SerializeField]
     private BoxCollider m_ConfinedPlane;
     [SerializeField]
-    private Rigidbody m_ControlledRigidBody;
-    [SerializeField]
-    private float m_MaxPointerDist = 100f;
+    private Rigidbody m_ControlledRigidBody;    
     [SerializeField]
     private bool m_UseGravityWhenPicked = true;
     [SerializeField]
@@ -19,6 +17,7 @@ public class PickableConfinedToPlane : MonoBehaviour
     private GameObject m_PickUpContainer;
     private bool m_OriginalUseGravity;
     private bool m_OriginalIsKinematic;
+    private float m_MaxPointerDist;
 
 
     /* MonoBehaviour */
@@ -42,9 +41,10 @@ public class PickableConfinedToPlane : MonoBehaviour
     /* end of MonoBehaviour */
 
 
-    public void OnObjectPicked(GameObject raycastOriginObject)
+    public void OnObjectPicked(GameObject raycastOriginObject, float raycastMaxDist)
     {
         m_RaycastOriginObject = raycastOriginObject;
+        m_MaxPointerDist = raycastMaxDist;
 
         // instantiate empty m_PickUpContainer
         m_PickUpContainer = new GameObject("PickUpContainer");
@@ -59,24 +59,18 @@ public class PickableConfinedToPlane : MonoBehaviour
         // so that position & orientation offset between hit.point / raycast and this.gameObject can be preserved
         gameObject.transform.parent = m_PickUpContainer.transform;
 
-        if (m_ControlledRigidBody)
-        {
-            m_OriginalIsKinematic = m_ControlledRigidBody.isKinematic;
-            m_ControlledRigidBody.isKinematic = m_IsKinematicWhenPicked;
+        m_OriginalIsKinematic = m_ControlledRigidBody.isKinematic;
+        m_ControlledRigidBody.isKinematic = m_IsKinematicWhenPicked;
 
-            m_OriginalUseGravity = m_ControlledRigidBody.useGravity;
-            m_ControlledRigidBody.useGravity = m_UseGravityWhenPicked;
-        }
+        m_OriginalUseGravity = m_ControlledRigidBody.useGravity;
+        m_ControlledRigidBody.useGravity = m_UseGravityWhenPicked;        
     }
 
     public void OnObjectReleased()
-    {
-        if (m_ControlledRigidBody)
-        {
-            m_ControlledRigidBody.useGravity = m_OriginalUseGravity;
+    {                
+        m_ControlledRigidBody.useGravity = m_OriginalUseGravity;
 
-            m_ControlledRigidBody.isKinematic = m_OriginalIsKinematic;
-        }
+        m_ControlledRigidBody.isKinematic = m_OriginalIsKinematic;        
 
         // set parent back to the original one
         gameObject.transform.parent = m_PickUpContainer.transform.parent;

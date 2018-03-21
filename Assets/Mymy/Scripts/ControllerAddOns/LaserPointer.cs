@@ -32,7 +32,7 @@ public class LaserPointer : MonoBehaviour
     [SerializeField]
     private WVR_InputId inputToListen = WVR_InputId.WVR_InputId_16;
     [SerializeField]
-    private Transform trackedObjTransform;
+    private Transform controllerObjTransform;
     [SerializeField]
     private Transform laserTransform;    
     [SerializeField]
@@ -57,7 +57,6 @@ public class LaserPointer : MonoBehaviour
     // Serves as a reference to the GameObject that the player is currently grabbing
     private GameObject objectInHand;
     private PickableConfinedToPlane pickableComponentInObjectInHand;
-    private float objectInHandOriginalDistance;
 
 
     /* MonoBehaviour */
@@ -72,50 +71,38 @@ public class LaserPointer : MonoBehaviour
 
         defaultHit = new RaycastHit()
         {
-            point = trackedObjTransform.position + trackedObjTransform.forward * maxPointerDist,
-            normal = trackedObjTransform.forward,
+            point = controllerObjTransform.position + controllerObjTransform.forward * maxPointerDist,
+            normal = controllerObjTransform.forward,
             distance = maxPointerDist
         };
     }
 
     private void FixedUpdate()
     {
-        defaultHit.point = trackedObjTransform.position + trackedObjTransform.forward * maxPointerDist;
-        defaultHit.normal = trackedObjTransform.forward;
+        defaultHit.point = controllerObjTransform.position + controllerObjTransform.forward * maxPointerDist;
+        defaultHit.normal = controllerObjTransform.forward;
 
         // set default values, used when ray cast doesn't hit any object
         RaycastHit hit = defaultHit;
 
         // Send out a raycast from the controller
-        bool isHit = Physics.Raycast(trackedObjTransform.position, trackedObjTransform.forward, out hit, maxPointerDist, layersForRaycast);
+        bool isHit = Physics.Raycast(controllerObjTransform.position, controllerObjTransform.forward, out hit, maxPointerDist, layersForRaycast);
 
         bool isBtnPressed = WaveVR_Controller.Input(device).GetPress(inputToListen);
-        
+
         ShowReticle(hit);
 
         if (isBtnPressed)
         {
-            ShowLaser(hit);            
+            ShowLaser(hit);
         }
         else
         {
             HideLaser();
         }
 
-        if (objectInHand == null)  // nothing in hand yet
-        {
-            if (isHit && isBtnPressed)
-            {
-                GrabObject(hit.collider.gameObject);
-            }
-        }
-        else  // something is in hand
-        {
-            if (!isBtnPressed)
-            {
-                ReleaseObject();
-            }
-        }
+        RaycastPickupAndRelease(hit, isHit, isBtnPressed);
+
     }
 
     /* end of MonoBehaviour */
@@ -135,7 +122,7 @@ public class LaserPointer : MonoBehaviour
         laserTransform.gameObject.SetActive(true);
 
         // Move laser to the middle between the controller and the position the raycast hit
-        laserTransform.position = Vector3.Lerp(trackedObjTransform.position, hitTarget.point, .5f);
+        laserTransform.position = Vector3.Lerp(controllerObjTransform.position, hitTarget.point, .5f);
 
         // Rotate laser facing the hit point
         laserTransform.LookAt(hitTarget.point);
@@ -179,14 +166,34 @@ public class LaserPointer : MonoBehaviour
     /* grab object */
     /* https://www.raywenderlich.com/149239/htc-vive-tutorial-unity */
 
+    private void RaycastPickupAndRelease(RaycastHit hit, bool isHit, bool isBtnPressed)
+    {        
+        if (objectInHand == null)  // nothing in hand yet
+        {
+            // only pick object when isBtnDown
+            bool isBtnDown = WaveVR_Controller.Input(device).GetPressDown(inputToListen);
+            if (isHit && isBtnDown)
+            {
+                GrabObject(hit.collider.gameObject);
+            }
+        }
+        else  // something is in hand
+        {
+            // Note: use isBtnPressed here
+            if (!isBtnPressed)
+            {
+                ReleaseObject();
+            }
+        }
+    }
+
     private void GrabObject(GameObject objectToGrab)
     {
+
         if (objectInHand == null && objectToGrab.layer == pickableObjLayer)
         {
             objectInHand = objectToGrab;
-            objectInHandOriginalDistance = 
-                (objectInHand.transform.position - trackedObjTransform.position).magnitude;
-
+            
             pickableComponentInObjectInHand = objectInHand.GetComponent<PickableConfinedToPlane>();
             
             if (pickableComponentInObjectInHand == null)
@@ -199,7 +206,7 @@ public class LaserPointer : MonoBehaviour
                 pickableComponentInObjectInHand = objectInHand.GetComponentInChildren<PickableConfinedToPlane>();
             }
 
-            pickableComponentInObjectInHand.OnObjectPicked(trackedObjTransform.gameObject);            
+            pickableComponentInObjectInHand.OnObjectPicked(controllerObjTransform.gameObject, maxPointerDist);
         }
     }
 

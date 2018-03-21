@@ -75,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1839706653061224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6.15, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224543301058195698}
@@ -201,13 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b595911c122cfb846988eed5908880b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HideOnStart: 0
   m_IsDisappearOnSelected: 1
-  m_Collider: {fileID: 65238401579479790}
   m_UIFader: {fileID: 114346524157532192}
+  m_Collider: {fileID: 65238401579479790}
   m_Button: {fileID: 114585239304376162}
   m_EventTrigger: {fileID: 114853145758136358}
-  m_SelectionCanvas: {fileID: 1377806081205280}
   m_Audio: {fileID: 82702031597915236}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
@@ -233,7 +231,6 @@ MonoBehaviour:
   m_UiGroupsToFade:
   - {fileID: 225959256382662096}
   m_NonUiGroupsContainers: []
-  m_Fading: 0
 --- !u!114 &114585239304376162
 MonoBehaviour:
   m_ObjectHideFlags: 1

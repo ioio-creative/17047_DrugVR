@@ -5,8 +5,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class TrimmedGoEvent : MonoBehaviour, 
-    IHandlePointer
+    IHandlePhysicalObject
 {
+    public void OnDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {

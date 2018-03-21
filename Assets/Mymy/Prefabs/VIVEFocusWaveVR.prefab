@@ -531,7 +531,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
+  far clip plane: 500
   field of view: 118
   orthographic: 0
   orthographic size: 5
@@ -1228,7 +1228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   device: 2
   inputToListen: 16
-  trackedObjTransform: {fileID: 4835430291899344}
+  controllerObjTransform: {fileID: 4835430291899344}
   laserTransform: {fileID: 4955389991512232}
   reticleTransform: {fileID: 4826005645007372}
   reticleOffset: {x: 0, y: 0, z: 0}

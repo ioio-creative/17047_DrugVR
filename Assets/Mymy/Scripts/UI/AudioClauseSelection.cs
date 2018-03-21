@@ -159,22 +159,22 @@ public class AudioClauseSelection : MonoBehaviour,
 
         // Play the clip appropriate when the user
         // starts looking at the selection.
-        PlayOnOverClip();        
+        PlayOnOverClip();
 
         // Get button press state from controller device
-        if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))
-        {
-            m_ButtonPressed = true;            
-        }
-        else
-        {
-            m_ButtonPressed = false;            
-        }
+        //if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))
+        //{
+        //    m_ButtonPressed = true;
+        //}
+        //else
+        //{
+        //    m_ButtonPressed = false;
+        //}
 
-        if (m_ButtonPressed)
-        {
-            RaiseOnSelectedEvent();
-        }
+        //if (m_ButtonPressed)
+        //{
+        //    RaiseOnSelectedEvent();
+        //}
     }
 
     public void HandleExit()
