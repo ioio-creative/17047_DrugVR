@@ -6,7 +6,11 @@ public class BasinTrigger : MonoBehaviour
 {
     void OnTriggerEnter(Collider targetObj)
     {
-        Destroy(targetObj.gameObject);
+        if (targetObj.gameObject.layer == 10)
+        {
+            Destroy(targetObj.gameObject.GetComponentInParent<Rigidbody>().gameObject);
+        }
+        
     }
 
 }
