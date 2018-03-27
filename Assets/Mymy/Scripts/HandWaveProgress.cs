@@ -24,9 +24,9 @@ public class HandWaveProgress : MonoBehaviour
     [SerializeField]
     private int m_NumOfHandWaveStrokes = 0;
     [SerializeField]
-    private WVR_DeviceType device = WVR_DeviceType.WVR_DeviceType_Controller_Right;
+    private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
-    private WVR_InputId inputToListen = WVR_InputId.WVR_InputId_16;
+    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_16;
 
 
     private void Start()
@@ -59,7 +59,7 @@ public class HandWaveProgress : MonoBehaviour
 
         m_Azimuth = newAzimuth;
 
-        if (WaveVR_Controller.Input(device).GetPress(inputToListen))
+        if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))
         {
             m_ProgressBar.Reset();
         }
