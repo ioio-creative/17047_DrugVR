@@ -13,6 +13,8 @@ public class AudioSentenceControl : MonoBehaviour,
     [SerializeField]
     private bool m_IsDisappearOnSelected;
     [SerializeField]
+    private bool m_SelectionsDisappearOnSelectedOverride;
+    [SerializeField]
     private UIFader m_UIFader;
     [SerializeField]
     private Collider m_Collider;
@@ -143,7 +145,7 @@ public class AudioSentenceControl : MonoBehaviour,
             audioClauseSelected.PlayOnSelectedClip();
 
             firstNotYetFilledAudioClauseSlot.FillSlotWithAudioClause(audioClauseSelected);
-            if (audioClauseSelected.IsDisappearOnSelected)
+            if (m_SelectionsDisappearOnSelectedOverride  || audioClauseSelected.IsDisappearOnSelected)
             {
                 StartCoroutine(audioClauseSelected.InteruptAndFadeOut());
             }

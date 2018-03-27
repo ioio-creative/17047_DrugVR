@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsDisappearOnSelected: 0
+  m_AreSelectionsDisappearOnSelected: 1
   m_UIFader: {fileID: 114079776634909420}
   m_Collider: {fileID: 65542443593418978}
   m_Button: {fileID: 114775603970395448}
