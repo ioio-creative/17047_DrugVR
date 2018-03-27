@@ -6,41 +6,122 @@ using VRStandardAssets.Utils;
 public class Sc7A_PartyManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] m_FaderToStartContainers;
+    private GameObject methOptionPrefab;
+    [SerializeField]
+    private GameObject[] m_InitialOptionUIFadersContainers;
 
-    private UIFader[] m_FadersToStart;
+
+    private List<UIFader> m_OptionUIFaders = new List<UIFader>();
+    private List<PartySelection> m_PartySelections = new List<PartySelection>();
 
 
     private void Awake()
-    {
-        List<UIFader> faders = new List<UIFader>();
-        foreach (GameObject faderToStartContainer in m_FaderToStartContainers)
+    {       
+        foreach (GameObject faderToStartContainer in m_InitialOptionUIFadersContainers)
         {
             // check if the game object contains UIFader component
             UIFader fader = faderToStartContainer.GetComponent<UIFader>();
+            PartySelection partySelection = faderToStartContainer.GetComponent<PartySelection>();
 
             if (fader)
             {
-                faders.Add(fader);
+                m_OptionUIFaders.Add(fader);
             }
             // if the game object does not contain UIFader component,
-            // chect the game object's children
+            // check the game object's children
             else
             {
-                faders.AddRange(faderToStartContainer.GetComponentsInChildren<UIFader>());
+                m_OptionUIFaders.AddRange(faderToStartContainer.GetComponentsInChildren<UIFader>());
+            }
+
+
+
+            if (partySelection)
+            {
+                m_PartySelections.Add(partySelection);
+            }
+            // if the game object does not contain PartySelection component,
+            // check the game object's children
+            else
+            {
+                m_PartySelections.AddRange(faderToStartContainer.GetComponentsInChildren<PartySelection>());
             }
         }
 
-        m_FadersToStart = faders.ToArray();
     }
 
-    void Start ()
+    private void OnEnable()
     {
-		
-	}
-	
-	void Update ()
+        foreach (PartySelection option in m_PartySelections)
+        {
+            option.OnSelected += HandlePartyOptionSelected;
+        }
+    }
+
+    private void OnDisable()
     {
-		
-	}
+        foreach (PartySelection option in m_PartySelections)
+        {
+            option.OnSelected -= HandlePartyOptionSelected;
+        }
+    }
+
+    private void Start()
+    {
+        foreach (UIFader fader in m_OptionUIFaders)
+        {
+            StartCoroutine(fader.InteruptAndFadeIn());
+        }
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    private IEnumerator HandlePartyOptionSelected(GameObject selectedPartyOption)
+    {
+        
+        foreach (UIFader fader in m_OptionUIFaders)
+        {
+            StartCoroutine(fader.InteruptAndFadeOut());
+        }
+
+        yield return StartCoroutine(WaitUntilAllFadedOut());
+    
+
+        Transform selectedOptionTransform = selectedPartyOption.transform;
+        GameObject newMethObject = Instantiate(methOptionPrefab, selectedOptionTransform.position, selectedOptionTransform.rotation, selectedOptionTransform.parent);
+        m_PartySelections.Add(newMethObject.GetComponent<PartySelection>());
+        m_OptionUIFaders.Add(newMethObject.GetComponent<UIFader>());
+
+
+        m_PartySelections.Remove(selectedPartyOption.GetComponent<PartySelection>());
+        m_OptionUIFaders.Remove(selectedPartyOption.GetComponent<UIFader>());
+        Destroy(selectedPartyOption.gameObject);
+        
+
+        foreach (UIFader fader in m_OptionUIFaders)
+        {
+            StartCoroutine(fader.InteruptAndFadeIn());
+        }
+
+    }
+
+    private IEnumerator WaitUntilAllFadedOut()
+    {
+        yield return new WaitUntil(() =>
+        {
+            foreach (UIFader fader in m_OptionUIFaders)
+            {
+                if (fader.Visible || fader.Fading)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }
+
 }

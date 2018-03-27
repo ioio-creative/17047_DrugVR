@@ -24,7 +24,7 @@ public class Scene4ATempStoryStartControl : MonoBehaviour
                 faders.Add(fader);
             }
             // if the game object does not contain UIFader component,
-            // chect the game object's children
+            // check the game object's children
             else
             {
                 faders.AddRange(faderToStartContainer.GetComponentsInChildren<UIFader>());

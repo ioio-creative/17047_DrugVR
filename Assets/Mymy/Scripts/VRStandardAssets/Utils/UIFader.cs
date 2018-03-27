@@ -76,30 +76,32 @@ namespace VRStandardAssets.Utils
             SetInvisible();
         }
 
-
+        // Keep coming back each frame whilst the groups are currently fading.
         public IEnumerator WaitForFadeIn()
-        {
-            // Keep coming back each frame whilst the groups are currently fading.
+        {            
             while (m_Fading)
             {
                 yield return null;
+
             }
+
+            //yield return new WaitWhile(() => m_Fading);
+            //yield return new WaitUntil(() => !m_Fading);
 
             // Return once the FadeIn coroutine has finished.
             yield return StartCoroutine(FadeIn());
         }
 
-
+        // Stop all fading that is currently happening.
         public IEnumerator InteruptAndFadeIn()
-        {
-            // Stop all fading that is currently happening.
+        {           
             StopAllCoroutines();
 
             // Return once the FadeIn coroutine has finished.
             yield return StartCoroutine(FadeIn());
         }
 
-
+        // If fading already happening then no return
         public IEnumerator CheckAndFadeIn()
         {
             // If not already fading return once the FadeIn coroutine has finished.
@@ -107,7 +109,7 @@ namespace VRStandardAssets.Utils
                 yield return StartCoroutine(FadeIn());
         }
 
-
+        //Actual Fade In happens here
         public IEnumerator FadeIn()
         {
             // Fading has now started.

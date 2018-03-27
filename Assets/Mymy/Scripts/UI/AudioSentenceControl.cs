@@ -145,7 +145,7 @@ public class AudioSentenceControl : MonoBehaviour,
             audioClauseSelected.PlayOnSelectedClip();
 
             firstNotYetFilledAudioClauseSlot.FillSlotWithAudioClause(audioClauseSelected);
-            if (m_SelectionsDisappearOnSelectedOverride  || audioClauseSelected.IsDisappearOnSelected)
+            if (m_SelectionsDisappearOnSelectedOverride || audioClauseSelected.IsDisappearOnSelected)
             {
                 StartCoroutine(audioClauseSelected.InteruptAndFadeOut());
             }
