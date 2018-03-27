@@ -12,7 +12,7 @@ public class ReplyModeBroadcast : MonoBehaviour
     
 
     public event Action<ReplyMode> OnReplyModeIndicated;
-    public bool IsReplyModeIndicated { get { return m_IsReplyModeIndicated; } }
+    public bool IsReplyModeIndicated { get { return m_IsReplyModeIndicated; } }    
 
 
     [SerializeField]
@@ -32,11 +32,18 @@ public class ReplyModeBroadcast : MonoBehaviour
         if (m_ScrollBarToListen.value == 1)
         {
             m_IsReplyModeIndicated = true;
+            m_ScrollBarToListen.interactable = false;
 
             if (OnReplyModeIndicated != null)
             {
                 OnReplyModeIndicated(m_ReplyModeToBroadcast);
             }
         }
+    }
+
+    public void Reset()
+    {
+        m_ScrollBarToListen.interactable = true;
+        m_ScrollBarToListen.value = 0;
     }
 }

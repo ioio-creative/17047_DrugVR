@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using VRStandardAssets.Utils;
+using wvr;
 
 public class Scene2SControl : MonoBehaviour
 {
@@ -35,13 +36,15 @@ public class Scene2SControl : MonoBehaviour
     {
         StartCoroutine(m_PopupMsgOnPhoneFader.InteruptAndFadeIn());
         StartCoroutine(m_ReplyInstructionFader.InteruptAndFadeIn());
-    }    
+    }
 
     /* end of MonoBehaviour */
-
+    
 
     private void HandleReplyModeIndicated(ReplyModeBroadcast.ReplyMode replyMode)
     {
+        StartCoroutine(m_ReplyInstructionFader.InteruptAndFadeOut());
+
         switch (replyMode)
         {
             case ReplyModeBroadcast.ReplyMode.NotReply:
@@ -52,5 +55,16 @@ public class Scene2SControl : MonoBehaviour
                 StartCoroutine(m_MessengerOnPhoneFader.InteruptAndFadeIn());
                 break;
         }
+    }
+
+    public void Reset()
+    {
+        StartCoroutine(m_ReplyInstructionFader.InteruptAndFadeIn());
+        StartCoroutine(m_PopupMsgOnPhoneFader.InteruptAndFadeIn());
+        StartCoroutine(m_MessengerOnPhoneFader.InteruptAndFadeOut());
+        StartCoroutine(m_CoverOnPhoneFader.InteruptAndFadeOut());
+
+        m_Reply.Reset();
+        m_NotReply.Reset();
     }
 }
