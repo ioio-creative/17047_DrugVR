@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using VRStandardAssets.Utils;
 
 public class Scene2SControl : MonoBehaviour
@@ -8,6 +7,8 @@ public class Scene2SControl : MonoBehaviour
     private ReplyModeBroadcast m_Reply;
     [SerializeField]
     private ReplyModeBroadcast m_NotReply;
+    [SerializeField]
+    private UIFader m_ReplyInstructionFader;
     [SerializeField]
     private UIFader m_PopupMsgOnPhoneFader;
     [SerializeField]
@@ -33,6 +34,7 @@ public class Scene2SControl : MonoBehaviour
     private void Start()
     {
         StartCoroutine(m_PopupMsgOnPhoneFader.InteruptAndFadeIn());
+        StartCoroutine(m_ReplyInstructionFader.InteruptAndFadeIn());
     }    
 
     /* end of MonoBehaviour */

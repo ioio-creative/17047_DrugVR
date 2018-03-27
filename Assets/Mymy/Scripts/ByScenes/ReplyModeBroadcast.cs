@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,31 +12,31 @@ public class ReplyModeBroadcast : MonoBehaviour
     
 
     public event Action<ReplyMode> OnReplyModeIndicated;
+    public bool IsReplyModeIndicated { get { return m_IsReplyModeIndicated; } }
 
 
     [SerializeField]
     private ReplyMode m_ReplyModeToBroadcast;
     [SerializeField]
     private Scrollbar m_ScrollBarToListen;
+    private bool m_IsReplyModeIndicated = false;
 
 
     /* MonoBahaviour */
 
-    private void Start()
-    {
-        StartCoroutine(WaitForScrollBarFilledThenBroadcast());
-    }
-
     /* end of MonoBahaviour */
 
 
-    private IEnumerator WaitForScrollBarFilledThenBroadcast()
+    public void HandleScrollBarValueChanged()
     {
-        yield return new WaitUntil(() => m_ScrollBarToListen.value == 1);
-
-		if (OnReplyModeIndicated != null)
+        if (m_ScrollBarToListen.value == 1)
         {
-            OnReplyModeIndicated(m_ReplyModeToBroadcast);
+            m_IsReplyModeIndicated = true;
+
+            if (OnReplyModeIndicated != null)
+            {
+                OnReplyModeIndicated(m_ReplyModeToBroadcast);
+            }
         }
-	}
+    }
 }
