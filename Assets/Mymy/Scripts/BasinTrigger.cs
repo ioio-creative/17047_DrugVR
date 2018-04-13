@@ -8,6 +8,7 @@ public class BasinTrigger : MonoBehaviour
     {
         if (targetObj.gameObject.layer == 10)
         {
+            Destroy(targetObj.gameObject.GetComponentInParent<PickableConfinedToPlane>().ConfinedPlane.gameObject);
             Destroy(targetObj.gameObject.GetComponentInParent<Rigidbody>().gameObject);
         }
         
