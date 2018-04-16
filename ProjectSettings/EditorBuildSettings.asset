@@ -6,26 +6,37 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Mymy/Scenes/Test9.unity
+    path: Assets/Mymy/Scenes/Tests/Test9.unity
     guid: 2f9de970d326bb045ba13527cddb9815
   - enabled: 0
-    path: Assets/Mymy/Scenes/Test1.unity
+    path: Assets/Mymy/Scenes/Tests/Test1.unity
     guid: 9d78e8b2def7f2b4d8cbcf3498225e9a
   - enabled: 0
-    path: Assets/Mymy/Scenes/Test2.unity
+    path: Assets/Mymy/Scenes/Tests/Test2.unity
     guid: 98358b8a7d11a0945bcdfffa8d20db90
   - enabled: 0
-    path: Assets/Mymy/Scenes/Scene3A_Temp.unity
+    path: Assets/Mymy/Scenes/Tests/Scene3A_Temp.unity
     guid: 106ee3845bfad944891c5d3eb0bfa783
   - enabled: 0
-    path: Assets/Mymy/Scenes/Scene6_Temp.unity
+    path: Assets/Mymy/Scenes/Tests/Scene6_Temp.unity
     guid: ad89cc556ad2a204e895bff02ee419e2
   - enabled: 0
-    path: Assets/Mymy/Scenes/Scene4A_Temp.unity
+    path: Assets/Mymy/Scenes/Tests/Scene4A_Temp.unity
     guid: 3388a8d5a600e1d438f6b48deed883cc
+<<<<<<< HEAD
   - enabled: 1
     path: Assets/Mymy/Scenes/Scene2S_Temp.unity
     guid: 18f4086e8654bd04fbd0dd2730276751
   - enabled: 0
     path: Assets/Mymy/Scenes/Scene7_Temp.unity
+=======
+  - enabled: 0
+    path: Assets/Mymy/Scenes/Tests/Scene2S_Temp.unity
+    guid: 18f4086e8654bd04fbd0dd2730276751
+  - enabled: 0
+    path: Assets/Mymy/Scenes/Tests/Scene7_Temp.unity
+>>>>>>> 4ea49fca2760357737f8d5d474c98975457e6890
     guid: 50049093be7b869468f75fa3ed57e208
+  - enabled: 1
+    path: Assets/Mymy/Scenes/Sc3A.unity
+    guid: 456dd4d3eca95c84d965366714df7c81
