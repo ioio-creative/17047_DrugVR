@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 
 public class PickableConfinedToPlane : MonoBehaviour
-{
+{   
     [SerializeField]
     private BoxCollider m_ConfinedPlane;
-    public BoxCollider ConfinedPlane
-    {
-        get { return m_ConfinedPlane; }
-    }
     [SerializeField]
-    private Rigidbody m_ControlledRigidBody;
+    private Rigidbody m_ControlledRigidBody;    
     [SerializeField]
     private bool m_UseGravityWhenPicked = true;
     [SerializeField]
@@ -22,7 +18,6 @@ public class PickableConfinedToPlane : MonoBehaviour
     private bool m_OriginalUseGravity;
     private bool m_OriginalIsKinematic;
     private float m_MaxPointerDist;
-    private float m_OriginalRigidbodyMass;
 
 
     /* MonoBehaviour */
@@ -30,7 +25,6 @@ public class PickableConfinedToPlane : MonoBehaviour
     private void Awake()
     {        
         m_ConfinedPlaneLayer = 1 << m_ConfinedPlane.gameObject.layer;
-        m_OriginalRigidbodyMass = m_ControlledRigidBody.mass;
     }    
 
     private void FixedUpdate()
@@ -56,7 +50,7 @@ public class PickableConfinedToPlane : MonoBehaviour
         m_PickUpContainer = new GameObject("PickUpContainer");
 
         // set parent of m_PickUpContainer to that of this.gameObject
-        m_PickUpContainer.transform.parent= gameObject.transform.parent;
+        m_PickUpContainer.transform.parent = gameObject.transform.parent;
 
         bool isHitConfinedPlane =
             UpdatePickUpContainerOrientationByRaycastToConfinedPlane();
@@ -69,18 +63,14 @@ public class PickableConfinedToPlane : MonoBehaviour
         m_ControlledRigidBody.isKinematic = m_IsKinematicWhenPicked;
 
         m_OriginalUseGravity = m_ControlledRigidBody.useGravity;
-        m_ControlledRigidBody.useGravity = m_UseGravityWhenPicked;
-
-        m_ControlledRigidBody.mass = 0.05f;
+        m_ControlledRigidBody.useGravity = m_UseGravityWhenPicked;        
     }
 
     public void OnObjectReleased()
     {                
         m_ControlledRigidBody.useGravity = m_OriginalUseGravity;
 
-        m_ControlledRigidBody.isKinematic = m_OriginalIsKinematic;
-
-        m_ControlledRigidBody.mass = m_OriginalRigidbodyMass;
+        m_ControlledRigidBody.isKinematic = m_OriginalIsKinematic;        
 
         // set parent back to the original one
         gameObject.transform.parent = m_PickUpContainer.transform.parent;

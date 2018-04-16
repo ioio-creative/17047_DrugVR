@@ -12,11 +12,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: IoioCreative
-<<<<<<< HEAD
   productName: Scene2sTemp
-=======
-  productName: DVR3A
->>>>>>> 4ea49fca2760357737f8d5d474c98975457e6890
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -164,11 +160,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-<<<<<<< HEAD
     Android: com.ioiocreative.Scene2sTemp
-=======
-    Android: com.ioiocreative.DVR3A
->>>>>>> 4ea49fca2760357737f8d5d474c98975457e6890
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 23
