@@ -64,15 +64,16 @@ public class PickableConfinedToPlane : MonoBehaviour
         // instantiate empty m_PickUpContainer
         m_PickUpContainer = new GameObject("PickUpContainer");
         // set parent of m_PickUpContainer to that of this.gameObject
-        m_PickUpContainer.transform.parent = gameObject.transform.parent;
+        m_PickUpContainer.transform.SetParent(gameObject.transform.parent);
+        // set position of m_PickUpContainer to that of this.gameObject
+        m_PickUpContainer.transform.position = gameObject.transform.position;
 
         bool isHitConfinedPlane =
             UpdatePickUpContainerOrientationByRaycastToConfinedPlane();
 
         // change parent of this.gameObject to be m_PickUpContainer
         // so that position & orientation offset between hit.point / raycast and this.gameObject can be preserved
-        gameObject.transform.parent = m_PickUpContainer.transform;
-
+        gameObject.transform.SetParent(m_PickUpContainer.transform);
 
 
         m_OriginalIsKinematic = m_ControlledRigidBody.isKinematic;
@@ -124,8 +125,9 @@ public class PickableConfinedToPlane : MonoBehaviour
                 // and its orientation is same as m_RaycastOriginObject.
                 // since m_PickUpContainer is parent of this.gameObject,
                 // this.gameObject's orientation will be affected              
-                transform.position = hit.point;
-                //m_PickUpContainer.transform.position = hit.point;
+
+                
+                m_PickUpContainer.transform.position = hit.point;
                 m_PickUpContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
 
                 Debug.DrawLine(m_RaycastOriginObject.transform.position, hit.point, Color.green);
