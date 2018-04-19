@@ -47,6 +47,9 @@ public class LaserPointer : MonoBehaviour
     private LayerMask layersForRaycast;
     [SerializeField]
     private int pickableObjLayer = 10;
+
+    public bool m_ShowBeam = false;
+    public bool m_ShowReticle = false;
         
 
     // used when ray cast doesn't hit any object
@@ -90,15 +93,18 @@ public class LaserPointer : MonoBehaviour
 
         bool isBtnPressed = WaveVR_Controller.Input(device).GetPress(inputToListen);
 
-        ShowReticle(hit);
+        if (m_ShowReticle) ShowReticle(hit);
 
-        if (isBtnPressed)
+        if (m_ShowBeam)
         {
-            ShowLaser(hit);
-        }
-        else
-        {
-            HideLaser();
+            if (isBtnPressed)
+            {
+                ShowLaser(hit);
+            }
+            else
+            {
+                HideLaser();
+            } 
         }
 
         RaycastPickupAndRelease(hit, isHit, isBtnPressed);

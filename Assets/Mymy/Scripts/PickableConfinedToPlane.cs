@@ -111,7 +111,7 @@ public class PickableConfinedToPlane : MonoBehaviour
 
         // !!! Important !!!
         // use RaycastAll
-        RaycastHit[] hits = Physics.RaycastAll(m_RaycastOriginObject.transform.position,
+       RaycastHit[] hits = Physics.RaycastAll(m_RaycastOriginObject.transform.position,
             m_RaycastOriginObject.transform.forward,
             m_MaxPointerDist, m_ConfinedPlaneLayer);
 
