@@ -4,26 +4,30 @@ using UnityEngine;
 
 public class AddLighterToFocusController : MonoBehaviour
 {
-    public MY_WaveVR_ControllerPoseTracker FocusControllerGO;
+    public WaveVR_PoseTrackerManager ControllerPosTrkMan;
     public GameObject OriginalControllerModel;
     public LaserPointer ControllerLaser;
-    
-    // Use this for initialization
-	void Awake ()
+
+    private WaveVR_ControllerPoseTracker controllerPT;
+
+    void Start ()
     {
-        gameObject.transform.parent = FocusControllerGO.transform;
-        OriginalControllerModel.SetActive(false);
+        controllerPT = ControllerPosTrkMan.gameObject.GetComponent<WaveVR_ControllerPoseTracker>();
+        controllerPT.TrackRotation = false;
+        gameObject.transform.parent = ControllerPosTrkMan.transform;
         ControllerLaser.enabled = false;
-        FocusControllerGO.lockRotation = true;
+        ControllerLaser.EnableReticle = false;
+        OriginalControllerModel.SetActive(false);
         OriginalControllerModel.transform.localScale = Vector3.zero;
 
     }
 
     private void OnDestroy()
     {
+        controllerPT.TrackRotation = true;
         OriginalControllerModel.SetActive(true);
         OriginalControllerModel.transform.localScale = Vector3.one;
         ControllerLaser.enabled = true;
-        FocusControllerGO.lockRotation = false;
+        ControllerLaser.EnableReticle = true;
     }
 }

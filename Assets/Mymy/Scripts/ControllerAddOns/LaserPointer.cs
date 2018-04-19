@@ -34,7 +34,7 @@ public class LaserPointer : MonoBehaviour
     [SerializeField]
     private Transform controllerObjTransform;
     [SerializeField]
-    private Transform laserTransform;    
+    private Transform laserTransform;
     [SerializeField]
     private Transform reticleTransform;
     [SerializeField]
@@ -47,10 +47,25 @@ public class LaserPointer : MonoBehaviour
     private LayerMask layersForRaycast;
     [SerializeField]
     private int pickableObjLayer = 10;
+    [SerializeField]
+    private bool m_EnableBeam = false;
+    public bool EnableBeam
+    {
+        get {return m_EnableBeam; }
+        set { m_EnableBeam = value; }
+    }
+    [SerializeField]
+    private bool m_EnableReticle = false;
+    public bool EnableReticle
+    {
+        get { return m_EnableReticle; }
+        set
+        {
+            m_EnableReticle = value;
+            if (value == false) HideReticle();
+        }
+    }
 
-    public bool m_ShowBeam = false;
-    public bool m_ShowReticle = false;
-        
 
     // used when ray cast doesn't hit any object
     private RaycastHit defaultHit;
@@ -67,7 +82,7 @@ public class LaserPointer : MonoBehaviour
     private void Start()
     {
         laserTransform.gameObject.SetActive(false);
-        reticleTransform.gameObject.SetActive(true);        
+        reticleTransform.gameObject.SetActive(false);        
 
         originalReticleScale = reticleTransform.localScale;
         originalReticleRotation = reticleTransform.localRotation;
@@ -93,9 +108,10 @@ public class LaserPointer : MonoBehaviour
 
         bool isBtnPressed = WaveVR_Controller.Input(device).GetPress(inputToListen);
 
-        if (m_ShowReticle) ShowReticle(hit);
+        if (EnableReticle) ShowReticle(hit);
+        else HideReticle();
 
-        if (m_ShowBeam)
+        if (EnableBeam)
         {
             if (isBtnPressed)
             {
@@ -106,6 +122,10 @@ public class LaserPointer : MonoBehaviour
                 HideLaser();
             } 
         }
+		else
+		{
+			HideLaser();
+		}
 
         RaycastPickupAndRelease(hit, isHit, isBtnPressed);
 
@@ -141,6 +161,12 @@ public class LaserPointer : MonoBehaviour
     private void HideReticle()
     {
         reticleTransform.gameObject.SetActive(false);
+    }
+
+    public void DisableReticle()
+    {
+        
+        HideReticle();
     }
 
     // https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr

@@ -59,7 +59,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1112374500003990
 GameObject:
   m_ObjectHideFlags: 1
@@ -285,7 +285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1593384517148320
 GameObject:
   m_ObjectHideFlags: 1
@@ -481,12 +481,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4835430291899344}
-  - component: {fileID: 114974561549950772}
+  - component: {fileID: 114575016029923280}
   - component: {fileID: 114951239137234398}
   - component: {fileID: 20961885355625880}
   - component: {fileID: 114485283359744150}
-  - component: {fileID: 114575016029923280}
-  - component: {fileID: 114746767902727116}
   - component: {fileID: 114937618167239854}
   m_Layer: 0
   m_Name: FocusController
@@ -613,7 +611,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807304836202366}
-  m_LocalRotation: {x: 0, y: 0.53774107, z: 0, w: 0.84311}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2081,27 +2079,6 @@ MonoBehaviour:
   ear: {fileID: 1292128893702908}
   _origin: 0
   needTimeControl: 0
---- !u!114 &114746767902727116
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1946889884298364}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a65f880ed89b6f4da239258e8ece7fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
-  inversePosition: 0
-  trackPosition: 0
-  inverseRotation: 0
-  trackRotation: 1
-  lockRotation: 0
-  timing: 1
-  ElbowRaiseYaxis: 0
-  ElbowRaiseZaxis: 0
-  pointerTiltAngle: 15
 --- !u!114 &114785179516896944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2184,22 +2161,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   pickableObjLayer: 10
-  m_ShowBeam: 1
-  m_ShowReticle: 1
---- !u!114 &114974561549950772
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1946889884298364}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25dc0d1784c2b3344ae81331b55f899f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
-  targetGameObjects:
-  - {fileID: 0}
+  m_EnableBeam: 1
+  m_EnableReticle: 1
 --- !u!124 &124611567476833104
 Behaviour:
   m_ObjectHideFlags: 1
