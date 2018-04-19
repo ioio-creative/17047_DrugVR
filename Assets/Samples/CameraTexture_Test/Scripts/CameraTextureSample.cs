@@ -17,6 +17,11 @@ public class CameraTextureSample : MonoBehaviour {
         if (Application.isPlaying)
             return ;
 #endif
+        startCamera();
+    }
+
+    private void startCamera()
+    {
         WaveVR_CameraTexture.UpdateCameraCompletedDelegate += updateTextureCompleted;
         WaveVR_CameraTexture.StartCameraCompletedDelegate += onStartCameraCompleted;
 
@@ -39,6 +44,22 @@ public class CameraTextureSample : MonoBehaviour {
     {
         Log.d(LOG_TAG, "onStartCameraCompleted, result = " + result);
         started = result;
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+#if UNITY_EDITOR
+        if (Application.isPlaying)
+            return;
+#endif
+        if (!pauseStatus)
+        {
+            if (started)
+            {
+                Log.d(LOG_TAG, "Pause(" + pauseStatus + ") and auto start camera");
+                startCamera();
+            }
+        }
     }
 
     // Update is called once per frame

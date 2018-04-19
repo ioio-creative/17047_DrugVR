@@ -25,12 +25,24 @@ public class WaveVR_TrackedButtons : MonoBehaviour
 {
     public const string LOG_TAG = "WaveVR_TrackedButtons";
 
+    public static ulong Input_Mask_Menu         = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_Menu;
+    public static ulong Input_Mask_Grip         = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_Grip;
+    public static ulong Input_Mask_DPad_Left    = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_DPad_Left;
+    public static ulong Input_Mask_DPad_Up      = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_DPad_Up;
+    public static ulong Input_Mask_DPad_Right   = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_DPad_Right;
+    public static ulong Input_Mask_DPad_Down    = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_DPad_Down;
+    public static ulong Input_Mask_Volume_Up    = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_Volume_Up;
+    public static ulong Input_Mask_Volume_Down  = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_Volume_Down;
+    public static ulong Input_Mask_Touchpad     = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_Touchpad;
+    public static ulong Input_Mask_Trigger      = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_Trigger;
+    public static ulong Input_Mask_Bumper       = 1UL << (int)WVR_InputId.WVR_InputId_Alias1_Bumper;
+
     public WVR_DeviceType device;
-    public bool triggerPressed = false;
-    public bool menuPressed = false;
-    public bool padPressed = false;
-    public bool gripPressed = false;
-    public bool padTouched = false;
+    private bool triggerPressed = false;
+    private bool menuPressed = false;
+    private bool padPressed = false;
+    private bool gripPressed = false;
+    private bool padTouched = false;
 
     public event ClickedEventHandler MenuButtonClicked;
     public event ClickedEventHandler MenuButtonUnclicked;
@@ -42,30 +54,6 @@ public class WaveVR_TrackedButtons : MonoBehaviour
     public event ClickedEventHandler PadUntouched;
     public event ClickedEventHandler Gripped;
     public event ClickedEventHandler Ungripped;
-
-    // Use this for initialization
-    void Start()
-    {
-        /*if (this.GetComponent<WaveVR_TrackedObject>() == null)
-        {
-            gameObject.AddComponent<WaveVR_TrackedObject>();
-        }
-
-        if (device != 0)
-        {
-            this.GetComponent<WaveVR_TrackedObject>().index = device;
-            if (this.GetComponent<WaveVR_RenderModel>() != null)
-            {
-                this.GetComponent<WaveVR_RenderModel>().index = device;
-            }
-        }
-        else
-        {
-            device = (uint) this.GetComponent<WaveVR_TrackedObject>().index;
-        }*/
-
-        Log.i(LOG_TAG, "Start, device: " + device);
-    }
 
     public virtual void OnTriggerClicked(ClickedEventArgs e)
     {
@@ -179,17 +167,18 @@ public class WaveVR_TrackedButtons : MonoBehaviour
         if (WaveVR.Instance == null)
             return;
 
-        if (!WaveVR_Controller.Input (device).connected)
+        if (!WaveVR_Controller.Input (this.device).connected)
             return;
 
+        WVR_DeviceType _type = WaveVR_Controller.Input (this.device).DeviceType;
         uint buttons = 0, touches = 0;
 
-        int analogArrayCount = Interop.WVR_GetInputTypeCount(device, WVR_InputType.WVR_InputType_Analog);
+        uint analogArrayCount = (uint) Interop.WVR_GetInputTypeCount(_type, WVR_InputType.WVR_InputType_Analog);
         WVR_AnalogState_t[] analogArray = new WVR_AnalogState_t[analogArrayCount];
-        if (Interop.WVR_GetInputDeviceState (device, inputMask, ref buttons, ref touches, analogArray, analogArrayCount))
+        if (Interop.WVR_GetInputDeviceState (_type, inputMask, ref buttons, ref touches, analogArray, analogArrayCount))
         {
             ClickedEventArgs e;
-            e.device = device;
+            e.device = _type;
             e.flags = buttons;
             e.axis = Vector2.zero;
 
@@ -201,9 +190,9 @@ public class WaveVR_TrackedButtons : MonoBehaviour
                 ulong btnState = (ulong)buttons;
 
                 //if (Log.FLAG_BUTTON)
-                //    Log.d (LOG_TAG, "device: " + device + " btnState: " + btnState);
+                //    Log.d (LOG_TAG, "_type: " + _type + " btnState: " + btnState);
 
-                if ((btnState & WaveVR_Controller.Device.Input_Mask_Trigger) != 0)
+                if ((btnState & Input_Mask_Trigger) != 0)
                 {
                     if (triggerPressed == false)    // trigger false -> true
                     {
@@ -212,12 +201,12 @@ public class WaveVR_TrackedButtons : MonoBehaviour
                             analogArray,
                             WVR_InputId.WVR_InputId_Alias1_Trigger,
                             WVR_AnalogType.WVR_AnalogType_Trigger,
-                            analogArrayCount);
+                            (int)analogArrayCount);
                         OnTriggerClicked (e);
                     }
                 }
 
-                if ((btnState & WaveVR_Controller.Device.Input_Mask_Grip) != 0)
+                if ((btnState & Input_Mask_Grip) != 0)
                 {
                     if (gripPressed == false)   // grep false -> true
                     {
@@ -226,7 +215,7 @@ public class WaveVR_TrackedButtons : MonoBehaviour
                     }
                 }
 
-                if ((btnState & WaveVR_Controller.Device.Input_Mask_Touchpad) != 0)
+                if ((btnState & Input_Mask_Touchpad) != 0)
                 {
                     if (padPressed == false)    // touchpad false -> true
                     {
@@ -234,13 +223,13 @@ public class WaveVR_TrackedButtons : MonoBehaviour
                             analogArray,
                             WVR_InputId.WVR_InputId_Alias1_Touchpad,
                             WVR_AnalogType.WVR_AnalogType_TouchPad,
-                            analogArrayCount);
+                            (int)analogArrayCount);
                         padPressed = true;
                         OnPadClicked (e);
                     }
                 }
 
-                if ((btnState & WaveVR_Controller.Device.Input_Mask_Menu) != 0)
+                if ((btnState & Input_Mask_Menu) != 0)
                 {
                     if (menuPressed == false)   // menu false -> true
                     {
@@ -282,9 +271,9 @@ public class WaveVR_TrackedButtons : MonoBehaviour
                 ulong touchState = (ulong)touches;
 
                 //if (Log.FLAG_BUTTON)
-                //    Log.d (LOG_TAG, "device: " + device + " touchState: " + touchState);
+                //    Log.d (LOG_TAG, "_type: " + _type + " touchState: " + touchState);
 
-                if ((touchState & WaveVR_Controller.Device.Input_Mask_Touchpad) != 0)
+                if ((touchState & Input_Mask_Touchpad) != 0)
                 {
                     if (padTouched == false)    // touchpad false -> true
                     {
@@ -293,7 +282,7 @@ public class WaveVR_TrackedButtons : MonoBehaviour
                             analogArray,
                             WVR_InputId.WVR_InputId_Alias1_Touchpad,
                             WVR_AnalogType.WVR_AnalogType_TouchPad,
-                            analogArrayCount);
+                            (int)analogArrayCount);
                         OnPadTouched (e);
                     }
                 } else
@@ -309,7 +298,7 @@ public class WaveVR_TrackedButtons : MonoBehaviour
             }   // if (touches != 0)
         } else
         {
-            Log.e (LOG_TAG, "device: " + device + " WVR_GetInputDeviceState failed!");
+            Log.e (LOG_TAG, "_type: " + _type + " WVR_GetInputDeviceState failed!");
         }   // WVR_GetInputDeviceState
     }   // Update
 }

@@ -355,6 +355,10 @@ public class WaveVR_Render : MonoBehaviour
             projRawL = new float[4] { 0.0f, 0.0f, 0.0f, 0.0f };
             projRawR = new float[4] { 0.0f, 0.0f, 0.0f, 0.0f };
 
+            WVR_RenderProps_t props = new WVR_RenderProps_t();
+            Interop.WVR_GetRenderProps(ref props);
+            targetFPS = (int)props.refreshRate;
+
             OnIpdChanged(null);
         }
 

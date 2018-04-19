@@ -1,4 +1,4 @@
-﻿// "WaveVR SDK 
+// "WaveVR SDK 
 // © 2017 HTC Corporation. All Rights Reserved.
 //
 // Unless otherwise required by copyright law and practice,
@@ -24,6 +24,35 @@ public class Generic_6DOF_MC_Action : MonoBehaviour
     public GameObject MenuButtonPress_Effect = null;
     public GameObject Touch_Effect = null;
     private Vector3 originPosition;
+
+    void OnEnable()
+    {
+        resetButtonState();
+    }
+
+    void resetButtonState()
+    {
+        Log.d(LOG_TAG, "reset button state");
+        if (Touch_Effect != null)
+        {
+            Touch_Effect.SetActive(false);
+        }
+
+        if (VolumeUpButtonPress_Effect != null)
+        {
+            VolumeUpButtonPress_Effect.SetActive(false);
+        }
+
+        if (VolumeDownButtonPress_Effect != null)
+        {
+            VolumeDownButtonPress_Effect.SetActive(false);
+        }
+
+        if (MenuButtonPress_Effect != null)
+        {
+            MenuButtonPress_Effect.SetActive(false);
+        }
+    }
 
     // Use this for initialization
     void Start()

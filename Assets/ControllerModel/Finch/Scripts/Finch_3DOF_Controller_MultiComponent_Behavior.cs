@@ -9,6 +9,13 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
     private static string LOG_TAG = "Finch_3DOF_CTR_Behavior";
 
     public WVR_DeviceType device = WVR_DeviceType.WVR_DeviceType_Controller_Right;
+    private void PrintDebugLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + ": device: " + device + ", " + msg);
+        #endif
+        Log.d (LOG_TAG, "device: " + device + ", " + msg);
+    }
     public bool useSystemConfig = true;
     public GameObject TouchPad = null;
     public GameObject Touch_Effect = null;
@@ -19,6 +26,8 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
     public GameObject Grip_Effect = null;
     public GameObject Touch_Press = null;
     public GameObject BumperPress = null;
+    public GameObject MenuPress = null;
+    public GameObject HomePress = null;
 #pragma warning disable 0414
     private int batteryLevels = 5;
     public Texture[] textures = new Texture[5];
@@ -185,6 +194,7 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         {
             Log.w(LOG_TAG, "use custom config in controller model!");
         }
+        resetButtonState();
         WaveVR_Utils.Event.Listen(WaveVR_Utils.Event.BATTERY_STATUS_UPDATE, onBatteryStatusUpdate);
     }
 
@@ -207,11 +217,12 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         if (Application.isEditor)
             return false;
 
-        float batteryPer = Interop.WVR_GetDeviceBatteryPercentage(device);
-        Log.d(LOG_TAG, "BatteryPercentage device: " + device + ", percentage: " + batteryPer);
+        WVR_DeviceType _type = WaveVR_Controller.Input(this.device).DeviceType;
+        float batteryPer = Interop.WVR_GetDeviceBatteryPercentage(_type);
+        PrintDebugLog ("updateBatteryInfo() _type: " + _type + ", percentage: " + batteryPer);
         if (batteryPer < 0)
         {
-            Log.d(LOG_TAG, "device: " + device + " BatteryPercentage is negative, return false");
+            PrintDebugLog ("updateBatteryInfo() _type: " + _type + " BatteryPercentage is negative, return false");
             return false;
         }
 
@@ -237,6 +248,55 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         }
         Battery_Effect.SetActive(true);
         return true;
+    }
+
+    void resetButtonState()
+    {
+        Log.d(LOG_TAG, "reset button state");
+        if (Touch_Effect != null)
+        {
+            Touch_Effect.SetActive(false);
+        }
+
+        if (Grip_Effect != null)
+        {
+            Grip_Effect.SetActive(false);
+        }
+
+        if (Trigger_Effect != null)
+        {
+            Trigger_Effect.SetActive(false);
+        }
+
+        if (VolumeUp_Effect != null)
+        {
+            VolumeUp_Effect.SetActive(false);
+        }
+
+        if (VolumeDown_Effect != null)
+        {
+            VolumeDown_Effect.SetActive(false);
+        }
+
+        if (Touch_Press != null)
+        {
+            Touch_Press.SetActive(false);
+        }
+
+        if (BumperPress != null)
+        {
+            BumperPress.SetActive(false);
+        }
+
+        if (MenuPress != null)
+        {
+            MenuPress.SetActive(false);
+        }
+
+        if (HomePress != null)
+        {
+            HomePress.SetActive(false);
+        }
     }
 
     void Start ()
@@ -284,6 +344,16 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         {
             BumperPress.SetActive(false);
         }
+
+        if (MenuPress != null)
+        {
+            MenuPress.SetActive(false);
+        }
+
+        if (HomePress != null)
+        {
+            HomePress.SetActive(false);
+        }
     }
 
     int t = 0;
@@ -292,14 +362,12 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
     void Update () {
         if (Battery_Effect != null)
         {
-            if (!getValidBattery)
+            if (t++ > 60)
             {
-                if (t++ > 300)
-                {
-                    getValidBattery = updateBatteryInfo();
+                Log.d(LOG_TAG, "update battery");
+                getValidBattery = updateBatteryInfo();
 
-                    t = 0;
-                }
+                t = 0;
             }
         }
 
@@ -438,6 +506,60 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
 
+        //WVR_InputId_Alias1_Menu
+        if (WaveVR_Controller.Input(device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Menu))
+        {
+            Log.d(LOG_TAG, "WVR_InputId_Alias1_Menu press down");
+            if (MenuPress != null)
+            {
+                MenuPress.SetActive(true);
+            }
+        }
+
+        if (WaveVR_Controller.Input(device).GetPress(WVR_InputId.WVR_InputId_Alias1_Menu))
+        {
+            if (MenuPress != null)
+            {
+                MenuPress.SetActive(true);
+            }
+        }
+
+        if (WaveVR_Controller.Input(device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Menu))
+        {
+            Log.d(LOG_TAG, "WVR_InputId_Alias1_Menu press up");
+            if (MenuPress != null)
+            {
+                MenuPress.SetActive(false);
+            }
+        }
+
+        //WVR_InputId_Alias1_System
+        if (WaveVR_Controller.Input(device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_System))
+        {
+            Log.d(LOG_TAG, "WVR_InputId_Alias1_System press down");
+            if (HomePress != null)
+            {
+                HomePress.SetActive(true);
+            }
+        }
+
+        if (WaveVR_Controller.Input(device).GetPress(WVR_InputId.WVR_InputId_Alias1_System))
+        {
+            if (HomePress != null)
+            {
+                HomePress.SetActive(true);
+            }
+        }
+
+        if (WaveVR_Controller.Input(device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_System))
+        {
+            Log.d(LOG_TAG, "WVR_InputId_Alias1_System press up");
+            if (HomePress != null)
+            {
+                HomePress.SetActive(false);
+            }
+        }
+
         //WVR_InputId_Alias1_Touchpad
         if (WaveVR_Controller.Input(device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Touchpad))
         {
@@ -501,21 +623,21 @@ public class Finch_3DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
                     var axis = WaveVR_Controller.Input(device).GetAxis(WVR_InputId.WVR_InputId_Alias1_Touchpad);
 
                     float xangle = axis.x * (touchpadMesh.bounds.size.x * TouchPad.transform.localScale.x - toucheffectMesh.bounds.size.x * Touch_Effect.transform.localScale.x) / 2;
-                    float yangle = axis.y * (touchpadMesh.bounds.size.y * TouchPad.transform.localScale.y - toucheffectMesh.bounds.size.y * Touch_Effect.transform.localScale.y) / 2;
+                    float yangle = axis.y * (touchpadMesh.bounds.size.z * TouchPad.transform.localScale.z - toucheffectMesh.bounds.size.z * Touch_Effect.transform.localScale.z) / 2;
 
-                    Log.d(LOG_TAG, "WVR_InputId_Alias1_Touchpad axis x: " + axis.x + ", xangle: " + xangle + " axis.y: " + axis.y + ", yangle: " + yangle);
+                    Log.gpl.d(LOG_TAG, "WVR_InputId_Alias1_Touchpad axis x: " + axis.x + ", xangle: " + xangle + " axis.y: " + axis.y + ", yangle: " + yangle);
 #if DEBUG
-                    Log.d(LOG_TAG, "Touch_EffectMesh.bounds.size.x: " + toucheffectMesh.bounds.size.x);
-                    Log.d(LOG_TAG, "Touch_EffectMesh.bounds.size.y: " + toucheffectMesh.bounds.size.y);
-                    Log.d(LOG_TAG, "Touch_EffectMesh. x scale: " + Touch_Effect.transform.localScale.x);
-                    Log.d(LOG_TAG, "Touch_EffectMesh. y scale: " + Touch_Effect.transform.localScale.y);
+                    Log.gpl.d(LOG_TAG, "Touch_EffectMesh.bounds.size.x: " + toucheffectMesh.bounds.size.x);
+                    Log.gpl.d(LOG_TAG, "Touch_EffectMesh.bounds.size.y: " + toucheffectMesh.bounds.size.y);
+                    Log.gpl.d(LOG_TAG, "Touch_EffectMesh. x scale: " + Touch_Effect.transform.localScale.x);
+                    Log.gpl.d(LOG_TAG, "Touch_EffectMesh. y scale: " + Touch_Effect.transform.localScale.y);
 
-                    Log.d(LOG_TAG, "touchpadMesh.bounds.size.x: " + touchpadMesh.bounds.size.x);
-                    Log.d(LOG_TAG, "touchpadMesh.bounds.size.y: " + touchpadMesh.bounds.size.y);
-                    Log.d(LOG_TAG, "touchpadMesh. x scale: " + TouchPad.transform.localScale.x);
-                    Log.d(LOG_TAG, "touchpadMesh. y scale: " + TouchPad.transform.localScale.y);
+                    Log.gpl.d(LOG_TAG, "touchpadMesh.bounds.size.x: " + touchpadMesh.bounds.size.x);
+                    Log.gpl.d(LOG_TAG, "touchpadMesh.bounds.size.y: " + touchpadMesh.bounds.size.y);
+                    Log.gpl.d(LOG_TAG, "touchpadMesh. x scale: " + TouchPad.transform.localScale.x);
+                    Log.gpl.d(LOG_TAG, "touchpadMesh. y scale: " + TouchPad.transform.localScale.y);
 #endif
-                    var translateVec = new Vector3(xangle, yangle, 0);
+                    var translateVec = new Vector3(xangle, 0, yangle);
                     Touch_Effect.transform.localPosition = originPosition + translateVec;
                 }
             }

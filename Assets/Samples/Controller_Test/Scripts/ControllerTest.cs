@@ -31,7 +31,8 @@ public class ControllerTest : MonoBehaviour
         WVR_InputId.WVR_InputId_Alias1_Volume_Down,
         WVR_InputId.WVR_InputId_Alias1_Touchpad,
         WVR_InputId.WVR_InputId_Alias1_Trigger,
-        WVR_InputId.WVR_InputId_Alias1_Bumper
+        WVR_InputId.WVR_InputId_Alias1_Bumper,
+        WVR_InputId.WVR_InputId_Alias1_System
     };
 
     WVR_InputId[] axisIds = new WVR_InputId[] {

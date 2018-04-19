@@ -17,6 +17,13 @@ using WaveVR_Log;
 public class WaveVR_ControllerManager : MonoBehaviour
 {
     private static string LOG_TAG = "WaveVR_ControllerManager";
+    private void PrintDebugLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + " " + msg);
+        #endif
+        Log.d (LOG_TAG, msg);
+    }
 
     public GameObject right, left;
 
@@ -46,26 +53,30 @@ public class WaveVR_ControllerManager : MonoBehaviour
             var obj = ControllerObjects[i];
             if (obj != null)
             {
-                Log.i (LOG_TAG, "OnEnable, disable controller " + i);
+                PrintDebugLog ("OnEnable() disable controller " + i);
                 obj.SetActive (false);
             }
         }
 
         for (int i = 0; i < WaveVR.DeviceTypes.Length; i++)
         {
+            #if UNITY_EDITOR
+            if (WaveVR_Controller.Input(WaveVR.DeviceTypes[i]).connected)
+            #else
             if (WaveVR.Instance.connected [i])
+            #endif
             {
-                Log.i (LOG_TAG, "OnEnable, device " + WaveVR.DeviceTypes[i] + " is connected.");
-                OnDeviceConnected (WaveVR.DeviceTypes [i], true);
+                PrintDebugLog ("OnEnable() device " + WaveVR.DeviceTypes [i] + " is connected.");
+                onDeviceConnected (WaveVR.DeviceTypes [i], true);
             }
         }
 
-        WaveVR_Utils.Event.Listen(WaveVR_Utils.Event.DEVICE_CONNECTED, OnDeviceConnected);
+        WaveVR_Utils.Event.Listen(WaveVR_Utils.Event.DEVICE_CONNECTED, onDeviceConnected);
     }
 
     void OnDisable()
     {
-        WaveVR_Utils.Event.Remove(WaveVR_Utils.Event.DEVICE_CONNECTED, OnDeviceConnected);
+        WaveVR_Utils.Event.Remove(WaveVR_Utils.Event.DEVICE_CONNECTED, onDeviceConnected);
     }
     #endregion
 
@@ -78,9 +89,12 @@ public class WaveVR_ControllerManager : MonoBehaviour
         {
             if (ControllerConnected [(uint)_index] == false)
             {
+                PrintDebugLog ("BroadcastToObjects() disable controller " + (int)_index);
                 obj.SetActive (false);
             } else
-            {   // means object with _index is not null and connected.
+            {
+                PrintDebugLog ("BroadcastToObjects() enable controller " + (int)_index);
+                // means object with _index is not null and connected.
                 obj.SetActive(true);
                 deviceIndex = _index == CIndex.right ?
                     WVR_DeviceType.WVR_DeviceType_Controller_Right :
@@ -91,25 +105,46 @@ public class WaveVR_ControllerManager : MonoBehaviour
         }
     }
 
-    private void OnDeviceConnected(params object[] args)
+    private void onDeviceConnected(params object[] args)
     {
         var device = (WVR_DeviceType)args[0];
         var connected = (bool)args[1];
-        Log.i (LOG_TAG, "device " + device + " is " + (connected == true ? "connected" : "disconnected"));
+        PrintDebugLog ("onDeviceConnected() device " + device + " is " + (connected == true ? "connected" : "disconnected")
+            + ", left-handed? " + WaveVR_Controller.IsLeftHanded);
 
-        if (device == WVR_DeviceType.WVR_DeviceType_Controller_Right)
+        if (false == WaveVR_Controller.IsLeftHanded)
         {
-            if (ControllerConnected [(uint)CIndex.right] != connected)
-            {   // Connection status has been changed.
-                ControllerConnected [(uint)CIndex.right] = connected;
-                BroadcastToObjects (CIndex.right);
+            if (device == WVR_DeviceType.WVR_DeviceType_Controller_Right)
+            {
+                if (ControllerConnected [(uint)CIndex.right] != connected)
+                {   // Connection status has been changed.
+                    ControllerConnected [(uint)CIndex.right] = connected;
+                    BroadcastToObjects (CIndex.right);
+                }
+            } else if (device == WVR_DeviceType.WVR_DeviceType_Controller_Left)
+            {
+                if (ControllerConnected [(uint)CIndex.left] != connected)
+                {   // Connection status has been changed.
+                    ControllerConnected [(uint)CIndex.left] = connected;
+                    BroadcastToObjects (CIndex.left);
+                }
             }
-        } else if (device == WVR_DeviceType.WVR_DeviceType_Controller_Left)
+        } else
         {
-            if (ControllerConnected [(uint)CIndex.left] != connected)
-            {   // Connection status has been changed.
-                ControllerConnected [(uint)CIndex.left] = connected;
-                BroadcastToObjects (CIndex.left);
+            if (device == WVR_DeviceType.WVR_DeviceType_Controller_Left)
+            {
+                if (ControllerConnected [(uint)CIndex.right] != connected)
+                {   // Connection status has been changed.
+                    ControllerConnected [(uint)CIndex.right] = connected;
+                    BroadcastToObjects (CIndex.right);
+                }
+            } else if (device == WVR_DeviceType.WVR_DeviceType_Controller_Right)
+            {
+                if (ControllerConnected [(uint)CIndex.left] != connected)
+                {   // Connection status has been changed.
+                    ControllerConnected [(uint)CIndex.left] = connected;
+                    BroadcastToObjects (CIndex.left);
+                }
             }
         }
     }

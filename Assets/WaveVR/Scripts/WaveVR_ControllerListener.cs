@@ -44,26 +44,6 @@ public class WaveVR_ControllerListener : MonoBehaviour
     /// <returns></returns>
     public Device Input(WVR_DeviceType deviceIndex)
     {
-        if (WaveVR_Controller.IsLeftHanded)
-        {
-            switch (deviceIndex)
-            {
-            case WVR_DeviceType.WVR_DeviceType_Controller_Right:
-                deviceIndex = WVR_DeviceType.WVR_DeviceType_Controller_Left;
-                break;
-            case WVR_DeviceType.WVR_DeviceType_Controller_Left:
-                deviceIndex = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-                break;
-            default:
-                break;
-            }
-        }
-
-        return ChangeRole (deviceIndex);
-    }
-
-    private static Device ChangeRole(WVR_DeviceType deviceIndex)
-    {
         if (devices == null)
         {
             devices = new Device[Enum.GetNames (typeof(WVR_DeviceType)).Length];
@@ -126,14 +106,8 @@ public class WaveVR_ControllerListener : MonoBehaviour
                     return WaveVR_Utils.RigidTransform.identity;
                 #endif
 
-                Interop.WVR_GetPoseState (
-                    DeviceType,
-                    WVR_PoseOriginModel.WVR_PoseOriginModel_OriginOnGround,
-                    500,
-                    ref pose);
-
-                rt.update (pose.PoseMatrix);
-                return rt;
+                WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                return _device.rigidTransform;
             }
         }
 
@@ -179,20 +153,12 @@ public class WaveVR_ControllerListener : MonoBehaviour
             while (true) {
                 yield return waitForEndOfFrame;
 
-                #if UNITY_EDITOR
-                if (!Application.isEditor)
-                #endif
+                bool _c = WaveVR_Controller.Input (this.DeviceType).connected;
+                if (connected != _c)
                 {
-                    if (WaveVR.Instance != null)
-                    {
-                        bool _c = Interop.WVR_IsDeviceConnected (DeviceType);
-                        if (connected != _c)
-                        {
-                            connected = !connected;
-                            if (ConnectionStatusListeners != null)
-                                ConnectionStatusListeners (connected);
-                        }
-                    }
+                    connected = !connected;
+                    if (ConnectionStatusListeners != null)
+                        ConnectionStatusListeners (connected);
                 }
             }
         }
@@ -234,6 +200,24 @@ public class WaveVR_ControllerListener : MonoBehaviour
             while (true) {
                 yield return waitForEndOfFrame;
 
+                bool _connected = false;
+                WVR_DeviceType _type = this.DeviceType;
+                #if UNITY_EDITOR || UNITY_STANDALONE
+                if (isEditorMode)
+                {
+                    _connected = WaveVR_Controller.Input(this.DeviceType).connected;
+                    _type = WaveVR_Controller.Input(this.DeviceType).DeviceType;
+                } else
+                #endif
+                {
+                    if (WaveVR.Instance != null)
+                    {
+                        WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                        _connected = _device.connected;
+                        _type = _device.type;
+                    }
+                }
+
                 bool _pressed = false;
 
                 var _menuvalue = state.BtnPressed & Input_Mask_Menu;
@@ -246,13 +230,14 @@ public class WaveVR_ControllerListener : MonoBehaviour
                 if (isEditorMode)
                 {
                     var system = WaveVR_PoseSimulator.Instance;
-                    _pressed = system.GetButtonPressState(DeviceType, WVR_InputId.WVR_InputId_Alias1_Menu);
+                    _pressed = system.GetButtonPressState(_type, WVR_InputId.WVR_InputId_Alias1_Menu);
                 } else
                 #endif
                 {
                     if (WaveVR.Instance != null)
                     {
-                        _pressed = Interop.WVR_GetInputButtonState (DeviceType, WVR_InputId.WVR_InputId_Alias1_Menu);
+                        if (_connected)
+                            _pressed = Interop.WVR_GetInputButtonState (_type, WVR_InputId.WVR_InputId_Alias1_Menu);
                     }
                 }   // isEditorMode
 
@@ -288,6 +273,24 @@ public class WaveVR_ControllerListener : MonoBehaviour
             while (true) {
                 yield return waitForEndOfFrame;
 
+                bool _connected = false;
+                WVR_DeviceType _type = this.DeviceType;
+                #if UNITY_EDITOR || UNITY_STANDALONE
+                if (isEditorMode)
+                {
+                    _connected = WaveVR_Controller.Input(this.DeviceType).connected;
+                    _type = WaveVR_Controller.Input(this.DeviceType).DeviceType;
+                } else
+                #endif
+                {
+                    if (WaveVR.Instance != null)
+                    {
+                        WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                        _connected = _device.connected;
+                        _type = _device.type;
+                    }
+                }
+
                 bool _pressed = false;
 
                 var _gripvalue = state.BtnPressed & Input_Mask_Grip;
@@ -300,13 +303,14 @@ public class WaveVR_ControllerListener : MonoBehaviour
                 if (isEditorMode)
                 {
                     var system = WaveVR_PoseSimulator.Instance;
-                    _pressed = system.GetButtonPressState(DeviceType, WVR_InputId.WVR_InputId_Alias1_Grip);
+                    _pressed = system.GetButtonPressState(_type, WVR_InputId.WVR_InputId_Alias1_Grip);
                 } else
                 #endif
                 {
                     if (WaveVR.Instance != null)
                     {
-                        _pressed = Interop.WVR_GetInputButtonState (DeviceType, WVR_InputId.WVR_InputId_Alias1_Grip);
+                        if (_connected)
+                            _pressed = Interop.WVR_GetInputButtonState (_type, WVR_InputId.WVR_InputId_Alias1_Grip);
                     }
                 }   // isEditorMode
 
@@ -342,6 +346,24 @@ public class WaveVR_ControllerListener : MonoBehaviour
             while (true) {
                 yield return waitForEndOfFrame;
 
+                bool _connected = false;
+                WVR_DeviceType _type = this.DeviceType;
+                #if UNITY_EDITOR || UNITY_STANDALONE
+                if (isEditorMode)
+                {
+                    _connected = WaveVR_Controller.Input(this.DeviceType).connected;
+                    _type = WaveVR_Controller.Input(this.DeviceType).DeviceType;
+                } else
+                #endif
+                {
+                    if (WaveVR.Instance != null)
+                    {
+                        WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                        _connected = _device.connected;
+                        _type = _device.type;
+                    }
+                }
+
                 bool _pressed = false;
 
                 var _padvalue = state.BtnPressed & Input_Mask_Touchpad;
@@ -354,13 +376,14 @@ public class WaveVR_ControllerListener : MonoBehaviour
                 if (isEditorMode)
                 {
                     var system = WaveVR_PoseSimulator.Instance;
-                    _pressed = system.GetButtonPressState(DeviceType, WVR_InputId.WVR_InputId_Alias1_Touchpad);
+                    _pressed = system.GetButtonPressState(_type, WVR_InputId.WVR_InputId_Alias1_Touchpad);
                 } else
                 #endif
                 {
                     if (WaveVR.Instance != null)
                     {
-                        _pressed = Interop.WVR_GetInputButtonState (DeviceType, WVR_InputId.WVR_InputId_Alias1_Touchpad);
+                        if (_connected)
+                            _pressed = Interop.WVR_GetInputButtonState (_type, WVR_InputId.WVR_InputId_Alias1_Touchpad);
                     }
                 }   // isEditorMode
 
@@ -396,6 +419,24 @@ public class WaveVR_ControllerListener : MonoBehaviour
             while (true) {
                 yield return waitForEndOfFrame;
 
+                bool _connected = false;
+                WVR_DeviceType _type = this.DeviceType;
+                #if UNITY_EDITOR || UNITY_STANDALONE
+                if (isEditorMode)
+                {
+                    _connected = WaveVR_Controller.Input(this.DeviceType).connected;
+                    _type = WaveVR_Controller.Input(this.DeviceType).DeviceType;
+                } else
+                #endif
+                {
+                    if (WaveVR.Instance != null)
+                    {
+                        WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                        _connected = _device.connected;
+                        _type = _device.type;
+                    }
+                }
+
                 bool _pressed = false;
 
                 var _triggervalue = state.BtnPressed & Input_Mask_Trigger;
@@ -408,13 +449,14 @@ public class WaveVR_ControllerListener : MonoBehaviour
                 if (isEditorMode)
                 {
                     var system = WaveVR_PoseSimulator.Instance;
-                    _pressed = system.GetButtonPressState(DeviceType, WVR_InputId.WVR_InputId_Alias1_Trigger);
+                    _pressed = system.GetButtonPressState(_type, WVR_InputId.WVR_InputId_Alias1_Trigger);
                 } else
                 #endif
                 {
                     if (WaveVR.Instance != null)
                     {
-                        _pressed = Interop.WVR_GetInputButtonState (DeviceType, WVR_InputId.WVR_InputId_Alias1_Trigger);
+                        if (_connected)
+                            _pressed = Interop.WVR_GetInputButtonState (_type, WVR_InputId.WVR_InputId_Alias1_Trigger);
                     }
                 }   // isEditorMode
 
@@ -476,6 +518,24 @@ public class WaveVR_ControllerListener : MonoBehaviour
             while (true) {
                 yield return waitForEndOfFrame;
 
+                bool _connected = false;
+                WVR_DeviceType _type = this.DeviceType;
+                #if UNITY_EDITOR || UNITY_STANDALONE
+                if (isEditorMode)
+                {
+                    _connected = WaveVR_Controller.Input(this.DeviceType).connected;
+                    _type = WaveVR_Controller.Input(this.DeviceType).DeviceType;
+                } else
+                #endif
+                {
+                    if (WaveVR.Instance != null)
+                    {
+                        WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                        _connected = _device.connected;
+                        _type = _device.type;
+                    }
+                }
+
                 bool _touched = false;
 
                 var _touchpadvalue = state.BtnTouched & Input_Mask_Touchpad;
@@ -488,13 +548,14 @@ public class WaveVR_ControllerListener : MonoBehaviour
                 if (isEditorMode)
                 {
                     var system = WaveVR_PoseSimulator.Instance;
-                    _touched = system.GetButtonTouchState(DeviceType, WVR_InputId.WVR_InputId_Alias1_Touchpad);
+                    _touched = system.GetButtonTouchState(_type, WVR_InputId.WVR_InputId_Alias1_Touchpad);
                 } else
                 #endif
                 {
                     if (WaveVR.Instance != null)
                     {
-                        _touched = Interop.WVR_GetInputTouchState (DeviceType, WVR_InputId.WVR_InputId_Alias1_Touchpad);
+                        if (_connected)
+                            _touched = Interop.WVR_GetInputTouchState (_type, WVR_InputId.WVR_InputId_Alias1_Touchpad);
                     }
                 }   // isEditorMode
 
@@ -530,6 +591,24 @@ public class WaveVR_ControllerListener : MonoBehaviour
             while (true) {
                 yield return waitForEndOfFrame;
 
+                bool _connected = false;
+                WVR_DeviceType _type = this.DeviceType;
+                #if UNITY_EDITOR || UNITY_STANDALONE
+                if (isEditorMode)
+                {
+                    _connected = WaveVR_Controller.Input(this.DeviceType).connected;
+                    _type = WaveVR_Controller.Input(this.DeviceType).DeviceType;
+                } else
+                #endif
+                {
+                    if (WaveVR.Instance != null)
+                    {
+                        WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                        _connected = _device.connected;
+                        _type = _device.type;
+                    }
+                }
+
                 bool _touched = false;
 
                 var _triggervalue = state.BtnTouched & Input_Mask_Trigger;
@@ -542,13 +621,14 @@ public class WaveVR_ControllerListener : MonoBehaviour
                 if (isEditorMode)
                 {
                     var system = WaveVR_PoseSimulator.Instance;
-                    _touched = system.GetButtonTouchState(DeviceType, WVR_InputId.WVR_InputId_Alias1_Trigger);
+                    _touched = system.GetButtonTouchState(_type, WVR_InputId.WVR_InputId_Alias1_Trigger);
                 } else
                 #endif
                 {
                     if (WaveVR.Instance != null)
                     {
-                        _touched = Interop.WVR_GetInputTouchState (DeviceType, WVR_InputId.WVR_InputId_Alias1_Trigger);
+                        if (_connected)
+                            _touched = Interop.WVR_GetInputTouchState (_type, WVR_InputId.WVR_InputId_Alias1_Trigger);
                     }
                 }   // isEditorMode
 
@@ -589,15 +669,34 @@ public class WaveVR_ControllerListener : MonoBehaviour
                 return Vector2.zero;
             }
 
+            bool _connected = false;
+            WVR_DeviceType _type = this.DeviceType;
+            #if UNITY_EDITOR || UNITY_STANDALONE
+            if (isEditorMode)
+            {
+                _connected = WaveVR_Controller.Input(this.DeviceType).connected;
+                _type = WaveVR_Controller.Input(this.DeviceType).DeviceType;
+            } else
+            #endif
+            {
+                if (WaveVR.Instance != null)
+                {
+                    WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                    _connected = _device.connected;
+                    _type = _device.type;
+                }
+            }
+
             #if UNITY_EDITOR || UNITY_STANDALONE
             if (isEditorMode)
             {
                 var system = WaveVR_PoseSimulator.Instance;
-                axis = system.GetAxis(DeviceType, WVR_InputId.WVR_InputId_Alias1_Trigger);
+                axis = system.GetAxis(_type, WVR_InputId.WVR_InputId_Alias1_Trigger);
             } else
             #endif
             {
-                axis = Interop.WVR_GetInputAnalogAxis (DeviceType, _id);
+                if (_connected)
+                    axis = Interop.WVR_GetInputAnalogAxis (_type, _id);
             }
 
             //Log.d (LOG_TAG, "GetAxis: {" + axis.x + ", " + axis.y + "}");
@@ -610,15 +709,34 @@ public class WaveVR_ControllerListener : MonoBehaviour
             WVR_InputId _id = WVR_InputId.WVR_InputId_Alias1_Touchpad
         )
         {
+            bool _connected = false;
+            WVR_DeviceType _type = this.DeviceType;
+            #if UNITY_EDITOR || UNITY_STANDALONE
+            if (isEditorMode)
+            {
+                _connected = WaveVR_Controller.Input(this.DeviceType).connected;
+                _type = WaveVR_Controller.Input(this.DeviceType).DeviceType;
+            } else
+            #endif
+            {
+                if (WaveVR.Instance != null)
+                {
+                    WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.DeviceType);
+                    _connected = _device.connected;
+                    _type = _device.type;
+                }
+            }
+
             #if UNITY_EDITOR || UNITY_STANDALONE
             if (isEditorMode)
             {
                 var system = WaveVR_PoseSimulator.Instance;
-                system.TriggerHapticPulse (DeviceType, _id, _durationMicroSec);
+                system.TriggerHapticPulse (_type, _id, _durationMicroSec);
             } else
             #endif
             {
-                Interop.WVR_TriggerVibrator (DeviceType, _id, _durationMicroSec);
+                if (_connected)
+                    Interop.WVR_TriggerVibrator (DeviceType, _id, _durationMicroSec);
             }
         }
     } // Device

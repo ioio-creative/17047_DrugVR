@@ -35,11 +35,39 @@ public class WaveVR_PoseSimulator : MonoBehaviour
         pose_head.type = WVR_DeviceType.WVR_DeviceType_HMD;
         pose_right.type = WVR_DeviceType.WVR_DeviceType_Controller_Right;
         pose_right.pose.AngularVelocity.v0 = 0.1f;
-        pose_right.pose.AngularVelocity.v1 = 0.0f;
-        pose_right.pose.AngularVelocity.v2 = 0.0f;
+        pose_right.pose.AngularVelocity.v1 = 0.1f;
+        pose_right.pose.AngularVelocity.v2 = 0.1f;
         pose_right.pose.Velocity.v0 = 0.1f;
         pose_right.pose.Velocity.v1 = 0.0f;
         pose_right.pose.Velocity.v2 = 0.0f;
+    }
+
+    public WVR_Vector3f_t GetVelocity(WVR_DeviceType type)
+    {
+        WVR_Vector3f_t velocity = new WVR_Vector3f_t();
+        switch (type)
+        {
+        case WVR_DeviceType.WVR_DeviceType_Controller_Right:
+            velocity = pose_right.pose.Velocity;
+            break;
+        default:
+            break;
+        }
+        return velocity;
+    }
+
+    public WVR_Vector3f_t GetAngularVelocity(WVR_DeviceType type)
+    {
+        WVR_Vector3f_t av = new WVR_Vector3f_t();
+        switch (type)
+        {
+        case WVR_DeviceType.WVR_DeviceType_Controller_Right:
+            av = pose_right.pose.AngularVelocity;
+            break;
+        default:
+            break;
+        }
+        return av;
     }
 
     public WaveVR_Utils.RigidTransform GetRigidTransform(WVR_DeviceType type)

@@ -1,4 +1,4 @@
-﻿// "WaveVR SDK 
+// "WaveVR SDK
 // © 2017 HTC Corporation. All Rights Reserved.
 //
 // Unless otherwise required by copyright law and practice,
@@ -78,7 +78,6 @@ public class WaveVR_CameraTexture
 
     public bool startCamera()
     {
-        if (mStarted) return false;
         WaveVR_Utils.Event.Listen("StartCameraCompleted", OnStartCameraCompleted);
         WaveVR_Utils.Event.Listen("UpdateCameraCompleted", OnUpdateCameraCompleted);
 
@@ -109,6 +108,7 @@ public class WaveVR_CameraTexture
         WaveVR_Utils.Event.Remove("StartCameraCompleted", OnStartCameraCompleted);
         WaveVR_Utils.Event.Remove("UpdateCameraCompleted", OnUpdateCameraCompleted);
         WaveVR_Utils.SendRenderEvent(WaveVR_Utils.RENDEREVENTID_StopCamera);
+        mStarted = false;
     }
 
     public void updateTexture(uint textureId)

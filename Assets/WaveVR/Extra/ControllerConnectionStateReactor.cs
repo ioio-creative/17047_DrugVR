@@ -16,7 +16,15 @@ using WaveVR_Log;
 
 public class ControllerConnectionStateReactor : MonoBehaviour
 {
-    private static string LOG_TAG = "WVRConnReactor";
+    private static string LOG_TAG = "WaveVRConnReactor";
+    private void PrintDebugLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + " : " + this.type + ", " + msg);
+        #endif
+        Log.d (LOG_TAG, this.type + ", " + msg);
+    }
+
     public WVR_DeviceType type;
     private bool connected = false;
     public List<GameObject> targetGameObjects = new List<GameObject>();
@@ -52,7 +60,7 @@ public class ControllerConnectionStateReactor : MonoBehaviour
             // InputFocus changed!
             mFocusCapturedBySystem = focusCaptured;
 
-            Log.i(LOG_TAG, "device " + type + " is " + (mFocusCapturedBySystem == true ? " captured by system" : " not captured"));
+            PrintDebugLog ("Focus is " + (mFocusCapturedBySystem == true ? " captured by system" : " not captured"));
 
             setActive(!mFocusCapturedBySystem);
         }
@@ -60,21 +68,15 @@ public class ControllerConnectionStateReactor : MonoBehaviour
 
     private bool checkConnection()
     {
-        var wvr = WaveVR.Instance;
-        if (wvr != null)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                if (WaveVR.DeviceTypes [i] == type)
-                {
-                    return wvr.connected [i];
-                }
-            }
-            return false;
-        }
-        else
+        #if UNITY_EDITOR
+        if (Application.isEditor)
         {
             return false;
+        } else
+        #endif
+        {
+            WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.type);
+            return _device.connected;
         }
     }
 
@@ -88,33 +90,29 @@ public class ControllerConnectionStateReactor : MonoBehaviour
 
     private void onDeviceConnected(params object[] args)
     {
-        WVR_DeviceType type = this.type;
-        if (WaveVR_Controller.IsLeftHanded)
+        bool _connected = false;
+        WVR_DeviceType _type = this.type;
+
+        #if UNITY_EDITOR
+        if (Application.isEditor)
         {
-            switch (type)
-            {
-            case WVR_DeviceType.WVR_DeviceType_Controller_Right:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Left;
-                break;
-            case WVR_DeviceType.WVR_DeviceType_Controller_Left:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-                break;
-            default:
-                break;
-            }
+            _connected = WaveVR_Controller.Input (this.type).connected;
+            _type = WaveVR_Controller.Input(this.type).DeviceType;
+        }
+        else
+        #endif
+        {
+            WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.type);
+            _connected = _device.connected;
+            _type = _device.type;
         }
 
-        var _dt = (WVR_DeviceType)args[0];
-        var _connected = (bool)args[1];
-        Log.i (LOG_TAG, "device " + _dt + " is " + (_connected == true ? "connected" : "disconnected"));
+        PrintDebugLog ("onDeviceConnected() " + _type + " is " + (_connected ? "connected" : "disconnected") + ", left-handed? " + WaveVR_Controller.IsLeftHanded);
 
-        if (type == _dt)
+        if (connected != _connected)
         {
-            if (connected != _connected)
-            {
-                connected = _connected;
-                setActive (connected && (!mFocusCapturedBySystem));
-            }
+            connected = _connected;
+            setActive (connected && (!mFocusCapturedBySystem));
         }
     }
 }

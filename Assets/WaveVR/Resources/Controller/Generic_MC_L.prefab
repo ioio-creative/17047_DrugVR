@@ -35,8 +35,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4036334324818688}
-  - component: {fileID: 114512047275841026}
-  - component: {fileID: 114542894470898746}
+  - component: {fileID: 114996552971241606}
   m_Layer: 0
   m_Name: Generic_MC_L
   m_TagString: Untagged
@@ -802,42 +801,6 @@ MonoBehaviour:
   indices: 
   colors: []
   position: {x: 0, y: 0, z: 0}
---- !u!114 &114512047275841026
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1102708724814738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d98a4e659663d14e8649dd9b59479db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 3
-  inversePosition: 0
-  trackPosition: 0
-  inverseRotation: 0
-  trackRotation: 1
-  timing: 1
-  ElbowRaiseYaxis: 0
-  ElbowRaiseZaxis: 0
-  pointerTiltAngle: 15
---- !u!114 &114542894470898746
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1102708724814738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25dc0d1784c2b3344ae81331b55f899f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 3
-  targetGameObjects:
-  - {fileID: 1063556828822250}
-  - {fileID: 1919299144519652}
-  - {fileID: 1673920187775036}
 --- !u!114 &114592036329625416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -851,6 +814,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ListenToDevice: 1
   device: 3
+--- !u!114 &114996552971241606
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1102708724814738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997a0488225b80f47b7fdcd05319b85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 3
+  TrackPosition: 1
+  SimulationOption: 0
+  FollowHead: 0
+  TrackRotation: 1
+  TrackTiming: 1
+  IncludedObjects:
+  - {fileID: 1919299144519652}
+  - {fileID: 1063556828822250}
+  - {fileID: 1673920187775036}
 --- !u!198 &198265160407289850
 ParticleSystem:
   m_ObjectHideFlags: 1

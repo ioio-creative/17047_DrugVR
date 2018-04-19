@@ -7,8 +7,103 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine.EventSystems;
 
+#if UNITY_EDITOR
+using UnityEditor;
+
+[CustomEditor(typeof(WaveVR_ControllerLoader))]
+public class WaveVR_ControllerLoaderEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        WaveVR_ControllerLoader myScript = target as WaveVR_ControllerLoader;
+
+        myScript.WhichHand = (WaveVR_ControllerLoader.ControllerHand)EditorGUILayout.EnumPopup ("Type", myScript.WhichHand);
+        myScript.ControllerComponents = (WaveVR_ControllerLoader.CComponent)EditorGUILayout.EnumPopup ("Controller Components", myScript.ControllerComponents);
+
+        myScript.TrackPosition = EditorGUILayout.Toggle ("Track Position", myScript.TrackPosition);
+        if (true == myScript.TrackPosition)
+        {
+            myScript.SimulationOption = (WVR_SimulationOption)EditorGUILayout.EnumPopup ("    Simulate Position", myScript.SimulationOption);
+            if (myScript.SimulationOption == WVR_SimulationOption.ForceSimulation || myScript.SimulationOption == WVR_SimulationOption.WhenNoPosition)
+            {
+                myScript.FollowHead = (bool)EditorGUILayout.Toggle ("        Follow Head", myScript.FollowHead);
+            }
+        }
+
+        myScript.TrackRotation = EditorGUILayout.Toggle ("Track Rotation", myScript.TrackRotation);
+
+        EditorGUILayout.LabelField("Indication feature");
+        myScript.overwriteIndicatorSettings = EditorGUILayout.Toggle("Overwrite Indicator Settings", myScript.overwriteIndicatorSettings);
+        if (true == myScript.overwriteIndicatorSettings)
+        {
+            myScript.showIndicator = EditorGUILayout.Toggle("Show Indicator", myScript.showIndicator);
+            if (true == myScript.showIndicator)
+            {
+                myScript.hideIndicatorByRoll = EditorGUILayout.Toggle("Hide Indicator when roll angle > 90 ", myScript.hideIndicatorByRoll);
+                myScript.showIndicatorAngle = EditorGUILayout.FloatField("Show When Angle > ", myScript.showIndicatorAngle);
+                EditorGUILayout.Space();
+
+                EditorGUILayout.LabelField("Line customization");
+                myScript.lineLength = EditorGUILayout.FloatField("Line Length", myScript.lineLength);
+                myScript.lineStartWidth = EditorGUILayout.FloatField("Line Start Width", myScript.lineStartWidth);
+                myScript.lineEndWidth = EditorGUILayout.FloatField("Line End Width", myScript.lineEndWidth);
+                myScript.lineColor = EditorGUILayout.ColorField("Line Color", myScript.lineColor);
+                EditorGUILayout.Space();
+
+                EditorGUILayout.LabelField("Text customization");
+                myScript.textCharacterSize = EditorGUILayout.FloatField("Text Character Size", myScript.textCharacterSize);
+                myScript.zhCharactarSize = EditorGUILayout.FloatField("Chinese Character Size", myScript.zhCharactarSize);
+                myScript.textFontSize = EditorGUILayout.IntField("Text Font Size", myScript.textFontSize);
+                myScript.textColor = EditorGUILayout.ColorField("Text Color", myScript.textColor);
+                EditorGUILayout.Space();
+
+                EditorGUILayout.LabelField("Key indication");
+                var list = myScript.buttonIndicationList;
+
+                int newCount = Mathf.Max(0, EditorGUILayout.IntField("Button indicator size", list.Count));
+
+                while (newCount < list.Count)
+                    list.RemoveAt(list.Count - 1);
+                while (newCount > list.Count)
+                    list.Add(new ButtonIndication());
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    EditorGUILayout.LabelField("Button indication " + i);
+                    myScript.buttonIndicationList[i].keyType = (ButtonIndication.KeyIndicator)EditorGUILayout.EnumPopup("Key Type", myScript.buttonIndicationList[i].keyType);
+                    myScript.buttonIndicationList[i].alignment = (ButtonIndication.Alignment)EditorGUILayout.EnumPopup("Alignment", myScript.buttonIndicationList[i].alignment);
+                    myScript.buttonIndicationList[i].indicationOffset = EditorGUILayout.Vector3Field("Indication offset", myScript.buttonIndicationList[i].indicationOffset);
+                    myScript.buttonIndicationList[i].indicationText = EditorGUILayout.TextField("Indication text", myScript.buttonIndicationList[i].indicationText);
+                    myScript.buttonIndicationList[i].followButtonRotation = EditorGUILayout.Toggle("Follow button rotation", myScript.buttonIndicationList[i].followButtonRotation);
+                    EditorGUILayout.Space();
+                }
+            }
+        }
+
+        if (GUI.changed)
+            EditorUtility.SetDirty ((WaveVR_ControllerLoader)target);
+    }
+}
+#endif
+
 public class WaveVR_ControllerLoader : MonoBehaviour {
     private static string LOG_TAG = "WaveVR_ControllerLoader";
+    private void PrintDebugLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + "  Hand: " + WhichHand + ", " + msg);
+        #endif
+        Log.d (LOG_TAG, "Hand: " + WhichHand + ", " + msg);
+    }
+
+    private void PrintInfoLog(string msg)
+    {
+        #if UNITY_EDITOR
+        PrintDebugLog(msg);
+        #endif
+        Log.i (LOG_TAG, "Hand: " + WhichHand + ", " + msg);
+    }
+
     public enum ControllerHand
     {
         Controller_Right,
@@ -23,19 +118,57 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
 
     public enum CTrackingSpace
     {
-        CTS_3DOF,
-        CTS_6DOF,
+        REAL_POSITION_ONLY,
+        FAKE_POSITION_ONLY,
+        AUTO_POSITION_ONLY,
+        ROTATION_ONLY,
+        ROTATION_AND_REAL_POSITION,
+        ROTATION_AND_FAKE_POSITION,
+        ROTATION_AND_AUTO_POSITION,
         CTS_SYSTEM
     };
 
+    [Header("Loading options")]
     public ControllerHand WhichHand = ControllerHand.Controller_Right;
     public CComponent ControllerComponents = CComponent.Multi_Component;
-    public CTrackingSpace TrackingMethod = CTrackingSpace.CTS_SYSTEM;
+    public bool TrackPosition = true;
+    public WVR_SimulationOption SimulationOption = WVR_SimulationOption.WhenNoPosition;
+    public bool FollowHead = false;
+    public bool TrackRotation = true;
+
+    [Header("Indication feature")]
+    public bool overwriteIndicatorSettings = true;
+    public bool showIndicator = false;
+    public bool hideIndicatorByRoll = true;
+
+    [Range(0, 90.0f)]
+    public float showIndicatorAngle = 30.0f;
+
+    [Header("Line customization")]
+    [Range(0.01f, 0.1f)]
+    public float lineLength = 0.03f;
+    [Range(0.0001f, 0.1f)]
+    public float lineStartWidth = 0.0004f;
+    [Range(0.0001f, 0.1f)]
+    public float lineEndWidth = 0.0004f;
+    public Color lineColor = Color.white;
+
+    [Header("Text customization")]
+    [Range(0.01f, 0.2f)]
+    public float textCharacterSize = 0.08f;
+    [Range(0.01f, 0.2f)]
+    public float zhCharactarSize = 0.07f;
+    [Range(50, 200)]
+    public int textFontSize = 100;
+    public Color textColor = Color.white;
+
+    [Header("Indications")]
+    public List<ButtonIndication> buttonIndicationList = new List<ButtonIndication>();
 
     private GameObject controllerPrefab = null;
     private GameObject originalControllerPrefab = null;
     private string controllerFileName = "";
-    private string controllerModelFolder = "Controller/";
+    private string controllerModelFoler = "Controller/";
     private string genericControllerFileName = "Generic_";
 
     private WVR_DeviceType deviceType = WVR_DeviceType.WVR_DeviceType_Controller_Right;
@@ -61,7 +194,8 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
 #if UNITY_EDITOR
         if (Application.isPlaying)
         {
-            if (deviceType == WVR_DeviceType.WVR_DeviceType_Controller_Right) onLoadController();
+            WVR_DeviceType _type = WaveVR_Controller.Input(this.deviceType).DeviceType;
+            onLoadController(_type);
             return;
         }
 #endif
@@ -80,45 +214,56 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
         WaveVR_Utils.Event.Remove(WaveVR_Utils.Event.DEVICE_CONNECTED, onDeviceConnected);
     }
     // Use this for initialization
-    void Start() {
-        if (checkConnection() != connected)
+    void Start()
+    {
+        if (checkConnection () != connected)
             connected = !connected;
 
-        if (connected) onLoadController();
+        if (connected)
+        {
+            WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.deviceType);
+            onLoadController (_device.type);
+        }
+
+        WaveVR_EventSystemControllerProvider.Instance.MarkControllerLoader (deviceType, true);
     }
 
     private void onDeviceConnected(params object[] args)
     {
-        var _dt = (WVR_DeviceType)args[0];
-        var _connected = (bool)args[1];
-        Log.i(LOG_TAG, "device " + _dt + " is " + (_connected == true ? "connected" : "disconnected"));
+        bool _connected = false;
+        WVR_DeviceType _type = this.deviceType;
 
-        if (deviceType == _dt)
+        #if UNITY_EDITOR
+        if (Application.isEditor)
         {
-            if (connected != _connected)
-            {
-                connected = _connected;
-            }
+            _connected = WaveVR_Controller.Input (this.deviceType).connected;
+            _type = WaveVR_Controller.Input(this.deviceType).DeviceType;
+        }
+        else
+        #endif
+        {
+            WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.deviceType);
+            _connected = _device.connected;
+            _type = _device.type;
+        }
 
-            if (connected)
-            {
-                if (controllerPrefab == null) onLoadController();
-            } else
-            {
-                Destroy(controllerPrefab);
-                Resources.UnloadUnusedAssets();  // this is temp solution to fix close suddenly issue, might it came from memory leak
-                                                 // to check memory leak when higher priority task is done.
-                controllerPrefab = null;
-                controllerFileName = "";
-                genericControllerFileName = "Generic_";
-                WaveVR_Utils.Event.Send(WaveVR_Utils.Event.CONTROLLER_MODEL_UNLOADED, deviceType);
-            }
+        PrintDebugLog ("onDeviceConnected() " + _type + " is " + (_connected ? "connected" : "disconnected") + ", left-handed? " + WaveVR_Controller.IsLeftHanded);
+
+        if (connected != _connected)
+        {
+            connected = _connected;
+        }
+
+        if (connected)
+        {
+            if (controllerPrefab == null) onLoadController (_type);
         }
     }
 
-    private void onLoadController() {
+    private void onLoadController(WVR_DeviceType type)
+    {
         // Make up file name
-        // Rule = 
+        // Rule =
         // ControllerModel_TrackingMethod_CComponent_Hand
 #if UNITY_EDITOR
         if (Application.isPlaying)
@@ -136,57 +281,42 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
                 genericControllerFileName += "L";
             }
 
-            originalControllerPrefab = Resources.Load(controllerModelFolder + genericControllerFileName) as GameObject;
+            originalControllerPrefab = Resources.Load(controllerModelFoler + genericControllerFileName) as GameObject;
             if (originalControllerPrefab == null)
             {
-                Debug.Log("Cant load generic controller model, Please check file under Resources/" + controllerModelFolder + genericControllerFileName + ".prefab is exist!");
+                PrintDebugLog("Cant load generic controller model, Please check file under Resources/" + controllerModelFoler + genericControllerFileName + ".prefab is exist!");
             }
             else
             {
-                Debug.Log(genericControllerFileName + " controller model is found!");
-                controllerPrefab = Instantiate(originalControllerPrefab, transform.position, transform.rotation);
+                PrintDebugLog(genericControllerFileName + " controller model is found!");
+                SetControllerOptions (originalControllerPrefab);
+                controllerPrefab = Instantiate(originalControllerPrefab);
                 controllerPrefab.transform.parent = this.transform.parent;
 
-                if (TrackingMethod == CTrackingSpace.CTS_6DOF)
-                {
-                    WaveVR_ControllerPoseTracker armComp = controllerPrefab.GetComponent<WaveVR_ControllerPoseTracker>();
-                    if (armComp != null)
-                    {
-                        armComp.trackPosition = true;
-                    }
-                    Debug.Log("Controller model CTS_USE_Position");
-                }
-
-                Debug.Log("Controller model loaded");
+                PrintDebugLog("Controller model loaded");
+                ApplyIndicatorParameters();
                 if (onControllerModelLoaded != null)
                 {
-                    Debug.Log("trigger delegate");
+                    PrintDebugLog("trigger delegate");
                     onControllerModelLoaded(controllerPrefab);
                 }
+
+                WaveVR_EventSystemControllerProvider.Instance.SetControllerModel(deviceType, controllerPrefab);
             }
             return;
         }
 #endif
-        if (WhichHand == ControllerHand.Controller_Right)
-        {
-            deviceType = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-        }
-        else
-        {
-            deviceType = WVR_DeviceType.WVR_DeviceType_Controller_Left;
-        }
-
         string parameterName = "GetRenderModelName";
         IntPtr ptrParameterName = Marshal.StringToHGlobalAnsi(parameterName);
 
         IntPtr ptrResult = Marshal.AllocHGlobal(30);
         uint resultVertLength = 30;
 
-        Interop.WVR_GetParameters(deviceType, ptrParameterName, ptrResult, resultVertLength);
+        Interop.WVR_GetParameters (type, ptrParameterName, ptrResult, resultVertLength);
 
         string renderModelName = Marshal.PtrToStringAnsi(ptrResult);
 
-        Log.i(LOG_TAG, "get controller id from runtime is " + renderModelName);
+        PrintInfoLog("get controller id from runtime is " + renderModelName);
 
         controllerFileName += renderModelName;
         controllerFileName += "_";
@@ -209,9 +339,9 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
             controllerFileName += "L";
         }
 
-        Log.i(LOG_TAG, "controller file name is " + controllerFileName);
+        PrintInfoLog("controller file name is " + controllerFileName);
 
-        originalControllerPrefab = Resources.Load(controllerModelFolder + controllerFileName) as GameObject;
+        originalControllerPrefab = Resources.Load(controllerModelFoler + controllerFileName) as GameObject;
         var found = true;
 
         if (originalControllerPrefab == null)
@@ -225,51 +355,45 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
                 genericControllerFileName += "MC_L";
             }
             Log.w(LOG_TAG, "cant find preferred controller model, load generic controller : " + genericControllerFileName);
-            Log.i(LOG_TAG, "Please download controller model from .... to have better experience!");
-            originalControllerPrefab = Resources.Load(controllerModelFolder + genericControllerFileName) as GameObject;
+            PrintInfoLog("Please download controller model from .... to have better experience!");
+            originalControllerPrefab = Resources.Load(controllerModelFoler + genericControllerFileName) as GameObject;
             if (originalControllerPrefab == null)
             {
-                Log.e(LOG_TAG, "Cant load generic controller model, Please check file under Resources/" + controllerModelFolder + genericControllerFileName + ".prefab is exist!");
+                Log.e(LOG_TAG, "Cant load generic controller model, Please check file under Resources/" + controllerModelFoler + genericControllerFileName + ".prefab is exist!");
                 found = false;
             } else
             {
-                Log.i(LOG_TAG, genericControllerFileName + " controller model is found!");
+                PrintInfoLog(genericControllerFileName + " controller model is found!");
             }
         } else
         {
-            Log.i(LOG_TAG, controllerFileName + " controller model is found!");
+            PrintInfoLog(controllerFileName + " controller model is found!");
         }
 
         if (found)
         {
-            controllerPrefab = Instantiate(originalControllerPrefab, transform.position, transform.rotation);
+            SetControllerOptions (originalControllerPrefab);
+            controllerPrefab = Instantiate (originalControllerPrefab);
             controllerPrefab.transform.parent = this.transform.parent;
-
-            if (TrackingMethod == CTrackingSpace.CTS_SYSTEM)
-            {
-                if (WaveVR.Instance.is6DoFTracking() == 6)
-                {
-                    WaveVR_ControllerPoseTracker armComp = controllerPrefab.GetComponent<WaveVR_ControllerPoseTracker>();
-                    if (armComp != null)
-                    {
-                        armComp.trackPosition = true;
-                    }
-                    Log.i(LOG_TAG, "Controller model CTS_ENABLE_ArmModel (CTS_SYSTEM = 6DOF)");
-                }
-            } else if (TrackingMethod == CTrackingSpace.CTS_6DOF)
-            {
-                WaveVR_ControllerPoseTracker armComp = controllerPrefab.GetComponent<WaveVR_ControllerPoseTracker>();
-                if (armComp != null)
-                {
-                    armComp.trackPosition = true;
-                }
-                Log.i(LOG_TAG, "Controller model CTS_ENABLE_ArmModel (force enable)");
-            }
+            ApplyIndicatorParameters();
 
             WaveVR_Utils.Event.Send(WaveVR_Utils.Event.CONTROLLER_MODEL_LOADED, deviceType, controllerPrefab);
+            WaveVR_EventSystemControllerProvider.Instance.SetControllerModel (deviceType, controllerPrefab);
         }
         Marshal.FreeHGlobal(ptrParameterName);
         Marshal.FreeHGlobal(ptrResult);
+    }
+
+    private void SetControllerOptions(GameObject controller_prefab)
+    {
+        WaveVR_PoseTrackerManager _ptm = controller_prefab.GetComponent<WaveVR_PoseTrackerManager> ();
+        if (_ptm != null)
+        {
+            _ptm.TrackPosition = TrackPosition;
+            _ptm.SimulationOption = SimulationOption;
+            _ptm.FollowHead = FollowHead;
+            _ptm.TrackRotation = TrackRotation;
+        }
     }
 	
 	// Update is called once per frame
@@ -278,21 +402,84 @@ public class WaveVR_ControllerLoader : MonoBehaviour {
 
     private bool checkConnection()
     {
-        var wvr = WaveVR.Instance;
-        if (wvr != null)
+        #if UNITY_EDITOR
+        if (Application.isEditor)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                if (WaveVR.DeviceTypes[i] == deviceType)
-                {
-                    return wvr.connected[i];
-                }
-            }
             return false;
+        } else
+        #endif
+        {
+            WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.deviceType);
+            return _device.connected;
         }
-        else
+    }
+
+    private void ApplyIndicatorParameters()
+    {
+        if (!overwriteIndicatorSettings) return;
+        WaveVR_ShowIndicator si = null;
+
+        var ch = controllerPrefab.transform.childCount;
+        bool found = false;
+
+        for (int i = 0; i < ch; i++)
         {
-            return false;
+            PrintInfoLog(controllerPrefab.transform.GetChild(i).gameObject.name);
+
+            GameObject CM = controllerPrefab.transform.GetChild(i).gameObject;
+
+            si = CM.GetComponentInChildren<WaveVR_ShowIndicator>();
+
+            if (si != null)
+            {
+                found = true;
+                break;
+            }
+        }
+
+
+        if (found)
+        {
+            PrintInfoLog("WaveVR_ControllerLoader forced update WaveVR_ShowIndicator parameter!");
+            si.showIndicator = this.showIndicator;
+
+            if (showIndicator != true)
+            {
+                PrintInfoLog("WaveVR_ControllerLoader forced don't show WaveVR_ShowIndicator!");
+                return;
+            }
+            si.showIndicator = this.showIndicator;
+            si.showIndicatorAngle = showIndicatorAngle;
+            si.hideIndicatorByRoll = hideIndicatorByRoll;
+            si.lineColor = lineColor;
+            si.lineEndWidth = lineEndWidth;
+            si.lineStartWidth = lineStartWidth;
+            si.lineLength = lineLength;
+            si.textCharacterSize = textCharacterSize;
+            si.zhCharactarSize = zhCharactarSize;
+            si.textColor = textColor;
+            si.textFontSize = textFontSize;
+
+            if (buttonIndicationList.Count == 0)
+            {
+                PrintInfoLog("WaveVR_ControllerLoader uses controller model default button indication!");
+                return;
+            }
+            PrintInfoLog("WaveVR_ControllerLoader uses customized button indication!");
+            si.buttonIndicationList.Clear();
+            foreach (ButtonIndication bi in buttonIndicationList)
+            {
+                PrintInfoLog("indication: "+ bi.indicationText);
+                PrintInfoLog("alignment: " + bi.alignment);
+                PrintInfoLog("offset: " + bi.indicationOffset);
+                PrintInfoLog("keyType: " + bi.keyType);
+                PrintInfoLog("followRotation: " + bi.followButtonRotation);
+
+                si.buttonIndicationList.Add(bi);
+            }
+        } else
+        {
+            PrintInfoLog("Controller model doesn't support button indication feature!");
         }
     }
 }

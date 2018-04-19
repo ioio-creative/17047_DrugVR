@@ -27,41 +27,21 @@ public sealed class WaveVR_DevicePoseTracker : MonoBehaviour
     public bool inverseRotation = false;
     public bool trackRotation = true;
 
-    public enum TrackingEvent {
-        WhenUpdate,  // Pose will delay one frame.
-        WhenNewPoses
-    };
+    public WVR_TrackTiming timing = WVR_TrackTiming.WhenNewPoses;
 
-    public TrackingEvent timing = TrackingEvent.WhenNewPoses;
-
+    #if UNITY_EDITOR
     private WVR_DevicePosePair_t wvr_pose = new WVR_DevicePosePair_t ();
     private WaveVR_Utils.RigidTransform rigid_pose = WaveVR_Utils.RigidTransform.identity;
+    #endif
 
     void Update()
     {
-        if (timing == TrackingEvent.WhenNewPoses)
+        if (timing == WVR_TrackTiming.WhenNewPoses)
             return;
         if (WaveVR.Instance == null)
             return;
 
-        WVR_DeviceType type = this.type;
-
-        if (WaveVR_Controller.IsLeftHanded)
-        {
-            switch (this.type)
-            {
-            case WVR_DeviceType.WVR_DeviceType_Controller_Right:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Left;
-                break;
-            case WVR_DeviceType.WVR_DeviceType_Controller_Left:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-                break;
-            default:
-                break;
-            }
-        }
-
-        WaveVR.Device device = WaveVR.Instance.getDeviceByType (type);
+        WaveVR.Device device = WaveVR.Instance.getDeviceByType (this.type);
         if (device.connected)
         {
             updatePose (device.pose, device.rigidTransform);
@@ -72,41 +52,20 @@ public sealed class WaveVR_DevicePoseTracker : MonoBehaviour
     /// if device connected, get new pose, then update new position and rotation of transform
     private void OnNewPoses(params object[] args)
     {
-        WVR_DeviceType type = this.type;
-        if (WaveVR_Controller.IsLeftHanded)
-        {
-            switch (this.type)
-            {
-            case WVR_DeviceType.WVR_DeviceType_Controller_Right:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Left;
-                break;
-            case WVR_DeviceType.WVR_DeviceType_Controller_Left:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-                break;
-            default:
-                break;
-            }
-        }
-
         #if UNITY_EDITOR
         if (Application.isEditor)
         {
+            WVR_DeviceType _type = WaveVR_Controller.Input(this.type).DeviceType;
             var system = WaveVR_PoseSimulator.Instance;
-            system.GetTransform (type, ref wvr_pose, ref rigid_pose);
+            system.GetTransform (_type, ref wvr_pose, ref rigid_pose);
             updatePose (wvr_pose, rigid_pose);
         } else
         #endif
         {
-            var poses = (WVR_DevicePosePair_t[])args [0];
-            var rtPoses = (WaveVR_Utils.RigidTransform[])args [1];
-
-            for (int i = 0; i < poses.Length; i++)
+            WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.type);
+            if (_device.connected && _device.rigidTransform != null)
             {
-                if (poses [i].type == type && poses [i].pose.IsValidPose)
-                {
-                    updatePose (poses [i], rtPoses [i]);
-                    break;
-                }
+                updatePose (_device.pose, _device.rigidTransform);
             }
         }
     }
@@ -133,13 +92,13 @@ public sealed class WaveVR_DevicePoseTracker : MonoBehaviour
 
     void OnEnable()
     {
-        if (timing == TrackingEvent.WhenNewPoses)
+        if (timing == WVR_TrackTiming.WhenNewPoses)
             WaveVR_Utils.Event.Listen(WaveVR_Utils.Event.NEW_POSES, OnNewPoses);
     }
 
     void OnDisable()
     {
-        if (timing == TrackingEvent.WhenNewPoses)
+        if (timing == WVR_TrackTiming.WhenNewPoses)
             WaveVR_Utils.Event.Remove(WaveVR_Utils.Event.NEW_POSES, OnNewPoses);
     }
 }

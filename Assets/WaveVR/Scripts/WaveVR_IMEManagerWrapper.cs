@@ -1,4 +1,4 @@
-﻿// "WaveVR SDK 
+// "WaveVR SDK 
 // © 2017 HTC Corporation. All Rights Reserved.
 //
 // Unless otherwise required by copyright law and practice,
@@ -7,6 +7,9 @@
 // You shall fully comply with all of HTC’s SDK license agreement terms and
 // conditions signed by you and all SDK and API requirements,
 // specifications, and documentation provided by HTC to You."
+
+#pragma warning disable 0219
+#pragma warning disable 0414
 
 using WaveVR_Log;
 

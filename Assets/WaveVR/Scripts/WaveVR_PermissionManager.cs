@@ -1,4 +1,4 @@
-﻿// "WaveVR SDK 
+﻿// "WaveVR SDK"  
 // © 2017 HTC Corporation. All Rights Reserved.
 //
 // Unless otherwise required by copyright law and practice,
@@ -93,9 +93,23 @@ public class WaveVR_PermissionManager {
             return;
         }
 
-        mCallback = cb;
-
-        permissionsManager.Call("requestPermissions", javaArrayFromCS(permissions), new RequestCompleteHandler());
+        if(!permissionsManager.Call<bool>("isShow2D"))
+        {
+           mCallback = cb;
+           permissionsManager.Call("requestPermissions", javaArrayFromCS(permissions), new RequestCompleteHandler());
+        }
+        else
+        {
+            mCallback = cb;
+            using (AndroidJavaClass jc = new AndroidJavaClass ("com.unity3d.player.UnityPlayer"))
+    		{
+			    using (AndroidJavaObject jo=jc.GetStatic<AndroidJavaObject>("currentActivity"))
+                {
+                    jo.Call("setRequestPermissionCallback", new RequestCompleteHandler());
+			    }
+		    }
+            permissionsManager.Call("requestPermissions", javaArrayFromCS(permissions), new RequestCompleteHandler());
+        }     
     }
 
     public bool isPermissionGranted(string permission)

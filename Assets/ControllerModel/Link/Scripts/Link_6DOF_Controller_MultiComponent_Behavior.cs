@@ -1,4 +1,4 @@
-﻿// "WaveVR SDK 
+// "WaveVR SDK 
 // © 2017 HTC Corporation. All Rights Reserved.
 //
 // Unless otherwise required by copyright law and practice,
@@ -16,6 +16,13 @@ using WaveVR_Log;
 
 public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
     private static string LOG_TAG = "Link_6DOF_CTR_Behavior";
+    private void PrintDebugLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + ": device: " + device + ", " + msg);
+        #endif
+        Log.d (LOG_TAG, "device: " + device + ", " + msg);
+    }
 
     public WVR_DeviceType device = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     public GameObject TriggerButtonPress_Effect = null;
@@ -34,12 +41,32 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
 
     void OnEnable()
     {
+        resetButtonState();
         WaveVR_Utils.Event.Listen(WaveVR_Utils.Event.BATTERY_STATUS_UPDATE, onBatteryStatusUpdate);
     }
 
     void OnDisable()
     {
         WaveVR_Utils.Event.Remove(WaveVR_Utils.Event.BATTERY_STATUS_UPDATE, onBatteryStatusUpdate);
+    }
+
+    void resetButtonState()
+    {
+        Log.d(LOG_TAG, "reset button state");
+        if (Touch_Effect != null)
+        {
+            Touch_Effect.SetActive(false);
+        }
+
+        if (TriggerButtonPress_Effect != null)
+        {
+            TriggerButtonPress_Effect.SetActive(false);
+        }
+
+        if (MenuButtonPress_Effect != null)
+        {
+            MenuButtonPress_Effect.SetActive(false);
+        }
     }
 
     private void onBatteryStatusUpdate(params object[] args)
@@ -91,7 +118,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         }
 
         //WVR_InputId_Alias1_Menu
-        if (WaveVR_Controller.Input(device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Menu))
+        if (WaveVR_Controller.Input(this.device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Menu))
         {
             if (MenuButtonPress_Effect != null)
             {
@@ -99,14 +126,14 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
         // button pressed
-        if (WaveVR_Controller.Input(device).GetPress(WVR_InputId.WVR_InputId_Alias1_Menu))
+        if (WaveVR_Controller.Input(this.device).GetPress(WVR_InputId.WVR_InputId_Alias1_Menu))
         {
             if (MenuButtonPress_Effect != null)
             {
                 MenuButtonPress_Effect.SetActive(true);
             }
         }
-        if (WaveVR_Controller.Input(device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Menu))
+        if (WaveVR_Controller.Input(this.device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Menu))
         {
             if (MenuButtonPress_Effect != null)
             {
@@ -115,7 +142,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         }
 
         //WVR_InputId_Alias1_Touchpad
-        if (WaveVR_Controller.Input(device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        if (WaveVR_Controller.Input(this.device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Touchpad))
         {
             if (Touch_Effect != null)
             {
@@ -123,7 +150,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
 
-        if (WaveVR_Controller.Input(device).GetPress(WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        if (WaveVR_Controller.Input(this.device).GetPress(WVR_InputId.WVR_InputId_Alias1_Touchpad))
         {
             if (Touch_Effect != null)
             {
@@ -131,7 +158,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
 
-        if (WaveVR_Controller.Input(device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        if (WaveVR_Controller.Input(this.device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Touchpad))
         {
             if (Touch_Effect != null)
             {
@@ -139,7 +166,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
         // button touch down
-        if (WaveVR_Controller.Input(device).GetTouchDown(WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        if (WaveVR_Controller.Input(this.device).GetTouchDown(WVR_InputId.WVR_InputId_Alias1_Touchpad))
         {
             if (Touch_Effect != null)
             {
@@ -148,7 +175,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         }
 
         // button touch up
-        if (WaveVR_Controller.Input(device).GetTouchUp(WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        if (WaveVR_Controller.Input(this.device).GetTouchUp(WVR_InputId.WVR_InputId_Alias1_Touchpad))
         {
             if (Touch_Effect != null)
             {
@@ -156,9 +183,9 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
         // button touched
-        if (WaveVR_Controller.Input(device).GetTouch(WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        if (WaveVR_Controller.Input(this.device).GetTouch(WVR_InputId.WVR_InputId_Alias1_Touchpad))
         {
-            var axis = WaveVR_Controller.Input(device).GetAxis(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            var axis = WaveVR_Controller.Input(this.device).GetAxis(WVR_InputId.WVR_InputId_Alias1_Touchpad);
 
             float xangle = axis.x/100, yangle = axis.y/100;
             Log.d(LOG_TAG, "WVR_InputId_Alias1_Touchpad axis xangle: " + xangle + ", yangle: " + yangle);
@@ -176,7 +203,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         }
 
         //WVR_InputId_Alias1_Grip
-        if (WaveVR_Controller.Input(device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Grip))
+        if (WaveVR_Controller.Input(this.device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Grip))
         {
             if (TriggerButtonPress_Effect != null)
             {
@@ -185,7 +212,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         }
 
         // button pressed
-        if (WaveVR_Controller.Input(device).GetPress(WVR_InputId.WVR_InputId_Alias1_Grip))
+        if (WaveVR_Controller.Input(this.device).GetPress(WVR_InputId.WVR_InputId_Alias1_Grip))
         {
             if (TriggerButtonPress_Effect != null)
             {
@@ -193,7 +220,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
 
-        if (WaveVR_Controller.Input(device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Grip))
+        if (WaveVR_Controller.Input(this.device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Grip))
         {
             if (TriggerButtonPress_Effect != null)
             {
@@ -202,7 +229,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         }
 
         //WVR_InputId_Alias1_Trigger
-        if (WaveVR_Controller.Input(device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Trigger))
+        if (WaveVR_Controller.Input(this.device).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Trigger))
         {
             if (TriggerButtonPress_Effect != null)
             {
@@ -210,7 +237,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
         // button pressed
-        if (WaveVR_Controller.Input(device).GetPress(WVR_InputId.WVR_InputId_Alias1_Trigger))
+        if (WaveVR_Controller.Input(this.device).GetPress(WVR_InputId.WVR_InputId_Alias1_Trigger))
         {
             if (TriggerButtonPress_Effect != null)
             {
@@ -218,7 +245,7 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
             }
         }
 
-        if (WaveVR_Controller.Input(device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Trigger))
+        if (WaveVR_Controller.Input(this.device).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Trigger))
         {
             if (TriggerButtonPress_Effect != null)
             {
@@ -227,18 +254,18 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         }
 
         // button touch down
-        if (WaveVR_Controller.Input(device).GetTouchDown(WVR_InputId.WVR_InputId_Alias1_Trigger))
+        if (WaveVR_Controller.Input(this.device).GetTouchDown(WVR_InputId.WVR_InputId_Alias1_Trigger))
         {
             // do nothing
         }
 
         // button touch up
-        if (WaveVR_Controller.Input(device).GetTouchUp(WVR_InputId.WVR_InputId_Alias1_Trigger))
+        if (WaveVR_Controller.Input(this.device).GetTouchUp(WVR_InputId.WVR_InputId_Alias1_Trigger))
         {
             // do nothing
         }
         // button touched
-        if (WaveVR_Controller.Input(device).GetTouch(WVR_InputId.WVR_InputId_Alias1_Trigger))
+        if (WaveVR_Controller.Input(this.device).GetTouch(WVR_InputId.WVR_InputId_Alias1_Trigger))
         {
             // do nothing
         }
@@ -249,11 +276,12 @@ public class Link_6DOF_Controller_MultiComponent_Behavior : MonoBehaviour {
         if (Application.isEditor)
             return false;
 
-        float batteryPer = Interop.WVR_GetDeviceBatteryPercentage(device);
-        Log.d(LOG_TAG, "BatteryPercentage device: " + device + ", percentage: " + batteryPer);
+        WVR_DeviceType _type = WaveVR_Controller.Input(this.device).DeviceType;
+        float batteryPer = Interop.WVR_GetDeviceBatteryPercentage(_type);
+        PrintDebugLog ("updateBatteryInfo() _type: " + _type + ", percentage: " + batteryPer);
         if (batteryPer < 0)
         {
-            Log.d(LOG_TAG, "device: " + device + " BatteryPercentage is negative, return false");
+            PrintDebugLog ("updateBatteryInfo() _type: " + _type + " BatteryPercentage is negative, return false");
             return false;
         }
 

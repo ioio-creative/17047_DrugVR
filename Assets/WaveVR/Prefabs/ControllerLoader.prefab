@@ -53,4 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WhichHand: 0
   ControllerComponents: 1
-  TrackingMethod: 1
+  TrackPosition: 1
+  SimulationOption: 0
+  FollowHead: 0
+  TrackRotation: 1

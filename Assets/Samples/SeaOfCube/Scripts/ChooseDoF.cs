@@ -31,6 +31,8 @@ public class ChooseDoF : MonoBehaviour {
         // Global find
         GameObject body3DOF = transform.root.Find("Body3DOF").gameObject;
         GameObject body6DOF = transform.root.Find("Body6DOF").gameObject;
+        GameObject followHMDPosition = transform.root.Find("FollowHMDPosition").gameObject;
+        GameObject followHMDRotation = transform.root.Find("FollowHMDRotation").gameObject;
 
         // Children find
         //GameObject body1 = transform.Find("Body1").gameObject;
@@ -40,6 +42,8 @@ public class ChooseDoF : MonoBehaviour {
         {
             case TrackingSpace.TS_3DOF:
                 WaveVR_Render.globalOrigin = (int)WVR_PoseOriginModel.WVR_PoseOriginModel_OriginOnHead_3DoF;
+                followHMDPosition.GetComponentInChildren<WaveVR_DevicePoseTracker>().trackPosition = false;
+                followHMDRotation.GetComponentInChildren<WaveVR_DevicePoseTracker>().trackPosition = false;
                 body3DOF.SetActive(true);
                 break;
             case TrackingSpace.TS_6DOF_Ground:

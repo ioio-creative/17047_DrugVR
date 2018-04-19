@@ -36,6 +36,13 @@ public class WaveVR_RaycastEditor : Editor
 /// </summary>
 public class WaveVR_Raycast : MonoBehaviour {
     private static string LOG_TAG = "WaveVR_Raycast";
+    private void PrintDebugLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + " : " + this.index + ", " + msg);
+        #endif
+        Log.d (LOG_TAG, this.index + ", " + msg);
+    }
 
     #region public variables specified by developer
     /**
@@ -114,17 +121,30 @@ public class WaveVR_Raycast : MonoBehaviour {
     }
 
     #region device and RenderModel status
-    private void OnDeviceConnected(params object[] args)
+    private void onDeviceConnected(params object[] args)
     {
-        var device = (WVR_DeviceType)args[0];
-        var connected = (bool)args[1];
-        Log.i (LOG_TAG, "device " + device + " is " + (connected == true ? "connected" : "disconnected"));
+        bool _connected = false;
+        WVR_DeviceType _type = this.index;
 
-        if (index != device)    // check if the role of connected device is equivallent to developer specified index.
-            return;
+        #if UNITY_EDITOR
+        if (Application.isEditor)
+        {
+            _connected = WaveVR_Controller.Input (this.index).connected;
+            _type = WaveVR_Controller.Input(this.index).DeviceType;
+        }
+        else
+        #endif
+        {
+            WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.index);
+            _connected = _device.connected;
+            _type = _device.type;
+        }
+
+        PrintDebugLog ("onDeviceConnected() " + _type + " is " + (_connected ? "connected" : "disconnected") + ", left-handed? " + WaveVR_Controller.IsLeftHanded);
+
         if (lr != null)
         {
-            lr.enabled = connected;
+            lr.enabled = _connected;
         }
     }
 
@@ -183,11 +203,11 @@ public class WaveVR_Raycast : MonoBehaviour {
                 if (WaveVR.Instance.connected [i])
                 {
                     Log.i (LOG_TAG, "OnEnable, device " + WaveVR.DeviceTypes[i] + " is connected.");
-                    OnDeviceConnected (WaveVR.DeviceTypes [i], true);
+                    onDeviceConnected (WaveVR.DeviceTypes [i], true);
                 }
             }
 
-            WaveVR_Utils.Event.Listen (WaveVR_Utils.Event.DEVICE_CONNECTED, OnDeviceConnected);
+            WaveVR_Utils.Event.Listen (WaveVR_Utils.Event.DEVICE_CONNECTED, onDeviceConnected);
             WaveVR_Utils.Event.Listen ("render_model_loaded", OnRenderModelLoaded);
         }
     }
@@ -196,7 +216,7 @@ public class WaveVR_Raycast : MonoBehaviour {
     {
         if (ListenToDevice)
         {
-            WaveVR_Utils.Event.Remove (WaveVR_Utils.Event.DEVICE_CONNECTED, OnDeviceConnected);
+            WaveVR_Utils.Event.Remove (WaveVR_Utils.Event.DEVICE_CONNECTED, onDeviceConnected);
             WaveVR_Utils.Event.Remove ("render_model_loaded", OnRenderModelLoaded);
         }
     }

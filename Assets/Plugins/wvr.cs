@@ -29,7 +29,7 @@ namespace wvr
         // Button press and touch state.
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetInputDeviceState", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool WVR_GetInputDeviceState(WVR_DeviceType type, uint inputMask, ref uint buttons, ref uint touches,
-            [In, Out] WVR_AnalogState_t[] analogArray, int analogArrayCount);
+            [In, Out] WVR_AnalogState_t[] analogArray, uint analogArrayCount);
 
         // Count of specified button type.
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetInputTypeCount", CallingConvention = CallingConvention.Cdecl)]
@@ -121,12 +121,18 @@ namespace wvr
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetInitErrorString", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr WVR_GetInitErrorString(WVR_InitError error);
 
+        [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetWaveRuntimeVersion", CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint WVR_GetWaveRuntimeVersion();
+
+        [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetWaveSDKVersion", CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint WVR_GetWaveSDKVersion();
+
         // wvr_system.h
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_IsInputFocusCapturedBySystem", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool WVR_IsInputFocusCapturedBySystem();
 
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_RenderInit", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void WVR_RenderInit(ref WVR_RenderInitParams_t param);
+        internal static extern WVR_RenderError WVR_RenderInit(ref WVR_RenderInitParams_t param);
 
         // wvr_camera.h
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_StartCamera", CallingConvention = CallingConvention.Cdecl)]
@@ -139,7 +145,7 @@ namespace wvr
         public static extern bool WVR_UpdateTexture(uint textureid );
 
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetCameraIntrinsic", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool WVR_GetCameraIntrinsic(ref WVR_CameraPosition position, ref WVR_CameraIntrinsic_t intrinsic);
+        public static extern bool WVR_GetCameraIntrinsic(WVR_CameraPosition position, ref WVR_CameraIntrinsic_t intrinsic);
 
         // wvr_device.h
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_IsDeviceSuspend", CallingConvention = CallingConvention.Cdecl)]
@@ -150,6 +156,9 @@ namespace wvr
 
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetDegreeOfFreedom", CallingConvention = CallingConvention.Cdecl)]
         public static extern WVR_NumDoF WVR_GetDegreeOfFreedom(WVR_DeviceType type);
+
+        [DllImportAttribute("wvr_api", EntryPoint = "WVR_SetParameters", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void WVR_SetParameters(WVR_DeviceType type, IntPtr pchValue);
 
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetParameters", CallingConvention = CallingConvention.Cdecl)]
         public static extern uint WVR_GetParameters(WVR_DeviceType type, IntPtr pchValue, IntPtr retValue, uint unBufferSize);
@@ -171,16 +180,19 @@ namespace wvr
         public static extern WVR_Matrix4f_t  WVR_GetTransformFromEyeToHead(WVR_Eye eye, WVR_NumDoF dof);
 
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_SubmitFrame", CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint WVR_SubmitFrame(WVR_Eye eye, ref WVR_TextureParams_t param, ref WVR_Pose_t pose, WVR_SubmitExtend extendMethod);
+        public static extern WVR_SubmitError WVR_SubmitFrame(WVR_Eye eye, ref WVR_TextureParams_t param, ref WVR_PoseState_t pose, WVR_SubmitExtend extendMethod);
 
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_RequestScreenshot", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool WVR_RequestScreenshot(uint width, uint height, WVR_ScreenshotMode mode, IntPtr filename);
 
+        [DllImportAttribute("wvr_api", EntryPoint = "WVR_RenderMask", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void WVR_RenderMask(WVR_Eye eye);
+
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetRenderProps", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void WVR_GetRenderProps(ref WVR_RenderProps_t props);
+        public static extern bool WVR_GetRenderProps(ref WVR_RenderProps_t props);
 
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_ObtainTextureQueue", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr WVR_ObtainTextureQueue(WVR_ETextureTarget target, WVR_TextureFormat format, WVR_TextureType type, uint width, uint height, int level);
+        public static extern IntPtr WVR_ObtainTextureQueue(WVR_TextureTarget target, WVR_TextureFormat format, WVR_TextureType type, uint width, uint height, int level);
 
         [DllImportAttribute("wvr_api", EntryPoint = "WVR_GetTextureQueueLength", CallingConvention = CallingConvention.Cdecl)]
         public static extern uint WVR_GetTextureQueueLength(IntPtr handle);
@@ -210,13 +222,16 @@ namespace wvr
 
     public enum WVR_EventType
     {
+        WVR_EventType_Quit                               = 99,
+
         /* Device events region */
         WVR_EventType_DeviceConnected                    = 100,
         WVR_EventType_DeviceDisconnected                 = 101,
+        WVR_EventType_DeviceStatusUpdate                 = 102,   // Occur when DeviceService's device configure change
+        WVR_EventType_IpdChanged                         = 105,   // HMD only
         WVR_EventType_DeviceSuspend                      = 106,   // HMD only
         WVR_EventType_DeviceResume                       = 107,   // HMD only
-        WVR_EventType_DeviceStatusUpdate                 = 102,   // Occur when DeviceService's device configure change
-        WVR_EventType_IpdUpdate                          = 105,   // HMD only
+        WVR_EventType_DeviceRoleChanged                  = 108,
         WVR_EventType_BatteryStatus_Update               = 30004,
         WVR_EventType_ChargeStatus_Update                = 30005, // HMD
         WVR_EventType_DeviceErrorStatus_Update           = 30006,
@@ -229,7 +244,11 @@ namespace wvr
         WVR_EventType_TouchpadSwipe_RightToLeft          = 30015,
         WVR_EventType_TouchpadSwipe_DownToUp             = 30016,
         WVR_EventType_TouchpadSwipe_UpToDown             = 30017,
-        WVR_EventType_Settings_Controller                = 30022,
+        WVR_EventType_Settings_Controller      = 30022,
+        WVR_EventType_OutOfWall                          = 30100,
+        WVR_EventType_BackWithinWall                     = 30101,
+        WVR_EventType_DeviceLoading                      = 30102,
+        WVR_EventType_DeviceLoadingDone                  = 30103,
 
         /* Input Button Event region */
         WVR_EventType_ButtonPressed                      = 200,
@@ -237,6 +256,7 @@ namespace wvr
         /* Input Touch Event region  */
         WVR_EventType_TouchTapped                        = 202,
         WVR_EventType_TouchUntapped                      = 203,
+
     }
 
     public enum WVR_DeviceType
@@ -359,6 +379,14 @@ namespace wvr
         WVR_ScreenshotMode_Raw,          /**< Screenshot image has only single eye, and without distortion correction*/
     }
 
+    public enum WVR_SubmitError{
+        WVR_SubmitError_None                        = 0,
+        WVR_SubmitError_InvalidTexture              = 400,
+        WVR_SubmitError_ThreadStop                  = 401,
+        WVR_SubmitError_BufferSubmitFailed          = 402,
+        WVR_SubmitError_Max                         = 65535
+    }
+
     public enum WVR_SubmitExtend{
         WVR_SubmitExtend_Default = 0x00,
     }
@@ -368,10 +396,10 @@ namespace wvr
         WVR_Eye_Right = 1,
     }
 
-    public enum WVR_ETextureTarget
+    public enum WVR_TextureTarget
     {
-        WVR_ETextureTarget_2D,
-        WVR_ETextureTarget_2D_ARRAY
+        WVR_TextureTarget_2D,
+        WVR_TextureTarget_2D_ARRAY
     }
 
     public enum WVR_TextureFormat
@@ -382,6 +410,16 @@ namespace wvr
     public enum WVR_TextureType
     {
         WVR_TextureType_UnsignedByte
+    }
+
+    public enum WVR_RenderError{
+        WVR_RenderError_None                        = 0,
+        WVR_RenderError_RuntimeInitFailed           = 410,
+        WVR_RenderError_ContextSetupFailed          = 411,
+        WVR_RenderError_DisplaySetupFailed          = 412,
+        WVR_RenderError_LibNotSupported             = 413,
+        WVR_RenderError_NullPtr                     = 414,
+        WVR_RenderError_Max                         = 65535
     }
 
     public enum WVR_RenderConfig{
@@ -395,35 +433,38 @@ namespace wvr
 
     public enum WVR_CameraImageType
     {
-        WVR_CameraImageType_SingleEye = 0,     // the image is comprised of one camera
-        WVR_CameraImageType_DualEye   = 1,     // the image is comprised of dual cameras
+        WVR_CameraImageType_Invalid   = 0,
+        WVR_CameraImageType_SingleEye = 1,     // the image is comprised of one camera
+        WVR_CameraImageType_DualEye   = 2,     // the image is comprised of dual cameras
     }
 
     public enum WVR_CameraImageFormat
     {
-        WVR_CameraImageFormat_YUV_420     = 0, // the image format is YUV420
-        WVR_CameraImageFormat_Grayscale   = 1, // the image format is 8-bit gray-scale
+        WVR_CameraImageFormat_Invalid     = 0,
+        WVR_CameraImageFormat_YUV_420     = 1, // the image format is YUV420
+        WVR_CameraImageFormat_Grayscale   = 2, // the image format is 8-bit gray-scale
     }
 
     public enum WVR_CameraPosition
     {
-        WVR_CameraPosition_Right    = 0,
-        WVR_CameraPosition_left     = 1,
+        WVR_CameraPosition_Invalid   = 0,
+        WVR_CameraPosition_left      = 1,
+        WVR_CameraPosition_Right     = 2,
     }
 
     public enum WVR_OverlayError
     {
-        None               = 0,
-        UnknownOverlay     = 10,
-        OverlayUnavailable = 11,
-        InvalidParameter   = 20,
+        WVR_OverlayError_None               = 0,
+        WVR_OverlayError_UnknownOverlay     = 10,
+        WVR_OverlayError_OverlayUnavailable = 11,
+        WVR_OverlayError_InvalidParameter   = 20,
     }
 
     public enum WVR_OverlayTransformType
     {
-        None,
-        Absolute,
-        Fixed,
+        WVR_OverlayTransformType_None,
+        WVR_OverlayTransformType_Absolute,
+        WVR_OverlayTransformType_Fixed,
     }
 
     public enum WVR_NumDoF
@@ -513,6 +554,10 @@ namespace wvr
         [FieldOffset(80)] public WVR_Vector3f_t AngularVelocity;
         [FieldOffset(92)] public bool Is6DoFPose;
         [FieldOffset(96)] public long PoseTimestamp_ns;
+        [FieldOffset(104)] public WVR_Vector3f_t Acceleration;
+        [FieldOffset(116)] public WVR_Vector3f_t AngularAcceleration;
+        [FieldOffset(128)] public float PredictedMilliSec;
+        [FieldOffset(132)] public WVR_PoseOriginModel OriginModel;
     }
 
     [StructLayout(LayoutKind. Explicit)]

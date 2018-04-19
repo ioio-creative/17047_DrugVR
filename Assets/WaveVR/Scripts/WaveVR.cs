@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using wvr;
 using WaveVR_Log;
+using System;
 
 public class WaveVR : System.IDisposable
 {
@@ -59,15 +60,15 @@ public class WaveVR : System.IDisposable
     {
         switch (type)
         {
-            case WVR_DeviceType.WVR_DeviceType_HMD:
-                return hmd;
-            case WVR_DeviceType.WVR_DeviceType_Controller_Right:
-                return controllerRight;
-            case WVR_DeviceType.WVR_DeviceType_Controller_Left:
-                return controllerLeft;
-            default:
-                Assert.raiseExceptions = true;
-                return hmd;  // Should not happen
+        case WVR_DeviceType.WVR_DeviceType_HMD:
+            return hmd;
+        case WVR_DeviceType.WVR_DeviceType_Controller_Right:
+            return WaveVR_Controller.IsLeftHanded ? controllerLeft : controllerRight;
+        case WVR_DeviceType.WVR_DeviceType_Controller_Left:
+            return WaveVR_Controller.IsLeftHanded ? controllerRight : controllerLeft;
+        default:
+            Assert.raiseExceptions = true;
+            return hmd;  // Should not happen
         }
     }
 
@@ -147,11 +148,22 @@ public class WaveVR : System.IDisposable
     public void onLoadLevel()
     {
         Log.i (LOG_TAG, "onLoadLevel() reset all connection");
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < DeviceTypes.Length; i++)
         {
             poses[i] = new WVR_DevicePosePair_t();
             connected[i] = false; // force update connection status to all listener.
         }
+    }
+
+    public void OnControllerRoleChange()
+    {
+        int _left = Array.IndexOf (DeviceTypes, WVR_DeviceType.WVR_DeviceType_Controller_Left);
+        Log.i (LOG_TAG, "OnControllerRoleChange() device " + DeviceTypes [_left] + " is " + (connected [_left] ? "connected" : "disconnected"));
+        WaveVR_Utils.Event.Send (WaveVR_Utils.Event.DEVICE_CONNECTED, DeviceTypes [_left], connected [_left]);
+
+        int _right = Array.IndexOf (DeviceTypes, WVR_DeviceType.WVR_DeviceType_Controller_Right);
+        Log.i (LOG_TAG, "OnControllerRoleChange() device " + DeviceTypes [_right] + " is " + (connected [_right] ? "connected" : "disconnected"));
+        WaveVR_Utils.Event.Send (WaveVR_Utils.Event.DEVICE_CONNECTED, DeviceTypes [_right], connected [_right]);
     }
 
     public void Dispose()
@@ -229,28 +241,35 @@ public class WaveVR : System.IDisposable
             }
         }
 
-        //for (int i = 0; i < poses.Length; i++)
-        //{
-        //    var vrpose = poses[i];
-        //    if (vrpose.pose.IsValidPose != connected[i])
-        //    {
-        //        connected[i] = vrpose.pose.IsValidPose;
-        //        connected_types [i] = vrpose.type;
-        //        Log.i(LOG_TAG, "device[" + i + "] " + vrpose.type + " is " + (connected[i] ? "connected" : "disconnected"));
-        //        WaveVR_Utils.Event.Send(WaveVR_Utils.DEVICE_CONNECTED, vrpose.type, connected[i]);
-        //    }
-        //    if (vrpose.pose.IsValidPose)
-        //        rtPoses[i].update(vrpose.pose.PoseMatrix);
-        //}
-
         for (int i = 0; i < poses.Length; i++)
         {
-            if (poses [i].pose.IsValidPose)
-                Log.gpl.d (LOG_TAG, "device " + i + " pos: {" + rtPoses [i].pos + "}" + "rot: {" + rtPoses [i].rot + "}");
+            WVR_DeviceType _type = poses [i].type;
+            bool _connected = Interop.WVR_IsDeviceConnected (_type);
+            bool _posevalid = poses [i].pose.IsValidPose;
+
+            Log.gpl.d (LOG_TAG, "Device " + _type + " is " + (_connected ? "connected" : "disconnected")
+                + ", pose is " + (_posevalid ? "valid" : "invalid")
+                + ", pos: {" + rtPoses [i].pos.x + ", " + rtPoses [i].pos.y + ", " + rtPoses [i].pos.z + "}"
+                + ", rot: {" + rtPoses [i].rot.x + ", " + rtPoses [i].rot.y + ", " + rtPoses [i].rot.z + ", " + rtPoses [i].rot.w + "}");
         }
-        WaveVR_Utils.Event.Send(WaveVR_Utils.Event.NEW_POSES, poses, rtPoses);
+
+        try
+        {
+            WaveVR_Utils.Event.Send(WaveVR_Utils.Event.NEW_POSES, poses, rtPoses);
+        }
+        catch (Exception ex)
+        {
+            Log.e(LOG_TAG, "Send NEW_POSES Event Exception : " + ex);
+        }
         Log.gpl.d(LOG_TAG, "after new poses");
-        WaveVR_Utils.Event.Send(WaveVR_Utils.Event.AFTER_NEW_POSES);
+        try
+        {
+            WaveVR_Utils.Event.Send(WaveVR_Utils.Event.AFTER_NEW_POSES);
+        }
+        catch (Exception ex)
+        {
+            Log.e(LOG_TAG, "Send AFTER_NEW_POSES Event Exception : " + ex);
+        }
     }
 }
 

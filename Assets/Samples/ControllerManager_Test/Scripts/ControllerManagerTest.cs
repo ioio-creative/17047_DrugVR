@@ -27,8 +27,10 @@ public class ControllerManagerTest : MonoBehaviour
 
     void Update()
     {
+        WVR_DeviceType _type = WaveVR_Controller.Input(this.deviceIndex).DeviceType;
+
         Interop.WVR_GetPoseState (
-            deviceIndex,
+            _type,
             WVR_PoseOriginModel.WVR_PoseOriginModel_OriginOnGround,
             500,
             ref pose);

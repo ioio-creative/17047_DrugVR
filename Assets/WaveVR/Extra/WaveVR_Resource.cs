@@ -1,4 +1,4 @@
-﻿// "WaveVR SDK 
+// "WaveVR SDK
 // © 2017 HTC Corporation. All Rights Reserved.
 //
 // Unless otherwise required by copyright law and practice,
@@ -95,9 +95,6 @@ public class WaveVR_Resource {
             Log.e(LOG_TAG, "getString failed because fail to get WaveVR_Resource object");
             return "";
         }
-
-        if (lang == "" || country == "")
-            return "";
 
         return ResourceWrapper.Call<string>("getPreferredStringByName", stringName, lang, country);
     }

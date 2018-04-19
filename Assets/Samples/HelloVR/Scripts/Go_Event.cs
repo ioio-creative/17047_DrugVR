@@ -25,34 +25,33 @@ IEndDragHandler,
 IDropHandler,
 IPointerHoverHandler
 {
-	private const string LOG_TAG = "WaveVR_HelloVR";
-	Vector3 originalPos;
+    private const string LOG_TAG = "WaveVR_HelloVR";
+    Vector3 originalPos;
     WVR_DeviceType curFocusControllerType=WVR_DeviceType.WVR_DeviceType_HMD;
-    public bool isControllerFocus_R;
+    public  bool isControllerFocus_R;
     public bool  isControllerFocus_L;
     private GameObject m_RightController;
     private GameObject m_LeftController;
     void Start(){
-		originalPos=transform.position;
-	}
+       originalPos=transform.position;
+    }
 
     void Update()
     {
         if (isControllerFocus_R || isControllerFocus_L)
         {
-//			Log.d(LOG_TAG,"Bumber Down :"+WaveVR_Controller.Input(curFocusControllerType).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper));
-//			Log.d(LOG_TAG,"Bumber Up :"+WaveVR_Controller.Input(curFocusControllerType).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Bumper));
+            // Log.d(LOG_TAG,"Bumber Down :"+WaveVR_Controller.Input(curFocusControllerType).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper));
+            // Log.d(LOG_TAG,"Bumber Up :"+WaveVR_Controller.Input(curFocusControllerType).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Bumper));
             if (WaveVR_Controller.Input(curFocusControllerType).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Touchpad) ||
-				WaveVR_Controller.Input(curFocusControllerType).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
+                             WaveVR_Controller.Input(curFocusControllerType).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
             {
                 moveSphere();
             }
         }
             
-		if(Input.GetKey(KeyCode.Escape)){
-			Application.Quit();
-		}
-
+        if(Input.GetKey(KeyCode.Escape)){
+            Application.Quit();
+        }
     }
 
     void moveSphere()
@@ -75,18 +74,15 @@ IPointerHoverHandler
     }
 
 
-	public void OnPointerUp(PointerEventData eventData){
+    public void OnPointerUp(PointerEventData eventData){
         //Debug.Log("OnPointerUp");
     }
 
     public void OnPointerEnter (PointerEventData eventData)
-	{
-        
-        WVR_DeviceType type = eventData.enterEventCamera.gameObject.GetComponent<ControllerConnectionStateReactor>().type;
-//        Debug.Log("OnPointerEnter: "+type);
-
+    {
+        WVR_DeviceType type = eventData.enterEventCamera.gameObject.GetComponent<WaveVR_PoseTrackerManager>().Type;
         GameObject target=eventData.enterEventCamera.gameObject;
-        if (target.GetComponent<ControllerConnectionStateReactor>())
+        if (target.GetComponent<WaveVR_PoseTrackerManager>())
         {
             if (type == WVR_DeviceType.WVR_DeviceType_Controller_Right)
             {
@@ -101,14 +97,11 @@ IPointerHoverHandler
                 GetComponent<MeshRenderer>().material.SetColor("_Color", Color.blue);
             }
         }
-
         curFocusControllerType =type;
+    }
 
-
-	}
-
-	public void OnPointerExit (PointerEventData eventData)
-	{
+    public void OnPointerExit (PointerEventData eventData)
+    {
         RaycastHit hit;
         if(m_RightController && isControllerFocus_R){ //R_Controller Leave
             Vector3 fwd_R = m_RightController.transform.TransformDirection(Vector3.forward);
@@ -141,37 +134,37 @@ IPointerHoverHandler
         curFocusControllerType = WVR_DeviceType.WVR_DeviceType_HMD;
 
         GetComponent<MeshRenderer> ().material.SetColor ("_Color", Color.green);
-	}
+     }
 
-	public void OnPointerDown (PointerEventData eventData)
-	{
+     public void OnPointerDown (PointerEventData eventData)
+     {
         //Debug.Log("OnPointerDown");
 
-	}
+     }
 
-	public void OnBeginDrag(PointerEventData eventData)
-	{
-		//Debug.Log("OnBeginDrag");
-	}
+     public void OnBeginDrag(PointerEventData eventData)
+     {
+        //Debug.Log("OnBeginDrag");
+     }
 
-	public void OnDrag(PointerEventData eventData)
-	{
-		//Debug.Log("OnDrag");
-	}
+     public void OnDrag(PointerEventData eventData)
+     {
+        //Debug.Log("OnDrag");
+     }
 
 
-	public void OnEndDrag(PointerEventData eventData)
-	{
-		//Debug.Log("OnEndDrag");
-	}
+     public void OnEndDrag(PointerEventData eventData)
+     {
+         //Debug.Log("OnEndDrag");
+     }
 
-	public void OnDrop(PointerEventData eventData)
-	{
-		//Debug.Log("OnDrop");
-	}
+     public void OnDrop(PointerEventData eventData)
+     {
+         //Debug.Log("OnDrop");
+     }
 
-	public void OnPointerHover (PointerEventData eventData)
-	{
-//        Debug.Log("OnPointerHover: "+eventData.enterEventCamera.gameObject);
-	}
+     public void OnPointerHover (PointerEventData eventData)
+     {
+         // Debug.Log("OnPointerHover: "+eventData.enterEventCamera.gameObject);
+     }
 }

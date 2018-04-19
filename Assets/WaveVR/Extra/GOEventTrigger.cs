@@ -9,16 +9,32 @@
 // specifications, and documentation provided by HTC to You."
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
+using wvr;
 using WaveVR_Log;
+using System.Collections.Generic;
 
 public class GOEventTrigger : MonoBehaviour
 {
-    private static string LOG_TAG = "GOEventTrigger";
+    private static string LOG_TAG = "WaveVR_GOEventTrigger";
 	private Vector3 startPosition;
 	private Color defaultColor = Color.gray;
 	private Color changedColor = Color.red;
 	
+    private WaveVR_PermissionManager pmInstance = null;
+
+    void Start ()
+    {
+        startPosition = transform.localPosition;
+
+        #if UNITY_EDITOR
+        if (Application.isEditor) return;
+        #endif
+        Log.d(LOG_TAG, "Start() get instance of WaveVR_PermissionManager");
+        pmInstance = WaveVR_PermissionManager.instance;
+    }
+
     // --------------- Event Handling begins --------------
 	public void OnEnter()
 	{
@@ -59,6 +75,73 @@ public class GOEventTrigger : MonoBehaviour
         #endif
         transform.gameObject.SetActive (false);
     }
+	
+    public void OnBeamButton()
+    {
+        #if UNITY_EDITOR
+        Debug.Log ("OnBeamButton");
+        #endif
+        if (EventSystem.current != null)
+            EventSystem.current.GetComponent<WaveVR_ControllerInputModule>().RaycastMode = ERaycastMode.Beam;
+    }
+
+    public void OnFixedButton()
+    {
+        #if UNITY_EDITOR
+        Debug.Log ("OnFixedButton");
+        #endif
+        if (EventSystem.current != null)
+            EventSystem.current.GetComponent<WaveVR_ControllerInputModule>().RaycastMode = ERaycastMode.Fixed;
+    }
+
+    public void OnMouseButton()
+    {
+        #if UNITY_EDITOR
+        Debug.Log ("OnMouseButton");
+        #endif
+        if (EventSystem.current != null)
+            EventSystem.current.GetComponent<WaveVR_ControllerInputModule>().RaycastMode = ERaycastMode.Mouse;
+    }
+
+    private const string CONTENT_PROVIDER_CLASSNAME = "com.htc.vr.unity.ContentProvider";
+    private AndroidJavaObject contentProvider = null;
+    /*
+    public void OnChangeHand()
+    {
+        #if UNITY_EDITOR
+        if (Application.isEditor)
+        {
+            WaveVR_Controller.SetLeftHandedMode(WaveVR_Controller.IsLeftHanded ? false : true);
+        } else
+        #endif
+        {
+            if (pmInstance != null)
+            {
+                Log.d (LOG_TAG, "isPermissionGranted(com.htc.vr.core.server.VRDataWrite) = " + pmInstance.isPermissionGranted ("com.htc.vr.core.server.VRDataWrite"));
+                Log.d (LOG_TAG, "isPermissionGranted(com.htc.vr.core.server.VRDataRead) = " + pmInstance.isPermissionGranted ("com.htc.vr.core.server.VRDataRead"));
+                Log.d (LOG_TAG, "isPermissionGranted(com.htc.vr.core.server.VRDataProvider) = " + pmInstance.isPermissionGranted ("com.htc.vr.core.server.VRDataProvider"));
+            }
+
+            AndroidJavaClass ajc = new AndroidJavaClass(CONTENT_PROVIDER_CLASSNAME);
+            if (ajc == null)
+            {
+                Log.e(LOG_TAG, "OnChangeHand() " + CONTENT_PROVIDER_CLASSNAME + " is null");
+                return;
+            }
+            // Get the PermissionManager object
+            contentProvider = ajc.CallStatic<AndroidJavaObject>("getInstance");
+            if (contentProvider != null)
+            {
+                string _role = WaveVR_Controller.IsLeftHanded ? "2" : "1";
+                Log.d (LOG_TAG, "OnChangeHand() got instance of " + CONTENT_PROVIDER_CLASSNAME + ", change role to " + _role);
+                contentProvider.Call ("writeControllerRoleValue", _role);
+            } else
+            {
+                Log.e (LOG_TAG, "OnChangeHand() could NOT get instance of " + CONTENT_PROVIDER_CLASSNAME);
+            }
+        }
+    }
+	*/
     // --------------- Event Handling ends --------------
 
 	public void ChangeColor(string color)
@@ -80,10 +163,5 @@ public class GOEventTrigger : MonoBehaviour
 		direction.z = Mathf.Clamp (direction.z, 3f, 10f);
 		float distance = 2 * UnityEngine.Random.value + 1.5f;
 		transform.localPosition = direction * distance;
-	}
-
-	void Start ()
-	{
-		startPosition = transform.localPosition;
 	}
 }

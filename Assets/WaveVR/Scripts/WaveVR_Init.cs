@@ -14,7 +14,7 @@ using WaveVR_Log;
 
 public class WaveVR_Init : MonoBehaviour
 {
-    private const string LOG_TAG = "WVR_Init";
+    private const string LOG_TAG = "WaveVR_Init";
 
     /// <summary>
     /// The singleton instance of the <see cref="WaveVR_Init"/> class, there only be one instance in a scene.
@@ -48,14 +48,12 @@ public class WaveVR_Init : MonoBehaviour
             WaveVR.Instance.onLoadLevel ();
 
             // if system boots with default controller role left, set left-handed mode to true
-            if (Interop.WVR_GetDefaultControllerRole () == WVR_DeviceType.WVR_DeviceType_Controller_Left)
-            {
-                WaveVR_Controller.SetLeftHandedMode ();
-                #if UNITY_EDITOR
-                Debug.Log ("Start() Set left-handed mode to " + WaveVR_Controller.IsLeftHanded);
-                #endif
-                Log.i (LOG_TAG, "Start() Set left-handed mode to " + WaveVR_Controller.IsLeftHanded);
-            }
+            bool _lefthanded = Interop.WVR_GetDefaultControllerRole () == WVR_DeviceType.WVR_DeviceType_Controller_Left ? true: false;
+            #if UNITY_EDITOR
+            Debug.Log ("Start() Set left-handed mode to " + _lefthanded);
+            #endif
+            Log.i (LOG_TAG, "Start() Set left-handed mode to " + _lefthanded);
+            WaveVR_Controller.SetLeftHandedMode (_lefthanded);
         }
     }
 
@@ -102,7 +100,7 @@ public class WaveVR_Init : MonoBehaviour
         // Process events used by plugin
         switch ((WVR_EventType)vrEvent.common.type)
         {
-            case WVR_EventType.WVR_EventType_IpdUpdate:
+            case WVR_EventType.WVR_EventType_IpdChanged:
                 {
                     WaveVR_Utils.Event.Send("IpdChanged");
                     if (WaveVR_Render.Instance != null)
@@ -128,8 +126,12 @@ public class WaveVR_Init : MonoBehaviour
         case WVR_EventType.WVR_EventType_Settings_Controller:
             if (WaveVR.Instance != null)
             {
-                WaveVR_Controller.SetLeftHandedMode ();
-                Log.i (LOG_TAG, "Set left-handed mode to " + WaveVR_Controller.IsLeftHanded);
+                bool _lefthanded = Interop.WVR_GetDefaultControllerRole () == WVR_DeviceType.WVR_DeviceType_Controller_Left ? true: false;
+
+                Log.i (LOG_TAG, "processVREvent() Set left-handed mode to " + _lefthanded);
+                WaveVR_Controller.SetLeftHandedMode (_lefthanded);
+                Log.i (LOG_TAG, "processVREvent() Resend connection notification after switching hand.");
+                WaveVR.Instance.OnControllerRoleChange ();
             }
             break;
         default:

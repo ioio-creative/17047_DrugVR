@@ -99,7 +99,17 @@ public class WaveVR_Reticle : MonoBehaviour {
 
     void Update() {
         if (ListenToDevice)
-            enabledReticle = WaveVR_Controller.Input (device).connected ? true : false;
+        {
+            #if UNITY_EDITOR
+            if (Application.isEditor)
+                enabledReticle = WaveVR_Controller.Input (this.device).connected ? true : false;
+            else
+            #endif
+            {
+                WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.device);
+                enabledReticle = _device.connected;
+            }
+        }
 
         if (enabledReticle) {
             if (!meshIsCreated) {

@@ -10,6 +10,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Text))]
 public class WaveVR_FPS : MonoBehaviour
@@ -32,10 +33,30 @@ public class WaveVR_FPS : MonoBehaviour
         }
 
         string text = "";
+        string mode_text = "";
         float interp = Time.deltaTime / (0.5f + Time.deltaTime);
         float currentFPS = 1.0f / Time.deltaTime;
         fps = Mathf.Lerp(fps, currentFPS, interp);
+
+        if (EventSystem.current != null && EventSystem.current.GetComponent<WaveVR_ControllerInputModule>() != null) {
+             switch (EventSystem.current.GetComponent<WaveVR_ControllerInputModule>().RaycastMode)
+             {
+                 case ERaycastMode.Beam:
+                     mode_text = " (beam mode)";
+                     break;
+                 case ERaycastMode.Fixed:
+                     mode_text = " (fixed mode)";
+                     break;
+                  case ERaycastMode.Mouse:
+                     mode_text = " (mouse mode)";
+                     break;
+                  default:
+                     mode_text = "--";
+                     break;
+             }
+        }
         text += Mathf.RoundToInt(fps) + "fps";
+        text += mode_text;
         textField.text = text;
     }
 }

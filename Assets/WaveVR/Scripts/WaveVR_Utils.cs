@@ -75,7 +75,21 @@ public static class WaveVR_Utils
             if (mOEMConfig != null)
             {
                 getString = mOEMConfig.Call<string>("getJsonRawData");
-                Log.d(LOG_TAG, "JSON raw data = " + getString);
+                const int charPerLine = 200;
+                int len = (getString.Length / charPerLine);
+
+                Log.d(LOG_TAG, "len = " + len + ", length of string = " + getString.Length);
+                Log.d(LOG_TAG, "JSON raw data = ");
+
+                for (int i=0; i<len; i++)
+                {
+                    string substr = getString.Substring(i * charPerLine, charPerLine);
+                    Log.d(LOG_TAG, substr);
+                }
+
+                int remainLen = getString.Length - (len * charPerLine);
+                string remainstr = getString.Substring(len * charPerLine, remainLen);
+                Log.d(LOG_TAG, remainstr);
             }
 
             return getString;
@@ -93,6 +107,9 @@ public static class WaveVR_Utils
         public static string CONTROLLER_MODEL_UNLOADED = "controller_model_unloaded";
         public static string RENDER_OBJECT_LEFT = "Render_left";
         public static string RENDER_OBJECT_RIGHT = "Render_right";
+        public static string PRE_RENDER_OBJECT_LEFT = "Pre_Render_left";
+        public static string PRE_RENDER_OBJECT_RIGHT = "Pre_Render_right";
+
 
         public delegate void Handler(params object[] args);
 
@@ -373,6 +390,10 @@ public static class WaveVR_Utils
 
     [DllImportAttribute("wvrunity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void SetCurrentRenderTexture(System.IntPtr current);
+
+    // This api does not guarantee these argument are used by current frame.  Use it if you know what will happen.
+    [DllImportAttribute("wvrunity", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void SetSubmitOptionalArgument([Out] WVR_PoseState_t [] poses, int submit_extend_flag);
 
     [DllImportAttribute("wvrunity", EntryPoint = "nativeProcessEngineEvent", CallingConvention = CallingConvention.Cdecl)]
     public static extern void NativeProcessEngineEvent(uint tID, uint eventID);

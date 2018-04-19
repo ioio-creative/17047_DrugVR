@@ -1,6 +1,4 @@
-﻿// Copyright 2016 Google Inc. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
+﻿// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
@@ -17,27 +15,69 @@ using wvr;
 //using UnityEngine.VR;
 using System.Collections;
 using WaveVR_Log;
+using System.Collections.Generic;
+using System;
 
-/// A standard interface to interact with a scene with the controller.
-/// It is responsible for:
-/// -  Determining the orientation and location of the controller.
-/// -  Predict the location of the shoulder, elbow, wrist, and pointer.
+#if UNITY_EDITOR
+using UnityEditor;
+
+[CustomEditor(typeof(WaveVR_ControllerPoseTracker))]
+public class WaveVR_ControllerPoseTrackerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        WaveVR_ControllerPoseTracker myScript = target as WaveVR_ControllerPoseTracker;
+
+        myScript.Type = (WVR_DeviceType)EditorGUILayout.EnumPopup ("Type", myScript.Type);
+        myScript.TrackPosition = EditorGUILayout.Toggle ("Track Position", myScript.TrackPosition);
+        if (true == myScript.TrackPosition)
+        {
+            myScript.SimulationOption = (WVR_SimulationOption)EditorGUILayout.EnumPopup ("    Simulate Position", myScript.SimulationOption);
+            if (myScript.SimulationOption == WVR_SimulationOption.ForceSimulation || myScript.SimulationOption == WVR_SimulationOption.WhenNoPosition)
+            {
+                myScript.FollowHead = (bool)EditorGUILayout.Toggle ("        Follow Head", myScript.FollowHead);
+            }
+        }
+
+        myScript.TrackRotation = EditorGUILayout.Toggle ("Track Rotation", myScript.TrackRotation);
+        myScript.TrackTiming = (WVR_TrackTiming)EditorGUILayout.EnumPopup ("Track Timing", myScript.TrackTiming);
+
+        if (GUI.changed)
+            EditorUtility.SetDirty ((WaveVR_ControllerPoseTracker)target);
+    }
+}
+#endif
+
 public class WaveVR_ControllerPoseTracker : MonoBehaviour
 {
     private static string LOG_TAG = "WaveVR_ControllerPoseTracker";
+    private void PrintDebugLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + " : " + this.Type + ", " + msg);
+        #endif
+        Log.d (LOG_TAG, this.Type + ", " + msg);
+    }
+    private void PrintErrorLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + " : " + this.Type + ", " + msg);
+        #endif
+        Log.e (LOG_TAG, this.Type + ", " + msg);
+    }
+
     #region Developer variables
-    public WVR_DeviceType type;
-    public bool inversePosition = false;
-    public bool trackPosition = true;
-    public bool inverseRotation = false;
-    public bool trackRotation = true;
+    public WVR_DeviceType Type;
+    public bool InversePosition = false;
+    public bool TrackPosition = true;
+    public WVR_SimulationOption SimulationOption = WVR_SimulationOption.WhenNoPosition;
+    public bool FollowHead = false;
+    public bool InverseRotation = false;
+    public bool TrackRotation = true;
+    public WVR_TrackTiming TrackTiming = WVR_TrackTiming.WhenNewPoses;
 
-    public enum TrackingEvent {
-        WhenUpdate,  // Pose will delay one frame.
-        WhenNewPoses
-    };
-
-    public TrackingEvent timing = TrackingEvent.WhenNewPoses;
+    private GameObject[] IncludedObjects;
+    private bool[] IncludedStates;
 
     /// Height of the elbow  (m).
     [Range(0.0f, 0.2f)]
@@ -77,23 +117,8 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
     /// NOTE: This is in meatspace coordinates.
     private Quaternion controllerArmModelRotation;
 
-    /// Last controller rotation value of arm model
-    private Quaternion lastCtrlrRtPose = Quaternion.identity;
-
-    /// Last head position value of arm model
-    private Vector3 lastHeadPosition = Vector3.zero;
-
-    /// The angle bound of controller without head position.
-    private float noHeadPosAngleBound = 5.0f;
-
     /// controller lerp speed for smooth movement between with head position case and without head position case
     private float smoothMoveSpeed = 0.3f;
-
-    /// The init flag of lastCtrlrRtPose and lastHeadPosition
-    private bool firstPosInit = true;
-
-    /// true: calculating position without head position case, false: calculating position with head position case
-    private bool noHeadPos = false;
 
     /// X axis of arm is reverse in left / right arm.
     private Vector3 v3ChangeArmXAxis = new Vector3(0, 1, 1);
@@ -113,7 +138,7 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
 
     /// Offset (position) related to view center. (meters)
     private Vector3 HEADTOELBOW_OFFSET = new Vector3(0.2f, -0.7f, 0f);
-    private Vector3 ELBOW_PITCH_OFFSET = new Vector3(-0.15f, 0.55f, 0.08f);
+    private Vector3 ELBOW_PITCH_OFFSET = new Vector3(-0.2f, 0.55f, 0.08f);
     private float ELBOW_PITCH_ANGLE_MIN = 0, ELBOW_PITCH_ANGLE_MAX = 60;
     /// The elbow curve in XY-plane is not smooth.
     /// The lerp value increases much rapider when elbow raises up.
@@ -214,66 +239,115 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
                 ELBOW_PITCH_ANGLE_MAX = float.Parse (node_value);
             }
 
-            Log.d (LOG_TAG, 
-                "HEADTOELBOW_OFFSET: " + HEADTOELBOW_OFFSET.ToString() +
-                "\nELBOWTOWRIST_OFFSET: " + ELBOWTOWRIST_OFFSET.ToString() +
-                "\nWRISTTOCONTROLLER_OFFSET: " + WRISTTOCONTROLLER_OFFSET.ToString() +
-                "\nELBOW_PITCH_OFFSET: " + ELBOW_PITCH_OFFSET.ToString() +
-                "\nELBOW_PITCH_ANGLE_MIN: " + ELBOW_PITCH_ANGLE_MIN +
-                "\nELBOW_PITCH_ANGLE_MAX: " + ELBOW_PITCH_ANGLE_MAX);
+            PrintDebugLog ( 
+                "HEADTOELBOW_OFFSET: {"         + HEADTOELBOW_OFFSET.x + ", "       + HEADTOELBOW_OFFSET.y + ", "       + HEADTOELBOW_OFFSET.z +
+                "\nELBOWTOWRIST_OFFSET: "       + ELBOWTOWRIST_OFFSET.x + ", "      + ELBOWTOWRIST_OFFSET.y + ", "      + ELBOWTOWRIST_OFFSET.z +
+                "\nWRISTTOCONTROLLER_OFFSET: "  + WRISTTOCONTROLLER_OFFSET.x + ", " + WRISTTOCONTROLLER_OFFSET.y + ", " + WRISTTOCONTROLLER_OFFSET.z +
+                "\nELBOW_PITCH_OFFSET: "        + ELBOW_PITCH_OFFSET.x + ", "       + ELBOW_PITCH_OFFSET.y + ", "       + ELBOW_PITCH_OFFSET.z +
+                "\nELBOW_PITCH_ANGLE_MIN: " + ELBOW_PITCH_ANGLE_MIN + "\nELBOW_PITCH_ANGLE_MAX: " + ELBOW_PITCH_ANGLE_MAX);
+        }
+    }
+
+    private void ActivateTargetObjects(bool active)
+    {
+        if (IncludedObjects == null)
+            return;
+
+        for (int i = 0; i < IncludedObjects.Length; i++)
+        {
+            if (IncludedObjects [i] == null)
+                continue;
+
+            if (IncludedStates [i])
+            {
+                PrintDebugLog ("ActivateTargetObjects() " + (active ? "activate" : "deactivate") + " " + IncludedObjects [i].name);
+                IncludedObjects [i].SetActive (active);
+            }
         }
     }
 
     #region Monobehaviour
-    void Start ()
-    {
-        if (Head == null)
-            Head = WaveVR_Render.Instance.gameObject;
-    }
-
+    private bool hideController = false;
+    private bool cptEnabled = false;
     void OnEnable()
     {
-        ReadJsonValues ();
+        if (!cptEnabled)
+        {
+            if (Head == null)
+                Head = WaveVR_Render.Instance.gameObject;
+            if (Head != null)
+                defaultHeadPosition = Head.transform.localPosition;
 
-        if (timing == TrackingEvent.WhenNewPoses)
-            WaveVR_Utils.Event.Listen(WaveVR_Utils.Event.NEW_POSES, OnNewPoses);
+            int _children_count = transform.childCount;
+            IncludedObjects = new GameObject[_children_count];
+            IncludedStates = new bool[_children_count];
+            for (int i = 0; i < _children_count; i++)
+            {
+                IncludedObjects [i] = transform.GetChild (i).gameObject;
+                IncludedStates [i] = transform.GetChild (i).gameObject.activeSelf;
+                PrintDebugLog ("OnEnable() " + gameObject.name + " has child: " + IncludedObjects [i].name + ", active? " + IncludedStates [i]);
+            }
 
-        WaveVR_Utils.Event.Listen(wvr.WVR_EventType.WVR_EventType_RecenterSuccess_3DoF.ToString(), OnRecentered);
+            // Hide included objects anyway, no matter connected or not.
+            PrintDebugLog ("OnEnable() hide controller components." +
+            "\nLocal Pos: " + transform.localPosition.x + ", " + transform.localPosition.y + ", " + transform.localPosition.z +
+            "\nPos: " + transform.position.x + ", " + transform.position.y + ", " + transform.position.z +
+            "\nLocal rot: " + transform.localRotation.x + ", " + transform.localRotation.y + ", " + transform.localRotation.z);
+            ActivateTargetObjects (false);
+            hideController = true;
+
+            ReadJsonValues ();
+
+            if (TrackTiming == WVR_TrackTiming.WhenNewPoses)
+                WaveVR_Utils.Event.Listen (WaveVR_Utils.Event.NEW_POSES, OnNewPoses);
+
+            WaveVR_Utils.Event.Listen (wvr.WVR_EventType.WVR_EventType_RecenterSuccess_3DoF.ToString (), OnRecentered);
+            WaveVR_Utils.Event.Listen (WaveVR_Utils.Event.ALL_VREVENT, OnEvent);
+
+            cptEnabled = true;
+        }
+    }
+
+    void OnEvent(params object[] args)
+    {
+        WVR_Event_t _event = (WVR_Event_t)args[0];
+        PrintDebugLog ("OnEvent() " + _event.common.type);
+        if (_event.common.type == WVR_EventType.WVR_EventType_RecenterSuccess)
+        {
+            PrintDebugLog ("OnEvent() WVR_EventType_RecenterSuccess");
+        }
     }
 
     void OnDisable()
     {
-        if (timing == TrackingEvent.WhenNewPoses)
+        PrintDebugLog ("OnDisable()" +
+            "\nLocal Pos: " + transform.localPosition.x + ", "  + transform.localPosition.y + ", "  + transform.localPosition.z +
+            "\nPos: "       + transform.position.x + ", "       + transform.position.y + ", "       + transform.position.z +
+            "\nLocal rot: " + transform.localRotation.x + ", "  + transform.localRotation.y + ", "  + transform.localRotation.z);
+
+        // Consider a situation: no pose is updated and WaveVR_ControllerPoseTracker is enabled <-> disabled multiple times.
+        // At this situation, IncludedStates will be set to false forever since thay are deactivated at 1st time OnEnable()
+        // and the deactivated state will be updated to IncludedStates in 2nd time OnEnable().
+        // To prevent this situation, activate IncludedObjects in OnDisable to restore the state Children GameObjects.
+        ActivateTargetObjects (true);
+
+        if (TrackTiming == WVR_TrackTiming.WhenNewPoses)
             WaveVR_Utils.Event.Remove(WaveVR_Utils.Event.NEW_POSES, OnNewPoses);
 
         WaveVR_Utils.Event.Remove(wvr.WVR_EventType.WVR_EventType_RecenterSuccess_3DoF.ToString(), OnRecentered);
+        cptEnabled = false;
     }
 
+    private float mFPS = 60.0f;
     void Update ()
     {
-        if (timing == TrackingEvent.WhenNewPoses)
+        mFPS = 1.0f / Time.deltaTime;
+        if (TrackTiming == WVR_TrackTiming.WhenNewPoses)
             return;
         if (WaveVR.Instance == null)
             return;
 
-        WVR_DeviceType type = this.type;
-
-        if (WaveVR_Controller.IsLeftHanded)
-        {
-            switch (this.type)
-            {
-            case WVR_DeviceType.WVR_DeviceType_Controller_Right:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Left;
-                break;
-            case WVR_DeviceType.WVR_DeviceType_Controller_Left:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-                break;
-            default:
-                break;
-            }
-        }
-
-        WaveVR.Device device = WaveVR.Instance.getDeviceByType (type);
+        WaveVR.Device device = WaveVR.Instance.getDeviceByType (this.Type);
         if (device.connected)
         {
             updatePose (device.pose, device.rigidTransform);
@@ -286,96 +360,97 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
         // do something when recentered.
     }
 
+    #if UNITY_EDITOR
     private WVR_DevicePosePair_t wvr_pose = new WVR_DevicePosePair_t ();
     private WaveVR_Utils.RigidTransform rigid_pose = WaveVR_Utils.RigidTransform.identity;
+    #endif
 
     private void OnNewPoses(params object[] args)
     {
-        WVR_DeviceType type = this.type;
-        if (WaveVR_Controller.IsLeftHanded)
-        {
-            switch (this.type)
-            {
-            case WVR_DeviceType.WVR_DeviceType_Controller_Right:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Left;
-                break;
-            case WVR_DeviceType.WVR_DeviceType_Controller_Left:
-                type = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-                break;
-            default:
-                break;
-            }
-        }
-
         #if UNITY_EDITOR
         if (Application.isEditor)
         {
+            WVR_DeviceType _type = WaveVR_Controller.Input(this.Type).DeviceType;
             var system = WaveVR_PoseSimulator.Instance;
-            system.GetTransform (type, ref wvr_pose, ref rigid_pose);
+            system.GetTransform (_type, ref wvr_pose, ref rigid_pose);
             updatePose (wvr_pose, rigid_pose);
         } else
         #endif
         {
-            var poses = (WVR_DevicePosePair_t[])args [0];
-            var rtPoses = (WaveVR_Utils.RigidTransform[])args [1];
-
-            for (int i = 0; i < poses.Length; i++)
+            WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.Type);
+            if (_device.connected && _device.rigidTransform != null)
             {
-                if (poses [i].type == type && poses [i].pose.IsValidPose)
-                {
-                    updatePose (poses [i], rtPoses [i]);
-                    break;
-                }
+                updatePose (_device.pose, _device.rigidTransform);
             }
         }
     }
 
     private void updatePose(WVR_DevicePosePair_t pose, WaveVR_Utils.RigidTransform rtPose)
     {
-        if (trackRotation == true)
+        switch (this.Type)
         {
-            if (trackPosition == true)
-            {
-                updateDevicePose (pose, rtPose);
-            } else
-            {
-                if (Head != null)
-                {
-                    switch (type)
-                    {
-                    case WVR_DeviceType.WVR_DeviceType_Controller_Right:
-                        v3ChangeArmXAxis.x = WaveVR_Controller.IsLeftHanded ? -1.0f : 1.0f;
-                        break;
-                    case WVR_DeviceType.WVR_DeviceType_Controller_Left:
-                        v3ChangeArmXAxis.x = WaveVR_Controller.IsLeftHanded ? 1.0f : -1.0f;
-                        break;
-                    default:
-                        break;
-                    }
+        case WVR_DeviceType.WVR_DeviceType_Controller_Right:
+            v3ChangeArmXAxis.x = WaveVR_Controller.IsLeftHanded ? -1.0f : 1.0f;
+            break;
+        case WVR_DeviceType.WVR_DeviceType_Controller_Left:
+            v3ChangeArmXAxis.x = WaveVR_Controller.IsLeftHanded ? 1.0f : -1.0f;
+            break;
+        default:
+            break;
+        }
 
+        if (TrackPosition == false)
+        {
+            updateDevicePose (pose, rtPose);
+        } else
+        {
+            switch (SimulationOption)
+            {
+            case WVR_SimulationOption.NoSimulation:
+                updateDevicePose (pose, rtPose);
+                break;
+            case WVR_SimulationOption.ForceSimulation:
+                updateControllerPose (pose, rtPose);
+                break;
+            case WVR_SimulationOption.WhenNoPosition:
+                if (pose.pose.Is6DoFPose == false)
                     updateControllerPose (pose, rtPose);
-                }
+                else
+                    updateDevicePose (pose, rtPose);
+                break;
+            default:
+                break;
             }
         }
     }
 
     private void updateDevicePose(WVR_DevicePosePair_t pose, WaveVR_Utils.RigidTransform rtPose)
     {
-        if (trackPosition)
+        if (TrackPosition)
         {
-            if (inversePosition)
+            if (InversePosition)
                 transform.localPosition = -rtPose.pos;
             else
-            {
                 transform.localPosition = rtPose.pos;
-            }
         }
-        if (trackRotation)
+        if (TrackRotation)
         {
-            if (inverseRotation)
+            if (InverseRotation)
                 transform.localRotation = Quaternion.Inverse(rtPose.rot);
-            else                  
+            else
                 transform.localRotation = rtPose.rot;
+        }
+
+        // Skip frame which pose is not updated.
+        if (hideController)
+        {
+            // Since updatePose() is called only when connected, show controller after pose updated.
+            PrintDebugLog ("updateDevicePose() show controller components." +
+                "\nLocal Pos: " + transform.localPosition.x + ", "  + transform.localPosition.y + ", "  + transform.localPosition.z +
+                "\nPos: "       + transform.position.x + ", "       + transform.position.y + ", "       + transform.position.z +
+                "\nLocal rot: " + transform.localRotation.x + ", "  + transform.localRotation.y + ", "  + transform.localRotation.z);
+            ActivateTargetObjects (true);
+            hideController = false;
         }
     }
 
@@ -385,9 +460,7 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
         // Place the shoulder in anatomical positions based on the height and handedness.
         bodyRotation = Quaternion.identity;
 
-        Vector3 v3ControllerAngularVelocity =
-            new Vector3 (pose.pose.AngularVelocity.v0, pose.pose.AngularVelocity.v1, pose.pose.AngularVelocity.v2);
-        UpdateBodyRotation(v3ControllerAngularVelocity);
+        UpdateHeadAndBodyPose (pose, rtPose);
 
         ComputeControllerPose2 (pose, rtPose);
 
@@ -403,8 +476,34 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
                 posePulseCount = 0;
             }
         }
-        transform.localPosition = Vector3.Lerp(transform.localPosition, controllerArmModelPosition, smoothMoveSpeed); ;
-        transform.localRotation = controllerArmModelRotation;
+
+        if (TrackPosition)
+        {
+            if (hideController)
+                transform.localPosition = controllerArmModelPosition;
+            else
+                transform.localPosition = Vector3.Lerp (transform.localPosition, controllerArmModelPosition, smoothMoveSpeed);
+        }
+        if (TrackRotation)
+            transform.localRotation = controllerArmModelRotation;
+
+        // Skip frame which pose is not updated.
+        if (hideController)
+        {
+            // Since updatePose() is called only when connected, show controller after pose updated.
+            PrintDebugLog ("updateControllerPose() show controller components." +
+                "\nLocal Pos: " + transform.localPosition.x + ", "  + transform.localPosition.y + ", "  + transform.localPosition.z +
+                "\nPos: "       + transform.position.x + ", "       + transform.position.y + ", "       + transform.position.z +
+                "\nLocal rot: " + transform.localRotation.x + ", "  + transform.localRotation.y + ", "  + transform.localRotation.z);
+            ActivateTargetObjects (true);
+            hideController = false;
+        } else
+        {
+            Log.gpl.d(LOG_TAG, "Type " + this.Type + ", updateControllerPose()" +
+                "\nLocal Pos: " + transform.localPosition.x + ", "  + transform.localPosition.y + ", "  + transform.localPosition.z +
+                "\nPos: "       + transform.position.x + ", "       + transform.position.y + ", "       + transform.position.z +
+                "\nLocal rot: " + transform.localRotation.x + ", "  + transform.localRotation.y + ", "  + transform.localRotation.z);
+        }
     }
 
     private Vector3 GetHeadForward()
@@ -414,22 +513,119 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
 
     private Quaternion GetHeadRotation()
     {
-        return Head.transform.localRotation;
+        Quaternion _headrot = Quaternion.identity;
+
+        if (Head == null)
+            Head = WaveVR_Render.Instance.gameObject;
+        if (Head != null)
+            _headrot = Head.transform.localRotation;
+            
+        return _headrot;
     }
 
     private Vector3 GetHeadPosition()
     {
-        return Head.transform.localPosition;
+        Vector3 _headpos = Vector3.zero;
+
+        if (Head == null)
+            Head = WaveVR_Render.Instance.gameObject;
+        if (Head != null)
+            _headpos = Head.transform.localPosition;
+
+        return FollowHead ? _headpos : defaultHeadPosition;
+    }
+    private Vector3 defaultHeadPosition = Vector3.zero;
+
+    private const float BodyAngularVelocityUpperBound = 0.2f;
+    private const float ControllerAngularVelocityUpperBound = 30.0f;
+    private float BodyRotationFilter1(WVR_DevicePosePair_t pose)
+    {
+        Vector3 _v3AngularVelocity =
+            new Vector3 (pose.pose.AngularVelocity.v0, pose.pose.AngularVelocity.v1, pose.pose.AngularVelocity.v2);
+        float _v3magnitude = _v3AngularVelocity.magnitude;
+
+        // If magnitude < body angular velocity upper bound, it means body rotation.
+        // Thus the controller lerp filter will be 0 then controller will not move in scene.
+        // If magnitude > body angular velocity upper bound, it means controller movement instead of body rotation.
+        // In order to move controller smoothly, let the lerp max value to 0.2f means controller will move to correct position in 0.5s.
+        // If controller angular velocity reaches upper bound, it means user wants the controller to move fast!
+        float _bodyLerpFilter = Mathf.Clamp ((_v3magnitude - BodyAngularVelocityUpperBound) / ControllerAngularVelocityUpperBound, 0, 0.2f);
+
+        return _bodyLerpFilter;
     }
 
-    private void UpdateBodyRotation(Vector3 v3AngularVelocity)
+    private const float BodyAngleBound = 0.01f;
+    private const float BodyAngleLimitation = 0.3f; // bound of controller angle in SPEC provided to provider.
+    private uint framesOfFreeze = 0;                // if framesOfFreeze >= mFPS, means controller freezed.
+    private float BodyRotationFilter2(WaveVR_Utils.RigidTransform rtPose)
+    {
+        float _bodyLerpFilter = 0;
+
+        try {
+            Quaternion _rot_old = transform.localRotation;
+            Quaternion _rot_new = rtPose.rot;
+            float _rot_XY_angle_old = 0, _rot_XY_angle_new = 0;
+
+            Vector3 _rot_forward = Vector3.zero;
+            Quaternion _rot_XY_rotation = Quaternion.identity;
+
+            _rot_forward = _rot_old * Vector3.forward;
+            _rot_XY_rotation = Quaternion.FromToRotation (Vector3.forward, _rot_forward);
+            _rot_XY_angle_old = Quaternion.Angle (_rot_XY_rotation, Quaternion.identity);
+
+            _rot_forward = _rot_new * Vector3.forward;
+            _rot_XY_rotation = Quaternion.FromToRotation (Vector3.forward, _rot_forward);
+            _rot_XY_angle_new = Quaternion.Angle (_rot_XY_rotation, Quaternion.identity);
+
+            float _diff_angle = _rot_XY_angle_new - _rot_XY_angle_old;
+            _diff_angle = _diff_angle > 0 ? _diff_angle : -_diff_angle;
+
+            _bodyLerpFilter = Mathf.Clamp ((_diff_angle - BodyAngleBound) / BodyAngleLimitation, 0, 1.0f);
+
+            framesOfFreeze = _bodyLerpFilter < 1.0f ? framesOfFreeze + 1 : 0;
+
+            if (framesOfFreeze > mFPS)
+                _bodyLerpFilter = 0;
+        } catch (NullReferenceException e) {
+            PrintErrorLog ("BodyRotationFilter2() NullReferenceException " + e.Message);
+        } catch (MissingReferenceException e) {
+            PrintErrorLog ("BodyRotationFilter2() MissingReferenceException " + e.Message);
+        } catch (MissingComponentException e) {
+            PrintErrorLog ("BodyRotationFilter2() MissingComponentException " + e.Message);
+        } catch (IndexOutOfRangeException e) {
+            PrintErrorLog ("BodyRotationFilter2() IndexOutOfRangeException " + e.Message);
+        }
+        return _bodyLerpFilter;
+    }
+
+    private void UpdateHeadAndBodyPose(WVR_DevicePosePair_t pose, WaveVR_Utils.RigidTransform rtPose)
     {
         // Determine the gaze direction horizontally.
         Vector3 gazeDirection = GetHeadForward();
         gazeDirection.y = 0;
         gazeDirection.Normalize();
 
-        bodyDirection = gazeDirection;
+        //float _bodyLerpFilter = BodyRotationFilter1 (pose);
+        float _bodyLerpFilter = BodyRotationFilter2 (rtPose);
+        if (_bodyLerpFilter > 0)
+        {
+            if (!FollowHead)
+            {
+                if (Head == null)
+                    Head = WaveVR_Render.Instance.gameObject;
+                if (Head != null)
+                    defaultHeadPosition = Head.transform.localPosition;
+            }
+        }
+
+        if (hideController)
+        {
+            // if controller is hidden, asign direction directly.
+            bodyDirection = gazeDirection;
+        } else
+        {
+            bodyDirection = Vector3.Slerp (bodyDirection, gazeDirection, _bodyLerpFilter);
+        }
         bodyRotation = Quaternion.FromToRotation(Vector3.forward, bodyDirection);
     }
 
@@ -483,41 +679,8 @@ public class WaveVR_ControllerPoseTracker : MonoBehaviour
         // If quaternion qA has angle θ, quaternion qB has angle ε,
         // qA * qB will plus θ and ε which means rotating angle θ then rotating angle ε.
         // (_inverseBodyRotation * rotation of controller in world space) means angle ε subtracts angle θ.
-
-        /// 0. Handle two controller position cases: calculating with head position or calculating without head position case
-        // initial last head position and last controller rtPose for first time
-        if (firstPosInit)
-        {
-            lastHeadPosition = GetHeadPosition();
-            lastCtrlrRtPose = rtPose.rot;
-            noHeadPos = false;
-            firstPosInit = false;
-            Log.w(LOG_TAG, "initial last position value.");
-        }
-
-        // If moving controller whose angle is less than the angle bound then calculating controller position without head position.
-        // Otherwise, calculating controller position with head position
-        if (Quaternion.Angle(lastCtrlrRtPose, rtPose.rot) <= noHeadPosAngleBound)
-        {
-            noHeadPos = true;
-        }
-        else
-        {
-            lastCtrlrRtPose = rtPose.rot;
-            noHeadPos = false;
-        }
-
         Quaternion _controllerRotation = Quaternion.Inverse(bodyRotation) * rtPose.rot;
-        Vector3 _headPosition;
-        if (noHeadPos)
-        {
-            _headPosition = lastHeadPosition;
-        }
-        else
-        {
-            _headPosition = GetHeadPosition();
-            lastHeadPosition = _headPosition;
-        }
+        Vector3 _headPosition = GetHeadPosition ();
 
         /// 1. simulated elbow offset = default elbow offset apply body rotation = body rotation (Quaternion) * elbow offset (Vector3)
         // Default left / right elbow offset.

@@ -17,12 +17,21 @@ public enum EGazeInputEvent
 public class GazeInputModule : PointerInputModule
 {
     private static string LOG_TAG = "GazeInputModule";
-    public bool progressRate = false;  // The switch to show how many percent to click by TimeToGaze
+    private void PrintDebugLog(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(LOG_TAG + " " + msg);
+        #endif
+        Log.d (LOG_TAG, msg);
+    }
+
+    public bool progressRate = true;  // The switch to show how many percent to click by TimeToGaze
     public float RateTextZPosition = 0.5f;
-    public bool progressCounter = false;  // The switch to show how long to click by TimeToGaze
+    public bool progressCounter = true;  // The switch to show how long to click by TimeToGaze
     public float CounterTextZPosition = 0.5f;
-    public float TimeToGaze = 3.0f;
-    public EGazeInputEvent InputEvent = EGazeInputEvent.PointerDown;
+    public float TimeToGaze = 2.0f;
+    public EGazeInputEvent InputEvent = EGazeInputEvent.PointerSubmit;
+    public GameObject Head = null;
 
     /**
     * @brief get intersection position in world space
@@ -40,29 +49,107 @@ public class GazeInputModule : PointerInputModule
     }
 
     private PointerEventData pointerData;
+
     private void CastToCenterOfScreen()
     {
         if (pointerData == null)
             pointerData = new PointerEventData (eventSystem);
 
         pointerData.Reset();
-
-        // Cast ray
         pointerData.position = new Vector2 (0.5f * Screen.width, 0.5f * Screen.height);  // center of screen
-        eventSystem.RaycastAll(pointerData, m_RaycastResultCache);
 
-        // Get result of which ray casted
-        RaycastResult raycastResult = FindFirstRaycast(m_RaycastResultCache);
+        if (Head != null)
+        {
+            Camera _event_camera = Head.GetComponent<Camera> ();
+            GraphicRaycast (_event_camera);
 
-        if (raycastResult.gameObject != null && raycastResult.worldPosition == Vector3.zero)
-            raycastResult.worldPosition = GetIntersectionPosition(pointerData.enterEventCamera, raycastResult);
+            if (pointerData.pointerCurrentRaycast.gameObject == null)
+            {
+                PhysicsRaycaster _raycaster = Head.GetComponent<PhysicsRaycaster> ();
+                PhysicRaycast (_raycaster);
+            }
+        }
+    }
 
-        // Update PointerEventData attributes
-        pointerData.pointerCurrentRaycast = raycastResult;
-        if (raycastResult.gameObject != null)
-            pointerData.position = raycastResult.screenPosition;
+    private void GraphicRaycast(Camera event_camera)
+    {
+        List<RaycastResult> _raycast_results = new List<RaycastResult>();
 
-        m_RaycastResultCache.Clear();
+        // Reset pointerCurrentRaycast even no GUI.
+        RaycastResult _firstResult = new RaycastResult ();
+        pointerData.pointerCurrentRaycast = _firstResult;
+
+        foreach (Canvas _canvas in sceneCanvases)
+        {
+            GraphicRaycaster _gr = _canvas.GetComponent<GraphicRaycaster> ();
+            if (_gr == null)
+                continue;
+
+            // 1. Change event camera.
+            _canvas.worldCamera = event_camera;
+
+            // 2.
+            _gr.Raycast (pointerData, _raycast_results);
+
+            _firstResult = FindFirstRaycast (_raycast_results);
+            pointerData.pointerCurrentRaycast = _firstResult;
+            _raycast_results.Clear ();
+
+            #if UNITY_EDITOR
+            if (_firstResult.module != null)
+            {
+                //Debug.Log ("GraphicRaycast() device: " + event_controller.device + ", camera: " + _firstResult.module.eventCamera + ", first result = " + _firstResult);
+            }
+            #endif
+
+            // Found graphic raycasted object!
+            if (_firstResult.gameObject != null)
+            {
+                if (_firstResult.worldPosition == Vector3.zero)
+                {
+                    _firstResult.worldPosition = GetIntersectionPosition (
+                        _firstResult.module.eventCamera,
+                        //_eventController.event_data.enterEventCamera,
+                        _firstResult
+                    );
+                    pointerData.pointerCurrentRaycast = _firstResult;
+                }
+
+                pointerData.position = _firstResult.screenPosition;
+                break;
+            }
+        }
+    }
+
+    private void PhysicRaycast(PhysicsRaycaster raycaster)
+    {
+        if (raycaster == null)
+            return;
+
+        List<RaycastResult> _raycast_results = new List<RaycastResult>();
+        raycaster.Raycast (pointerData, _raycast_results);
+
+        RaycastResult _firstResult = FindFirstRaycast (_raycast_results);
+        pointerData.pointerCurrentRaycast = _firstResult;
+
+        #if UNITY_EDITOR
+        //PrintDebugLog ("PhysicRaycast() first result = " + _firstResult);
+        #endif
+
+        if (_firstResult.gameObject != null)
+        {
+            if (_firstResult.worldPosition == Vector3.zero)
+            {
+                _firstResult.worldPosition = GetIntersectionPosition (
+                    _firstResult.module.eventCamera,
+                    //_eventController.event_data.enterEventCamera,
+                    _firstResult
+                );
+                pointerData.pointerCurrentRaycast = _firstResult;
+            }
+
+            pointerData.position = _firstResult.screenPosition;
+        }
     }
 
     private float gazeTime = 0.0f;
@@ -70,6 +157,7 @@ public class GazeInputModule : PointerInputModule
     private Text progressText = null;
     private Text counterText = null;
     private WaveVR_Reticle gazePointer = null;
+    private GameObject percentCanvas = null, counterCanvas = null;
     private bool progressflag = true;
     private float countingTime = 0f;
 
@@ -94,15 +182,12 @@ public class GazeInputModule : PointerInputModule
         if (gazePointer == null)
             return;
 
-        GameObject pc = GameObject.Find ("PercentCanvas");
-        if (pc != null) {
-            GameObject percentCanvas = pc.gameObject;
+        if (percentCanvas != null) {
             Vector3 tmpVec = new Vector3(percentCanvas.transform.localPosition.x, percentCanvas.transform.localPosition.y, intersectionPosition.z - (RateTextZPosition >= 0 ? RateTextZPosition : 0));
             percentCanvas.transform.localPosition = tmpVec;
         }
-        GameObject cc = GameObject.Find ("CounterCanvas");
-        if (cc != null) {
-            GameObject counterCanvas = cc.gameObject;
+
+        if (counterCanvas != null) {
             Vector3 tmpVec = new Vector3(counterCanvas.transform.localPosition.x, counterCanvas.transform.localPosition.y, intersectionPosition.z - (CounterTextZPosition >= 0 ? CounterTextZPosition : 0));
             counterCanvas.transform.localPosition = tmpVec;
         }
@@ -154,12 +239,6 @@ public class GazeInputModule : PointerInputModule
                 counterText = ct.GetComponent<Text>();
             }
         }
-        if (gazePointer == null)
-        {
-            GameObject head = WaveVR_Render.Instance.gameObject;
-            if (head != null)
-                gazePointer = head.GetComponentInChildren<WaveVR_Reticle> ();
-        }
 
         if (pointerData.pointerEnter == null && currentOverGO == null) {
             UpdateReticle(currentOverGO, pointerData);
@@ -193,16 +272,9 @@ public class GazeInputModule : PointerInputModule
         if (pointerData.pointerEnter != currentOverGO)
         {
             #if UNITY_EDITOR
-            Debug.Log ("pointerEnter: " + pointerData.pointerEnter + ", currentOverGO: " + currentOverGO);
+            PrintDebugLog ("OnTriggeGaze() pointerEnter: " + pointerData.pointerEnter + ", currentOverGO: " + currentOverGO);
             #endif
-            //HandlePointerExitAndEnter (pointerData, currentOverGO);
-            if (pointerData.pointerEnter != null)
-            {
-                ExecuteEvents.ExecuteHierarchy (pointerData.pointerEnter, pointerData, ExecuteEvents.pointerExitHandler);
-                pointerData.pointerEnter = null;
-            }
-            ExecuteEvents.ExecuteHierarchy (currentOverGO, pointerData, ExecuteEvents.pointerEnterHandler);
-            pointerData.pointerEnter = currentOverGO;
+            HandlePointerExitAndEnter (pointerData, currentOverGO);
 
             gazeTime = Time.unscaledTime;
 
@@ -233,7 +305,7 @@ public class GazeInputModule : PointerInputModule
             if (elapsedTime - gazeTime > TimeToGaze)
             {
                 #if UNITY_EDITOR
-                //Debug.Log ("Selected: {" + currentOverGO.name + "} over " + TimeToGaze + " seconds.");
+                //PrintDebugLog ("OnTriggeGaze() Selected: {" + currentOverGO.name + "} over " + TimeToGaze + " seconds.");
                 #endif
                 sendEvent = true;
                 gazeTime = Time.unscaledTime;
@@ -305,8 +377,48 @@ public class GazeInputModule : PointerInputModule
         OnTriggeGaze();
     }
 
+    private bool EnableGaze = false;
+    private Canvas[] sceneCanvases = null;
+    protected override void OnEnable()
+    {
+        base.OnEnable ();
+
+        EnableGaze = true;
+
+        if (gazePointer == null)
+        {
+            // Set gazePointer only when null, or it will got null when WaveVR_Reticle gameObject is SetActive(false).
+            if (Head == null)
+                Head = WaveVR_Render.Instance.gameObject;
+            if (Head != null)
+                gazePointer = Head.GetComponentInChildren<WaveVR_Reticle> ();
+        }
+
+        if (gazePointer != null)
+        {
+            gazePointer.gameObject.SetActive (true);
+            percentCanvas = gazePointer.transform.Find ("PercentCanvas").gameObject;
+            counterCanvas = gazePointer.transform.Find ("CounterCanvas").gameObject;
+        }
+
+        sceneCanvases = GameObject.FindObjectsOfType<Canvas> ();
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable ();
+
+        EnableGaze = false;
+        if (gazePointer != null)
+            gazePointer.gameObject.SetActive (false);
+
+        if (pointerData != null)
+            HandlePointerExitAndEnter (pointerData, null);
+    }
+
     public override void Process()
     {
-        GazeControl ();
+        if (EnableGaze)
+            GazeControl ();
     }
 }

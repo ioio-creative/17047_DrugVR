@@ -37,8 +37,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4103012915273834}
-  - component: {fileID: 114775871754289594}
-  - component: {fileID: 114689059349560754}
+  - component: {fileID: 114335424018588122}
   m_Layer: 0
   m_Name: Generic_MC_R
   m_TagString: Untagged
@@ -757,6 +756,27 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114335424018588122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1081594429066374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997a0488225b80f47b7fdcd05319b85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 2
+  TrackPosition: 1
+  SimulationOption: 0
+  FollowHead: 0
+  TrackRotation: 1
+  TrackTiming: 1
+  IncludedObjects:
+  - {fileID: 1056876016598904}
+  - {fileID: 1940323899795478}
+  - {fileID: 1942289371942702}
 --- !u!114 &114394708615602382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -801,42 +821,6 @@ MonoBehaviour:
   indices: 
   colors: []
   position: {x: 0, y: 0, z: 0}
---- !u!114 &114689059349560754
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1081594429066374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25dc0d1784c2b3344ae81331b55f899f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
-  targetGameObjects:
-  - {fileID: 1940323899795478}
-  - {fileID: 1056876016598904}
-  - {fileID: 1942289371942702}
---- !u!114 &114775871754289594
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1081594429066374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d98a4e659663d14e8649dd9b59479db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
-  inversePosition: 0
-  trackPosition: 0
-  inverseRotation: 0
-  trackRotation: 1
-  timing: 1
-  ElbowRaiseYaxis: 0
-  ElbowRaiseZaxis: 0
-  pointerTiltAngle: 15
 --- !u!114 &114832821952561562
 MonoBehaviour:
   m_ObjectHideFlags: 1

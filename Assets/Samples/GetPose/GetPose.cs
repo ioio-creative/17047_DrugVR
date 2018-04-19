@@ -33,6 +33,14 @@ public class GetPose : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+        #if UNITY_EDITOR
+        if (Application.isEditor)
+            return;
+        #endif
+
+        WaveVR.Device _device = WaveVR.Instance.getDeviceByType (this.index);
+        WVR_DeviceType _type = _device.type;
+
         Interop.WVR_GetSyncPose(origin, poses, (uint) poses.Length);
 
         Log.d (LOG_TAG, "Update() poses length = " + poses.Length);
@@ -40,7 +48,7 @@ public class GetPose : MonoBehaviour
         {
             Log.d (LOG_TAG, "Update() pose[" + i + "] type = " + poses [i].type
                 + " pose is " + (poses [i].pose.IsValidPose ? "valid" : "invalid"));
-            if (poses[i].type == index && poses[i].pose.IsValidPose)
+            if (poses[i].type == _type && poses[i].pose.IsValidPose)
             {
                 rtPoses [i].update (poses [i].pose.PoseMatrix);
                 updatePose (rtPoses [i]);
