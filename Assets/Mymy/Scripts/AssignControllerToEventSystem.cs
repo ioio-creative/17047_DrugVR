@@ -2,9 +2,9 @@
 
 public class AssignControllerToEventSystem : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
-        WaveVR_ControllerInputModule evntSys = GameObject.Find("/System/EventSystem").GetComponent<WaveVR_ControllerInputModule>();
-        evntSys.RightController = gameObject;     
+        WaveVR_InputModuleManager imManager = GameObject.Find("/System/InputModuleManager").GetComponent<WaveVR_InputModuleManager>();
+        imManager.Controller.RightController = gameObject;     
     }
 }

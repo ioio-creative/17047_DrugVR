@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4545099338488420}
   - component: {fileID: 328031454311876968}
+  - component: {fileID: 82988735580599274}
   m_Layer: 0
   m_Name: Background Skybox
   m_TagString: Untagged
@@ -126,7 +127,6 @@ GameObject:
   - component: {fileID: 4825405120226934}
   - component: {fileID: 114603717668955210}
   - component: {fileID: 114303621593741886}
-  - component: {fileID: 114199485558533586}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -344,6 +344,86 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!82 &82988735580599274
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1089209305791684}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95655597698431606
 Animator:
   serializedVersion: 3
@@ -415,30 +495,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &114199485558533586
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1444162845249810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d35b04550c2750f4db3db7d6d373e5fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RightController: {fileID: 0}
-  RightRaycastMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  LeftController: {fileID: 0}
-  LeftRaycastMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  ButtonToTrigger: 16
-  RaycastMode: 2
-  RaycastStartPoint: 0
-  CanvasTag: EventCanvas
-  mForceModuleActive: 1
 --- !u!114 &114303621593741886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -594,13 +650,13 @@ MonoBehaviour:
     RightController: {fileID: 0}
     RightRaycastMask:
       serializedVersion: 2
-      m_Bits: 3584
+      m_Bits: 512
     LeftController: {fileID: 0}
     LeftRaycastMask:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 0
     ButtonToTrigger: 16
-    RaycastMode: 2
+    RaycastMode: 0
     RaycastStartPoint: 0
     CanvasTag: EventCanvas
 --- !u!114 &114788254905365654
