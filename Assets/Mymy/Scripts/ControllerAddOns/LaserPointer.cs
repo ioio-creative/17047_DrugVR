@@ -48,21 +48,25 @@ public class LaserPointer : MonoBehaviour
     [SerializeField]
     private int pickableObjLayer = 10;
     [SerializeField]
-    private bool m_EnableBeam = false;
-    public bool EnableBeam
+    private bool isEnableBeam = false;
+    public bool IsEnableBeam
     {
-        get {return m_EnableBeam; }
-        set { m_EnableBeam = value; }
-    }
-    [SerializeField]
-    private bool m_EnableReticle = false;
-    public bool EnableReticle
-    {
-        get { return m_EnableReticle; }
+        get {return isEnableBeam; }
         set
         {
-            m_EnableReticle = value;
-            if (value == false) HideReticle();
+            isEnableBeam = value;
+            if (!value) HideLaser();
+        }
+    }
+    [SerializeField]
+    private bool isEnableReticle = false;
+    public bool IsEnableReticle
+    {
+        get { return isEnableReticle; }
+        set
+        {
+            isEnableReticle = value;
+            if (!value) HideReticle();
         }
     }
 
@@ -80,10 +84,7 @@ public class LaserPointer : MonoBehaviour
     /* MonoBehaviour */
 
     private void Start()
-    {
-        laserTransform.gameObject.SetActive(false);
-        reticleTransform.gameObject.SetActive(false);        
-
+    {              
         originalReticleScale = reticleTransform.localScale;
         originalReticleRotation = reticleTransform.localRotation;
 
@@ -93,6 +94,24 @@ public class LaserPointer : MonoBehaviour
             normal = controllerObjTransform.forward,
             distance = maxPointerDist
         };
+
+        if (isEnableReticle)
+        {
+            ShowReticle(defaultHit);
+        }
+        else
+        {
+            HideReticle();
+        }
+
+        if (isEnableBeam)
+        {
+            ShowLaser(defaultHit);
+        }
+        else
+        {
+            HideLaser();
+        }
     }
 
     private void FixedUpdate()
@@ -108,10 +127,16 @@ public class LaserPointer : MonoBehaviour
 
         bool isBtnPressed = WaveVR_Controller.Input(device).GetPress(inputToListen);
 
-        if (EnableReticle) ShowReticle(hit);
-        else HideReticle();
+        if (IsEnableReticle)
+        {
+            ShowReticle(hit);
+        }
+        else
+        {
+            HideReticle();
+        }
 
-        if (EnableBeam)
+        if (IsEnableBeam)
         {
             if (isBtnPressed)
             {
@@ -128,7 +153,6 @@ public class LaserPointer : MonoBehaviour
 		}
 
         RaycastPickupAndRelease(hit, isHit, isBtnPressed);
-
     }
 
     /* end of MonoBehaviour */

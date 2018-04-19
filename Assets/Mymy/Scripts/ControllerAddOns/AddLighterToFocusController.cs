@@ -16,7 +16,7 @@ public class AddLighterToFocusController : MonoBehaviour
         controllerPT.TrackRotation = false;
         gameObject.transform.parent = ControllerPosTrkMan.transform;
         ControllerLaser.enabled = false;
-        ControllerLaser.EnableReticle = false;
+        ControllerLaser.IsEnableReticle = false;
         OriginalControllerModel.SetActive(false);
         OriginalControllerModel.transform.localScale = Vector3.zero;
 
@@ -28,6 +28,6 @@ public class AddLighterToFocusController : MonoBehaviour
         OriginalControllerModel.SetActive(true);
         OriginalControllerModel.transform.localScale = Vector3.one;
         ControllerLaser.enabled = true;
-        ControllerLaser.EnableReticle = true;
+        ControllerLaser.IsEnableReticle = true;
     }
 }

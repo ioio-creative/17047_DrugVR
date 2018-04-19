@@ -2161,8 +2161,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   pickableObjLayer: 10
-  m_EnableBeam: 1
-  m_EnableReticle: 1
+  isEnableBeam: 1
+  isEnableReticle: 1
 --- !u!124 &124611567476833104
 Behaviour:
   m_ObjectHideFlags: 1
