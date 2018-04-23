@@ -82,7 +82,6 @@ namespace VRStandardAssets.Utils
             while (m_Fading)
             {
                 yield return null;
-
             }
 
             //yield return new WaitWhile(() => m_Fading);
