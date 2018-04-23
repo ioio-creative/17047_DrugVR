@@ -13,7 +13,7 @@ Shader "Unlit/UnlitWithColorTransparency"
 		_Transparency("Transparency", Range(0.0, 1.0)) = 0.5
 	}
 	
-		SubShader
+	SubShader
 	{
 		//Tags { "RenderType" = "Opaque" }
 		Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }
@@ -21,7 +21,7 @@ Shader "Unlit/UnlitWithColorTransparency"
 
 		ZWrite Off
 		Blend SrcAlpha OneMinusSrcAlpha
-		Cull Back  // Cull Back = outside sphere;  Cull Front = inside sphere 
+		Cull Front// Cull Back = outside sphere;  Cull Front = inside sphere 
 
 		Pass
 		{

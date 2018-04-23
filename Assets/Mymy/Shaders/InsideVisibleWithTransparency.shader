@@ -22,7 +22,7 @@ Shader "Unlit/InsideVisibleWithTransparency"
 
 		ZWrite Off
 		Blend SrcAlpha OneMinusSrcAlpha
-		Cull Front  // Cull Back = outside sphere;  Cull Front = inside sphere
+		Cull Back  // Cull Back = outside sphere;  Cull Front = inside sphere
 
 		Pass
 		{
@@ -50,7 +50,6 @@ Shader "Unlit/InsideVisibleWithTransparency"
 			float4 _MainTex_ST;
 
 			// for setting color and alpha
-			fixed4 _Color;
 			float _Transparency;
 
 			v2f vert(appdata_t v)

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using DrugVR_Scribe;
+using System;
 
 public enum SkyboxType
 {
@@ -16,13 +17,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
+    public VideoClip[] sceneClips = new VideoClip[Enum.GetNames(typeof(DrugVR_SceneENUM)).Length];
+
     private Scene m_scene;
     private VideoPlayer m_video;
     private Animator m_anim;
     private Image m_fadeImage;
 
     public DrugVR_SceneENUM currentScene;
-    public SkyboxType nextSkyType = SkyboxType.ImageSky;
+    public SkyboxType currentSkyType = SkyboxType.ImageSky;
     public Material nextSkyMat;
     public string ActiveSceneName
     {
@@ -92,7 +95,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
+        if (currentSkyType == SkyboxType.VideoSky)
+        {
+            m_video = FindObjectOfType<VideoPlayer>();
+        }
     }
 
     private void Start()
@@ -112,7 +119,7 @@ public class GameManager : MonoBehaviour
     public void ReadScroll(Scroll scroll)
     {
         currentScene = scroll.Scene;
-        nextSkyType = scroll.Skybox;
+        currentSkyType = scroll.Skybox;
     }
 
     public void GoToNextScene()
@@ -133,7 +140,7 @@ public class GameManager : MonoBehaviour
         if (FadeToBlack)
         {
             isLoadingScene = true;
-            StartCoroutine(FadeOutAndIn(sceneToLoad, nextSkyType));
+            StartCoroutine(FadeOutAndIn(sceneToLoad, currentSkyType));
         }
         //if we dont want to use fading, just load the next scene
         else
