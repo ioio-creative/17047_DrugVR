@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     private Animator m_anim;
     private Image m_fadeImage;
 
-    public DrugVR_ENUM nextScene;
+    public DrugVR_SceneENUM currentScene;
     public SkyboxType nextSkyType = SkyboxType.ImageSky;
     public Material nextSkyMat;
     public string ActiveSceneName
@@ -111,16 +111,16 @@ public class GameManager : MonoBehaviour
 
     public void ReadScroll(Scroll scroll)
     {
-        nextScene = scroll.Scene;
+        currentScene = scroll.Scene;
         nextSkyType = scroll.Skybox;
     }
 
     public void GoToNextScene()
     {
-        if(!isLoadingScene) GoToScene(Scribe.SceneDictionary[nextScene]);
+        if(!isLoadingScene) GoToScene(Scribe.SceneDictionary[++currentScene]);
     }
 
-    public void GoToScene(DrugVR_ENUM sceneEnum)
+    public void GoToScene(DrugVR_SceneENUM sceneEnum)
     {
         GoToScene(Scribe.SceneDictionary[sceneEnum]);
     }

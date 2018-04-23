@@ -59,4 +59,5 @@ public class WaveVR_FPS : MonoBehaviour
         text += mode_text;
         textField.text = text;
     }
+
 }

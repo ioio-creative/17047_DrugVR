@@ -8,8 +8,9 @@ using UnityEngine;
 namespace DrugVR_Scribe
 {
 
-    public enum DrugVR_ENUM
+    public enum DrugVR_SceneENUM
     {
+        Intro,
         Sc01,
         Sc01S,
         Sc01A,
@@ -34,13 +35,14 @@ namespace DrugVR_Scribe
         Sc07S,
         Sc08,
         Sc09,
-        Sc10
+        Sc10,
+        Recap
     }
 
-
+    //This Static class records all the choices made by player, as well as storing scene names as string
     public static class Scribe
     {
-        public static IDictionary<DrugVR_ENUM, string> SceneDictionary;// = new Dictionary<DrugVR_ENUM, string>()
+        public static IDictionary<DrugVR_SceneENUM, string> SceneDictionary;// = new Dictionary<DrugVR_ENUM, string>()
 
         public static bool side01 = true;
         public static bool side02 = true;
@@ -52,7 +54,7 @@ namespace DrugVR_Scribe
         {
             
             string[] stringScenes = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, "SceneNames.txt"));
-            DrugVR_ENUM enumIndex = 0;
+            DrugVR_SceneENUM enumIndex = 0;
             foreach (string sceneStr in stringScenes)
             {
                 SceneDictionary.Add(enumIndex++, sceneStr);
@@ -63,8 +65,10 @@ namespace DrugVR_Scribe
 
     public class Scroll
     {
-        public DrugVR_ENUM Scene { get; set; }
+        public DrugVR_SceneENUM Scene { get; set; }
         public SkyboxType Skybox { get; set; }
+        public bool EnableController;
+
     }
 
 }
