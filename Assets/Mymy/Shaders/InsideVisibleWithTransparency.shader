@@ -4,6 +4,8 @@
 // http://www.alanzucconi.com/2015/07/01/vertex-and-fragment-shaders-in-unity3d/
 // https://unity3d.com/learn/tutorials/topics/graphics/making-transparent-shader
 
+// http://bernieroehl.com/360stereoinunity/
+// https://www.youtube.com/watch?v=g010bvtfRHM
 // Based on Unlit shader, but culls the front faces instead of the back
 
 Shader "Unlit/InsideVisibleWithTransparency"
