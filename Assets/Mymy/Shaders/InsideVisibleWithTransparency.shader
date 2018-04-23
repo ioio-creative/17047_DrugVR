@@ -22,7 +22,7 @@ Shader "Unlit/InsideVisibleWithTransparency"
 
 		ZWrite Off
 		Blend SrcAlpha OneMinusSrcAlpha
-		Cull Back  // Cull Back = outside sphere;  Cull Front = inside sphere
+		Cull Front  // Cull Back = outside sphere;  Cull Front = inside sphere
 
 		Pass
 		{
