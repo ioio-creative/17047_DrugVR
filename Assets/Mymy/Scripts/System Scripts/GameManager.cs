@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    public VideoClip[] sceneClips = new VideoClip[Enum.GetNames(typeof(DrugVR_SceneENUM)).Length];
+    public ArrayList sceneClips = new ArrayList(Enum.GetNames(typeof(DrugVR_SceneENUM)).Length);
 
     private Scene m_scene;
     private VideoPlayer m_video;
