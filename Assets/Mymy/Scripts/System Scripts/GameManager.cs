@@ -80,15 +80,14 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
         {
             Destroy(gameObject);
-        }
-        
-        HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
-        Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();
-
+        }               
     }
 
     private void Start()
     {
+        HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
+        Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();
+
         CurrentSceneScroll = Scribe.SceneDictionary[CurrentScene];
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
         ReadScroll(CurrentSceneScroll);

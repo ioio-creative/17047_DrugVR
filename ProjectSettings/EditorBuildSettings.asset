@@ -30,5 +30,11 @@ EditorBuildSettings:
     path: Assets/Mymy/Scenes/Tests/Scene7_Temp.unity
     guid: 50049093be7b869468f75fa3ed57e208
   - enabled: 1
-    path: Assets/Mymy/Scenes/Sc3A.unity
+    path: Assets/Mymy/Scenes/Scene03A.unity
     guid: 456dd4d3eca95c84d965366714df7c81
+  - enabled: 1
+    path: Assets/Mymy/Scenes/Introduction.unity
+    guid: 77e29ca417287694282db78c9a13ee90
+  - enabled: 1
+    path: Assets/Mymy/Scenes/Scene01.unity
+    guid: 6a3dd5b124d8591479dd8826efe98b35
