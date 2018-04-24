@@ -6,37 +6,38 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using DrugVR_Scribe;
 using System;
+using System.IO;
 
 public enum SkyboxType
 {
+    Null,
     VideoSky,
     ImageSky
 }
+
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    public ArrayList sceneClips = new ArrayList(Enum.GetNames(typeof(DrugVR_SceneENUM)).Length);
-
-    private Scene m_scene;
     private VideoPlayer m_video;
     private Animator m_anim;
     private Image m_fadeImage;
 
-    public DrugVR_SceneENUM currentScene;
-    public SkyboxType currentSkyType = SkyboxType.ImageSky;
-    public Material nextSkyMat;
-    public string ActiveSceneName
-    {
-        get { return activeSceneName; }
-    }
-    private string activeSceneName;
+    public DrugVR_SceneENUM CurrentScene;
+    private Scroll CurrentSceneScroll;
+
+    public Material VideoSkyMat;
+    public Material StillSkyMat;
 
 
     public bool FadeToBlack = true;
 
+    private WaveVR_DevicePoseTracker HMD;
+    private WaveVR_ControllerPoseTracker Controller;
     private bool isLoadingScene = false;
+
+
 
     #region Scribe Fields
     public bool Side01
@@ -66,93 +67,115 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    private void OnEnable()
-    {
-        if (!m_video)
-        {
-            m_video = FindObjectOfType<VideoPlayer>();
-            m_video.loopPointReached += OnVideoEnd;
-        }
-    }
 
-    private void OnDisable()
-    {
-        if (!m_video)
-        {
-            m_video = FindObjectOfType<VideoPlayer>();
-            m_video.loopPointReached -= OnVideoEnd;
-        }
-    }
     //make sure that we only have a single instance of the game manager
     private void Awake()
     {
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
-            instance = this;
+            instance = this;          
+            m_video = GetVideoPlayerInScene();
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
+        
+        HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
+        Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();
 
-        if (currentSkyType == SkyboxType.VideoSky)
-        {
-            m_video = FindObjectOfType<VideoPlayer>();
-        }
     }
 
     private void Start()
     {
-        m_scene = SceneManager.GetActiveScene();
-        activeSceneName = m_scene.buildIndex + " - " + m_scene.name;
+        CurrentSceneScroll = Scribe.SceneDictionary[CurrentScene];
+        //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
+        ReadScroll(CurrentSceneScroll);
+        //if (CurrentSceneScroll.SceneSky == SkyboxType.VideoSky) PlayVideo();
     }
 
     private void FixedUpdate()
     {
-        if(Input.GetKey("f") == true)
+        if (Input.GetKey("f") == true)
         {
             GoToNextScene();       
         }
     }
 
-    public void ReadScroll(Scroll scroll)
+    private void ReadScroll(Scroll scroll)
     {
-        currentScene = scroll.Scene;
-        currentSkyType = scroll.Skybox;
+        m_video.enabled = false;
+        m_video.loopPointReached -= OnVideoEnd;
+
+        //Based skybox type of scene, assign video /image texture to environment skybox
+        //Also to set skybox rotation of the scene
+        if (scroll.SceneSky == SkyboxType.VideoSky)
+        {
+            m_video.url = Path.Combine(Application.dataPath, scroll.SkyContentPath);
+            RenderSettings.skybox = VideoSkyMat;
+            VideoSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);
+            m_video.enabled = true;
+            m_video.loopPointReached += OnVideoEnd;
+
+            StartCoroutine(VideoSwitch());
+            PlayVideo();
+
+        }
+        else if (scroll.SceneSky == SkyboxType.ImageSky)
+        {
+            RenderSettings.skybox = StillSkyMat;
+            Texture2D stillSkyTex = (Texture2D)Resources.Load(scroll.SkyContentPath);
+            StillSkyMat.SetTexture("_MainTex", stillSkyTex);
+            StillSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);            
+        }        
+
+        DynamicGI.UpdateEnvironment();
+
+        HMD.trackRotation = scroll.HMDRotationEnabled;
+
+        Controller.TrackRotation = scroll.ControllerRotEnabled;
+        Controller.gameObject.SetActive(scroll.ControllerEnabled);
+        Controller.enabled = scroll.ControllerEnabled;
+
+    }
+
+    private IEnumerator VideoSwitch()
+    {
+        yield return new WaitUntil(() => m_video.isPrepared);
     }
 
     public void GoToNextScene()
     {
-        if(!isLoadingScene) GoToScene(Scribe.SceneDictionary[++currentScene]);
+        if(!isLoadingScene) GoToScene(++CurrentScene);
     }
 
+    
+    //Select scene is called from either the menu manager or hotspot manager, and is used to load the desired scene
     public void GoToScene(DrugVR_SceneENUM sceneEnum)
     {
-        GoToScene(Scribe.SceneDictionary[sceneEnum]);
-    }
-    
+        if (!isLoadingScene)
+        {
+            //if we want to use the fading between scenes, start the coroutine here
+            if (FadeToBlack)
+            {
+                isLoadingScene = true;
+                StartCoroutine(FadeOutAndIn(sceneEnum));
+            }
+            //if we dont want to use fading, just load the next scene
+            else
+            {
+                string sceneToLoadName = Scribe.SceneDictionary[sceneEnum].SceneName;
+                SceneManager.LoadScene(sceneToLoadName);
+            }
+        }
 
-    //Select scene is called from either the menu manager or hotspot manager, and is used to load the desired scene
-    public void GoToScene(string sceneToLoad)
-    {
-        //if we want to use the fading between scenes, start the coroutine here
-        if (FadeToBlack)
-        {
-            isLoadingScene = true;
-            StartCoroutine(FadeOutAndIn(sceneToLoad, currentSkyType));
-        }
-        //if we dont want to use fading, just load the next scene
-        else
-        {
-            SceneManager.LoadScene(sceneToLoad);
-        }
-        //set the active scene to the next scene
-        activeSceneName = sceneToLoad;
     }
 
-    IEnumerator FadeOutAndIn(string sceneToLoad, SkyboxType skyboxType)
+    private IEnumerator FadeOutAndIn(DrugVR_SceneENUM nextSceneEnum)
     {
+        CurrentSceneScroll = Scribe.SceneDictionary[nextSceneEnum];
+        
         //get references to animatior and image component from children Game Object 
         m_anim = instance.GetComponentInChildren<Animator>();
         m_fadeImage = instance.GetComponentInChildren<Image>();
@@ -162,25 +185,16 @@ public class GameManager : MonoBehaviour
 
         //wait until the fade image is entirely black (alpha=1) then load next scene
         yield return new WaitUntil(() => m_fadeImage.color.a == 1);
-        SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Additive);
-        Scene nextScene = SceneManager.GetSceneByName(sceneToLoad);
+        string nextSceneName = CurrentSceneScroll.SceneName;
+        SceneManager.LoadScene(nextSceneName);
+        Scene nextScene = SceneManager.GetSceneByName(nextSceneName);
         Debug.Log("loading scene:" + nextScene.name);
-        yield return new WaitUntil(() => nextScene.isLoaded);
+        //yield return new WaitUntil(() => nextScene.isLoaded);
 
-        if (skyboxType == SkyboxType.VideoSky)
-        {
-            //grab video and wait until it is loaded and prepared before starting the fade out
-            m_video = FindObjectOfType<VideoPlayer>();
-            yield return new WaitUntil(() => m_video.isPrepared);
-        }
-        else if (skyboxType == SkyboxType.ImageSky)
-        {
-            RenderSettings.skybox = nextSkyMat;
-        }
 
-        //SceneManager.UnloadSceneAsync(scene);
-        m_scene = nextScene;
-        activeSceneName = nextScene.name;
+        //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
+        ReadScroll(CurrentSceneScroll);
+
         //trigger FadeIn on the animator so our image will fade back in 
         m_anim.SetTrigger("FadeIn");
 
@@ -193,7 +207,7 @@ public class GameManager : MonoBehaviour
     {
         if (!m_video)
         {
-            m_video = FindObjectOfType<VideoPlayer>();
+            m_video = GetVideoPlayerInScene();
         }
         m_video.Pause();
     }
@@ -203,7 +217,7 @@ public class GameManager : MonoBehaviour
     {
         if (!m_video)
         {
-            m_video = FindObjectOfType<VideoPlayer>();
+            m_video = GetVideoPlayerInScene();
         }
         m_video.Play();
     }
@@ -211,5 +225,10 @@ public class GameManager : MonoBehaviour
     private void OnVideoEnd(VideoPlayer source)
     {
         GoToNextScene();
+    }
+
+    private VideoPlayer GetVideoPlayerInScene()
+    {
+        return GetComponentInChildren<VideoPlayer>();
     }
 }

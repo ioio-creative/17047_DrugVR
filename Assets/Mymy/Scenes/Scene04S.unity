@@ -1283,6 +1283,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114641817365456078, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: currentSkyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114641817365456078, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: currentScene
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
   m_IsPrefabParent: 0

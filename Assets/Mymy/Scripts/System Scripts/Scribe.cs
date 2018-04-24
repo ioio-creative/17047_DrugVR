@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Video;
 
 namespace DrugVR_Scribe
 {
-
+    //Scene 
     public enum DrugVR_SceneENUM
     {
         Intro,
@@ -36,13 +37,13 @@ namespace DrugVR_Scribe
         Sc08,
         Sc09,
         Sc10,
-        Recap
+        Summary
     }
 
     //This Static class records all the choices made by player, as well as storing scene names as string
     public static class Scribe
     {
-        public static IDictionary<DrugVR_SceneENUM, string> SceneDictionary;// = new Dictionary<DrugVR_ENUM, string>()
+        public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary = new Dictionary<DrugVR_SceneENUM, Scroll>();
 
         public static bool side01 = true;
         public static bool side02 = true;
@@ -52,23 +53,70 @@ namespace DrugVR_Scribe
 
         static Scribe()
         {
-            
-            string[] stringScenes = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, "SceneNames.txt"));
+            string filePath = Path.Combine(Application.dataPath, "Mymy/Scripts/System Scripts/SceneNames.txt").ToString();
+            Debug.Log(filePath);
+            string[] stringScenesParams = File.ReadAllLines(filePath).Skip(1).ToArray();
             DrugVR_SceneENUM enumIndex = 0;
-            foreach (string sceneStr in stringScenes)
-            {
-                SceneDictionary.Add(enumIndex++, sceneStr);
-            }
 
+            for (int i = 0; i < stringScenesParams.Length; i++)
+            {
+                SceneDictionary.Add(enumIndex++, new Scroll(stringScenesParams[i]));
+            }
+            
         }
     }
 
     public class Scroll
     {
-        public DrugVR_SceneENUM Scene { get; set; }
-        public SkyboxType Skybox { get; set; }
-        public bool EnableController;
+        public string SceneName;
 
+        public SkyboxType SceneSky = SkyboxType.Null;
+
+        public string SkyContentPath = null;
+
+        public float SkyShaderDefaultRotation = 0;
+
+        public bool HMDRotationEnabled = true;
+
+        public bool ControllerEnabled = true;
+
+        public bool ControllerRotEnabled = true;
+
+        public Scroll(string paramPresplit)
+        {
+            string[] paramArray = paramPresplit.Split(',');
+
+            SceneName = paramArray[0];
+            try
+            {
+                SceneSky = (SkyboxType)Enum.Parse(typeof(SkyboxType), paramArray[1]);
+                SkyContentPath = paramArray[2];
+                SkyShaderDefaultRotation = float.Parse(paramArray[3]);
+                HMDRotationEnabled = ParseZeroAndOne(paramArray[4]);
+                ControllerEnabled = ParseZeroAndOne(paramArray[5]);
+                ControllerRotEnabled = ParseZeroAndOne(paramArray[6]);
+            }
+            catch (Exception)
+            {
+
+            }
+                      
+        }
+
+        bool ParseZeroAndOne(string returnValue)
+        {
+            if (returnValue == "1")
+            {
+                return true;
+            }
+            else if (returnValue == "0")
+            {
+                return false;
+            }
+            else
+            {
+                throw new FormatException("The string is not a recognized as a valid boolean value.");
+            }
+        }
     }
-
 }
