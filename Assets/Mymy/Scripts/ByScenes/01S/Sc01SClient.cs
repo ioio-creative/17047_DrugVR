@@ -6,22 +6,24 @@ using UnityEngine.Video;
 
 public class Sc01SClient : MonoBehaviour
 {
-    [SerializeField]
-    private DrugVR_SceneENUM nextSceneToLoad;
+    //private DrugVR_SceneENUM nextSceneToLoad;
+    private GameManager managerInst;
 
-    private GameManager managerInst = GameManager.Instance;
-
-    private void OnEnable()
+    private void Awake()
     {
-        managerInst.OnSystemVideoEnd += HandleSystemVideoEnd;
-    }
-    private void OnDisable()
-    {
-        managerInst.OnSystemVideoEnd -= HandleSystemVideoEnd;
+        managerInst = GameManager.Instance;
     }
 
-    private void HandleSystemVideoEnd(VideoPlayer source)
+    private void GoToSceneOnChoice()
     {
-        managerInst.GoToScene(nextSceneToLoad);
+        if (managerInst.Side01)
+        {
+            managerInst.GoToScene(DrugVR_SceneENUM.Sc01A);
+        }
+        else
+        {
+            managerInst.GoToScene(DrugVR_SceneENUM.Sc01B);
+        }
     }
+
 }

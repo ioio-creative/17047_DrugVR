@@ -6,11 +6,10 @@ using UnityEngine.Video;
 
 public class VideoSceneClientBase : MonoBehaviour
 {
-    [SerializeField]
-    private DrugVR_SceneENUM nextSceneToLoad;
+    protected DrugVR_SceneENUM nextSceneToLoadBase;
     private GameManager managerInst;
 
-    private void Awake()
+    protected void AwakeBase()
     {
         managerInst = GameManager.Instance;
     }
@@ -26,6 +25,6 @@ public class VideoSceneClientBase : MonoBehaviour
 
     private void HandleSystemVideoEnd(VideoPlayer source)
     {
-        managerInst.GoToScene(nextSceneToLoad);
+        managerInst.GoToScene(nextSceneToLoadBase);
     }
 }
