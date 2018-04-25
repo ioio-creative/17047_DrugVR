@@ -18,7 +18,7 @@ public enum SkyboxType
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance = null;
+    public static GameManager Instance = null;
 
     private VideoPlayer m_video;
     private Animator m_anim;
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     private WaveVR_ControllerPoseTracker Controller;
     private bool isLoadingScene = false;
 
-
+    public event Action<VideoPlayer> OnSystemVideoEnd;
 
     #region Scribe Fields
     public bool Side01
@@ -71,13 +71,13 @@ public class GameManager : MonoBehaviour
     //make sure that we only have a single instance of the game manager
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
             DontDestroyOnLoad(gameObject);
-            instance = this;          
+            Instance = this;          
             m_video = GetVideoPlayerInScene();
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }               
@@ -92,14 +92,27 @@ public class GameManager : MonoBehaviour
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
         ReadScroll(CurrentSceneScroll);
         //if (CurrentSceneScroll.SceneSky == SkyboxType.VideoSky) PlayVideo();
+
+        UpdateEnum();
     }
 
     private void FixedUpdate()
     {
         if (Input.GetKey("f") == true)
         {
-            GoToNextScene();       
+            GoToScene(++CurrentScene);       
         }
+    }
+
+    private DrugVR_SceneENUM temp = DrugVR_SceneENUM.Intro;
+
+    private void UpdateEnum()
+    {
+        for (; (int)temp < 10; temp++)
+        {
+            Debug.Log("temp: " + temp.ToString());
+        }
+
     }
 
     private void ReadScroll(Scroll scroll)
@@ -122,9 +135,9 @@ public class GameManager : MonoBehaviour
 
         }
         else if (scroll.SceneSky == SkyboxType.ImageSky)
-        {
-            RenderSettings.skybox = StillSkyMat;
+        { 
             Texture2D stillSkyTex = (Texture2D)Resources.Load(scroll.SkyContentPath);
+            RenderSettings.skybox = StillSkyMat;
             StillSkyMat.SetTexture("_MainTex", stillSkyTex);
             StillSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);            
         }        
@@ -133,20 +146,30 @@ public class GameManager : MonoBehaviour
 
         HMD.trackRotation = scroll.HMDRotationEnabled;
 
-        Controller.TrackRotation = scroll.ControllerRotEnabled;
-        Controller.gameObject.SetActive(scroll.ControllerEnabled);
-        Controller.enabled = scroll.ControllerEnabled;
+        //TO BE REVIEWED WHEN NEEDED
+        //---------------POSE TRACKER MANAGER----------------
+        // Consider a situation: no pose is updated and WaveVR_PoseTrackerManager is enabled <-> disabled multiple times.
+        // At this situation, IncludedStates will be set to false forever since they are deactivated at 1st time OnEnable()
+        // and the deactivated state will be updated to IncludedStates in 2nd time OnEnable().
+        // To prevent this situation, activate IncludedObjects in OnDisable to restore the state Children GameObjects.
+        
+        //if (scroll.ControllerEnabled)
+        //{
+        //    Controller.gameObject.SetActive(scroll.ControllerEnabled);
+        //    Controller.enabled = scroll.ControllerEnabled;
+        //    Controller.TrackRotation = scroll.ControllerRotEnabled;
+        //}
+        //else
+        //{
+        //    Controller.gameObject.SetActive(scroll.ControllerEnabled);
+        //    Controller.enabled = scroll.ControllerEnabled;
+        //}
 
     }
 
     private IEnumerator VideoSwitch()
     {
         yield return new WaitUntil(() => m_video.isPrepared);
-    }
-
-    public void GoToNextScene()
-    {
-        if(!isLoadingScene) GoToScene(++CurrentScene);
     }
 
     
@@ -176,8 +199,8 @@ public class GameManager : MonoBehaviour
         CurrentSceneScroll = Scribe.SceneDictionary[nextSceneEnum];
         
         //get references to animatior and image component from children Game Object 
-        m_anim = instance.GetComponentInChildren<Animator>();
-        m_fadeImage = instance.GetComponentInChildren<Image>();
+        m_anim = Instance.GetComponentInChildren<Animator>();
+        m_fadeImage = Instance.GetComponentInChildren<Image>();
 
         //Trigger FadeOut on the animator so our image will fade out
         m_anim.SetTrigger("FadeOut");
@@ -188,7 +211,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(nextSceneName);
         Scene nextScene = SceneManager.GetSceneByName(nextSceneName);
         Debug.Log("loading scene:" + nextScene.name);
-        //yield return new WaitUntil(() => nextScene.isLoaded);
+        yield return new WaitUntil(() => nextScene.isLoaded);
 
 
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
@@ -223,7 +246,10 @@ public class GameManager : MonoBehaviour
 
     private void OnVideoEnd(VideoPlayer source)
     {
-        GoToNextScene();
+        if (OnSystemVideoEnd != null)
+        {
+            OnSystemVideoEnd(source);
+        }
     }
 
     private VideoPlayer GetVideoPlayerInScene()
