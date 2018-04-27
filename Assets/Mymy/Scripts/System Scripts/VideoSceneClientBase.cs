@@ -7,20 +7,22 @@ using UnityEngine.Video;
 public class VideoSceneClientBase : MonoBehaviour
 {
     protected DrugVR_SceneENUM nextSceneToLoadBase;
-    private GameManager managerInst;
-
-    protected void AwakeBase()
-    {
-        managerInst = GameManager.Instance;
-    }
+    protected GameManager managerInst;
 
     private void OnEnable()
     {
-        managerInst.OnSystemVideoEnd += HandleSystemVideoEnd;
+        managerInst = GameManager.Instance;
+
+        managerInst.OnSceneVideoEnd += HandleSystemVideoEnd;
     }
     private void OnDisable()
     {
-        managerInst.OnSystemVideoEnd -= HandleSystemVideoEnd;
+        managerInst.OnSceneVideoEnd -= HandleSystemVideoEnd;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.SkyVideoPlayer = null;
     }
 
     private void HandleSystemVideoEnd(VideoPlayer source)
