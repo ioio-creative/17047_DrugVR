@@ -23,6 +23,7 @@ namespace DrugVR_Scribe
         Sc03A,
         Sc03B,
         Sc03S,
+        Sc03X,
         Sc04,
         Sc04S,
         Sc04A,
@@ -45,11 +46,18 @@ namespace DrugVR_Scribe
     {
         public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary = new Dictionary<DrugVR_SceneENUM, Scroll>();
 
+        //Scene 1 Side Taking
         public static bool side01 = true;
+        //Scene 2 Side Taking
         public static bool side02 = true;
+        //Scene 3 Side Taking
         public static bool side03 = true;
+        //Scene 4 Side Taking
         public static bool side04 = true;
+        //Scene 6 Side Taking
         public static bool side05 = true;
+        //Scene 7 Side Taking
+        public static bool side06 = true;
 
         static Scribe()
         {

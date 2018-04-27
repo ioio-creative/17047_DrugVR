@@ -11,8 +11,8 @@ public class Sc01Client : VideoSceneClientBase
 
     private void Awake()
     {
-        base.AwakeBase();
         nextSceneToLoadBase = nextSceneToLoad;
+        GameManager.SkyVideoPlayer = GetComponent<VideoPlayer>();
     }
 
 }

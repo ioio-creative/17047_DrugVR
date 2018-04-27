@@ -19,8 +19,10 @@ public enum SkyboxType
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
+    
+    //Only one instance of this videoplayer can be obtained and present in any scenes
+    public static VideoPlayer SkyVideoPlayer { get; set; }
 
-    private VideoPlayer m_video;
     private Animator m_anim;
     private Image m_fadeImage;
 
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour
     private WaveVR_ControllerPoseTracker Controller;
     private bool isLoadingScene = false;
 
-    public event Action<VideoPlayer> OnSystemVideoEnd;
+    public event Action<VideoPlayer> OnSceneVideoEnd;
 
     #region Scribe Fields
     public bool Side01
@@ -75,7 +77,6 @@ public class GameManager : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
             Instance = this;          
-            m_video = GetVideoPlayerInScene();
         }
         else if (Instance != this)
         {
@@ -90,7 +91,8 @@ public class GameManager : MonoBehaviour
 
         CurrentSceneScroll = Scribe.SceneDictionary[CurrentScene];
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
-        ReadScroll(CurrentSceneScroll);
+        SkyVideoPlayer = GetVideoPlayerInScene();
+        StartCoroutine(ReadScroll(CurrentSceneScroll));
         //if (CurrentSceneScroll.SceneSky == SkyboxType.VideoSky) PlayVideo();
 
         UpdateEnum();
@@ -98,10 +100,12 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKey("f") == true)
-        {
-            GoToScene(++CurrentScene);       
-        }
+        #if UNITY_EDITOR
+            if (Input.GetKey("f") == true)
+            {
+                GoToScene(++CurrentScene);
+            } 
+        #endif
     }
 
     private DrugVR_SceneENUM temp = DrugVR_SceneENUM.Intro;
@@ -115,28 +119,44 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void ReadScroll(Scroll scroll)
+    private IEnumerator ReadScroll(Scroll scroll)
     {
-        m_video.enabled = false;
-        m_video.loopPointReached -= OnVideoEnd;
+
+        //m_video.enabled = false;
+        //m_video.loopPointReached -= OnVideoEnd;
 
         //Based skybox type of scene, assign video /image texture to environment skybox
         //Also to set skybox rotation of the scene
         if (scroll.SceneSky == SkyboxType.VideoSky)
         {
-            m_video.url = Path.Combine(Application.dataPath, scroll.SkyContentPath);
+            //m_video = FindObjectOfType<VideoPlayer>();
+            //m_video.url = Path.Combine(Application.dataPath, scroll.SkyContentPath);
             RenderSettings.skybox = VideoSkyMat;
             VideoSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);
-            m_video.enabled = true;
-            m_video.loopPointReached += OnVideoEnd;
+            SkyVideoPlayer.enabled = true;
+            SkyVideoPlayer.loopPointReached += OnVideoEnd;
 
-            StartCoroutine(VideoSwitch());
+            StartCoroutine(WaitForVideoPrepared());
             PlayVideo();
 
         }
         else if (scroll.SceneSky == SkyboxType.ImageSky)
-        { 
-            Texture2D stillSkyTex = (Texture2D)Resources.Load(scroll.SkyContentPath);
+        {
+            SkyVideoPlayer = null;
+            Texture2D stillSkyTex = new Texture2D(2, 2);
+        #if UNITY_EDITOR
+            stillSkyTex = (Texture2D)Resources.Load(scroll.SkyContentPath);
+      
+        #elif UNITY_ANDROID
+            string path = "jar:file://" + Application.dataPath + "!/assets/" +
+                "skybox/resources/" + scroll.SkyContentPath + ".png";
+            using (WWW www = new WWW(path))
+            {
+                yield return www;
+                www.LoadImageIntoTexture(stillSkyTex);
+            }
+        #endif
+
             RenderSettings.skybox = StillSkyMat;
             StillSkyMat.SetTexture("_MainTex", stillSkyTex);
             StillSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);            
@@ -152,7 +172,7 @@ public class GameManager : MonoBehaviour
         // At this situation, IncludedStates will be set to false forever since they are deactivated at 1st time OnEnable()
         // and the deactivated state will be updated to IncludedStates in 2nd time OnEnable().
         // To prevent this situation, activate IncludedObjects in OnDisable to restore the state Children GameObjects.
-        
+
         //if (scroll.ControllerEnabled)
         //{
         //    Controller.gameObject.SetActive(scroll.ControllerEnabled);
@@ -164,12 +184,13 @@ public class GameManager : MonoBehaviour
         //    Controller.gameObject.SetActive(scroll.ControllerEnabled);
         //    Controller.enabled = scroll.ControllerEnabled;
         //}
-
+        yield return null;
     }
 
-    private IEnumerator VideoSwitch()
+
+    private IEnumerator WaitForVideoPrepared()
     {
-        yield return new WaitUntil(() => m_video.isPrepared);
+        yield return new WaitUntil(() => SkyVideoPlayer.isPrepared);
     }
 
     
@@ -215,7 +236,7 @@ public class GameManager : MonoBehaviour
 
 
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
-        ReadScroll(CurrentSceneScroll);
+        StartCoroutine(ReadScroll(CurrentSceneScroll));
 
         //trigger FadeIn on the animator so our image will fade back in 
         m_anim.SetTrigger("FadeIn");
@@ -227,33 +248,33 @@ public class GameManager : MonoBehaviour
     //Find the video in the scene and pause it
     public void PauseVideo()
     {
-        if (!m_video)
+        if (!SkyVideoPlayer)
         {
-            m_video = GetVideoPlayerInScene();
+            SkyVideoPlayer = GetVideoPlayerInScene();
         }
-        m_video.Pause();
+        SkyVideoPlayer.Pause();
     }
 
     //Find the video in the scene and play it
     public void PlayVideo()
     {
-        if (!m_video)
+        if (!SkyVideoPlayer)
         {
-            m_video = GetVideoPlayerInScene();
+            SkyVideoPlayer = GetVideoPlayerInScene();
         }
-        m_video.Play();
+        SkyVideoPlayer.Play();
     }
 
     private void OnVideoEnd(VideoPlayer source)
     {
-        if (OnSystemVideoEnd != null)
+        if (OnSceneVideoEnd != null)
         {
-            OnSystemVideoEnd(source);
+            OnSceneVideoEnd(source);
         }
     }
 
     private VideoPlayer GetVideoPlayerInScene()
     {
-        return GetComponentInChildren<VideoPlayer>();
+        return FindObjectOfType<VideoPlayer>();
     }
 }
