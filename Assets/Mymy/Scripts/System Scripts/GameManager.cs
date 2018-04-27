@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKey("f") == true)
+        if (Input.GetKey("f"))
         {
             GoToScene(++CurrentScene);       
         }
