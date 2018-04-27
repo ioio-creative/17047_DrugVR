@@ -4,28 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
+[RequireComponent(typeof(VideoPlayer))]
 public class VideoSceneClientBase : MonoBehaviour
 {
     protected DrugVR_SceneENUM nextSceneToLoadBase;
     protected GameManager managerInst;
 
-    private void OnEnable()
+    protected virtual void Awake()
+    {
+        GameManager.SkyVideoPlayer = GetComponent<VideoPlayer>();
+    }
+
+    protected void OnEnable()
     {
         managerInst = GameManager.Instance;
 
         managerInst.OnSceneVideoEnd += HandleSystemVideoEnd;
     }
-    private void OnDisable()
+    protected void OnDisable()
     {
         managerInst.OnSceneVideoEnd -= HandleSystemVideoEnd;
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         GameManager.SkyVideoPlayer = null;
     }
 
-    private void HandleSystemVideoEnd(VideoPlayer source)
+    protected void HandleSystemVideoEnd(VideoPlayer source)
     {
         managerInst.GoToScene(nextSceneToLoadBase);
     }

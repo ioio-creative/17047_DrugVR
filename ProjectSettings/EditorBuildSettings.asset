@@ -11,27 +11,27 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Mymy/Scenes/Scene01.unity
     guid: 6a3dd5b124d8591479dd8826efe98b35
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene01S.unity
     guid: 89e13029990131d439bb1f5504f44f28
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene01A.unity
     guid: 81b19fc3b2645b3419167ab413418660
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene01B.unity
     guid: 92aaac2ca8e07494b93e2a2d55e52d64
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene02A.unity
     guid: 1650475cf37f2fe418d2d48acafddedf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene02B.unity
     guid: 6b1342244627fb94b92673c357c7d684
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene02S.unity
     guid: 50b98c9581c462d4496780b54acb41b6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene03.unity
     guid: c6b1a41378c79a7448e8705294fd40c7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene03A.unity
     guid: 456dd4d3eca95c84d965366714df7c81

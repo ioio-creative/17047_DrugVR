@@ -108,7 +108,6 @@ namespace DrugVR_Scribe
             {
 
             }
-                      
         }
 
         bool ParseZeroAndOne(string returnValue)

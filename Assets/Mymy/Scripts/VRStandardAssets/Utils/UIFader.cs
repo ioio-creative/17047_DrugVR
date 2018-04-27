@@ -30,6 +30,9 @@ namespace VRStandardAssets.Utils
         private float m_FadeOutAlphaThreshold = 0f;     // OnFadeOutReachThreshold is triggered when this value is reached.
 
         [SerializeField]
+        private bool m_IsSetVisibleWhenAwake = false;
+
+        [SerializeField]
         private float m_FadeSpeed = 1f;        // The amount the alpha of the UI elements changes per second.        
         [SerializeField]
         private CanvasGroup[] m_UiGroupsToFade;  // All the groups of UI elements that will fade in and out.
@@ -73,7 +76,11 @@ namespace VRStandardAssets.Utils
             // because I may have called StartCoroutine(UIFader.InteruptAndFadeIn()) elsewhere,
             // say in the Start() of another game object, in that case InteruptAndFadeIn() will be run
             // earlier than Start()
-            SetInvisible();
+            if (!m_IsSetVisibleWhenAwake)
+            {
+                SetInvisible();
+
+            }
         }
 
         // Keep coming back each frame whilst the groups are currently fading.

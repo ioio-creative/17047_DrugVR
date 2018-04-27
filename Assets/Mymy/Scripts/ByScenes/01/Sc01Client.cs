@@ -9,10 +9,13 @@ public class Sc01Client : VideoSceneClientBase
     [SerializeField]
     DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc01S;
 
-    private void Awake()
+    protected override void Awake()
     {
-        nextSceneToLoadBase = nextSceneToLoad;
-        GameManager.SkyVideoPlayer = GetComponent<VideoPlayer>();
+        base.Awake();
     }
 
+    private void Start()
+    {
+        nextSceneToLoadBase = nextSceneToLoad;
+    }
 }

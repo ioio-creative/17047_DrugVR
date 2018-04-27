@@ -91,7 +91,10 @@ public class GameManager : MonoBehaviour
 
         CurrentSceneScroll = Scribe.SceneDictionary[CurrentScene];
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
-        SkyVideoPlayer = GetVideoPlayerInScene();
+        if (SkyVideoPlayer == null && CurrentSceneScroll.SceneSky == SkyboxType.VideoSky)
+        {
+            SkyVideoPlayer = GetVideoPlayerInScene();
+        }
         StartCoroutine(ReadScroll(CurrentSceneScroll));
         //if (CurrentSceneScroll.SceneSky == SkyboxType.VideoSky) PlayVideo();
 
@@ -132,6 +135,8 @@ public class GameManager : MonoBehaviour
             //m_video = FindObjectOfType<VideoPlayer>();
             //m_video.url = Path.Combine(Application.dataPath, scroll.SkyContentPath);
             RenderSettings.skybox = VideoSkyMat;
+            DynamicGI.UpdateEnvironment();
+
             VideoSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);
             SkyVideoPlayer.enabled = true;
             SkyVideoPlayer.loopPointReached += OnVideoEnd;
@@ -159,10 +164,12 @@ public class GameManager : MonoBehaviour
 
             RenderSettings.skybox = StillSkyMat;
             StillSkyMat.SetTexture("_MainTex", stillSkyTex);
+            DynamicGI.UpdateEnvironment();
+
             StillSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);            
         }        
 
-        DynamicGI.UpdateEnvironment();
+        
 
         HMD.trackRotation = scroll.HMDRotationEnabled;
 
@@ -258,7 +265,7 @@ public class GameManager : MonoBehaviour
     //Find the video in the scene and play it
     public void PlayVideo()
     {
-        if (!SkyVideoPlayer)
+        if (SkyVideoPlayer == null)
         {
             SkyVideoPlayer = GetVideoPlayerInScene();
         }
@@ -267,10 +274,7 @@ public class GameManager : MonoBehaviour
 
     private void OnVideoEnd(VideoPlayer source)
     {
-        if (OnSceneVideoEnd != null)
-        {
-            OnSceneVideoEnd(source);
-        }
+        OnSceneVideoEnd(source);
     }
 
     private VideoPlayer GetVideoPlayerInScene()
