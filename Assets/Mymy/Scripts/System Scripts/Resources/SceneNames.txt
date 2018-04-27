@@ -1,7 +1,7 @@
 Format:[SceneName][SceneSky][SkyContentPath][SkyShaderDefaultRotation][HMDRotationEnabled][ControllerEnabled][ControllerRotEnabled]
 Introduction,VideoSky,Mymy/Skybox/Resources/Videos/Dummy.mp4,128,0,0,0
 Scene01,VideoSky,Mymy/Skybox/Resources/Videos/Dummy.mp4,135,1,1,1
-Scene01S,ImageSky,Sc01S_Sky,135,1,1,1
+Scene01S,ImageSky,StillImg/Sc01S_Sky,135,1,1,1
 Scene01A,VideoSky,dummy,135,1,1,1
 Scene01B,VideoSky,dummy,135,1,1,1
 Scene02A,VideoSky,dummy,96,1,1,1

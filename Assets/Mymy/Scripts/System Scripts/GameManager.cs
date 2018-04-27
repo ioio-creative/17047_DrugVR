@@ -149,18 +149,17 @@ public class GameManager : MonoBehaviour
         {
             SkyVideoPlayer = null;
             Texture2D stillSkyTex = new Texture2D(2, 2);
-        #if UNITY_EDITOR
+
             stillSkyTex = (Texture2D)Resources.Load(scroll.SkyContentPath);
-      
-        #elif UNITY_ANDROID
-            string path = "jar:file://" + Application.dataPath + "!/assets/" +
-                "skybox/resources/" + scroll.SkyContentPath + ".png";
-            using (WWW www = new WWW(path))
-            {
-                yield return www;
-                www.LoadImageIntoTexture(stillSkyTex);
-            }
-        #endif
+
+            //string path = "jar:file://" + Application.dataPath + "!/assets/" +
+            //    "skybox/resources/" + scroll.SkyContentPath + ".png";
+            //using (WWW www = new WWW(path))
+            //{
+            //    yield return www;
+            //    www.LoadImageIntoTexture(stillSkyTex);
+            //}
+
 
             RenderSettings.skybox = StillSkyMat;
             StillSkyMat.SetTexture("_MainTex", stillSkyTex);

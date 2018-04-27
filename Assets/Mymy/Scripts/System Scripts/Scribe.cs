@@ -61,14 +61,17 @@ namespace DrugVR_Scribe
 
         static Scribe()
         {
-            string filePath = Path.Combine(Application.dataPath, "Mymy/Scripts/System Scripts/SceneNames.txt").ToString();
-            Debug.Log(filePath);
-            string[] stringScenesParams = File.ReadAllLines(filePath).Skip(1).ToArray();
+            TextAsset sceneNameTXT = Resources.Load<TextAsset>("SceneNames");
+
+            //string filePath = Path.Combine(Application.persistentDataPath, "Mymy/Scripts/System Scripts/SceneNames.txt").ToString();
+            //Debug.Log(filePath);
+            string[] stringScenesParams = sceneNameTXT.text.Split(Environment.NewLine.ToCharArray(),StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray();//File.ReadAllLines(filePath).Skip(1).ToArray();
+            Debug.Log(stringScenesParams[1]);
             DrugVR_SceneENUM enumIndex = 0;
 
-            for (int i = 0; i < stringScenesParams.Length; i++)
-            {
-                SceneDictionary.Add(enumIndex++, new Scroll(stringScenesParams[i]));
+            foreach (string sceneParam in stringScenesParams)
+            {           
+                SceneDictionary.Add(enumIndex++, new Scroll(sceneParam));
             }
             
         }

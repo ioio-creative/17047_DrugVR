@@ -18,7 +18,6 @@ public class VideoSceneClientBase : MonoBehaviour
     protected void OnEnable()
     {
         managerInst = GameManager.Instance;
-
         managerInst.OnSceneVideoEnd += HandleSystemVideoEnd;
     }
     protected void OnDisable()

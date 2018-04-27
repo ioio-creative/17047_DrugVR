@@ -43,6 +43,6 @@ public class WaveVR_CanvasEye : MonoBehaviour {
             return;
         canvas.renderMode = RenderMode.ScreenSpaceCamera;
         canvas.worldCamera = eyeCamera;
-        //canvas.planeDistance = eyeCamera.nearClipPlane + 0.1f;
+        canvas.planeDistance = eyeCamera.nearClipPlane + 0.1f;
 	}
 }
