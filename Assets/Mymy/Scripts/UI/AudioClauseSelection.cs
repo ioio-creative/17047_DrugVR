@@ -44,7 +44,7 @@ public class AudioClauseSelection : MonoBehaviour,
     
 
     private bool m_GazeOver;
-    private bool m_ButtonPressed;
+    private bool m_ButtonPressed;    
 
 
     /* MonoBehaviour */
@@ -180,7 +180,7 @@ public class AudioClauseSelection : MonoBehaviour,
     public void HandleExit()
     {
         Debug.Log("HandleExit: AudioClauseSelection");
-        m_GazeOver = false;
+        m_GazeOver = false;        
     }
 
     public void HandleUp()

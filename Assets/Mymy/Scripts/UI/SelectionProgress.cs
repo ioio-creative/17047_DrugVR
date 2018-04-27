@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using VRStandardAssets.Utils;
 using wvr;
 
@@ -87,6 +88,9 @@ public class SelectionProgress : MonoBehaviour,
     private bool m_ButtonPressed;
 
 
+    private EventSystem m_CurrentEventSystem;
+
+
     /* MonoBehaviour */
 
     private void Awake()
@@ -97,6 +101,8 @@ public class SelectionProgress : MonoBehaviour,
 
     private void Start()
     {
+        m_CurrentEventSystem = EventSystem.current;
+
         // Setup m_Selection to have no fill at the start
         // and hide if necessary.
         m_Selection.SetValueToMin();
@@ -285,6 +291,10 @@ public class SelectionProgress : MonoBehaviour,
         Debug.Log("HandleExit: SelectionProgress");
         m_GazeOver = false;
         StopSelectionFillRoutineIfActive();
+
+        // reset hover state of button
+        // https://answers.unity.com/questions/883220/how-to-change-selected-button-in-eventsystem-or-de.html
+        m_CurrentEventSystem.SetSelectedGameObject(null);
     }
 
     public void HandleUp()
