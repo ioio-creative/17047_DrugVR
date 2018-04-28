@@ -97,29 +97,16 @@ public class GameManager : MonoBehaviour
         }
         StartCoroutine(ReadScroll(CurrentSceneScroll));
         //if (CurrentSceneScroll.SceneSky == SkyboxType.VideoSky) PlayVideo();
-
-        UpdateEnum();
     }
 
     private void FixedUpdate()
     {
         #if UNITY_EDITOR
-            if (Input.GetKey("f") == true)
+            if (Input.GetKey("f"))
             {
                 GoToScene(++CurrentScene);
             } 
         #endif
-    }
-
-    private DrugVR_SceneENUM temp = DrugVR_SceneENUM.Intro;
-
-    private void UpdateEnum()
-    {
-        for (; (int)temp < 10; temp++)
-        {
-            Debug.Log("temp: " + temp.ToString());
-        }
-
     }
 
     private IEnumerator ReadScroll(Scroll scroll)

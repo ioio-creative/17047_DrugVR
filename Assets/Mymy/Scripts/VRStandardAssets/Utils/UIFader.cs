@@ -79,7 +79,10 @@ namespace VRStandardAssets.Utils
             if (!m_IsSetVisibleWhenAwake)
             {
                 SetInvisible();
-
+            }
+            else
+            {
+                SetVisible();
             }
         }
 
