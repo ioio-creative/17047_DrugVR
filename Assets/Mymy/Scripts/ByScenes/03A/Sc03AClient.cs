@@ -6,7 +6,7 @@ using UnityEngine;
 public class Sc03AClient : MonoBehaviour
 {
     //private DrugVR_SceneENUM nextSceneToLoad;
-    private GameManager managerInst;
+    public static GameManager managerInst;
     [SerializeField]
     private Material introSphere;
     [SerializeField]
@@ -25,8 +25,9 @@ public class Sc03AClient : MonoBehaviour
     {
         if (introSphere == null)
         {
-            introSphere = GetComponentInChildren<MeshRenderer>().material;
+            introSphere = GetComponentInChildren<MeshRenderer>().material;         
         }
+        SetSphereOpacity(1.0f);
         //FadeOutSphere();
     }
 
@@ -41,19 +42,19 @@ public class Sc03AClient : MonoBehaviour
         }
     }
 
-    private void GoToSceneOnChoice()
+    public static void GoToSceneOnChoice()
     {
-        if (managerInst.Side01)
+        if (managerInst.Side03)
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc01A);
+            managerInst.GoToScene(DrugVR_SceneENUM.Sc04);
         }
         else
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc01B);
+            managerInst.GoToScene(DrugVR_SceneENUM.Sc03B);
         }
     }
 
-    private void FadeOutSphere()
+    public void FadeOutSphere()
     {
         sphereFadeOutSwitch = true;
         m_sphereAnim.SetTrigger("FadeOutSphere");
