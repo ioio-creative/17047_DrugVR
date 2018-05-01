@@ -41,34 +41,6 @@ public class GameManager : MonoBehaviour
 
     public event Action<VideoPlayer> OnSceneVideoEnd;
 
-    #region Scribe Fields
-    public bool Side01
-    {
-        get { return Scribe.side01; }
-        set { Scribe.side01 = value; }
-    }
-    public bool Side02
-    {
-        get { return Scribe.side02; }
-        set { Scribe.side02 = value; }
-    }
-    public bool Side03
-    {
-        get { return Scribe.side01; }
-        set { Scribe.side01 = value; }
-    }
-    public bool Side04
-    {
-        get { return Scribe.side05; }
-        set { Scribe.side05 = value; }
-    }
-    public bool Side05
-    {
-        get { return Scribe.side05; }
-        set { Scribe.side05 = value; }
-    }
-    #endregion
-
 
     //make sure that we only have a single instance of the game manager
     private void Awake()
@@ -129,7 +101,16 @@ public class GameManager : MonoBehaviour
             SkyVideoPlayer.loopPointReached += OnVideoEnd;
 
             StartCoroutine(WaitForVideoPrepared());
-            PlayVideo();
+            if (Scroll.ParseZeroAndOne(scroll.VideoStart_ImgPath))
+            {
+                PlayVideo();
+            }
+            else
+            {
+                SkyVideoPlayer.sendFrameReadyEvents = true;
+                SkyVideoPlayer.frameReady += OnNewVideoFrameArrived;
+                PlayVideo();
+            }
 
         }
         else if (scroll.SceneSky == SkyboxType.ImageSky)
@@ -137,7 +118,7 @@ public class GameManager : MonoBehaviour
             SkyVideoPlayer = null;
             Texture2D stillSkyTex = new Texture2D(2, 2);
 
-            stillSkyTex = (Texture2D)Resources.Load(scroll.SkyContentPath);
+            stillSkyTex = (Texture2D)Resources.Load(scroll.VideoStart_ImgPath);
 
             //string path = "jar:file://" + Application.dataPath + "!/assets/" +
             //    "skybox/resources/" + scroll.SkyContentPath + ".png";
@@ -261,6 +242,16 @@ public class GameManager : MonoBehaviour
     private void OnVideoEnd(VideoPlayer source)
     {
         OnSceneVideoEnd(source);
+    }
+
+    private void OnNewVideoFrameArrived(VideoPlayer source, long frameIdx)
+    {
+        if (frameIdx >= 0)
+        {
+            PauseVideo();
+            source.sendFrameReadyEvents = false;
+            source.frameReady -= OnNewVideoFrameArrived;
+        }
     }
 
     private VideoPlayer GetVideoPlayerInScene()

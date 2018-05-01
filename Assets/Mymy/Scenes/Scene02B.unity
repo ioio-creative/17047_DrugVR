@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 213155486}
   - component: {fileID: 213155489}
   m_Layer: 0
-  m_Name: Client
+  m_Name: 02BClient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

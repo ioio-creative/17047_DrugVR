@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 225959256382662096}
   m_Layer: 9
   m_Name: SelectionAudioClauseUI
-  m_TagString: EventCanvas
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1839706653061224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.15, y: 1.4, z: 0}
+  m_LocalPosition: {x: -4.8, y: 1.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224543301058195698}
@@ -92,7 +92,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.25, y: 1, z: 0.02}
+  m_Size: {x: 5.86, y: 1.43, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82702031597915236
 AudioSource:
@@ -202,18 +202,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsDisappearOnSelected: 1
+  m_Audio: {fileID: 82702031597915236}
+  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
+  m_OnSelectedClip: {fileID: 8300000, guid: 0062f03c9523c9a43951f7da0fcbf232, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_UIFader: {fileID: 114346524157532192}
   m_Collider: {fileID: 65238401579479790}
   m_Button: {fileID: 114585239304376162}
   m_EventTrigger: {fileID: 114853145758136358}
-  m_Audio: {fileID: 82702031597915236}
-  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
-  m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_OnErrorClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_AudioClauseClip: {fileID: 8300000, guid: 3bfbde3793b434c4588b158fde9be486, type: 3}
-  m_ClauseImage: {fileID: 114821356518652556}
   m_DeviceToListen: 2
   m_InputToListen: 16
+  m_AudioClauseWithToneClip: {fileID: 8300000, guid: 7415c22fd0e260847a3eb03ce82d97c8,
+    type: 3}
+  m_ClauseImage: {fileID: 114821356518652556}
+  m_IsBossClause: 0
 --- !u!114 &114346524157532192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
   m_FadeSpeed: 0.5
   m_UiGroupsToFade:
   - {fileID: 225959256382662096}
@@ -248,7 +251,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 0.84313726, g: 0.9529412, b: 0.9529412, a: 1}
     m_HighlightedColor: {r: 0.62352943, g: 1, b: 0.8117647, a: 1}
@@ -257,7 +260,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: c7bc92aafebc03d478372e87b6875a7c,
+      type: 3}
     m_PressedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -291,9 +295,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a660d53c0a93a7e46a425ecbcbed877b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 20f5718406f704f4094766965572fd46, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -443,7 +447,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 6.14, y: 1.7}
+  m_SizeDelta: {x: 7.69, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224543301058195698
 RectTransform:

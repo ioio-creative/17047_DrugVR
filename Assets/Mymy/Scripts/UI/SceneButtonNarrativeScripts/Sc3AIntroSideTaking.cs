@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using DrugVR_Scribe;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRStandardAssets.Utils;
 
 [RequireComponent(typeof (SelectionProgress))]
 public class Sc3AIntroSideTaking : MonoBehaviour
@@ -10,14 +12,14 @@ public class Sc3AIntroSideTaking : MonoBehaviour
     [SerializeField]
     private SelectionProgress m_SelectionProgress;
     [SerializeField]
-    private GameObject m_ButtonsContainer;
+    private UIFader m_ButtonsContainer;
     [SerializeField]
     private bool m_DoTheDishes = false;
 
     private void Awake()
     {
-        if (m_3AClientRef == null) m_3AClientRef = GetComponentInParent<Sc03AClient>();
-        if (m_SelectionProgress == null) m_SelectionProgress = GetComponent<SelectionProgress>();
+        m_3AClientRef = m_3AClientRef ?? GetComponentInParent<Sc03AClient>();
+        m_SelectionProgress = m_SelectionProgress ?? GetComponent<SelectionProgress>();
     }
 
     private void OnEnable()
@@ -34,11 +36,12 @@ public class Sc3AIntroSideTaking : MonoBehaviour
     {
         if (m_DoTheDishes)
         {
+            StartCoroutine(m_ButtonsContainer.InteruptAndFadeOut());
             m_3AClientRef.FadeOutSphere();
         }
         else
         {
-            Sc03AClient.managerInst.Side03 = m_DoTheDishes;
+            Scribe.Side03 = m_DoTheDishes;
             Sc03AClient.GoToSceneOnChoice();
         }
     }

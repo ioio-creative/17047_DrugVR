@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: bee79b527dc6b154eb4ca20485e8ff81, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.468067, g: 0.42610884, b: 0.44423205, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -674,6 +674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
   m_FadeSpeed: 0.5
   m_UiGroupsToFade:
   - {fileID: 2027357643}
@@ -1053,6 +1054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 97699301}
@@ -1125,6 +1127,76 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1101459053}
+--- !u!1001 &1156253998
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1423525223927558, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+      propertyPath: m_Name
+      value: 02SClient
+      objectReference: {fileID: 0}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_VideoClip
+      value: 
+      objectReference: {fileID: 32900000, guid: d5d1ae4f3de43ba40aee4064ee8b5525,
+        type: 3}
+    m_RemovedComponents:
+    - {fileID: 114157941926185832, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1 &1156253999 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1423525223927558, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+    type: 2}
+  m_PrefabInternal: {fileID: 1156253998}
+--- !u!114 &1156254000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1156253999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dd6a0b8ce1fe5a4680076993ca2e971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextSceneToLoad: 8
 --- !u!1 &1306985917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,6 +1240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1634442649}
@@ -1419,6 +1492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1987131600}
@@ -2308,6 +2382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 666958437}

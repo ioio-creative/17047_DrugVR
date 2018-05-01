@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 1184031213}
   - component: {fileID: 1184031214}
   m_Layer: 0
-  m_Name: Client
+  m_Name: 04BClient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,10 +246,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1184031210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98b66ed6177cc3d4a9b4625741100fcd, type: 3}
+  m_Script: {fileID: 11500000, guid: 38ee9092229e0314ab26cfab694f9fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneToLoad: 2
+  nextSceneToLoad: 17
 --- !u!4 &1184031212
 Transform:
   m_ObjectHideFlags: 0
@@ -270,7 +270,7 @@ VideoPlayer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1184031210}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: aae29cffc8979234b886ff047b139e02, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: df692ff58d4b6a84daa06816f82171c3, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}

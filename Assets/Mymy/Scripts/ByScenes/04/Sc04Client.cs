@@ -9,8 +9,9 @@ public class Sc04Client : VideoSceneClientBase
     [SerializeField]
     DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc04S;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         nextSceneToLoadBase = nextSceneToLoad;
     }
 }
