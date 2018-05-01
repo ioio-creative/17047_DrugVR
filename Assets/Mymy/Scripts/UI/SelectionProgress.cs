@@ -154,10 +154,6 @@ public class SelectionProgress : VrButtonBase
         m_Selection.SetValueToMin();
     }
 
-    public void ResetButtonState()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-    }
 
     protected override void RaiseOnSelectedEvent()
     {
@@ -190,7 +186,6 @@ public class SelectionProgress : VrButtonBase
     {
         base.HandleUp();        
         StopSelectionFillRoutine();
-        ResetButtonState();
     }
 
     /* end of IHandleUiButton interfaces */
