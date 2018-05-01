@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // This class is used to control the property of another 
 // GameObject ISelectionProgressable, e.g. slider value, that fills 
@@ -153,6 +154,11 @@ public class SelectionProgress : VrButtonBase
         m_Selection.SetValueToMin();
     }
 
+    public void ResetButtonState()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
     protected override void RaiseOnSelectedEvent()
     {
         // If there is anything subscribed to OnSelectionComplete call it.
@@ -184,6 +190,7 @@ public class SelectionProgress : VrButtonBase
     {
         base.HandleUp();        
         StopSelectionFillRoutine();
+        ResetButtonState();
     }
 
     /* end of IHandleUiButton interfaces */

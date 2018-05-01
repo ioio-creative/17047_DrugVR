@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof (SelectionProgress))]
-public class Sc3AIntroSideTaking : MonoBehaviour
+[RequireComponent(typeof(SelectionProgress))]
+public class Side01Button : MonoBehaviour
 {
     [SerializeField]
-    private Sc03AClient m_3AClientRef;
+    private Sc01SClient m_Sc01SClientRef;
     [SerializeField]
     private SelectionProgress m_SelectionProgress;
     [SerializeField]
-    private GameObject m_ButtonsContainer;
-    [SerializeField]
-    private bool m_DoTheDishes = false;
+    private bool m_Patience = false;
 
     private void Awake()
     {
-        if (m_3AClientRef == null) m_3AClientRef = GetComponentInParent<Sc03AClient>();
+        if (m_Sc01SClientRef == null) m_Sc01SClientRef = GetComponentInParent<Sc01SClient>();
         if (m_SelectionProgress == null) m_SelectionProgress = GetComponent<SelectionProgress>();
     }
 
@@ -32,14 +30,7 @@ public class Sc3AIntroSideTaking : MonoBehaviour
 
     private void HandleSelectionComplete()
     {
-        if (m_DoTheDishes)
-        {
-            m_3AClientRef.FadeOutSphere();
-        }
-        else
-        {
-            Sc03AClient.managerInst.Side03 = m_DoTheDishes;
-            Sc03AClient.GoToSceneOnChoice();
-        }
+        Sc01SClient.managerInst.Side01 = m_Patience;
+        Sc01SClient.GoToSceneOnChoice();
     }
 }
