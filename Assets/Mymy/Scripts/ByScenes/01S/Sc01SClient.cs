@@ -7,14 +7,14 @@ using UnityEngine.Video;
 public class Sc01SClient : MonoBehaviour
 {
     //private DrugVR_SceneENUM nextSceneToLoad;
-    private GameManager managerInst;
+    public static GameManager managerInst;
 
     private void Awake()
     {
         managerInst = GameManager.Instance;
     }
 
-    private void GoToSceneOnChoice()
+    public static void GoToSceneOnChoice()
     {
         if (managerInst.Side01)
         {

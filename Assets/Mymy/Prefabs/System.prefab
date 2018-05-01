@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e54fab7032e0e548b394505c12292a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentScene: 0
+  CurrentScene: 9
   VideoSkyMat: {fileID: 2100000, guid: bee79b527dc6b154eb4ca20485e8ff81, type: 2}
   StillSkyMat: {fileID: 2100000, guid: a5dc82d49b2032b4ebfba70fc2b6a96e, type: 2}
   FadeToBlack: 1
@@ -961,7 +961,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -993,7 +993,7 @@ Canvas:
   m_GameObject: {fileID: 1127442350287176}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 1
   m_PixelPerfect: 0
@@ -1002,8 +1002,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1967223477
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!223 &223900842097737372
 Canvas:
@@ -1031,9 +1031,9 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1127442350287176}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224316762134371598}
   m_Father: {fileID: 4348182473592100}
@@ -1041,9 +1041,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 479, y: 281}
+  m_SizeDelta: {x: 958, y: 562}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224072028440896854
 RectTransform:
   m_ObjectHideFlags: 1
@@ -1134,7 +1134,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3840, y: 1920}
+  m_SizeDelta: {x: 4096, y: 2048}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224420982316523992
 RectTransform:
