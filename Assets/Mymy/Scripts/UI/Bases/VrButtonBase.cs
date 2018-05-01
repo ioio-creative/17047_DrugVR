@@ -62,7 +62,6 @@ public abstract class VrButtonBase : MonoBehaviour,
         // turn off the "interaction" when it's invisible.
         bool isEnableCollider = m_UIFader.Visible && !m_UIFader.Fading;
         SetInteractionEnabled(isEnableCollider);
-        Debug.Log("is enable collider: " + isEnableCollider);
     }
 
     /* end of MonoBehaviour */
@@ -81,8 +80,6 @@ public abstract class VrButtonBase : MonoBehaviour,
         // https://answers.unity.com/questions/883220/how-to-change-selected-button-in-eventsystem-or-de.html
         m_CurrentEventSystem.SetSelectedGameObject(null);
     }
-
-    protected abstract void RaiseOnSelectedEvent();
 
 
     /* audios */
@@ -105,7 +102,21 @@ public abstract class VrButtonBase : MonoBehaviour,
     public void PlayAudioClip(AudioClip aClip)
     {
         m_Audio.clip = aClip;
-        m_Audio.Play();
+        if (m_Audio.clip != null)
+        {
+            m_Audio.Play();
+        }
+    }
+
+    public IEnumerator PlayAudioClipAndWaitWhilePlaying(AudioClip aClip)
+    {
+        PlayAudioClip(aClip);
+        yield return WaitWhileAudioIsPlaying();
+    }
+
+    private IEnumerator WaitWhileAudioIsPlaying()
+    {
+        yield return new WaitWhile(() => m_Audio.isPlaying);
     }
 
     /* end of audios */

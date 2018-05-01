@@ -5,32 +5,24 @@ using UnityEngine.UI;
 public class AudioClauseSelection : VrButtonBase   
 {
     public event Action<AudioClauseSelection> OnSelected;
+    public AudioClip AudioClauseWithToneClip { get { return m_AudioClauseWithToneClip; } }
     public Image ClauseImage { get { return m_ClauseImage; } }    
-    public AudioClip AudioClauseClip { get { return m_AudioClauseClip; } }
-            
+    public bool IsBossClause { get { return m_IsBossClause; } }
+                
     [SerializeField]
-    private AudioClip m_AudioClauseClip;
+    private AudioClip m_AudioClauseWithToneClip;
     [SerializeField]
     private Image m_ClauseImage;
+    [SerializeField]
+    private bool m_IsBossClause;
 
 
     /* MonoBehaviour */
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-    
     /* end of MonoBehaviour */
 
 
-    // called in base class's HandleDown()
-    protected override void RaiseOnSelectedEvent()
+    private void RaiseOnSelectedEvent()
     {
         if (OnSelected != null)
         {
@@ -44,7 +36,7 @@ public class AudioClauseSelection : VrButtonBase
     public override void HandleDown()
     {
         base.HandleDown();
-        if (m_GazeOver)
+        if (base.m_GazeOver)
         {
             RaiseOnSelectedEvent();
         }

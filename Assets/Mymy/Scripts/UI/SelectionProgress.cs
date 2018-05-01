@@ -154,7 +154,7 @@ public class SelectionProgress : VrButtonBase
         m_Selection.SetValueToMin();
     }
 
-    protected override void RaiseOnSelectedEvent()
+    private void RaiseOnSelectedEvent()
     {
         // If there is anything subscribed to OnSelectionComplete call it.
         if (OnSelectionComplete != null)
