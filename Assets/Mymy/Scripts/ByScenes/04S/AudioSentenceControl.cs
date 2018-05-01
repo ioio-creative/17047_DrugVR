@@ -218,7 +218,8 @@ public class AudioSentenceControl : VrButtonBase
                 StartCoroutine(m_NormalSelectedClauseTextBgFader.InteruptAndFadeOut());
                 foreach (AudioClauseSelected slot in m_SelectedClauseSeq)
                 {
-                    StartCoroutine(slot.InteruptAndFadeOut());
+                    //StartCoroutine(slot.InteruptAndFadeOut());
+                    slot.gameObject.SetActive(false);
                 }
                 m_BossSelectedClause.FillSlotWithAudioClause(audioClauseSelected);
                 if (m_IsSelectionsDisappearOnSelectedOverride || audioClauseSelected.IsDisappearOnSelected)
@@ -255,7 +256,8 @@ public class AudioSentenceControl : VrButtonBase
         StartCoroutine(m_NormalSelectedClauseTextBgFader.InteruptAndFadeIn());
         foreach (AudioClauseSelected slot in m_SelectedClauseSeq)
         {
-            StartCoroutine(slot.InteruptAndFadeIn());
+            //StartCoroutine(slot.InteruptAndFadeIn());
+            slot.gameObject.SetActive(true);
         }
 
         if (m_IsSelectionsDisappearOnSelectedOverride || m_BossSelectedClause.IsDisappearOnSelected)

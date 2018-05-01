@@ -12,7 +12,7 @@ public class AudioClauseSelected : VrButtonBase
     [SerializeField]
     private Sprite m_HighLightSprite;
     [SerializeField]
-    private Image m_ClauseImg;
+    private Image m_ClauseImg;    
 
     private AudioClauseSelection m_AudioClause = null;
     private bool m_IsHighLighted = false;
