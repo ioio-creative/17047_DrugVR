@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 1682370781}
   - component: {fileID: 1682370780}
   m_Layer: 0
-  m_Name: SceneClient
+  m_Name: 03XClient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

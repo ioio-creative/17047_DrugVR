@@ -19,8 +19,8 @@ Scene04B,VideoSky,1,95,1,1,1
 Scene05A,VideoSky,1,39,1,1,1
 Scene05B,VideoSky,1,39,1,1,1
 Scene06,VideoSky,1,130,1,1,1
-Scene06A,ImageSky,StillImg/Sc06A_Sky,0,1,1,1
-Scene06B,VideoSky,1,39,1,1,1
+Scene06A,VideoSky,0,130,1,1,1
+Scene06B,VideoSky,1,130,1,1,1
 Scene07,VideoSky,1,39,1,1,1
 Scene07S,VideoSky,1,39,1,1,1
 Scene08,VideoSky,1,39,1,1,1

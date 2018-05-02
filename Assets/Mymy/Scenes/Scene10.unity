@@ -113,7 +113,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &210520884
+--- !u!1001 &431590548
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -150,28 +150,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4347673543896578, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1807304836202366, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
-      propertyPath: m_Name
-      value: VIVEFocusWaveVR
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &256065971 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114937618167239854, guid: 4f869faf05141a9488a7dff6f5806fd7,
-    type: 2}
-  m_PrefabInternal: {fileID: 210520884}
-  m_Script: {fileID: 11500000, guid: 997a0488225b80f47b7fdcd05319b85b, type: 3}
---- !u!114 &256065974 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114951239137234398, guid: 4f869faf05141a9488a7dff6f5806fd7,
-    type: 2}
-  m_PrefabInternal: {fileID: 210520884}
-  m_Script: {fileID: 11500000, guid: 47b1905c537e46b4da4d0d2409231aaa, type: 3}
---- !u!1001 &1127897532
+--- !u!1001 &1118045046
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -208,49 +192,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1423525223927558, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
-      propertyPath: m_Name
-      value: 06AClient
-      objectReference: {fileID: 0}
-    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
-        type: 2}
-      propertyPath: m_VideoClip
-      value: 
-      objectReference: {fileID: 32900000, guid: dbbc1e419c23515478051f29ae21b8ca,
-        type: 3}
     m_RemovedComponents:
     - {fileID: 114157941926185832, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1220103824
+--- !u!1001 &1270722635
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_DirectAudioMutes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_TargetAudioSources.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_DirectAudioVolumes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_EnabledAudioTracks.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4348182473592100, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -281,110 +235,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4348182473592100, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
       propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1524278817519228, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
-      propertyPath: m_Name
-      value: System
-      objectReference: {fileID: 0}
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_VideoClip
-      value: 
-      objectReference: {fileID: 32900000, guid: 66ee9ad8ef2e033419bad70ee7cfeae1,
-        type: 3}
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_DirectAudioVolumes.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_EnabledAudioTracks.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_ControlledAudioTrackCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 328031454311876968, guid: c4fa829701ba7bb42a976a9f719c2e15,
-        type: 2}
-      propertyPath: m_TargetAudioSources.Array.data[0]
-      value: 
-      objectReference: {fileID: 1220103825}
     - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: CurrentScene
-      value: 20
+      value: 26
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
   m_IsPrefabParent: 0
---- !u!82 &1220103825 stripped
-AudioSource:
-  m_PrefabParentObject: {fileID: 82988735580599274, guid: c4fa829701ba7bb42a976a9f719c2e15,
-    type: 2}
-  m_PrefabInternal: {fileID: 1220103824}
---- !u!1001 &1505320322
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114833097132312106, guid: 42f2adb146a085b48bc0b39c79e04aa1,
-        type: 2}
-      propertyPath: ControllerPosTrkMan
-      value: 
-      objectReference: {fileID: 256065971}
-    - target: {fileID: 114833097132312106, guid: 42f2adb146a085b48bc0b39c79e04aa1,
-        type: 2}
-      propertyPath: OriginalControllerModel
-      value: 
-      objectReference: {fileID: 1580218599}
-    - target: {fileID: 114833097132312106, guid: 42f2adb146a085b48bc0b39c79e04aa1,
-        type: 2}
-      propertyPath: ControllerLaser
-      value: 
-      objectReference: {fileID: 256065974}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
-  m_IsPrefabParent: 0
---- !u!1 &1580218599 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1418951390432500, guid: 4f869faf05141a9488a7dff6f5806fd7,
-    type: 2}
-  m_PrefabInternal: {fileID: 210520884}

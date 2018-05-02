@@ -44,7 +44,7 @@ public class Sc03AClient : MonoBehaviour
 
     public static void GoToSceneOnChoice()
     {
-        if (managerInst.Side03)
+        if (Scribe.Side03)
         {
             managerInst.GoToScene(DrugVR_SceneENUM.Sc04);
         }

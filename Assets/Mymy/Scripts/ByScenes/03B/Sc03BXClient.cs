@@ -4,18 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
-public class Sc02SClient : VideoSceneClientBase
+public class Sc03BXClient : VideoSceneClientBase
 {
     [SerializeField]
-    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc03;
+    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc04;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
-    private void Start()
+    private void Awake()
     {
         nextSceneToLoadBase = nextSceneToLoad;
+        GameManager.SkyVideoPlayer = GetComponent<VideoPlayer>();
     }
 }
