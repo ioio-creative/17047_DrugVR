@@ -8,7 +8,7 @@ using UnityEngine.Video;
 public class VideoSceneClientBase : MonoBehaviour
 {
     protected DrugVR_SceneENUM nextSceneToLoadBase;
-    protected GameManager managerInst;
+    protected static GameManager managerInst;
 
     protected virtual void Awake()
     {
