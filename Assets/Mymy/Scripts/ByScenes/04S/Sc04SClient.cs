@@ -1,5 +1,4 @@
 ﻿using DrugVR_Scribe;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRStandardAssets.Utils;
@@ -7,10 +6,13 @@ using VRStandardAssets.Utils;
 public class Sc04SClient : MonoBehaviour
 {
     public static GameManager managerInst;
+
     [SerializeField]
     private GameObject[] m_FaderToStartContainers;
-
     private UIFader[] m_FadersToStart;
+
+
+    /* MonoBehaviour */
 
     private void Awake()
     {
@@ -43,6 +45,9 @@ public class Sc04SClient : MonoBehaviour
             StartCoroutine(fader.InteruptAndFadeIn());
         }
     }
+
+    /* end of MonoBehaviour */
+
 
     public static void GoToSceneOnChoice()
     {

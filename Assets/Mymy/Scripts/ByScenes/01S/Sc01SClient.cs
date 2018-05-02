@@ -25,5 +25,4 @@ public class Sc01SClient : MonoBehaviour
             managerInst.GoToScene(DrugVR_SceneENUM.Sc01B);
         }
     }
-
 }

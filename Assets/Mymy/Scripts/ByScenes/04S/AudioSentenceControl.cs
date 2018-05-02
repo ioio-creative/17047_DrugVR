@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using DrugVR_Scribe;
+using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +8,8 @@ using VRStandardAssets.Utils;
 
 public class AudioSentenceControl : VrButtonBase
 {
+    public bool IsBossOptionSelected { get { return m_IsBossOptionSelected; } }
+
     [SerializeField]
     private Sprite m_PlayClipsBtnNormalSprite;
     [SerializeField]
@@ -100,7 +104,7 @@ public class AudioSentenceControl : VrButtonBase
             nextAudioClauseSlotToFill.SetHighLight();
             foreach (AudioClauseSelected slot in m_SelectedClauseSeq)
             {
-                if (slot != nextAudioClauseSlotToFill && slot.AudioClause == null)
+                if (slot != nextAudioClauseSlotToFill)  // && slot.AudioClause == null)
                 {
                     slot.UnsetHighLight();
                 }
@@ -120,7 +124,7 @@ public class AudioSentenceControl : VrButtonBase
 
     /* audios */
 
-    private void StartPlayClipsInSequence()
+    private IEnumerator StartPlayClipsInSequence()
     {
         // boss option not selected yet
         if (!m_IsBossOptionSelected)
@@ -131,7 +135,7 @@ public class AudioSentenceControl : VrButtonBase
                 m_FirstNotYetFilledAudioClauseSlot == null)
             {
                 m_PlayClipsInSeqRoutine =
-                    StartCoroutine(PlayClipsInSequence());
+                    StartCoroutine(PlayClipsInSequence());  
             }
         }
         // boss option selected already
@@ -141,6 +145,8 @@ public class AudioSentenceControl : VrButtonBase
             m_PlayClipsInSeqRoutine = 
                 StartCoroutine(base.PlayAudioClipAndWaitWhilePlaying(clipToPlay));
         }
+
+        yield return m_PlayClipsInSeqRoutine;
     }
 
     private IEnumerator PlayClipsInSequence()
@@ -269,6 +275,46 @@ public class AudioSentenceControl : VrButtonBase
     /* end of event handlers */
 
 
+    private bool ExtractAnswerSequence()
+    {
+        bool isGoodChoiceMade = false;
+
+        if (!m_IsBossOptionSelected)
+        {
+            // 我戒咗差唔多一年喇，我希望你唔好擔心！
+            int[] correctAnswer1 = new int[] { 0, 4, 6 };
+
+            // 我最近返工太攰，所以先手震啫！
+            int[] correctAnswer2 = new int[] { 1, 3, 8 };
+
+            int[] selectedClauseIdices = new int[]
+            {
+            Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[0].AudioClause),
+            Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[1].AudioClause),
+            Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[2].AudioClause)
+            };
+
+            isGoodChoiceMade =
+                correctAnswer1.SequenceEqual(selectedClauseIdices) ||
+                correctAnswer2.SequenceEqual(selectedClauseIdices);            
+        }
+        else
+        {
+            isGoodChoiceMade = false;
+        }
+
+        return isGoodChoiceMade;        
+    }
+
+    private IEnumerator HandleDownSequenceOfActions()
+    {
+        yield return StartCoroutine(StartPlayClipsInSequence());
+        bool isGoodChoiceMade = ExtractAnswerSequence();
+        Scribe.Side04 = isGoodChoiceMade;
+        Sc04SClient.GoToSceneOnChoice();
+    }
+
+
     /* IHandleUiButton interfaces */
 
     public override void HandleDown()
@@ -276,7 +322,7 @@ public class AudioSentenceControl : VrButtonBase
         base.HandleDown();
         if (base.m_GazeOver)
         {
-            StartPlayClipsInSequence();
+            StartCoroutine(HandleDownSequenceOfActions());
         }
     }
 

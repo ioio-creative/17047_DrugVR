@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using VRStandardAssets.Utils;
 
 public class AudioClauseSelected : VrButtonBase    
 {
@@ -10,19 +11,26 @@ public class AudioClauseSelected : VrButtonBase
     public bool IsHighLighted { get { return m_IsHighLighted; } }
 
     [SerializeField]
-    private Image m_HighLightImg;
+    private UIFader m_HighLightFader;
     [SerializeField]
-    private Image m_ClauseImg;    
+    private Image m_ClauseImg;
+    [SerializeField]
+    private bool m_IsSetClauseImgSpriteToNullWhenStart;
 
     private AudioClauseSelection m_AudioClause = null;
     private bool m_IsHighLighted = false;
 
 
     /* MonoBehaviour */
-    protected override void Update()
+
+    private void Start()
     {
-        base.Update();
+        if (m_IsSetClauseImgSpriteToNullWhenStart)
+        {
+            m_ClauseImg.sprite = null;
+        }
     }
+
     /* end of MonoBehaviour */
 
 
@@ -50,7 +58,6 @@ public class AudioClauseSelected : VrButtonBase
     public void FillSlotWithAudioClause(
         AudioClauseSelection audioClause)
     {
-        m_IsHighLighted = false;
         m_AudioClause = audioClause;
         m_ClauseImg.sprite = audioClause.ClauseImage.sprite;
         StartCoroutine(base.InteruptAndFadeIn());        
@@ -61,8 +68,7 @@ public class AudioClauseSelected : VrButtonBase
         if (!m_IsHighLighted)
         {
             m_IsHighLighted = true;
-            //m_ClauseImg.sprite = m_HighLightSprite;
-            StartCoroutine(base.InteruptAndFadeIn());
+            StartCoroutine(m_HighLightFader.InteruptAndFadeIn());
         }
     }
 
@@ -71,7 +77,7 @@ public class AudioClauseSelected : VrButtonBase
         if (m_IsHighLighted)
         {
             m_IsHighLighted = false;
-            StartCoroutine(base.InteruptAndFadeOut());
+            StartCoroutine(m_HighLightFader.InteruptAndFadeOut());
         }
     }
 

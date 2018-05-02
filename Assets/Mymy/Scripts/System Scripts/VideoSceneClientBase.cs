@@ -1,6 +1,4 @@
 ﻿using DrugVR_Scribe;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -9,6 +7,9 @@ public class VideoSceneClientBase : MonoBehaviour
 {
     protected DrugVR_SceneENUM nextSceneToLoadBase;
     protected GameManager managerInst;
+
+
+    /* MonoBehaviour */
 
     protected virtual void Awake()
     {
@@ -20,6 +21,7 @@ public class VideoSceneClientBase : MonoBehaviour
         managerInst = GameManager.Instance;
         managerInst.OnSceneVideoEnd += HandleSystemVideoEnd;
     }
+
     protected void OnDisable()
     {
         managerInst.OnSceneVideoEnd -= HandleSystemVideoEnd;
@@ -29,6 +31,11 @@ public class VideoSceneClientBase : MonoBehaviour
     {
         GameManager.SkyVideoPlayer = null;
     }
+
+    /* end of MonoBehaviour */
+
+
+    /* event handlers */
 
     protected void HandleSystemVideoEnd(VideoPlayer source)
     {

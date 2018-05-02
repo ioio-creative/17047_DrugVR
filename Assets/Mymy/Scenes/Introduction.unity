@@ -208,9 +208,19 @@ Prefab:
       propertyPath: m_ControlledAudioTrackCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_TargetAudioSources.Array.data[0]
+      value: 
+      objectReference: {fileID: 461861842}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
   m_IsPrefabParent: 0
+--- !u!82 &461861842 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82004012881288118, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+    type: 2}
+  m_PrefabInternal: {fileID: 461861841}
 --- !u!1001 &903819617
 Prefab:
   m_ObjectHideFlags: 0

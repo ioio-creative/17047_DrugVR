@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5275769, g: 0.5122103, b: 0.5276452, a: 1}
+  m_IndirectSpecularColor: {r: 0.5279759, g: 0.5126323, b: 0.5280693, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -430,9 +430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df749f5adcbb23247bf16c26d7ac9306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Sc01SClientRef: {fileID: 0}
   m_SelectionProgress: {fileID: 0}
-  m_Patience: 1
+  m_Patience: 0
 --- !u!4 &1805774343 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4459634426868382, guid: 5eaf7586b35b5de45824df0df00875a1,
@@ -454,7 +453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df749f5adcbb23247bf16c26d7ac9306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Sc01SClientRef: {fileID: 0}
   m_SelectionProgress: {fileID: 0}
   m_Patience: 1
 --- !u!4 &2126919643 stripped
