@@ -19,7 +19,10 @@ public class AudioClauseSelected : VrButtonBase
 
 
     /* MonoBehaviour */
-
+    protected override void Update()
+    {
+        base.Update();
+    }
     /* end of MonoBehaviour */
 
 

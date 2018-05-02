@@ -12,7 +12,6 @@ public class IntroClient : VideoSceneClientBase
     protected override void Awake()
     {
         base.Awake();
-
     }
 
     private void Start()

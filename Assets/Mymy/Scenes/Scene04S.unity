@@ -845,52 +845,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 638199589}
---- !u!1 &794359992
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 794359993}
-  - component: {fileID: 794359994}
-  m_Layer: 0
-  m_Name: Sc4SGameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &794359993
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 794359992}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &794359994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 794359992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e547d9d19a6d75740ac59665299e2555, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FaderToStartContainers:
-  - {fileID: 1050138655}
-  - {fileID: 26427666}
-  - {fileID: 291050998}
-  - {fileID: 26427666}
-  - {fileID: 1370058735}
 --- !u!1001 &837318454
 Prefab:
   m_ObjectHideFlags: 0
@@ -1406,6 +1360,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1342727131}
+  - component: {fileID: 1342727132}
   m_Layer: 0
   m_Name: 04SClient
   m_TagString: Untagged
@@ -1424,8 +1379,24 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1342727132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1342727130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a9d069a4fd7484da19bc70829e77f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FaderToStartContainers:
+  - {fileID: 1050138655}
+  - {fileID: 26427666}
+  - {fileID: 1370058735}
+  - {fileID: 291050998}
 --- !u!1 &1370058735
 GameObject:
   m_ObjectHideFlags: 0

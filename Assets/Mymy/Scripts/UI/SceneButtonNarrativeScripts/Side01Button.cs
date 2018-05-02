@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DrugVR_Scribe;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ public class Side01Button : MonoBehaviour
 
     private void HandleSelectionComplete()
     {
-        Sc01SClient.managerInst.Side01 = m_Patience;
+        Scribe.Side01 = m_Patience;
         Sc01SClient.GoToSceneOnChoice();
     }
 }

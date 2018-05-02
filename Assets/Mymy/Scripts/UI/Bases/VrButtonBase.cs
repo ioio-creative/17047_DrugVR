@@ -61,6 +61,10 @@ public abstract class VrButtonBase : MonoBehaviour,
         // If this selection is using a UIFader 
         // turn off the "interaction" when it's invisible.
         bool isEnableCollider = m_UIFader.Visible && !m_UIFader.Fading;
+        if (isEnableCollider && gameObject.name.Contains("ClauseText"))
+        {
+            Debug.Log("isEnableCollider");
+        }
         SetInteractionEnabled(isEnableCollider);
     }
 

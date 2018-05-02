@@ -17,8 +17,6 @@ public class BossAudioClauseSelected : VrButtonBase
 
     private IEnumerator HandleClicked()
     {
-        PlayOnSelectedClip();
-
         // "restore m_AudioClause back to its original position"
         StartCoroutine(m_AudioClause.InteruptAndFadeIn());
         m_AudioClause = null;

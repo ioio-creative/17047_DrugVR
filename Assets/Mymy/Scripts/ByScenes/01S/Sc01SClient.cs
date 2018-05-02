@@ -16,7 +16,7 @@ public class Sc01SClient : MonoBehaviour
 
     public static void GoToSceneOnChoice()
     {
-        if (managerInst.Side01)
+        if (Scribe.Side01)
         {
             managerInst.GoToScene(DrugVR_SceneENUM.Sc01A);
         }
