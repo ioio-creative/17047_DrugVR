@@ -10,7 +10,7 @@ public class AudioClauseSelected : VrButtonBase
     public bool IsHighLighted { get { return m_IsHighLighted; } }
 
     [SerializeField]
-    private Sprite m_HighLightSprite;
+    private Image m_HighLightImg;
     [SerializeField]
     private Image m_ClauseImg;    
 
@@ -61,7 +61,7 @@ public class AudioClauseSelected : VrButtonBase
         if (!m_IsHighLighted)
         {
             m_IsHighLighted = true;
-            m_ClauseImg.sprite = m_HighLightSprite;
+            //m_ClauseImg.sprite = m_HighLightSprite;
             StartCoroutine(base.InteruptAndFadeIn());
         }
     }
