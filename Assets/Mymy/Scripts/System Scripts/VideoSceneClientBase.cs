@@ -16,7 +16,7 @@ public class VideoSceneClientBase : MonoBehaviour
         GameManager.SkyVideoPlayer = GetComponent<VideoPlayer>();
     }
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         managerInst = GameManager.Instance;
         managerInst.OnSceneVideoEnd += HandleSystemVideoEnd;

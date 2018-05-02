@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Introduction.unity
     guid: 77e29ca417287694282db78c9a13ee90
   - enabled: 1

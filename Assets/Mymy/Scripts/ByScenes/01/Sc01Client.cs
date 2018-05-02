@@ -11,6 +11,11 @@ public class Sc01Client : VideoSceneClientBase
         base.Awake();
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+    }
+
     private void Start()
     {
         nextSceneToLoadBase = nextSceneToLoad;
