@@ -23,7 +23,6 @@ namespace DrugVR_Scribe
         Sc03A,
         Sc03B,
         Sc03S,
-        Sc03X,
         Sc04,
         Sc04S,
         Sc04A,

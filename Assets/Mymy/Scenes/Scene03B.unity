@@ -221,7 +221,7 @@ VideoPlayer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1749901266}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 4264bdf0b162fc4409ee6c8e15076413, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 9719127b824671a42b86b223f17c12ce, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -235,7 +235,7 @@ VideoPlayer:
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources:
-  - {fileID: 1749901267}
+  - {fileID: 0}
   m_DirectAudioVolumes:
   - 1
   m_Url: 
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cebf3205a2ab6a4eb67c1c6cfdc2cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneToLoad: 12
+  nextSceneToLoad: 11
 --- !u!4 &1749901270
 Transform:
   m_ObjectHideFlags: 0

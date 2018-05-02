@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
-public class Sc03SClient : MonoBehaviour
+public class Sc03SClient : VideoSceneClientBase
 {
     [SerializeField]
     DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc02A;
 
-    private void Awake()
+    protected override void Awake()
     {
-
+        base.Awake();
     }
 
     private void GoToSceneOnChoice()
