@@ -270,7 +270,7 @@ VideoPlayer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1184031210}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 414dc98eb9ded0a429a9426c11150e1d, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: f58a057d6025c98469fd29f639bf219f, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -284,7 +284,7 @@ VideoPlayer:
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources:
-  - {fileID: 1184031214}
+  - {fileID: 0}
   m_DirectAudioVolumes:
   - 1
   m_Url: 
@@ -433,7 +433,7 @@ Prefab:
     - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: CurrentScene
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}

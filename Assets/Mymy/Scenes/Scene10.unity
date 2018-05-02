@@ -162,6 +162,26 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_DirectAudioMutes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_TargetAudioSources.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_DirectAudioVolumes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_EnabledAudioTracks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -193,6 +213,27 @@ Prefab:
     - target: {fileID: 4063787246422204, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_VideoClip
+      value: 
+      objectReference: {fileID: 32900000, guid: e1823e90061fbd84cb6b3d8bc938beeb,
+        type: 3}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_DirectAudioVolumes.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_EnabledAudioTracks.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 328002193655968894, guid: 7bef0bf16027a924a8ca4e7c191fefe7,
+        type: 2}
+      propertyPath: m_ControlledAudioTrackCount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114157941926185832, guid: 7bef0bf16027a924a8ca4e7c191fefe7, type: 2}
@@ -240,7 +281,7 @@ Prefab:
     - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: CurrentScene
-      value: 26
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
