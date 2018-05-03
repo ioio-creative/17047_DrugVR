@@ -10,7 +10,6 @@ public class AddLighterToFocusController : MonoBehaviour
     private LaserPointer controllerLaser;
 
     private WaveVR_ControllerPoseTracker controllerPT;
-    //private LighterTriggerProgressable lighterTriggerComponent;
 
     private void Start ()
     {
@@ -24,9 +23,7 @@ public class AddLighterToFocusController : MonoBehaviour
         controllerLaser.enabled = false;
         controllerLaser.IsEnableReticle = false;
         originalControllerModel.SetActive(false);
-        originalControllerModel.transform.localScale = Vector3.zero;
-
-        //lighterTriggerComponent = controllerPosTrkMan.AddComponent<LighterTriggerProgressable>();
+        originalControllerModel.transform.localScale = Vector3.zero;        
     }
 
     private void OnDisable()
@@ -36,7 +33,5 @@ public class AddLighterToFocusController : MonoBehaviour
         originalControllerModel.transform.localScale = Vector3.one;
         controllerLaser.enabled = true;
         controllerLaser.IsEnableReticle = true;
-
-        //Destroy(lighterTriggerComponent);
     }
 }
