@@ -219,7 +219,7 @@ VideoPlayer:
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources:
-  - {fileID: 0}
+  - {fileID: 1184031214}
   m_DirectAudioVolumes:
   - 1
   m_Url: 
@@ -369,6 +369,11 @@ Prefab:
         type: 2}
       propertyPath: CurrentScene
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114337383099943340, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}

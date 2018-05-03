@@ -217,6 +217,7 @@ public class GameManager : MonoBehaviour
 
         //wait until the fade image is completely transparent (alpha = 0) and control UI back on
         yield return new WaitUntil(() => m_fadeImage.color.a == 0);
+        isLoadingScene = false;
     }
 
     //Find the video in the scene and pause it

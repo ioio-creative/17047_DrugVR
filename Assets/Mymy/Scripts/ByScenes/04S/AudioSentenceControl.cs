@@ -19,6 +19,8 @@ public class AudioSentenceControl : VrButtonBase
     [SerializeField]
     private bool m_IsSelectionsDisappearOnSelectedOverride;
     [SerializeField]
+    private GameObject m_HighlightSlotsContainer;
+    [SerializeField]
     private GameObject m_ClauseAvailableOptionsContainer;
     [SerializeField]
     private GameObject m_SelectedClauseContainer;
@@ -27,6 +29,8 @@ public class AudioSentenceControl : VrButtonBase
     [SerializeField]
     private UIFader m_NormalSelectedClauseTextBgFader;
 
+    private int m_HighlightedSlotFaderIdx;
+    private UIFader[] m_HighlightSlotFaders;
     private AudioClauseSelection[] m_ClauseAvailableOptions;
     private AudioClauseSelected[] m_SelectedClauseSeq;  // fixed in length
     private int m_NumOfClausesRequiredInSentence;    
@@ -48,6 +52,9 @@ public class AudioSentenceControl : VrButtonBase
 
     protected override void Awake()
     {
+        m_HighlightSlotFaders =
+            m_HighlightSlotsContainer.GetComponentsInChildren<UIFader>();
+
         m_ClauseAvailableOptions =
             m_ClauseAvailableOptionsContainer.GetComponentsInChildren<AudioClauseSelection>();
 
@@ -222,11 +229,28 @@ public class AudioSentenceControl : VrButtonBase
                 audioClauseSelected.PlayOnSelectedClip();
                 
                 StartCoroutine(m_NormalSelectedClauseTextBgFader.InteruptAndFadeOut());
-                foreach (AudioClauseSelected slot in m_SelectedClauseSeq)
+
+                // fade out highlighted slot
+                int highlightSlotIdx = 0;
+                foreach (UIFader highlightSlotFader in m_HighlightSlotFaders)
                 {
-                    //StartCoroutine(slot.InteruptAndFadeOut());
-                    slot.gameObject.SetActive(false);
+                    if (highlightSlotFader.Visible || highlightSlotFader.Fading)
+                    {
+                        StartCoroutine(highlightSlotFader.InteruptAndFadeOut());
+                        m_HighlightedSlotFaderIdx = highlightSlotIdx;
+                        break;
+                    }
+                    highlightSlotIdx++;
                 }
+
+                foreach (AudioClauseSelected slot in m_SelectedClauseSeq)
+                {                    
+                    if (slot.AudioClause != null)
+                    {
+                        StartCoroutine(slot.InteruptAndFadeOut());
+                    }
+                }
+
                 m_BossSelectedClause.FillSlotWithAudioClause(audioClauseSelected);
                 if (m_IsSelectionsDisappearOnSelectedOverride || audioClauseSelected.IsDisappearOnSelected)
                 {
@@ -260,10 +284,19 @@ public class AudioSentenceControl : VrButtonBase
         m_BossSelectedClause.PlayOnSelectedClip();
 
         StartCoroutine(m_NormalSelectedClauseTextBgFader.InteruptAndFadeIn());
-        foreach (AudioClauseSelected slot in m_SelectedClauseSeq)
+
+        // fade in highlighted slot
+        if (m_HighlightedSlotFaderIdx >= 0 && m_HighlightedSlotFaderIdx < m_HighlightSlotFaders.Length)
         {
-            //StartCoroutine(slot.InteruptAndFadeIn());
-            slot.gameObject.SetActive(true);
+            StartCoroutine(m_HighlightSlotFaders[m_HighlightedSlotFaderIdx].InteruptAndFadeIn());
+        }
+
+        foreach (AudioClauseSelected slot in m_SelectedClauseSeq)
+        {            
+            if (slot.AudioClause != null)
+            {
+                StartCoroutine(slot.InteruptAndFadeIn());
+            }
         }
 
         if (m_IsSelectionsDisappearOnSelectedOverride || m_BossSelectedClause.IsDisappearOnSelected)
@@ -289,9 +322,9 @@ public class AudioSentenceControl : VrButtonBase
 
             int[] selectedClauseIdices = new int[]
             {
-            Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[0].AudioClause),
-            Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[1].AudioClause),
-            Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[2].AudioClause)
+                Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[0].AudioClause),
+                Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[1].AudioClause),
+                Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[2].AudioClause)
             };
 
             isGoodChoiceMade =

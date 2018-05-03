@@ -14,6 +14,7 @@ public class VideoSceneClientBase : MonoBehaviour
     protected virtual void Awake()
     {
         GameManager.SkyVideoPlayer = GetComponent<VideoPlayer>();
+        GameManager.SkyVideoPlayer.skipOnDrop = true;
     }
 
     protected virtual void OnEnable()
@@ -22,12 +23,12 @@ public class VideoSceneClientBase : MonoBehaviour
         managerInst.OnSceneVideoEnd += HandleSystemVideoEnd;
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         managerInst.OnSceneVideoEnd -= HandleSystemVideoEnd;
     }
 
-    protected void OnDestroy()
+    protected virtual void OnDestroy()
     {
         GameManager.SkyVideoPlayer = null;
     }
@@ -37,7 +38,7 @@ public class VideoSceneClientBase : MonoBehaviour
 
     /* event handlers */
 
-    protected void HandleSystemVideoEnd(VideoPlayer source)
+    protected virtual void HandleSystemVideoEnd(VideoPlayer source)
     {
         managerInst.GoToScene(nextSceneToLoadBase);
     }
