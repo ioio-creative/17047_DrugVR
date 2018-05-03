@@ -7,7 +7,7 @@ using UnityEngine.Video;
 public class Sc07SClient : VideoSceneClientBase
 {
     [SerializeField]
-    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc08;
+    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc07B;
 
 
     protected override void Awake()
@@ -26,12 +26,25 @@ public class Sc07SClient : VideoSceneClientBase
         // This scene won't go to next scene based on Video ends
     }
 
-    public static void GoToMethScene()
+    public static void GoToSceneOnChoice()
+    {
+        if (Scribe.Side06 == false)
+        {
+            GoToMethScene();
+        }
+        else
+        {
+            GoToEndSceneOnChoice();
+        }
+
+    }
+
+    private static void GoToMethScene()
     {
         managerInst.GoToScene(DrugVR_SceneENUM.Sc07B);
     }
 
-    public static void GoToEndSceneOnChoice()
+    private static void GoToEndSceneOnChoice()
     {
         if (Scribe.Side05 && Scribe.Side06)
         {

@@ -136,7 +136,7 @@ namespace Scene07Party
             else
             {
                 Scribe.Side06 = false;
-                Sc07SClient.GoToEndSceneOnChoice();
+                Sc07SClient.GoToSceneOnChoice();
             }
 
         }
