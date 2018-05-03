@@ -7,58 +7,77 @@ using UnityEngine.UI;
 using VRStandardAssets.Utils;
 using wvr;
 
-public class PartySelection : VrButtonBase
+namespace Scene07Party
 {
-    public event Func<GameObject, IEnumerator> OnSelected;
-    public AudioClip PartySFXAudioClip { get { return m_PartySFXAudioClip; } }
-
-    [SerializeField]
-    private AudioClip m_PartySFXAudioClip;
-
-
-    /* MonoBehaviour */ 
-
-    protected override void Update()
+    public class PartySelection : VrButtonBase
     {
-        base.Update();
-    }
 
-    /* end of MonoBehaviour */
+        [SerializeField]
+        public PartyOptionEnum PartyOption;
+        [SerializeField]
+        private Sc7SPartyManager m_PartyManager;
 
-    private void RaiseOnSelectedEvent()
-    {
-        if (OnSelected != null)
+        public event Func<PartySelection, IEnumerator> OnSelected;
+        public AudioClip PartySFXAudioClip { get { return m_PartySFXAudioClip; } }
+
+        [SerializeField]
+        private AudioClip m_PartySFXAudioClip;
+
+
+        /* MonoBehaviour */
+
+        private void OnEnable()
         {
-            StartCoroutine(OnSelected(this.gameObject));
+            if (!m_PartyManager)
+            {
+                m_PartyManager = GetComponentInParent<Sc7SPartyManager>();
+            }
+
+            OnSelected += m_PartyManager.HandlePartyOptionSelected;
         }
-    }
 
-
-    /* IHandleUiButton interfaces */
-
-    public override void HandleDown()
-    {
-        base.HandleDown();
-        if (m_GazeOver)
+        protected override void Update()
         {
-            RaiseOnSelectedEvent();
+            base.Update();
         }
-    }
 
-    public override void HandleEnter()
-    {
-        base.HandleEnter();
-    }
+        /* end of MonoBehaviour */
 
-    public override void HandleExit()
-    {
-        base.HandleExit();
-    }
+        private void RaiseOnSelectedEvent()
+        {
+            if (OnSelected != null)
+            {
+                StartCoroutine(OnSelected(this));
+            }
+        }
 
-    public override void HandleUp()
-    {
-        base.HandleUp();
-    }
 
-    /* end of IHandleUiButton interfaces */
+        /* IHandleUiButton interfaces */
+
+        public override void HandleDown()
+        {
+            base.HandleDown();
+            if (m_GazeOver)
+            {
+                RaiseOnSelectedEvent();
+            }
+        }
+
+        public override void HandleEnter()
+        {
+            base.HandleEnter();
+        }
+
+        public override void HandleExit()
+        {
+            base.HandleExit();
+        }
+
+        public override void HandleUp()
+        {
+            base.HandleUp();
+        }
+
+        /* end of IHandleUiButton interfaces */
+    }
 }

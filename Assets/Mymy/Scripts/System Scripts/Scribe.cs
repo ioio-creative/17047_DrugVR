@@ -34,6 +34,7 @@ namespace DrugVR_Scribe
         Sc06B,
         Sc07,
         Sc07S,
+        Sc07B,
         Sc08,
         Sc09,
         Sc10,
