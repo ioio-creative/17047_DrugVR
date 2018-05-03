@@ -22,12 +22,12 @@ public class VideoSceneClientBase : MonoBehaviour
         managerInst.OnSceneVideoEnd += HandleSystemVideoEnd;
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         managerInst.OnSceneVideoEnd -= HandleSystemVideoEnd;
     }
 
-    protected void OnDestroy()
+    protected virtual void OnDestroy()
     {
         GameManager.SkyVideoPlayer = null;
     }

@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+// Unity UI Scroll Rect and Mask
+// https://www.youtube.com/watch?v=9B7ahj1kaYs
+// https://www.youtube.com/watch?v=tcU8yzv_xEw
 public class RestrictDisplacement2D : MonoBehaviour
 {
     [SerializeField]
