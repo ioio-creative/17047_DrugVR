@@ -16,13 +16,16 @@ public class FloorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider plateCollider)
     {
-        GameObject plateRigidBodyGO = plateCollider.GetComponentInParent<Rigidbody>().gameObject;
-        plateRigidBodyGO.transform.rotation = new Quaternion(0,0,0,0);
-        plateRigidBodyGO.transform.Translate(translateVector);
-        Rigidbody plateRB = plateRigidBodyGO.GetComponent<Rigidbody>();
-        plateRB.velocity = Vector3.zero;
-        plateRB.angularVelocity = Vector3.zero;
-        plateRB.Sleep();
+        if (plateCollider.gameObject.layer == 10)
+        {
+            GameObject plateRigidBodyGO = plateCollider.GetComponentInParent<Rigidbody>().gameObject;
+            plateRigidBodyGO.transform.rotation = new Quaternion(0, 0, 0, 0);
+            plateRigidBodyGO.transform.Translate(translateVector);
+            Rigidbody plateRB = plateRigidBodyGO.GetComponent<Rigidbody>();
+            plateRB.velocity = Vector3.zero;
+            plateRB.angularVelocity = Vector3.zero;
+            plateRB.Sleep(); 
+        }
     }
 
 
