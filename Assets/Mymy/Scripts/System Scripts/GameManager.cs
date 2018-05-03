@@ -21,7 +21,27 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance = null;
     
     //Only one instance of this videoplayer can be obtained and present in any scenes
-    public static VideoPlayer SkyVideoPlayer { get; set; }
+    public static VideoPlayer SkyVideoPlayer
+    {
+        get
+        {
+            if (m_SkyVideoPlayer == null)
+            {
+                m_SkyVideoPlayer = GetVideoPlayerInScene();
+            }
+            return m_SkyVideoPlayer;
+        }
+
+        set
+        {
+            if (m_SkyVideoPlayer != value)
+            {
+                m_SkyVideoPlayer = value;
+            }
+        }
+    }
+
+    private static VideoPlayer m_SkyVideoPlayer;
 
     private Animator m_anim;
     private Image m_fadeImage;
@@ -97,6 +117,7 @@ public class GameManager : MonoBehaviour
             DynamicGI.UpdateEnvironment();
 
             VideoSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);
+
             SkyVideoPlayer.enabled = true;
             SkyVideoPlayer.loopPointReached += OnVideoEnd;
 
@@ -223,20 +244,12 @@ public class GameManager : MonoBehaviour
     //Find the video in the scene and pause it
     public static void PauseVideo()
     {
-        if (!SkyVideoPlayer)
-        {
-            SkyVideoPlayer = GetVideoPlayerInScene();
-        }
         SkyVideoPlayer.Pause();
     }
 
     //Find the video in the scene and play it
     public static void PlayVideo()
     {
-        if (SkyVideoPlayer == null)
-        {
-            SkyVideoPlayer = GetVideoPlayerInScene();
-        }
         SkyVideoPlayer.Play();
     }
 

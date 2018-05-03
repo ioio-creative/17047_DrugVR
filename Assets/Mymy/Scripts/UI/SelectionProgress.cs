@@ -30,7 +30,7 @@ public class SelectionProgress : VrButtonBase
 
     // Whether the selection should disappear instantly once it's been filled.
     [SerializeField]
-    private bool m_DisappearOnSelectionFill;
+    private bool m_DisappearOnSelectionFilled;
 
     // Used to start and stop the filling coroutine based on input.
     private Coroutine m_SelectionFillRoutine;
@@ -125,7 +125,7 @@ public class SelectionProgress : VrButtonBase
         PlayOnFilledClip();
 
         // If the selection should disappear once it's filled, hide it.
-        if (m_DisappearOnSelectionFill)
+        if (m_DisappearOnSelectionFilled)
         {
             base.InteruptAndFadeOut();
         }

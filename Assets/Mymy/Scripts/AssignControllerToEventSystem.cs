@@ -7,5 +7,4 @@ public class AssignControllerToEventSystem : MonoBehaviour
         WaveVR_InputModuleManager imManager = GameObject.Find("/System/InputModuleManager").GetComponent<WaveVR_InputModuleManager>();
         imManager.Controller.RightController = gameObject;     
     }
-
 }

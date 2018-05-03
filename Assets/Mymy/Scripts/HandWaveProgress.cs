@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using wvr;
 
 public class HandWaveProgress : MonoBehaviour
@@ -39,7 +37,7 @@ public class HandWaveProgress : MonoBehaviour
         Vector3 forwardVec = transform.forward;
         m_Zenith = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(forwardVec, StaticUp));
 
-        Vector3 normedProjectionOnFloor = Vector3.Normalize(transform.forward - new Vector3(0, transform.forward.y, 0));
+        Vector3 normedProjectionOnFloor = Vector3.Normalize(forwardVec - new Vector3(0, forwardVec.y, 0));
         float signedMagnitudeOfSineAzimuth = Vector3.Dot(Vector3.Cross(StaticForward, normedProjectionOnFloor), StaticUp);
         float newAzimuth = Mathf.Rad2Deg * Mathf.Asin(signedMagnitudeOfSineAzimuth);
 

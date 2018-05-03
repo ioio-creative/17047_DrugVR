@@ -1,21 +1,45 @@
 ﻿using DrugVR_Scribe;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class Sc06AClient : VideoSceneClientBase
 {
     [SerializeField]
-    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc06B;
+    private LighterTriggerProgressable lighterTriggerProgressable;
+
+
+    /* MonoBehaviour */
 
     protected override void Awake()
     {
         base.Awake();
     }
 
+    private void OnEnable()
+    {
+        lighterTriggerProgressable.OnSelectionComplete +=
+            HandleLighterTriggerProgressableSelectionComplete;
+    }
+
+    private void OnDisable()
+    {
+        lighterTriggerProgressable.OnSelectionComplete -=
+            HandleLighterTriggerProgressableSelectionComplete;
+    }
+
     private void Start()
     {
-        nextSceneToLoadBase = nextSceneToLoad;
+        
     }
+
+    /* end of MonoBehaviour */
+
+
+    /* event handlers */
+
+    private void HandleLighterTriggerProgressableSelectionComplete()
+    {
+        GameManager.Instance.GoToScene(DrugVR_SceneENUM.Sc06B);
+    }
+
+    /* end of event handlers */
 }
