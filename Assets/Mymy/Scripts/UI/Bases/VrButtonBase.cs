@@ -61,10 +61,6 @@ public abstract class VrButtonBase : MonoBehaviour,
         // If this selection is using a UIFader 
         // turn off the "interaction" when it's invisible.
         bool isEnableCollider = m_UIFader.Visible && !m_UIFader.Fading;
-        if (isEnableCollider && gameObject.name.Contains("ClauseText"))
-        {
-            Debug.Log("isEnableCollider");
-        }
         SetInteractionEnabled(isEnableCollider);
     }
 
@@ -73,16 +69,20 @@ public abstract class VrButtonBase : MonoBehaviour,
 
     private void SetInteractionEnabled(bool isEnabled)
     {
-        m_EventTrigger.enabled = isEnabled;
-        m_Button.enabled = isEnabled;
-        m_Collider.enabled = isEnabled;
+        SetIsBlockRaycast(isEnabled);
+        //m_EventTrigger.enabled = isEnabled;
+        //m_Button.enabled = isEnabled;
+        //m_Collider.enabled = isEnabled;
     }
 
     private void ResetSelectionHoverState()
     {
         // reset hover state of button
         // https://answers.unity.com/questions/883220/how-to-change-selected-button-in-eventsystem-or-de.html
-        m_CurrentEventSystem.SetSelectedGameObject(null);
+        if (m_CurrentEventSystem)
+        {
+            m_CurrentEventSystem.SetSelectedGameObject(null);
+        }        
     }
 
 
@@ -166,6 +166,11 @@ public abstract class VrButtonBase : MonoBehaviour,
     public IEnumerator FadeOut()
     {
         yield return StartCoroutine(m_UIFader.FadeOut());
+    }
+
+    public void SetIsBlockRaycast(bool isBlockRaycast)
+    {
+        m_UIFader.SetIsBlockRaycast(isBlockRaycast);
     }
 
     /* end of exposing UIFader interfaces */

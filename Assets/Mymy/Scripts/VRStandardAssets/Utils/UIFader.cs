@@ -305,5 +305,14 @@ namespace VRStandardAssets.Utils
 
             Visible = false;
         }
+
+
+        public void SetIsBlockRaycast(bool isBlockRaycast)
+        {
+            foreach (CanvasGroup uiGroup in m_UiGroupsToFade)
+            {
+                uiGroup.blocksRaycasts = isBlockRaycast;
+            }
+        }
     }
 }
