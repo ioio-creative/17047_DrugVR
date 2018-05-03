@@ -221,7 +221,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Find the video in the scene and pause it
-    public void PauseVideo()
+    public static void PauseVideo()
     {
         if (!SkyVideoPlayer)
         {
@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Find the video in the scene and play it
-    public void PlayVideo()
+    public static void PlayVideo()
     {
         if (SkyVideoPlayer == null)
         {
@@ -255,7 +255,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private VideoPlayer GetVideoPlayerInScene()
+    private static VideoPlayer GetVideoPlayerInScene()
     {
         return FindObjectOfType<VideoPlayer>();
     }

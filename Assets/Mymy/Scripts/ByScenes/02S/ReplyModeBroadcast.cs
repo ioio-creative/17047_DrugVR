@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ReplyModeBroadcastNew : MonoBehaviour
+public class ReplyModeBroadcast : MonoBehaviour
 {
     public enum ReplyMode
     {
@@ -21,6 +22,8 @@ public class ReplyModeBroadcastNew : MonoBehaviour
     private float m_YDisplacementThreshold;
     [SerializeField]
     private RectTransform m_RectTransformToListen;
+    [SerializeField]
+    private Image m_PopupMsgImage;
     private bool m_IsReplyModeIndicated = false;
     private Vector3 m_OriginalRectTransformPos;
 
@@ -34,6 +37,9 @@ public class ReplyModeBroadcastNew : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log("m_RectTransformToListen.position.x: " + m_RectTransformToListen.position.x);
+        //Debug.Log("m_RectTransformToListen.position.y: " + m_RectTransformToListen.position.y);
+
         ReplyMode replyMode = ReplyMode.Null;
 
         // set replyMode based on where m_RectTransformToListen is
@@ -51,6 +57,18 @@ public class ReplyModeBroadcastNew : MonoBehaviour
         // beyond certain thresholds
         if (replyMode != ReplyMode.Null)
         {
+            // make m_PopupMsgImage transparent
+            Color popupMsgImageOriginalColor = m_PopupMsgImage.color;
+            m_PopupMsgImage.color = new Color
+            (
+                popupMsgImageOriginalColor.r,
+                popupMsgImageOriginalColor.g,
+                popupMsgImageOriginalColor.b,
+                0
+            );
+
+            // TODO: Maybe we can play some sound here!
+
             if (OnReplyModeIndicated != null)
             {
                 OnReplyModeIndicated(replyMode);
