@@ -9,6 +9,12 @@ public class Sc07SClient : VideoSceneClientBase
     [SerializeField]
     DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc08;
 
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -20,7 +26,12 @@ public class Sc07SClient : VideoSceneClientBase
         // This scene won't go to next scene based on Video ends
     }
 
-    public void GoToEndScenceOnChoice()
+    public static void GoToMethScene()
+    {
+        managerInst.GoToScene(DrugVR_SceneENUM.Sc07B);
+    }
+
+    public static void GoToEndSceneOnChoice()
     {
         if (Scribe.Side05 && Scribe.Side06)
         {

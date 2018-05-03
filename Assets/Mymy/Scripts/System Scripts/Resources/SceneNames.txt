@@ -22,6 +22,7 @@ Scene06A,VideoSky,0,130,1,1,1
 Scene06B,VideoSky,1,130,1,1,1
 Scene07,VideoSky,1,39,1,1,1
 Scene07S,VideoSky,1,39,1,1,1
+Scene07B,VideoSky,1,39,1,1,1
 Scene08,VideoSky,1,39,1,1,1
 Scene09,VideoSky,1,39,1,1,1
 Scene10,VideoSky,1,39,1,1,1

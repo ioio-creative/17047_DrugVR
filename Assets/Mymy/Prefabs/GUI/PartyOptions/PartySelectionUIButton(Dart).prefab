@@ -202,18 +202,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsDisappearOnSelected: 0
-  m_UIFader: {fileID: 114789691271826222}
-  m_Collider: {fileID: 65712390582718742}
-  m_Button: {fileID: 114559341855607006}
-  m_EventTrigger: {fileID: 114588960012583304}
   m_Audio: {fileID: 82849762888153648}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_OnErrorClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_AudioClauseClip: {fileID: 8300000, guid: 3bfbde3793b434c4588b158fde9be486, type: 3}
-  m_ClauseImage: {fileID: 114650400900459086}
+  m_UIFader: {fileID: 114789691271826222}
+  m_Collider: {fileID: 65712390582718742}
+  m_Button: {fileID: 114559341855607006}
+  m_EventTrigger: {fileID: 114588960012583304}
   m_DeviceToListen: 2
   m_InputToListen: 16
+  PartyOption: 1
+  m_PartyManager: {fileID: 0}
+  m_PartySFXAudioClip: {fileID: 0}
 --- !u!114 &114559341855607006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,7 +427,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &224289075955797966
 RectTransform:
