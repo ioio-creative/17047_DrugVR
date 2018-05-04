@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114220738152412998}
   - component: {fileID: 114012676063225622}
   - component: {fileID: 114565674256367152}
+  - component: {fileID: 114986224629109202}
   m_Layer: 9
   m_Name: SideTakingButtonStdRadial
   m_TagString: Untagged
@@ -93,8 +94,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1691671938473520}
-  m_LocalRotation: {x: -0, y: 0.97417337, z: -0, w: 0.22580133}
-  m_LocalPosition: {x: 1.54, y: 0, z: -3.36}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224549192209810912}
@@ -219,9 +220,9 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: 6beda7a230b6afe40ac5a7db43d8e0ff,
+    m_HighlightedSprite: {fileID: 21300000, guid: 7e3af4632cf828341a3f5817e5b72664,
       type: 3}
-    m_PressedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 21300000, guid: 7e3af4632cf828341a3f5817e5b72664, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -232,7 +233,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114160788121239530}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114009336528763496
@@ -247,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: ae3edede097ef83418badd07c7f857d5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.018652698, g: 0.70871603, b: 0.8455882, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -286,7 +298,7 @@ MonoBehaviour:
   m_InputToListen: 16
   m_SelectionDuration: 1.5
   m_OnFilledClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_DisappearOnSelectionFill: 0
+  m_DisappearOnSelectionFilled: 0
 --- !u!114 &114066389150186360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -419,7 +431,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b6ba4fea797af66419609202502fcc87, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6c35702941b8c014fb76ccd34fc4e3ca, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -473,6 +485,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967291
+--- !u!114 &114986224629109202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691671938473520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df749f5adcbb23247bf16c26d7ac9306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SelectionProgress: {fileID: 0}
+  m_Patience: 1
 --- !u!222 &222641200255310098
 CanvasRenderer:
   m_ObjectHideFlags: 1

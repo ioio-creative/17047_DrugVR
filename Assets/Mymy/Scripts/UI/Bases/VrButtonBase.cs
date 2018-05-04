@@ -48,6 +48,8 @@ public abstract class VrButtonBase : MonoBehaviour,
     protected bool m_GazeOver;
     protected bool m_ButtonPressed;
 
+    private bool m_IsForceDisableButton = false;
+
 
     /* MonoBehaviour */
 
@@ -60,19 +62,24 @@ public abstract class VrButtonBase : MonoBehaviour,
     {
         // If this selection is using a UIFader 
         // turn off the "interaction" when it's invisible.
-        bool isEnableCollider = m_UIFader.Visible && !m_UIFader.Fading;
+        bool isEnableCollider = !m_IsForceDisableButton && (m_UIFader.Visible && !m_UIFader.Fading);
         SetInteractionEnabled(isEnableCollider);
     }
 
     /* end of MonoBehaviour */
 
+    public void ForceDisableButton()
+    {
+        m_IsForceDisableButton = true;
+    }
 
     private void SetInteractionEnabled(bool isEnabled)
     {
         SetIsBlockRaycast(isEnabled);
-        //m_EventTrigger.enabled = isEnabled;
-        //m_Button.enabled = isEnabled;
-        //m_Collider.enabled = isEnabled;
+        m_UIFader.SetIsBlockRaycast(isEnabled);
+        m_EventTrigger.enabled = isEnabled;
+        m_Button.enabled = isEnabled;
+        m_Collider.enabled = isEnabled;
     }
 
     private void ResetSelectionHoverState()

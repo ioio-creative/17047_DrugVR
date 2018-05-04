@@ -341,6 +341,10 @@ public class AudioSentenceControl : VrButtonBase
 
     private IEnumerator HandleDownSequenceOfActions()
     {
+        foreach (AudioClauseSelected selectedAudio in m_SelectedClauseSeq)
+        {
+            selectedAudio.ForceDisableButton();
+        }
         yield return StartCoroutine(StartPlayClipsInSequence());
         bool isGoodChoiceMade = ExtractAnswerSequence();
         Scribe.Side04 = isGoodChoiceMade;
