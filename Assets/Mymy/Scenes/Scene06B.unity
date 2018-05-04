@@ -235,7 +235,7 @@ VideoPlayer:
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources:
-  - {fileID: 0}
+  - {fileID: 204691102}
   m_DirectAudioVolumes:
   - 1
   m_Url: 
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f91b7e83b8723742b8ffbb653842cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneToLoad: 22
+  nextSceneToLoad: 21
 --- !u!4 &204691105
 Transform:
   m_ObjectHideFlags: 0

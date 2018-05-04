@@ -19,6 +19,7 @@ public enum SkyboxType
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
+
     
     //Only one instance of this videoplayer can be obtained and present in any scenes
     public static VideoPlayer SkyVideoPlayer
@@ -60,7 +61,8 @@ public class GameManager : MonoBehaviour
     private bool isLoadingScene = false;
 
     public event Action<VideoPlayer> OnSceneVideoEnd;
-
+    public delegate void SceneChange(DrugVR_SceneENUM nextScene);
+    public static event SceneChange OnSceneChange = null;
 
     //make sure that we only have a single instance of the game manager
     private void Awake()
@@ -205,6 +207,10 @@ public class GameManager : MonoBehaviour
             {
                 string sceneToLoadName = Scribe.SceneDictionary[sceneEnum].SceneName;
                 SceneManager.LoadScene(sceneToLoadName);
+                if (OnSceneChange != null)
+                {
+                    OnSceneChange(sceneEnum);
+                }
             }
         }
 
@@ -225,6 +231,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => m_fadeImage.color.a == 1);
         string nextSceneName = CurrentSceneScroll.SceneName;
         SceneManager.LoadScene(nextSceneName);
+        if (OnSceneChange != null)
+        {
+            OnSceneChange(nextSceneEnum);
+        }
         Scene nextScene = SceneManager.GetSceneByName(nextSceneName);
         Debug.Log("loading scene:" + nextScene.name);
         yield return new WaitUntil(() => nextScene.isLoaded);

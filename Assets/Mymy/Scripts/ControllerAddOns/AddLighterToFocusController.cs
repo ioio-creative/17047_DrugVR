@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DrugVR_Scribe;
+using UnityEngine;
 
 public class AddLighterToFocusController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class AddLighterToFocusController : MonoBehaviour
 
     private void Start ()
     {
+        GameManager.OnSceneChange += HandleSceneChange;
+
         controllerPosTrkMan = GameObject.Find(ControllerPosTrkManGameObjectName);
         originalControllerModel = GameObject.Find(OriginalControllerModelGameObjectName);
         controllerLaser = FindObjectOfType<LaserPointer>();
@@ -33,5 +36,12 @@ public class AddLighterToFocusController : MonoBehaviour
         originalControllerModel.transform.localScale = Vector3.one;
         controllerLaser.enabled = true;
         controllerLaser.IsEnableReticle = true;
+    }
+
+    private void HandleSceneChange(DrugVR_SceneENUM nextScene)
+    {
+        enabled = false;
+        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
