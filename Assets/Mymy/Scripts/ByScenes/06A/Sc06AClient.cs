@@ -14,14 +14,16 @@ public class Sc06AClient : VideoSceneClientBase
         base.Awake();
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         lighterTriggerProgressable.OnSelectionComplete +=
             HandleLighterTriggerProgressableSelectionComplete;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnEnable();
         lighterTriggerProgressable.OnSelectionComplete -=
             HandleLighterTriggerProgressableSelectionComplete;
     }
