@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class AddLighterToFocusController : MonoBehaviour
 {
-    private const string ControllerPosTrkManGameObjectName = "/VIVEFocusWaveVR/FocusController";
-    private const string OriginalControllerModelGameObjectName = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
+    private const string ControllerPosTrkManObjectName = "/VIVEFocusWaveVR/FocusController";
+    private const string OriginalControllerModelObjectName = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
 
     private GameObject controllerPosTrkMan;
     private GameObject originalControllerModel;
@@ -12,36 +12,82 @@ public class AddLighterToFocusController : MonoBehaviour
 
     private WaveVR_ControllerPoseTracker controllerPT;
 
+    private bool isLighterOn = false;
+
+
+    /* MonoBehaviour */
+
     private void Start ()
     {
         GameManager.OnSceneChange += HandleSceneChange;
-
-        controllerPosTrkMan = GameObject.Find(ControllerPosTrkManGameObjectName);
-        originalControllerModel = GameObject.Find(OriginalControllerModelGameObjectName);
-        controllerLaser = FindObjectOfType<LaserPointer>();
-
-        controllerPT = controllerPosTrkMan.GetComponent<WaveVR_ControllerPoseTracker>();
-        controllerPT.TrackRotation = false;
-        gameObject.transform.parent = controllerPosTrkMan.transform;
-        controllerLaser.enabled = false;
-        controllerLaser.IsEnableReticle = false;
-        originalControllerModel.SetActive(false);
-        originalControllerModel.transform.localScale = Vector3.zero;        
+        ReplaceControllerByLighter();
     }
 
     private void OnDisable()
     {
-        controllerPT.TrackRotation = true;
-        originalControllerModel.SetActive(true);
-        originalControllerModel.transform.localScale = Vector3.one;
-        controllerLaser.enabled = true;
-        controllerLaser.IsEnableReticle = true;
+        ReplaceLighterByController();
     }
+
+    private void OnDestroy()
+    {
+        GameManager.OnSceneChange -= HandleSceneChange;
+    }
+
+    private void LateUpdate()
+    {
+        //transform.localRotation = Quaternion.Euler(-transform.parent.eulerAngles.x, -transform.parent.eulerAngles.y, -transform.parent.eulerAngles.z);
+
+        //Debug.Log(transform.position);
+    }
+
+    /* end of MonoBehaviour */
+
+
+    /* event handlers */
 
     private void HandleSceneChange(DrugVR_SceneENUM nextScene)
     {
         enabled = false;
         gameObject.SetActive(false);
         Destroy(gameObject);
+    }
+
+    /* end of event handlers */
+
+
+    public void ReplaceControllerByLighter()
+    {
+        if (!isLighterOn)
+        {
+            controllerPosTrkMan = GameObject.Find(ControllerPosTrkManObjectName);
+            originalControllerModel = GameObject.Find(OriginalControllerModelObjectName);
+            controllerLaser = FindObjectOfType<LaserPointer>();
+
+            controllerPT = controllerPosTrkMan.GetComponent<WaveVR_ControllerPoseTracker>();
+            controllerPT.TrackRotation = false;
+
+            transform.parent = controllerPosTrkMan.transform;
+
+            controllerLaser.enabled = false;
+            controllerLaser.IsEnableReticle = false;
+            originalControllerModel.SetActive(false);
+            originalControllerModel.transform.localScale = Vector3.zero;
+
+            isLighterOn = true;
+        }
+    }
+
+    public void ReplaceLighterByController()
+    {
+        if (isLighterOn)
+        {
+            controllerPT.TrackRotation = true;
+            originalControllerModel.SetActive(true);
+            originalControllerModel.transform.localScale = Vector3.one;
+            controllerLaser.enabled = true;
+            controllerLaser.IsEnableReticle = true;
+
+            isLighterOn = false;
+        }
     }
 }

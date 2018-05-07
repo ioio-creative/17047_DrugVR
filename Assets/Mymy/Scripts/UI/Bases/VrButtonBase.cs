@@ -41,7 +41,7 @@ public abstract class VrButtonBase : MonoBehaviour,
     [SerializeField]
     private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
-    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_16;
+    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_Alias1_Touchpad;
 
     private EventSystem m_CurrentEventSystem;
 
@@ -71,6 +71,11 @@ public abstract class VrButtonBase : MonoBehaviour,
     public void ForceDisableButton()
     {
         m_IsForceDisableButton = true;
+    }
+
+    public void UnforceDisableButton()
+    {
+        m_IsForceDisableButton = false;
     }
 
     private void SetInteractionEnabled(bool isEnabled)

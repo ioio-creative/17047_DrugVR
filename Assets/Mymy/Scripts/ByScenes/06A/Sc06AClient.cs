@@ -4,7 +4,7 @@ using UnityEngine;
 public class Sc06AClient : VideoSceneClientBase
 {
     [SerializeField]
-    private LighterTriggerProgressable lighterTriggerProgressable;
+    private LighterTriggerProgress lighterTriggerProgress;
 
 
     /* MonoBehaviour */
@@ -17,15 +17,15 @@ public class Sc06AClient : VideoSceneClientBase
     protected override void OnEnable()
     {
         base.OnEnable();
-        lighterTriggerProgressable.OnSelectionComplete +=
-            HandleLighterTriggerProgressableSelectionComplete;
+        lighterTriggerProgress.OnSelectionComplete +=
+            HandleLighterTriggerProgressSelectionComplete;
     }
 
     protected override void OnDisable()
     {
         base.OnEnable();
-        lighterTriggerProgressable.OnSelectionComplete -=
-            HandleLighterTriggerProgressableSelectionComplete;
+        lighterTriggerProgress.OnSelectionComplete -=
+            HandleLighterTriggerProgressSelectionComplete;
     }
 
     private void Start()
@@ -38,9 +38,9 @@ public class Sc06AClient : VideoSceneClientBase
 
     /* event handlers */
 
-    private void HandleLighterTriggerProgressableSelectionComplete()
+    private void HandleLighterTriggerProgressSelectionComplete()
     {
-        GameManager.Instance.GoToScene(DrugVR_SceneENUM.Sc06B);
+        //GameManager.Instance.GoToScene(DrugVR_SceneENUM.Sc06B);
     }
 
     /* end of event handlers */

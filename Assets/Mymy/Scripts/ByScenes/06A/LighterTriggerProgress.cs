@@ -2,17 +2,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using VRStandardAssets.Utils;
 using wvr;
 
 // This class shares some similarity to SelectionProgress.
-public class LighterTriggerProgressable : MonoBehaviour
+public class LighterTriggerProgress : MonoBehaviour
 {
-    /* progressable */
-
-    private const string GuiGameObjectName =
-        "/GUI";
-    private const string LighterProgressBarGameObjectName =
-        "/GUI/LighterProgress/LighterProgressUI/LighterProgressBar";
+    /* progress */
 
     public event Action OnSelectionComplete;
     public float SelectionDuration { get { return m_SelectionDuration; } }
@@ -24,7 +20,9 @@ public class LighterTriggerProgressable : MonoBehaviour
     private AudioSource m_Audio;
     [SerializeField]
     private AudioClip m_OnFilledClip;
-    private Transform m_GuiGameObjectTransform;
+    [SerializeField]
+    private UIFader m_ProgressableFader;
+    [SerializeField]
     private Image m_Progressable;    
     private Coroutine m_SelectionFillRoutine;
     private bool m_SelectionFilled;
@@ -35,14 +33,14 @@ public class LighterTriggerProgressable : MonoBehaviour
     [SerializeField]
     private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
-    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_16;
+    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_Alias1_Trigger;
 
     /* end of progressable */
 
 
     /* for tracking transform angles */
 
-    private const string HeadGameObjectName = "/VIVEFocusWaveVR/head";
+    private const string HeadObjectName = "/VIVEFocusWaveVR/head";
 
     private static Vector3 StaticUp = Vector3.up;
     private static Vector3 StaticForward = Vector3.forward;
@@ -57,8 +55,8 @@ public class LighterTriggerProgressable : MonoBehaviour
     private float m_Zenith = 0f;
     [SerializeField]
     private float m_Azimuth = 0f;
-
-    private Transform headTransform;
+    
+    private Transform m_HeadTransform;
 
     /* end of for tracking transform angles */
 
@@ -67,19 +65,17 @@ public class LighterTriggerProgressable : MonoBehaviour
 
     private void Start()
     {
-        m_GuiGameObjectTransform = GameObject.Find(GuiGameObjectName).transform;
-        m_GuiGameObjectTransform.rotation = Quaternion.Euler(0, m_StaticForwardOffset, 0);
-
-        m_Progressable = GameObject.Find(LighterProgressBarGameObjectName).GetComponent<Image>();
         SetProgressableValueToMin();
 
-        headTransform = GameObject.Find(HeadGameObjectName).transform;
-        StaticForward = Quaternion.Euler(0, m_StaticForwardOffset, 0) * StaticForward;
+        m_HeadTransform = GameObject.Find(HeadObjectName).transform;
+        Quaternion rotationAlongY = Quaternion.Euler(0, m_StaticForwardOffset, 0);
+        StaticForward = rotationAlongY * StaticForward;
+        StaticRight = rotationAlongY * StaticRight;
     }
 
     private void Update()
     {
-        Vector3 forwardVec = headTransform.forward;
+        Vector3 forwardVec = m_HeadTransform.forward;
         m_Zenith = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(forwardVec, StaticUp));
 
         Vector3 normedProjectionOnFloor = Vector3.Normalize(forwardVec - new Vector3(0, forwardVec.y, 0));
@@ -93,7 +89,7 @@ public class LighterTriggerProgressable : MonoBehaviour
         Debug.DrawRay(transform.position, forwardVec, Color.blue);
         Debug.DrawRay(transform.position, normedProjectionOnFloor, Color.black);      
 
-        Debug.Log(newAzimuth);
+        // Debug.Log(newAzimuth);
         if (IsLighterWithinTargetZone(newAzimuth))
         {
             if (!m_GazeOver)
@@ -237,7 +233,7 @@ public class LighterTriggerProgressable : MonoBehaviour
     /* m_Progressable */
 
     private void SetProgressableValueToMin()
-    {
+    {        
         m_Progressable.fillAmount = 0f;
     }
 
@@ -256,25 +252,29 @@ public class LighterTriggerProgressable : MonoBehaviour
 
     /* IHandleUiButton interfaces */
 
-    public void HandleDown()
+    private void HandleDown()
     {
         m_ButtonPressed = true;
         StartSelectionFillRoutine();
     }
 
-    public void HandleEnter()
+    private void HandleEnter()
     {
         m_GazeOver = true;
         //PlayOnOverClip();
+
+        StartCoroutine(m_ProgressableFader.CheckAndFadeIn());
     }
 
-    public void HandleExit()
+    private void HandleExit()
     {
         m_GazeOver = false;
         StopSelectionFillRoutine();
+
+        StartCoroutine(m_ProgressableFader.CheckAndFadeOut());
     }
 
-    public void HandleUp()
+    private void HandleUp()
     {
         m_ButtonPressed = false;
         StopSelectionFillRoutine();
