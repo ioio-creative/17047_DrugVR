@@ -21,9 +21,6 @@ public class SelectionProgress : VrButtonBase
     [SerializeField]
     private float m_SelectionDuration = 2f;
 
-    [SerializeField]
-    private AudioClip m_OnFilledClip;
-
     // Reference to the GameObject ISelectionProgressable
     // whose fill amount is adjusted to display the bar.
     private SelectionProgressable m_Selection;        
@@ -63,11 +60,6 @@ public class SelectionProgress : VrButtonBase
 
 
     /* audios */
-
-    public void PlayOnFilledClip()
-    {
-        base.PlayAudioClip(m_OnFilledClip);
-    }
 
     /* end of audios */
 
@@ -122,7 +114,7 @@ public class SelectionProgress : VrButtonBase
         RaiseOnSelectedEvent();
 
         // Play the clip for when the selection is filled.        
-        PlayOnFilledClip();
+        base.PlayOnSelectedClip();
 
         // If the selection should disappear once it's filled, hide it.
         if (m_DisappearOnSelectionFilled)

@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRStandardAssets.Utils;
 
 public class Sc03AClient : MonoBehaviour
 {
     //private DrugVR_SceneENUM nextSceneToLoad;
     public static GameManager managerInst;
+    [SerializeField]
+    private MemoButton m_MemoButton;
     [SerializeField]
     private Material introSphere;
     [SerializeField]
@@ -16,9 +19,15 @@ public class Sc03AClient : MonoBehaviour
     private float sphereAlpha = 1.0f;
     private bool sphereFadeOutSwitch = false;
 
+    private UIFader m_MemoUIFader;
+
     private void Awake()
     {
         managerInst = GameManager.Instance;
+        if (m_MemoButton == null)
+        {
+            m_MemoButton = GetComponentInChildren<MemoButton>();
+        }
     }
 
     private void Start()
@@ -28,18 +37,26 @@ public class Sc03AClient : MonoBehaviour
             introSphere = GetComponentInChildren<MeshRenderer>().material;         
         }
         SetSphereOpacity(1.0f);
-        //FadeOutSphere();
+
+        if (m_MemoUIFader == null)
+        {
+            m_MemoUIFader = m_MemoButton.gameObject.GetComponent<UIFader>();
+        }
     }
 
     private void FixedUpdate()
     {
-        if (sphereFadeOutSwitch) SetSphereOpacity(sphereAlpha);
-
+        
         if (sphereAlpha <= 0)
         {
             sphereFadeOutSwitch = false;
             m_sphereAnim.ResetTrigger("FadeOutSphere");
         }
+    }
+
+    private void Update()
+    {
+        if (sphereFadeOutSwitch) SetSphereOpacity(sphereAlpha);
     }
 
     public static void GoToSceneOnChoice()
@@ -58,12 +75,11 @@ public class Sc03AClient : MonoBehaviour
     {
         sphereFadeOutSwitch = true;
         m_sphereAnim.SetTrigger("FadeOutSphere");
+        StartCoroutine(m_MemoUIFader.FadeIn());
     }
 
     private void SetSphereOpacity(float alpha)
     {
         introSphere.SetFloat("_Transparency", alpha);
     }
-
-
 }

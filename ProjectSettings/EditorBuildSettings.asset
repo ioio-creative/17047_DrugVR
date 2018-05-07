@@ -5,28 +5,28 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Mymy/Scenes/Introduction.unity
     guid: 77e29ca417287694282db78c9a13ee90
-  - enabled: 0
+  - enabled: 1
     path: Assets/Mymy/Scenes/Scene01.unity
     guid: 6a3dd5b124d8591479dd8826efe98b35
-  - enabled: 0
+  - enabled: 1
     path: Assets/Mymy/Scenes/Scene01S.unity
     guid: 89e13029990131d439bb1f5504f44f28
-  - enabled: 0
+  - enabled: 1
     path: Assets/Mymy/Scenes/Scene01A.unity
     guid: 81b19fc3b2645b3419167ab413418660
-  - enabled: 0
+  - enabled: 1
     path: Assets/Mymy/Scenes/Scene01B.unity
     guid: 92aaac2ca8e07494b93e2a2d55e52d64
-  - enabled: 0
+  - enabled: 1
     path: Assets/Mymy/Scenes/Scene02A.unity
     guid: 1650475cf37f2fe418d2d48acafddedf
-  - enabled: 0
+  - enabled: 1
     path: Assets/Mymy/Scenes/Scene02B.unity
     guid: 6b1342244627fb94b92673c357c7d684
-  - enabled: 0
+  - enabled: 1
     path: Assets/Mymy/Scenes/Scene02S.unity
     guid: 50b98c9581c462d4496780b54acb41b6
   - enabled: 1
@@ -62,19 +62,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Mymy/Scenes/Scene06.unity
     guid: 4a77a6cba9de8fb4aba1df1523e62960
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene06A.unity
     guid: 1b4c4fb96db438a42be7acb2183bfc8e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene06B.unity
     guid: 654b318012727b04787846c0b4d81626
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene07.unity
     guid: ce28c4535f3baee46b0fe6cec0a02636
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene07S.unity
     guid: eb532f1e0d7350340bc8cb380ecb421f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene07B.unity
     guid: f0fe41233c169764cb5192a7338a3da3
   - enabled: 0
