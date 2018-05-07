@@ -6,10 +6,11 @@ public class AddLighterToFocusController : MonoBehaviour
     private const string ControllerPosTrkManObjectName = "/VIVEFocusWaveVR/FocusController";
     private const string OriginalControllerModelObjectName = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
 
+    [SerializeField]
+    private GameObject lighterObject;
     private GameObject controllerPosTrkMan;
-    private GameObject originalControllerModel;
+    private GameObject originalControllerModel;    
     private LaserPointer controllerLaser;
-
     private WaveVR_ControllerPoseTracker controllerPT;
 
     private bool isLighterOn = false;
@@ -73,6 +74,7 @@ public class AddLighterToFocusController : MonoBehaviour
             originalControllerModel.SetActive(false);
             originalControllerModel.transform.localScale = Vector3.zero;
 
+            lighterObject.SetActive(true);
             isLighterOn = true;
         }
     }
@@ -87,6 +89,7 @@ public class AddLighterToFocusController : MonoBehaviour
             controllerLaser.enabled = true;
             controllerLaser.IsEnableReticle = true;
 
+            lighterObject.SetActive(false);
             isLighterOn = false;
         }
     }

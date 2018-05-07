@@ -36,8 +36,6 @@ public class HandWaveProgressNew : MonoBehaviour
     private float m_Azimuth = 0f;
 
     [SerializeField]
-    private GameObject m_LighterObject;
-    [SerializeField]
     private UIFader m_HandWaveProgressFader;
     private Coroutine m_HandWaveProgressFadeInRoutine = null;
     private Coroutine m_HandWaveProgressFadeOutRoutine = null;
@@ -45,8 +43,6 @@ public class HandWaveProgressNew : MonoBehaviour
     private Transform m_HandImageTransform;    
     private Transform m_FocusControllerTransform;
     private WaveVR_ControllerPoseTracker m_ControllerPT;
-    [SerializeField]
-    private bool m_ControllerPTIsTrackRotationWhenTriggerBtnNotPressed;
     [SerializeField]
     private AddLighterToFocusController m_AddLighterComponent;
 
@@ -77,14 +73,10 @@ public class HandWaveProgressNew : MonoBehaviour
         if (isTriggerBtnPressed)
         {
             m_AddLighterComponent.ReplaceLighterByController();
-
-            m_LighterObject.SetActive(false);
-            m_ControllerPT.TrackRotation = true;
             m_HandWaveProgressFadeOutRoutine = null;
             if (m_HandWaveProgressFadeInRoutine == null)
             {
                 m_HandWaveProgressFadeInRoutine = StartCoroutine(m_HandWaveProgressFader.CheckAndFadeIn());
-                Debug.Log("fader");
             }
 
             Vector3 forwardVec = m_FocusControllerTransform.forward;
@@ -110,10 +102,7 @@ public class HandWaveProgressNew : MonoBehaviour
         }
         else
         {
-            m_AddLighterComponent.ReplaceControllerByLighter();
-
-            m_LighterObject.SetActive(true);
-            m_ControllerPT.TrackRotation = m_ControllerPTIsTrackRotationWhenTriggerBtnNotPressed;
+            m_AddLighterComponent.ReplaceControllerByLighter();           
             m_HandWaveProgressFadeInRoutine = null;
             if (m_HandWaveProgressFadeOutRoutine == null)
             {

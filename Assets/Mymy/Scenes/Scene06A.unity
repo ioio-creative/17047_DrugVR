@@ -202,18 +202,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &256065971 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114937618167239854, guid: 4f869faf05141a9488a7dff6f5806fd7,
-    type: 2}
-  m_PrefabInternal: {fileID: 210520884}
-  m_Script: {fileID: 11500000, guid: 997a0488225b80f47b7fdcd05319b85b, type: 3}
---- !u!114 &256065974 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114951239137234398, guid: 4f869faf05141a9488a7dff6f5806fd7,
-    type: 2}
-  m_PrefabInternal: {fileID: 210520884}
-  m_Script: {fileID: 11500000, guid: 47b1905c537e46b4da4d0d2409231aaa, type: 3}
 --- !u!1 &299474745
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,11 +517,6 @@ MonoBehaviour:
   m_LighterTargetHalfAngleRange: 30
   m_Zenith: 0
   m_Azimuth: 0
---- !u!1 &676501324 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1376154387506388, guid: 42f2adb146a085b48bc0b39c79e04aa1,
-    type: 2}
-  m_PrefabInternal: {fileID: 1505320322}
 --- !u!114 &676501325 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114833097132312106, guid: 42f2adb146a085b48bc0b39c79e04aa1,
@@ -1019,10 +1002,8 @@ MonoBehaviour:
   m_StaticForwardOffset: -52.5
   m_Zenith: 0
   m_Azimuth: 0
-  m_LighterObject: {fileID: 676501324}
   m_HandWaveProgressFader: {fileID: 1453683842}
   m_HandImageTransform: {fileID: 1856634354}
-  m_ControllerPTIsTrackRotationWhenTriggerBtnNotPressed: 0
   m_AddLighterComponent: {fileID: 676501325}
 --- !u!1001 &1505320322
 Prefab:
@@ -1063,21 +1044,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114833097132312106, guid: 42f2adb146a085b48bc0b39c79e04aa1,
-        type: 2}
-      propertyPath: ControllerPosTrkMan
-      value: 
-      objectReference: {fileID: 256065971}
-    - target: {fileID: 114833097132312106, guid: 42f2adb146a085b48bc0b39c79e04aa1,
-        type: 2}
-      propertyPath: OriginalControllerModel
-      value: 
-      objectReference: {fileID: 1580218599}
-    - target: {fileID: 114833097132312106, guid: 42f2adb146a085b48bc0b39c79e04aa1,
-        type: 2}
-      propertyPath: ControllerLaser
-      value: 
-      objectReference: {fileID: 256065974}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 42f2adb146a085b48bc0b39c79e04aa1, type: 2}
   m_IsPrefabParent: 0
@@ -1171,11 +1137,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &1580218599 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1418951390432500, guid: 4f869faf05141a9488a7dff6f5806fd7,
-    type: 2}
-  m_PrefabInternal: {fileID: 210520884}
 --- !u!1 &1677505047
 GameObject:
   m_ObjectHideFlags: 0
