@@ -8,6 +8,9 @@ using wvr;
 public abstract class VrButtonBase : MonoBehaviour,
     IHandleUiButton
 {
+    [SerializeField]
+    private bool m_ResetButtonStateAfterPressed = true;
+
     public bool IsDisappearOnSelected { get { return m_IsDisappearOnSelected; } }
 
     [SerializeField]
@@ -34,7 +37,7 @@ public abstract class VrButtonBase : MonoBehaviour,
     private Collider m_Collider;
 
     [SerializeField]
-    private Button m_Button;
+    protected Button m_Button;
     [SerializeField]
     private EventTrigger m_EventTrigger;
 
@@ -115,7 +118,7 @@ public abstract class VrButtonBase : MonoBehaviour,
         PlayAudioClip(m_OnErrorClip);        
     }
 
-    public void PlayAudioClip(AudioClip aClip)
+    private void PlayAudioClip(AudioClip aClip)
     {
         m_Audio.clip = aClip;
         if (m_Audio.clip != null)
@@ -225,7 +228,10 @@ public abstract class VrButtonBase : MonoBehaviour,
     {
         Debug.Log("HandleExit: " + this.name);
         m_GazeOver = false;
-        ResetSelectionHoverState();
+        if (m_ResetButtonStateAfterPressed)
+        {
+            ResetSelectionHoverState();
+        }
     }
 
     public virtual void HandleUp()

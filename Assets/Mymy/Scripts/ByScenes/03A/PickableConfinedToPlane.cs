@@ -25,6 +25,11 @@ public class PickableConfinedToPlane : MonoBehaviour
     private GameObject m_RaycastOriginObject;    
     private LayerMask m_ConfinedPlaneLayer;
     private GameObject m_PickUpContainer;
+    public Vector3 OriginalRBPosition
+    {
+        get { return m_OriginalRBPosition; }
+    }
+    private Vector3 m_OriginalRBPosition;
     private bool m_OriginalUseGravity;
     private bool m_OriginalIsKinematic;
     private float m_MaxPointerDist;
@@ -38,6 +43,8 @@ public class PickableConfinedToPlane : MonoBehaviour
         if (m_ConfinedPlane != null) m_ConfinedPlaneLayer = 1 << m_ConfinedPlane.gameObject.layer;
         m_OriginalRigidbodyMass = m_ControlledRigidBody.mass;
         OrbitLocked = false;
+
+        m_OriginalRBPosition = m_ControlledRigidBody.transform.position;
     }    
 
     private void Update()
@@ -126,8 +133,8 @@ public class PickableConfinedToPlane : MonoBehaviour
                 // since m_PickUpContainer is parent of this.gameObject,
                 // this.gameObject's orientation will be affected              
 
-                
-                m_PickUpContainer.transform.position = hit.point;
+
+                m_ControlledRigidBody.transform.position = hit.point;
                 m_PickUpContainer.transform.rotation = m_RaycastOriginObject.transform.rotation;
 
                 Debug.DrawLine(m_RaycastOriginObject.transform.position, hit.point, Color.green);

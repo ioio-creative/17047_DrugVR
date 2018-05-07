@@ -12,11 +12,6 @@ public class Sc06BClient : VideoSceneClientBase
     protected override void Awake()
     {
         base.Awake();
-
-    }
-
-    private void Start()
-    {
         nextSceneToLoadBase = nextSceneToLoad;
     }
 }
