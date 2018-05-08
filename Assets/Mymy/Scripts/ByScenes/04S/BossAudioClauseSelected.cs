@@ -21,9 +21,9 @@ public class BossAudioClauseSelected : VrButtonBase
         StartCoroutine(m_AudioClause.InteruptAndFadeIn());
         m_AudioClause = null;
 
-        if (base.IsDisappearOnSelected)
+        if (DisappearOnSelection)
         {
-            yield return StartCoroutine(base.InteruptAndFadeOut());
+            yield return StartCoroutine(InteruptAndFadeOut());
         }
 
         if (OnClicked != null)
@@ -49,7 +49,7 @@ public class BossAudioClauseSelected : VrButtonBase
     public override void HandleDown()
     {
         base.HandleDown();
-        if (base.m_GazeOver)
+        if (m_GazeOver)
         {
             StartCoroutine(HandleClicked());
         }

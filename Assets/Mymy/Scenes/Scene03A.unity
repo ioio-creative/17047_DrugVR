@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db364a80e9fd48f47b994a431b701bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_memoButton: {fileID: 1709270187}
+  m_MemoButton: {fileID: 0}
   introSphere: {fileID: 2100000, guid: 58f27187e52c87c4a8b81252c4cdf9c6, type: 2}
   m_sphereAnim: {fileID: 117591903}
   sphereAlpha: 1
@@ -933,6 +933,10 @@ Prefab:
     - target: {fileID: 114337383099943340, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062724205722608, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

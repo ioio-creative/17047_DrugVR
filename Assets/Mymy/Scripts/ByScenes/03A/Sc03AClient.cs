@@ -75,7 +75,7 @@ public class Sc03AClient : MonoBehaviour
     {
         sphereFadeOutSwitch = true;
         m_sphereAnim.SetTrigger("FadeOutSphere");
-        StartCoroutine(m_MemoUIFader.FadeIn());
+        StartCoroutine(m_MemoUIFader.InteruptAndFadeIn());
     }
 
     private void SetSphereOpacity(float alpha)

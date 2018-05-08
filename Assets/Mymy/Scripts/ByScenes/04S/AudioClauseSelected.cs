@@ -42,7 +42,7 @@ public class AudioClauseSelected : VrButtonBase
         StartCoroutine(m_AudioClause.InteruptAndFadeIn());
         m_AudioClause = null;
 
-        if (base.IsDisappearOnSelected)
+        if (base.DisappearOnSelection)
         {
             yield return StartCoroutine(base.InteruptAndFadeOut());            
         }

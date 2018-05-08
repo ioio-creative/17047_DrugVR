@@ -44,7 +44,20 @@ namespace DrugVR_Scribe
     //This Static class records all the choices made by player, as well as storing scene names as string
     public static class Scribe
     {
-        public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary = new Dictionary<DrugVR_SceneENUM, Scroll>();
+        public class DrugVREnumComparer : IEqualityComparer<DrugVR_SceneENUM>
+        {
+            public bool Equals(DrugVR_SceneENUM x, DrugVR_SceneENUM y)
+            {
+                return x == y;
+            }
+
+            public int GetHashCode(DrugVR_SceneENUM x)
+            {
+                return (int)x;
+            }
+        }
+
+        public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary = new Dictionary<DrugVR_SceneENUM, Scroll>(new DrugVREnumComparer());
 
         //Scene 1 Side Taking
         public static bool Side01 = false;

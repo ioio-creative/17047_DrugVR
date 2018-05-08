@@ -35,13 +35,7 @@ public class AudioSentenceControl : VrButtonBase
     private AudioClauseSelected[] m_SelectedClauseSeq;  // fixed in length
     private int m_NumOfClausesRequiredInSentence;    
 
-    private AudioClauseSelected m_FirstNotYetFilledAudioClauseSlot
-    {
-        get
-        {
-            return m_SelectedClauseSeq.FirstOrDefault(x => x.AudioClause == null);
-        }
-    }
+    
 
     private Coroutine m_PlayClipsInSeqRoutine = null;
 
@@ -98,13 +92,16 @@ public class AudioSentenceControl : VrButtonBase
     }
 
     /* end of MonoBehaviour */
-
+    private AudioClauseSelected GetFirstNotYetFilledAudioClauseSlot()
+    {
+        return m_SelectedClauseSeq.FirstOrDefault(x => x.AudioClause == null);
+    }
 
     private void HighlightNextAudioClauseToFill()
     {
         bool isThereMoreSlotsToFill = false;
 
-        AudioClauseSelected nextAudioClauseSlotToFill = m_FirstNotYetFilledAudioClauseSlot;
+        AudioClauseSelected nextAudioClauseSlotToFill = GetFirstNotYetFilledAudioClauseSlot();
         if (nextAudioClauseSlotToFill != null)
         {
             isThereMoreSlotsToFill = true;
@@ -139,7 +136,7 @@ public class AudioSentenceControl : VrButtonBase
             // if the coroutine has not been started
             // and all audio clause slots are filled
             if (m_PlayClipsInSeqRoutine == null &&
-                m_FirstNotYetFilledAudioClauseSlot == null)
+                GetFirstNotYetFilledAudioClauseSlot() == null)
             {
                 m_PlayClipsInSeqRoutine =
                     StartCoroutine(PlayClipsInSequence());  
@@ -191,31 +188,31 @@ public class AudioSentenceControl : VrButtonBase
     /* event handlers */
 
     // AudioClauseSelection.OnSelected()
-    private void HandleClauseOptionSelected(AudioClauseSelection audioClauseSelected)
+    private void HandleClauseOptionSelected(AudioClauseSelection audioClauseSelection)
     {
         // boss option not selected yet
         if (!m_IsBossOptionSelected)
         {
-            if (!audioClauseSelected.IsBossClause)
+            if (!audioClauseSelection.IsBossClause)
             {
                 AudioClauseSelected firstNotYetFilledAudioClauseSlot =
-                    m_FirstNotYetFilledAudioClauseSlot;
+                    GetFirstNotYetFilledAudioClauseSlot();
 
                 if (firstNotYetFilledAudioClauseSlot)
                 {
-                    audioClauseSelected.PlayOnSelectedClip();
+                    audioClauseSelection.PlayOnSelectedClip();
 
-                    firstNotYetFilledAudioClauseSlot.FillSlotWithAudioClause(audioClauseSelected);
-                    if (m_IsSelectionsDisappearOnSelectedOverride || audioClauseSelected.IsDisappearOnSelected)
+                    firstNotYetFilledAudioClauseSlot.FillSlotWithAudioClause(audioClauseSelection);
+                    if (m_IsSelectionsDisappearOnSelectedOverride || audioClauseSelection.DisappearOnSelection)
                     {
-                        StartCoroutine(audioClauseSelected.InteruptAndFadeOut());
+                        StartCoroutine(audioClauseSelection.InteruptAndFadeOut());
                     }
 
                     HighlightNextAudioClauseToFill();
                 }
                 else
                 {
-                    audioClauseSelected.PlayOnErrorClip();
+                    audioClauseSelection.PlayOnErrorClip();
                 }
             }
             else
@@ -226,7 +223,7 @@ public class AudioSentenceControl : VrButtonBase
                 m_IsBossOptionSelected = true;
 
                 HighLightPlayClipsBtn();
-                audioClauseSelected.PlayOnSelectedClip();
+                audioClauseSelection.PlayOnSelectedClip();
                 
                 StartCoroutine(m_NormalSelectedClauseTextBgFader.InteruptAndFadeOut());
 
@@ -251,10 +248,10 @@ public class AudioSentenceControl : VrButtonBase
                     }
                 }
 
-                m_BossSelectedClause.FillSlotWithAudioClause(audioClauseSelected);
-                if (m_IsSelectionsDisappearOnSelectedOverride || audioClauseSelected.IsDisappearOnSelected)
+                m_BossSelectedClause.FillSlotWithAudioClause(audioClauseSelection);
+                if (m_IsSelectionsDisappearOnSelectedOverride || audioClauseSelection.DisappearOnSelection)
                 {
-                    StartCoroutine(audioClauseSelected.InteruptAndFadeOut());
+                    StartCoroutine(audioClauseSelection.InteruptAndFadeOut());
                 }                
             }
         }
@@ -262,7 +259,7 @@ public class AudioSentenceControl : VrButtonBase
         else
         {
             // selecting other audio clause option would result in no effect
-            audioClauseSelected.PlayOnErrorClip();
+            audioClauseSelection.PlayOnErrorClip();
         }
     }
 
@@ -299,7 +296,7 @@ public class AudioSentenceControl : VrButtonBase
             }
         }
 
-        if (m_IsSelectionsDisappearOnSelectedOverride || m_BossSelectedClause.IsDisappearOnSelected)
+        if (m_IsSelectionsDisappearOnSelectedOverride || m_BossSelectedClause.DisappearOnSelection)
         {
             StartCoroutine(m_BossSelectedClause.InteruptAndFadeOut());
         }
