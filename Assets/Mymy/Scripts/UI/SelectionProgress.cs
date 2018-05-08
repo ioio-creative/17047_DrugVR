@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 // This class is used to control the property of another 
 // GameObject ISelectionProgressable, e.g. slider value, that fills 

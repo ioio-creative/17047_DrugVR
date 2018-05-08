@@ -1256,9 +1256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0f7c7b604130742b3d4fac4a0a25ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FocusControllerGO: {fileID: 0}
-  OriginalControllerModel: {fileID: 0}
-  ControllerLaser: {fileID: 0}
+  lighterObject: {fileID: 1376154387506388}
 --- !u!198 &198092071719461322
 ParticleSystem:
   m_ObjectHideFlags: 1

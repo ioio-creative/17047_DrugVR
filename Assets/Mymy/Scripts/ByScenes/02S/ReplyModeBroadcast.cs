@@ -59,13 +59,8 @@ public class ReplyModeBroadcast : MonoBehaviour
         {
             // make m_PopupMsgImage transparent
             Color popupMsgImageOriginalColor = m_PopupMsgImage.color;
-            m_PopupMsgImage.color = new Color
-            (
-                popupMsgImageOriginalColor.r,
-                popupMsgImageOriginalColor.g,
-                popupMsgImageOriginalColor.b,
-                0
-            );
+            popupMsgImageOriginalColor.a = 0;
+            m_PopupMsgImage.color = popupMsgImageOriginalColor;            
 
             // TODO: Maybe we can play some sound here!
 

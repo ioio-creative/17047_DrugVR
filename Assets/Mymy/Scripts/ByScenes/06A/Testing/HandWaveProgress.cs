@@ -3,12 +3,6 @@ using wvr;
 
 public class HandWaveProgress : MonoBehaviour
 {
-    private enum HandWaveState
-    {
-        WaitingRightToLeft,
-        WaitingLeftToRight
-    }
-
     private static Vector3 StaticUp = Vector3.up;
     private static Vector3 StaticForward = Vector3.forward;
     private static Vector3 StaticRight = Vector3.right;
@@ -24,7 +18,7 @@ public class HandWaveProgress : MonoBehaviour
     [SerializeField]
     private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
-    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_16;
+    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_Alias1_Touchpad;
 
 
     private void Start()
