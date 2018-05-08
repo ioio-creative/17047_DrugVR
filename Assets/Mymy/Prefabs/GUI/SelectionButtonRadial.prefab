@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 114565674256367152}
   - component: {fileID: 114986224629109202}
   m_Layer: 9
-  m_Name: SideTakingButtonStdRadial
+  m_Name: SelectionButtonRadial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,7 +285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83fba8b179fb8a14f9132017f2227281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsDisappearOnSelected: 1
+  m_ResetButtonStateAfterPressed: 1
+  m_DisappearOnSelection: 0
   m_Audio: {fileID: 82504895850579354}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
@@ -297,7 +298,6 @@ MonoBehaviour:
   m_DeviceToListen: 2
   m_InputToListen: 16
   m_SelectionDuration: 1.5
-  m_OnFilledClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
   m_DisappearOnSelectionFilled: 0
 --- !u!114 &114066389150186360
 MonoBehaviour:

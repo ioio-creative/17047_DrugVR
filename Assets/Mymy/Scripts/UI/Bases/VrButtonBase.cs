@@ -7,14 +7,13 @@ using wvr;
 
 public abstract class VrButtonBase : MonoBehaviour,
     IHandleUiButton
-{
+{ 
     [SerializeField]
     private bool m_ResetButtonStateAfterPressed = true;
-
-    public bool IsDisappearOnSelected { get { return m_IsDisappearOnSelected; } }
-
+    // Whether the selection should disappear instantly once it's been clicked.
     [SerializeField]
-    private bool m_IsDisappearOnSelected;
+    private bool m_DisappearOnSelection;
+    public bool DisappearOnSelection { get { return m_DisappearOnSelection; } }
 
     [SerializeField]
     private AudioSource m_Audio;
@@ -59,6 +58,10 @@ public abstract class VrButtonBase : MonoBehaviour,
     protected virtual void Awake()
     {
         m_CurrentEventSystem = EventSystem.current;
+        if (m_Audio == null)
+        {
+            m_Audio = GetComponent<AudioSource>();
+        }
     }
 
     protected virtual void Update()
