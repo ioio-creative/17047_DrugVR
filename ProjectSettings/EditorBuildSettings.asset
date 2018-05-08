@@ -53,13 +53,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Mymy/Scenes/Scene04B.unity
     guid: db4a9f44602c5c6449bfbb00452baae1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene05A.unity
     guid: e0983073c99e9a34dbbc92de0466a0fb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene05B.unity
     guid: b3de2d3540027c14f8d4ce716f76fc79
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene06.unity
     guid: 4a77a6cba9de8fb4aba1df1523e62960
   - enabled: 0
