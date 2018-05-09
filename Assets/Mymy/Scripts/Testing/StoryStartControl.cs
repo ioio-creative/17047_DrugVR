@@ -19,7 +19,7 @@ public class StoryStartControl : MonoBehaviour
 
         yield return new WaitForSeconds(m_SecondsToWaitBeforeStart);
         
-        yield return StartCoroutine(m_StartFader.InteruptAndFadeIn());
+        yield return StartCoroutine(m_StartFader.InterruptAndFadeIn());
         
         yield return StartCoroutine(m_StartSelectionProgess.WaitForSelectionToFill());
         Debug.Log("Start selection progress completes.");

@@ -33,7 +33,7 @@ public class NextStory : MonoBehaviour
 
     private IEnumerator InitialiseNextStory()
     {
-        yield return StartCoroutine(lastUiFader.InteruptAndFadeOut());
-        yield return StartCoroutine(nextUiFader.InteruptAndFadeIn());        
+        yield return StartCoroutine(lastUiFader.InterruptAndFadeOut());
+        yield return StartCoroutine(nextUiFader.InterruptAndFadeIn());        
     }
 }

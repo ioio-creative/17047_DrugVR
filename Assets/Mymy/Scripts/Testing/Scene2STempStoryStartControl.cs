@@ -9,6 +9,6 @@ public class Scene2STempStoryStartControl : MonoBehaviour
 
 	private void Start()
     {
-        StartCoroutine(m_FaderToStart.InteruptAndFadeIn());
+        StartCoroutine(m_FaderToStart.InterruptAndFadeIn());
 	}
 }

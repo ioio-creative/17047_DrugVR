@@ -5,6 +5,8 @@ public class Sc06AClient : VideoSceneClientBase
 {
     [SerializeField]
     private LighterTriggerProgress lighterTriggerProgress;
+    [SerializeField]
+    private HandWaveProgressNew handWaveProgress;
 
 
     /* MonoBehaviour */
@@ -19,13 +21,17 @@ public class Sc06AClient : VideoSceneClientBase
         base.OnEnable();
         lighterTriggerProgress.OnSelectionComplete +=
             HandleLighterTriggerProgressSelectionComplete;
+        handWaveProgress.OnSelectionComplete +=
+            HandlerHandWaveProgressSelectionComplete;
     }
 
     protected override void OnDisable()
     {
-        base.OnEnable();
+        base.OnDisable();
         lighterTriggerProgress.OnSelectionComplete -=
             HandleLighterTriggerProgressSelectionComplete;
+        handWaveProgress.OnSelectionComplete -=
+            HandlerHandWaveProgressSelectionComplete;
     }
 
     private void Start()
@@ -39,6 +45,11 @@ public class Sc06AClient : VideoSceneClientBase
     /* event handlers */
 
     private void HandleLighterTriggerProgressSelectionComplete()
+    {
+        //GameManager.Instance.GoToScene(DrugVR_SceneENUM.Sc06B);
+    }
+
+    private void HandlerHandWaveProgressSelectionComplete()
     {
         //GameManager.Instance.GoToScene(DrugVR_SceneENUM.Sc06B);
     }

@@ -36,7 +36,7 @@ public class Sc3AIntroSideTaking : MonoBehaviour
     {
         if (m_DoTheDishes)
         {
-            StartCoroutine(m_ButtonsContainer.InteruptAndFadeOut());
+            StartCoroutine(m_ButtonsContainer.InterruptAndFadeOut());
             m_3AClientRef.FadeOutSphere();
         }
         else

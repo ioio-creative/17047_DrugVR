@@ -102,7 +102,7 @@ namespace VRStandardAssets.Utils
         }
 
         // Stop all fading that is currently happening.
-        public IEnumerator InteruptAndFadeIn()
+        public IEnumerator InterruptAndFadeIn()
         {           
             StopAllCoroutines();
 
@@ -200,7 +200,7 @@ namespace VRStandardAssets.Utils
         }
 
 
-        public IEnumerator InteruptAndFadeOut()
+        public IEnumerator InterruptAndFadeOut()
         {
             StopAllCoroutines();
             yield return StartCoroutine(FadeOut());

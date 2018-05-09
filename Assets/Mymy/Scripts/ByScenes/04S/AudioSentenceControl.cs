@@ -225,7 +225,7 @@ public class AudioSentenceControl : VrButtonBase
                 HighLightPlayClipsBtn();
                 audioClauseSelection.PlayOnSelectedClip();
                 
-                StartCoroutine(m_NormalSelectedClauseTextBgFader.InteruptAndFadeOut());
+                StartCoroutine(m_NormalSelectedClauseTextBgFader.InterruptAndFadeOut());
 
                 // fade out highlighted slot
                 int highlightSlotIdx = 0;
@@ -233,7 +233,7 @@ public class AudioSentenceControl : VrButtonBase
                 {
                     if (highlightSlotFader.Visible || highlightSlotFader.Fading)
                     {
-                        StartCoroutine(highlightSlotFader.InteruptAndFadeOut());
+                        StartCoroutine(highlightSlotFader.InterruptAndFadeOut());
                         m_HighlightedSlotFaderIdx = highlightSlotIdx;
                         break;
                     }
@@ -280,12 +280,12 @@ public class AudioSentenceControl : VrButtonBase
         UnHighLightPlayClipsBtn();
         m_BossSelectedClause.PlayOnSelectedClip();
 
-        StartCoroutine(m_NormalSelectedClauseTextBgFader.InteruptAndFadeIn());
+        StartCoroutine(m_NormalSelectedClauseTextBgFader.InterruptAndFadeIn());
 
         // fade in highlighted slot
         if (m_HighlightedSlotFaderIdx >= 0 && m_HighlightedSlotFaderIdx < m_HighlightSlotFaders.Length)
         {
-            StartCoroutine(m_HighlightSlotFaders[m_HighlightedSlotFaderIdx].InteruptAndFadeIn());
+            StartCoroutine(m_HighlightSlotFaders[m_HighlightedSlotFaderIdx].InterruptAndFadeIn());
         }
 
         foreach (AudioClauseSelected slot in m_SelectedClauseSeq)
