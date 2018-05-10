@@ -201,7 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29ddd6a54d8d084697b98cda97b82bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsDisappearOnSelected: 0
+  m_ResetButtonStateAfterPressed: 1
+  m_DisappearOnSelection: 0
   m_Audio: {fileID: 82849762888153648}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
@@ -212,7 +213,7 @@ MonoBehaviour:
   m_EventTrigger: {fileID: 114588960012583304}
   m_DeviceToListen: 2
   m_InputToListen: 16
-  PartyOption: 1
+  PartyOption: 2
   m_PartyManager: {fileID: 0}
   m_PartySFXAudioClip: {fileID: 0}
 --- !u!114 &114559341855607006

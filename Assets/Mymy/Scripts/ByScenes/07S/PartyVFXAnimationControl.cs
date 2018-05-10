@@ -8,6 +8,8 @@ namespace Scene07Party
     [RequireComponent(typeof(MeshRenderer))]
     public class PartyVFXAnimationControl : MonoBehaviour {
 
+        private static IDictionary<PartyOptionEnum, SphereAnimationPackage> PartyFXDictionary = new Dictionary<PartyOptionEnum, SphereAnimationPackage>(new PartyEnumComparer());
+
         [Serializable]
         public class SphereAnimationPackage
         {
@@ -16,13 +18,16 @@ namespace Scene07Party
             [SerializeField]
             private string resourceFormatPath;
             [SerializeField]
+            [Range(0, 360)]
+            public float EffectRotation;
+            [SerializeField]
             public float FrameRate;
             [SerializeField]
             private int numberOfFrames;
             [SerializeField]
             public bool IsRepeat;
 
-            public Texture2D[] Frames;
+            public Texture2D[] Frames { get; private set; }
             public bool IsFinishedPlaying
             {
                 get { return m_IsFinishedPlaying; }
@@ -46,6 +51,8 @@ namespace Scene07Party
                     string texturePath = string.Format(resourceFormatPath, i+1);
                     Frames[i] = Resources.Load<Texture2D>(texturePath);
                 }
+
+                PartyFXDictionary.Add(PartyOption, this);
             }
         }
 
@@ -79,21 +86,7 @@ namespace Scene07Party
 
         public IEnumerator PlayPartyVFX(PartyOptionEnum FXType)
         {
-            switch (FXType)
-            {
-                case PartyOptionEnum.Drink:
-                    yield return StartCoroutine(PlayFXAnim(m_SphereVFXAnimations[0]));
-                    break;
-                case PartyOptionEnum.Dart:
-                    yield return StartCoroutine(PlayFXAnim(m_SphereVFXAnimations[1]));
-                    break;
-                case PartyOptionEnum.Pool:
-                    yield return StartCoroutine(PlayFXAnim(m_SphereVFXAnimations[2]));
-                    break;
-                default:
-                    yield return null;
-                    break;
-            }
+            yield return StartCoroutine(PlayFXAnim(PartyFXDictionary[FXType]));          
         }
 
         private IEnumerator PlayFXAnim(SphereAnimationPackage sphereAnim)
@@ -102,7 +95,8 @@ namespace Scene07Party
             {
                 int currentFrame = 0;
                 float frameLength = 1.0f / sphereAnim.FrameRate;
-
+                Quaternion FXRotation = Quaternion.Euler(0, sphereAnim.EffectRotation, 0);
+                m_SphereMeshRenderer.transform.rotation = FXRotation;
                 m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
 
                 if (sphereAnim.IsRepeat)

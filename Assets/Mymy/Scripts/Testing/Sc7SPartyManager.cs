@@ -14,6 +14,19 @@ namespace Scene07Party
         Pool
     }
 
+    public class PartyEnumComparer : IEqualityComparer<PartyOptionEnum>
+    {
+        public bool Equals(PartyOptionEnum x, PartyOptionEnum y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(PartyOptionEnum x)
+        {
+            return (int)x;
+        }
+    }
+
     public class Sc7SPartyManager : MonoBehaviour
     {
         private int m_PartyRoundCnt = 0;
@@ -37,7 +50,7 @@ namespace Scene07Party
         {
             m_partyVFXControll = GetComponentInChildren<PartyVFXAnimationControl>();
 
-            LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt++]);
+            LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt]);
         }
 
         private void OnEnable()

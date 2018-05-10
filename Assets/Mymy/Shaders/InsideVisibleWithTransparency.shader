@@ -14,6 +14,7 @@ Shader "Unlit/InsideVisibleWithTransparency"
 	{
 		_MainTex("Texture", 2D) = "white" {}		
 		_Transparency("Transparency", Range(0.0, 1.0)) = 1.0
+		_Rotation("Rotation", Range(0.000000,360.000000)) = 0.000000
 	}
 
 	SubShader

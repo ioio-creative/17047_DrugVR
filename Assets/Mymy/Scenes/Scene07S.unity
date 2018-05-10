@@ -1309,7 +1309,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1784894935}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1.71}
   m_LocalScale: {x: 900, y: 900, z: 900}
   m_Children: []
@@ -1330,10 +1330,16 @@ MonoBehaviour:
   m_SphereVFXAnimations:
   - PartyOption: 1
     resourceFormatPath: s7-02a-once/B_{0:d5}
+    EffectRotation: 0
     FrameRate: 30
     numberOfFrames: 360
     IsRepeat: 0
-    Frames: []
+  - PartyOption: 2
+    resourceFormatPath: s7-02b-once/d_{0:d5}
+    EffectRotation: 290
+    FrameRate: 30
+    numberOfFrames: 480
+    IsRepeat: 0
   m_SphereMeshRenderer: {fileID: 1784894938}
 --- !u!23 &1784894938
 MeshRenderer:
