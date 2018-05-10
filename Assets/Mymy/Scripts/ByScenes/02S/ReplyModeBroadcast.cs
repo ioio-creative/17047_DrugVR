@@ -35,7 +35,7 @@ public class ReplyModeBroadcast : MonoBehaviour
         m_OriginalRectTransformPos = m_RectTransformToListen.position;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         //Debug.Log("m_RectTransformToListen.position.x: " + m_RectTransformToListen.position.x);
         //Debug.Log("m_RectTransformToListen.position.y: " + m_RectTransformToListen.position.y);
