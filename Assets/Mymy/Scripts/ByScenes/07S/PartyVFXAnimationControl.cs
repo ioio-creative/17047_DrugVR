@@ -73,7 +73,8 @@ namespace Scene07Party
             {
                 VFXPackage.InitializeSphereAnimationPackage();
             }
-            SetAnimationFrame(m_SphereVFXAnimations[0], 359);
+            m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+            SetAnimationFrame(m_SphereVFXAnimations[0], 0);
         }
 
         public IEnumerator PlayPartyVFX(PartyOptionEnum FXType)
@@ -102,6 +103,8 @@ namespace Scene07Party
                 int currentFrame = 0;
                 float frameLength = 1.0f / sphereAnim.FrameRate;
 
+                m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
+
                 if (sphereAnim.IsRepeat)
                 {
                     //sphereAnim.AnimationStartTime = Time.time;
@@ -109,6 +112,7 @@ namespace Scene07Party
 
                     while (!sphereAnim.IsFinishedPlaying)
                     {
+                        if (currentFrame == 0) continue;
                         SetAnimationFrame(sphereAnim, currentFrame % sphereAnim.Frames.Length);
                         currentFrame++;
                         yield return new WaitForSeconds(frameLength);
@@ -126,11 +130,14 @@ namespace Scene07Party
                     sphereAnim.IsFinishedPlaying = false;
                     for (; currentFrame < sphereAnim.Frames.Length; currentFrame++)
                     {
+                        if (currentFrame == 0) continue;
                         SetAnimationFrame(sphereAnim, currentFrame);
                         yield return new WaitForSeconds(frameLength);
                     }
 
                     sphereAnim.IsFinishedPlaying = true;
+                    m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+
                     //currentFrame = (int)(Time.time * frameRate);
                     //if (currentFrame >= frames.Length)
                     //{

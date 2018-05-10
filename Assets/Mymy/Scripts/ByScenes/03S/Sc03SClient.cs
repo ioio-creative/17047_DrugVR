@@ -34,7 +34,7 @@ public class Sc03SClient : VideoSceneClientBase
     private void HandleButtonSelected()
     {
         m_ComicAndMethFader.OnFadeOutComplete += HandleButtonFadeOutCompleted;
-        StartCoroutine(m_ComicAndMethFader.InteruptAndFadeOut());
+        StartCoroutine(m_ComicAndMethFader.InterruptAndFadeOut());
 
     }
 
