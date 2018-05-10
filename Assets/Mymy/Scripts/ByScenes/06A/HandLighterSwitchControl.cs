@@ -22,6 +22,8 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     private GameObject controllerPosTrkMan;
     private GameObject originalControllerModel;
+    private Transform originalControllerModelTransform;
+    private Vector3 originalControllerModelInitialScale;
     private LaserPointer controllerLaser;
     private WaveVR_ControllerPoseTracker controllerPT;
 
@@ -30,11 +32,6 @@ public class HandLighterSwitchControl : MonoBehaviour
 
 
     /* MonoBehaviour */
-
-    private void OnDisable()
-    {
-        ReplaceLighterByController();
-    }
 
     private void OnDestroy()
     {
@@ -45,6 +42,8 @@ public class HandLighterSwitchControl : MonoBehaviour
     {
         controllerPosTrkMan = GameObject.Find(ControllerPosTrkManObjectName);
         originalControllerModel = GameObject.Find(OriginalControllerModelObjectName);
+        originalControllerModelTransform = originalControllerModel.transform;
+        originalControllerModelInitialScale = originalControllerModelTransform.localScale;
         controllerLaser = FindObjectOfType<LaserPointer>();
         controllerPT = controllerPosTrkMan.GetComponent<WaveVR_ControllerPoseTracker>();
 
@@ -52,6 +51,10 @@ public class HandLighterSwitchControl : MonoBehaviour
 
         lighterProgress.enabled = true;
         handWaveProgress.enabled = false;
+
+        // !!! Important !!!
+        // Make sure this is run before LaserPointer's Start()
+        // by setting script execution order
         ReplaceControllerByLighter();
 
         lighter.transform.parent = controllerPosTrkMan.transform;
@@ -92,8 +95,9 @@ public class HandLighterSwitchControl : MonoBehaviour
 
             controllerLaser.enabled = false;
             controllerLaser.IsEnableReticle = false;
+            controllerLaser.IsEnableBeam = false;
             originalControllerModel.SetActive(false);
-            originalControllerModel.transform.localScale = Vector3.zero;
+            originalControllerModelTransform.localScale = Vector3.zero;
 
             isLighterOn = true;
         }
@@ -107,9 +111,10 @@ public class HandLighterSwitchControl : MonoBehaviour
 
             controllerPT.TrackRotation = true;
             originalControllerModel.SetActive(true);
-            originalControllerModel.transform.localScale = Vector3.one;
+            originalControllerModelTransform.localScale = originalControllerModelInitialScale;
             controllerLaser.enabled = true;
             controllerLaser.IsEnableReticle = true;
+            controllerLaser.IsEnableBeam = true;
 
             isLighterOn = false;
         }
@@ -121,8 +126,8 @@ public class HandLighterSwitchControl : MonoBehaviour
     private void HandleSceneChange(DrugVR_SceneENUM nextScene)
     {
         enabled = false;
-        gameObject.SetActive(false);
-        Destroy(gameObject);
+        lighter.SetActive(false);
+        Destroy(lighter);
     }
 
     /* end of event handlers */

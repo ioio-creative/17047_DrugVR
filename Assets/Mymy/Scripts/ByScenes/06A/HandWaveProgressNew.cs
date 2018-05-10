@@ -25,7 +25,7 @@ public class HandWaveProgressNew : MonoBehaviour
     private static Vector3 StaticRight = Vector3.right;
     
     [SerializeField]
-    private float m_StaticForwardOffset = 177.5f;
+    private float m_StaticForwardOffset;
     [SerializeField]
     private float m_Zenith = 0f;
     [SerializeField]

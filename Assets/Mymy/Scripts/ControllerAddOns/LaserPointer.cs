@@ -35,8 +35,11 @@ public class LaserPointer : MonoBehaviour
     private Transform controllerObjTransform;
     [SerializeField]
     private Transform laserTransform;
+    private GameObject laserObj;
     [SerializeField]
     private Transform reticleTransform;
+    [SerializeField]
+    private GameObject reticleObj;
     [SerializeField]
     private Vector3 reticleOffset;
     [SerializeField]
@@ -84,7 +87,10 @@ public class LaserPointer : MonoBehaviour
     /* MonoBehaviour */
 
     private void Start()
-    {              
+    {
+        reticleObj = reticleTransform.gameObject;
+        laserObj = laserTransform.gameObject;
+
         originalReticleScale = reticleTransform.localScale;
         originalReticleRotation = reticleTransform.localRotation;
 
@@ -97,7 +103,7 @@ public class LaserPointer : MonoBehaviour
 
         if (isEnableReticle)
         {
-            ShowReticle(defaultHit);
+            ShowReticle(defaultHit);            
         }
         else
         {
@@ -162,14 +168,14 @@ public class LaserPointer : MonoBehaviour
 
     private void HideLaser()
     {
-        laserTransform.gameObject.SetActive(false);
+        laserObj.SetActive(false);
     }
 
     // https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
     private void ShowLaser(RaycastHit hitTarget)
     {
         // Show the laser
-        laserTransform.gameObject.SetActive(true);
+        laserObj.SetActive(true);
 
         // Move laser to the middle between the controller and the position the raycast hit
         laserTransform.position = Vector3.Lerp(controllerObjTransform.position, hitTarget.point, .5f);
@@ -184,20 +190,14 @@ public class LaserPointer : MonoBehaviour
 
     private void HideReticle()
     {
-        reticleTransform.gameObject.SetActive(false);
-    }
-
-    public void DisableReticle()
-    {
-        
-        HideReticle();
+        reticleObj.SetActive(false);
     }
 
     // https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr
     private void ShowReticle(RaycastHit hitTarget)
     {
         // set visible
-        reticleTransform.gameObject.SetActive(true);
+        reticleObj.SetActive(true);
 
         // set position
         reticleTransform.position = hitTarget.point;

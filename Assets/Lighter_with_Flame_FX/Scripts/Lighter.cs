@@ -16,16 +16,15 @@ public class Lighter : MonoBehaviour
     private WVR_InputId m_InputToListen;
     private WaveVR_Controller.Device waveVrDevice;
 
-    void Start ()
+    private void Start()
     {
         FlameFX.SetActive(false);
         FlameLight.SetActive(false);
 
         waveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
-    }  
-  
-  
-    void Update ()
+    }
+
+    private void Update()
     {
 	    if (waveVrDevice.GetPressDown(m_InputToListen)) //check to see if the left mouse was pressed
         {
@@ -42,21 +41,13 @@ public class Lighter : MonoBehaviour
     }
  
  
-    IEnumerator LighterOn ()
+    private IEnumerator LighterOn()
     {
-
          LighterIgniteAudio.Play();
-
          LighterAudio.Play();
-
          LighterMesh.GetComponent<Animation>().Play("Push Button");
-
-         FlameFX.SetActive(true);
-    
+         FlameFX.SetActive(true);   
          FlameLight.SetActive(true);
-
 	     yield return new WaitForSeconds (2);
-
     }
-
 }

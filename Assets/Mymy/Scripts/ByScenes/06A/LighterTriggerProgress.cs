@@ -48,9 +48,9 @@ public class LighterTriggerProgress : MonoBehaviour
 
     // TODO: need to offset scene rotation
     [SerializeField]
-    private float m_StaticForwardOffset = 177.5f;
+    private float m_StaticForwardOffset;
     [SerializeField]
-    private float m_LighterTargetHalfAngleRange = 30f;
+    private float m_LighterTargetHalfAngleRange;
     [SerializeField]
     private float m_Zenith = 0f;
     [SerializeField]
@@ -63,22 +63,25 @@ public class LighterTriggerProgress : MonoBehaviour
 
     /* MonoBehaviour */
 
+    private void Awake()
+    {
+        m_HeadTransform = GameObject.Find(HeadObjectName).transform;        
+    }
+
     private void OnEnable()
     {
-        StartCoroutine(m_ProgressableFader.InterruptAndFadeIn());
+        FadeInProgressableFader();
     }
 
     private void OnDisable()
     {
-        StartCoroutine(m_ProgressableFader.InterruptAndFadeOut());
+        FadeOutProgressableFader();
     }
 
     private void Start()
     {
         SetProgressableValueToMin();
-
-        m_HeadTransform = GameObject.Find(HeadObjectName).transform;
-
+        
         // offset scene rotation + a fixed offset
         float sceneRotation = GameManager.Instance.CurrentSceneScroll.SkyShaderDefaultRotation;
         Quaternion rotationAlongY = Quaternion.Euler(0, sceneRotation + m_StaticForwardOffset, 0);
@@ -263,10 +266,25 @@ public class LighterTriggerProgress : MonoBehaviour
     /* end of m_Progressable */
 
 
+    /* m_ProgressableFader */
+
+    private void FadeInProgressableFader()
+    {
+        StartCoroutine(m_ProgressableFader.InterruptAndFadeIn());        
+    }
+
+    private void FadeOutProgressableFader()
+    {        
+        StartCoroutine(m_ProgressableFader.InterruptAndFadeOut());
+    }
+
+    /* end of m_ProgressableFader */
+
+
     /* IHandleUiButton interfaces */
 
     private void HandleDown()
-    {
+    {     
         m_ButtonPressed = true;
         StartSelectionFillRoutine();
     }
@@ -276,7 +294,7 @@ public class LighterTriggerProgress : MonoBehaviour
         m_GazeOver = true;
         //PlayOnOverClip();
 
-        StartCoroutine(m_ProgressableFader.CheckAndFadeIn());
+        FadeInProgressableFader();
     }
 
     private void HandleExit()
@@ -284,11 +302,11 @@ public class LighterTriggerProgress : MonoBehaviour
         m_GazeOver = false;
         StopSelectionFillRoutine();
 
-        StartCoroutine(m_ProgressableFader.CheckAndFadeOut());
+        FadeOutProgressableFader();
     }
 
     private void HandleUp()
-    {
+    {        
         m_ButtonPressed = false;
         StopSelectionFillRoutine();
     }
