@@ -19,7 +19,7 @@ Shader "Unlit/InsideVisibleWithTransparency"
 	SubShader
 	{
 		//Tags { "RenderType" = "Opaque" }
-		Tags{ "Queue"="Transparent" "RenderType"="Transparent" }
+			Tags{ "Queue" = "AlphaTest" "RenderType" = "Transparent" }
 		LOD 100
 
 		ZWrite Off

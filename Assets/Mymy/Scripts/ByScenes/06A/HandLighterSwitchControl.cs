@@ -19,6 +19,8 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     [SerializeField]
     private GameObject lighter;
+    private Transform lighterTransform;
+    private readonly Quaternion LighterFixedQuaternion = Quaternion.Euler(0, 0, 0);
 
     private GameObject controllerPosTrkMan;
     private GameObject originalControllerModel;
@@ -38,7 +40,7 @@ public class HandLighterSwitchControl : MonoBehaviour
         GameManager.OnSceneChange -= HandleSceneChange;
     }
 
-    private void Start()
+    private void Awake()
     {
         controllerPosTrkMan = GameObject.Find(ControllerPosTrkManObjectName);
         originalControllerModel = GameObject.Find(OriginalControllerModelObjectName);
@@ -47,17 +49,19 @@ public class HandLighterSwitchControl : MonoBehaviour
         controllerLaser = FindObjectOfType<LaserPointer>();
         controllerPT = controllerPosTrkMan.GetComponent<WaveVR_ControllerPoseTracker>();
 
+        lighterTransform = lighter.transform;
+    }
+
+    private void Start()
+    {
         GameManager.OnSceneChange += HandleSceneChange;
 
         lighterProgress.enabled = true;
         handWaveProgress.enabled = false;
 
-        // !!! Important !!!
-        // Make sure this is run before LaserPointer's Start()
-        // by setting script execution order
         ReplaceControllerByLighter();
 
-        lighter.transform.parent = controllerPosTrkMan.transform;
+        lighterTransform.parent = controllerPosTrkMan.transform;
 
         waveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);        
     }
@@ -91,15 +95,17 @@ public class HandLighterSwitchControl : MonoBehaviour
         {
             lighter.SetActive(true);
 
-            controllerPT.TrackRotation = false;            
+            controllerPT.TrackRotation = false;
 
-            controllerLaser.enabled = false;
             controllerLaser.IsEnableReticle = false;
             controllerLaser.IsEnableBeam = false;
+            controllerLaser.enabled = false;            
             originalControllerModel.SetActive(false);
             originalControllerModelTransform.localScale = Vector3.zero;
 
-            isLighterOn = true;
+            lighterTransform.rotation = LighterFixedQuaternion;
+
+            isLighterOn = true;            
         }
     }
 

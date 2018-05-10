@@ -51,7 +51,7 @@ public class LaserPointer : MonoBehaviour
     [SerializeField]
     private int pickableObjLayer = 10;
     [SerializeField]
-    private bool isEnableBeam = false;
+    private bool isEnableBeam;
     public bool IsEnableBeam
     {
         get {return isEnableBeam; }
@@ -62,7 +62,7 @@ public class LaserPointer : MonoBehaviour
         }
     }
     [SerializeField]
-    private bool isEnableReticle = false;
+    private bool isEnableReticle;
     public bool IsEnableReticle
     {
         get { return isEnableReticle; }
@@ -86,11 +86,14 @@ public class LaserPointer : MonoBehaviour
 
     /* MonoBehaviour */
 
-    private void Start()
+    private void Awake()
     {
         reticleObj = reticleTransform.gameObject;
         laserObj = laserTransform.gameObject;
+    }
 
+    private void Start()
+    {
         originalReticleScale = reticleTransform.localScale;
         originalReticleRotation = reticleTransform.localRotation;
 
@@ -133,7 +136,7 @@ public class LaserPointer : MonoBehaviour
 
         bool isBtnPressed = WaveVR_Controller.Input(device).GetPress(inputToListen);
 
-        if (IsEnableReticle)
+        if (isEnableReticle)
         {
             ShowReticle(hit);
         }
@@ -142,7 +145,7 @@ public class LaserPointer : MonoBehaviour
             HideReticle();
         }
 
-        if (IsEnableBeam)
+        if (isEnableBeam)
         {
             if (isBtnPressed)
             {

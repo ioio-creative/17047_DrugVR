@@ -16,53 +16,28 @@ namespace Scene07Party
 
     public class Sc7SPartyManager : MonoBehaviour
     {
-
-
+        private int m_PartyRoundCnt = 0;
         [SerializeField]
-        private GameObject methOptionPrefab;
-        [SerializeField]
-        private GameObject[] m_InitialOptionUIFadersContainers;
+        private GameObject[] m_PartyRoundContainer;
+
         [SerializeField]
         private PartyVFXAnimationControl m_partyVFXControll;
 
+        //Only Stores ONE Round of UIFaders and PartySelections
+        private PartySelection[] m_PartySelections;
+        private UIFader[] m_OptionUIFaders;
 
-        private List<UIFader> m_OptionUIFaders = new List<UIFader>();
-        private List<PartySelection> m_PartySelections = new List<PartySelection>();
 
+        //private List<PartySelection> m_PartySelections = new List<PartySelection>();
+        //private List<UIFader> m_OptionUIFaders = new List<UIFader>();
+
+        /* MonoBehavior */
 
         private void Awake()
         {
             m_partyVFXControll = GetComponentInChildren<PartyVFXAnimationControl>();
 
-            foreach (GameObject faderToStartContainer in m_InitialOptionUIFadersContainers)
-            {
-                // check if the game object contains UIFader component
-                UIFader fader = faderToStartContainer.GetComponent<UIFader>();
-                PartySelection partySelection = faderToStartContainer.GetComponent<PartySelection>();
-
-                if (fader)
-                {
-                    m_OptionUIFaders.Add(fader);
-                }
-                // if the game object does not contain UIFader component,
-                // check the game object's children
-                else
-                {
-                    m_OptionUIFaders.AddRange(faderToStartContainer.GetComponentsInChildren<UIFader>());
-                }
-
-
-                if (partySelection)
-                {
-                    m_PartySelections.Add(partySelection);
-                }
-                // if the game object does not contain PartySelection component,
-                // check the game object's children
-                else
-                {
-                    m_PartySelections.AddRange(faderToStartContainer.GetComponentsInChildren<PartySelection>());
-                }
-            }
+            LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt++]);
         }
 
         private void OnEnable()
@@ -94,6 +69,15 @@ namespace Scene07Party
 
         }
 
+        /* end of MonoBehaviour */
+
+        private void LoadPartyRound(GameObject partyRound)
+        {
+            m_PartySelections = partyRound.GetComponentsInChildren<PartySelection>();
+            m_OptionUIFaders = partyRound.GetComponentsInChildren<UIFader>();
+            partyRound.SetActive(true);
+        }
+
         public IEnumerator HandlePartyOptionSelected(PartySelection selectedPartyOption)
         {
 
@@ -103,8 +87,15 @@ namespace Scene07Party
             }
 
             yield return StartCoroutine(WaitUntilAllFadedOut());
+            //Deactive current party round
+            m_PartyRoundContainer[m_PartyRoundCnt].SetActive(false);
 
-            if (selectedPartyOption.PartyOption != PartyOptionEnum.METH)
+            if (selectedPartyOption.PartyOption == PartyOptionEnum.METH)
+            {
+                Scribe.Side06 = false;
+                Sc07SClient.GoToSceneOnChoice();
+            }
+            else 
             {
                 Scribe.Side06 = true;
                 
@@ -126,18 +117,25 @@ namespace Scene07Party
                 //m_OptionUIFaders.Remove(selectedPartyOption.GetComponent<UIFader>());
                 //Destroy(selectedPartyOption.gameObject);
                 //TEST SCENE METHODS ENDS
-
-                //Fade in all the buttons for the next round
-                foreach (UIFader fader in m_OptionUIFaders)
+                //Load Next Round
+                if (m_PartyRoundCnt < m_PartyRoundContainer.Length)
                 {
-                    StartCoroutine(fader.InterruptAndFadeIn());
+                    LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt++]);
+                    //Fade in all the buttons for the next round
+                    foreach (UIFader fader in m_OptionUIFaders)
+                    {
+                        StartCoroutine(fader.InterruptAndFadeIn());
+                    }
                 }
+                else
+                {
+                    //Go To Next Scene if no more rounds to play
+                    Sc07SClient.GoToSceneOnChoice();
+                }
+
+
             }
-            else
-            {
-                Scribe.Side06 = false;
-                Sc07SClient.GoToSceneOnChoice();
-            }
+            
 
         }
 
@@ -152,7 +150,6 @@ namespace Scene07Party
                         return false;
                     }
                 }
-
                 return true;
             });
         }
