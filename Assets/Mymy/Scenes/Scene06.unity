@@ -885,6 +885,7 @@ MonoBehaviour:
   controllerObjTransform: {fileID: 700590418}
   laserTransform: {fileID: 205053607}
   reticleTransform: {fileID: 631252688}
+  reticleObj: {fileID: 0}
   reticleOffset: {x: 0, y: 0, z: 0}
   maxPointerDist: 400
   isUseRaycastNormalForReticleOrientation: 1
@@ -1678,7 +1679,7 @@ VideoPlayer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1184031210}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 1dfa64650cd22c84c98749c8a2a3de0b, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 6c62a3fe5eae38d48804ff8a75d10456, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}

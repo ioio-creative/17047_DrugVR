@@ -206,6 +206,7 @@ public class GameManager : MonoBehaviour
     //Select scene is called from either the menu manager or hotspot manager, and is used to load the desired scene
     public void GoToScene(DrugVR_SceneENUM sceneEnum)
     {
+        CurrentScene = sceneEnum;
         if (!isLoadingScene)
         {
             //if we want to use the fading between scenes, start the coroutine here
@@ -216,8 +217,7 @@ public class GameManager : MonoBehaviour
             }
             //if we dont want to use fading, just load the next scene
             else
-            {
-                CurrentScene = sceneEnum;
+            {                
                 SceneManager.LoadScene(CurrentSceneScroll.SceneName);                
                 ReadScroll(CurrentSceneScroll);
                 if (OnSceneChange != null)
