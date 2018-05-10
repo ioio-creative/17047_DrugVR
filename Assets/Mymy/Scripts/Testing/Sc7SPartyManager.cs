@@ -85,7 +85,7 @@ namespace Scene07Party
         {
             foreach (UIFader fader in m_OptionUIFaders)
             {
-                StartCoroutine(fader.InteruptAndFadeIn());
+                StartCoroutine(fader.InterruptAndFadeIn());
             }
         }
 
@@ -99,7 +99,7 @@ namespace Scene07Party
 
             foreach (UIFader fader in m_OptionUIFaders)
             {
-                StartCoroutine(fader.InteruptAndFadeOut());
+                StartCoroutine(fader.InterruptAndFadeOut());
             }
 
             yield return StartCoroutine(WaitUntilAllFadedOut());
@@ -130,7 +130,7 @@ namespace Scene07Party
                 //Fade in all the buttons for the next round
                 foreach (UIFader fader in m_OptionUIFaders)
                 {
-                    StartCoroutine(fader.InteruptAndFadeIn());
+                    StartCoroutine(fader.InterruptAndFadeIn());
                 }
             }
             else

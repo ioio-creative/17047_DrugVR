@@ -37,7 +37,7 @@ public class Sc02SClient : VideoSceneClientBase
 
     private void Start()
     {        
-        StartCoroutine(m_PopupMsgOnPhoneFader.InteruptAndFadeIn());        
+        StartCoroutine(m_PopupMsgOnPhoneFader.InterruptAndFadeIn());        
     }
 
     /* end of MonoBehaviour */
@@ -47,7 +47,7 @@ public class Sc02SClient : VideoSceneClientBase
 
     private void HandleReplyModeIndicated(ReplyModeBroadcast.ReplyMode replyMode)
     {
-        StartCoroutine(m_PopupMsgOnPhoneFader.InteruptAndFadeOut());
+        StartCoroutine(m_PopupMsgOnPhoneFader.InterruptAndFadeOut());
         
         switch (replyMode)
         {

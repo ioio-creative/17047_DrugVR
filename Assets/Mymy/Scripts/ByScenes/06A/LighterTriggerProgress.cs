@@ -48,7 +48,7 @@ public class LighterTriggerProgress : MonoBehaviour
 
     // TODO: need to offset scene rotation
     [SerializeField]
-    private float m_StaticForwardOffset = -52.5f;
+    private float m_StaticForwardOffset = 177.5f;
     [SerializeField]
     private float m_LighterTargetHalfAngleRange = 30f;
     [SerializeField]
@@ -63,12 +63,25 @@ public class LighterTriggerProgress : MonoBehaviour
 
     /* MonoBehaviour */
 
+    private void OnEnable()
+    {
+        StartCoroutine(m_ProgressableFader.InterruptAndFadeIn());
+    }
+
+    private void OnDisable()
+    {
+        StartCoroutine(m_ProgressableFader.InterruptAndFadeOut());
+    }
+
     private void Start()
     {
         SetProgressableValueToMin();
 
         m_HeadTransform = GameObject.Find(HeadObjectName).transform;
-        Quaternion rotationAlongY = Quaternion.Euler(0, m_StaticForwardOffset, 0);
+
+        // offset scene rotation + a fixed offset
+        float sceneRotation = GameManager.Instance.CurrentSceneScroll.SkyShaderDefaultRotation;
+        Quaternion rotationAlongY = Quaternion.Euler(0, sceneRotation + m_StaticForwardOffset, 0);
         StaticForward = rotationAlongY * StaticForward;
         StaticRight = rotationAlongY * StaticRight;
     }
@@ -100,7 +113,7 @@ public class LighterTriggerProgress : MonoBehaviour
             {
                 // Get button press state from controller device
                 if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))
-                {
+                {                                        
                     HandleDown();
                 }
                 else

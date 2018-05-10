@@ -9,38 +9,36 @@ public class Lighter : MonoBehaviour
     public GameObject FlameLight;
     public AudioSource LighterIgniteAudio;
     public AudioSource LighterAudio;
-  
+
+    [SerializeField]
+    private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
+    [SerializeField]
+    private WVR_InputId m_InputToListen;
+    private WaveVR_Controller.Device waveVrDevice;
+
     void Start ()
     {
-
         FlameFX.SetActive(false);
         FlameLight.SetActive(false);
 
+        waveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
     }  
   
   
     void Update ()
     {
-
-	    if (Input.GetButtonDown("Fire1") || WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Touchpad)) //check to see if the left mouse was pressed
+	    if (waveVrDevice.GetPressDown(m_InputToListen)) //check to see if the left mouse was pressed
         {
-		    StartCoroutine("LighterOn");
-       
-         
+		    StartCoroutine(LighterOn());
         }
-        if (Input.GetButtonUp("Fire1") || WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Touchpad))
+
+        if (waveVrDevice.GetPressUp(m_InputToListen))
         {
-
-        LighterMesh.GetComponent<Animation>().Play("Release Button");
-
-        FlameFX.SetActive(false);
-
-        FlameLight.SetActive(false);
-
-        LighterAudio.Stop();
-
-        }
-         
+            LighterMesh.GetComponent<Animation>().Play("Release Button");
+            FlameFX.SetActive(false);
+            FlameLight.SetActive(false);
+            LighterAudio.Stop();
+        }         
     }
  
  

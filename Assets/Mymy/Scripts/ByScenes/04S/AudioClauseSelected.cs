@@ -68,7 +68,7 @@ public class AudioClauseSelected : VrButtonBase
         if (!m_IsHighLighted)
         {
             m_IsHighLighted = true;
-            StartCoroutine(m_HighLightFader.InteruptAndFadeIn());
+            StartCoroutine(m_HighLightFader.InterruptAndFadeIn());
         }
     }
 
@@ -77,7 +77,7 @@ public class AudioClauseSelected : VrButtonBase
         if (m_IsHighLighted)
         {
             m_IsHighLighted = false;
-            StartCoroutine(m_HighLightFader.InteruptAndFadeOut());
+            StartCoroutine(m_HighLightFader.InterruptAndFadeOut());
         }
     }
 

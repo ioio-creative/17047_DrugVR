@@ -20,7 +20,7 @@ public class Test10StoryStartControl : MonoBehaviour
     {
         foreach (UIFader fader in m_FadersToStart)
         {
-            StartCoroutine(fader.InteruptAndFadeIn());
+            StartCoroutine(fader.InterruptAndFadeIn());
         }
     }
 }

@@ -47,9 +47,20 @@ public class GameManager : MonoBehaviour
     private Animator m_anim;
     private Image m_fadeImage;
 
-    public DrugVR_SceneENUM CurrentScene;
-    private Scroll CurrentSceneScroll;
+    [SerializeField]
+    private DrugVR_SceneENUM m_CurrentScene;
 
+    public DrugVR_SceneENUM CurrentScene
+    {
+        get { return m_CurrentScene; }
+        set
+        {
+            CurrentSceneScroll = Scribe.SceneDictionary[value];
+            m_CurrentScene = value;
+        }
+    }
+
+    public Scroll CurrentSceneScroll { get; private set; }
     public Material VideoSkyMat;
     public Material StillSkyMat;
 
@@ -80,10 +91,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        CurrentScene = m_CurrentScene;
+
         HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
         Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();
-
-        CurrentSceneScroll = Scribe.SceneDictionary[CurrentScene];
+        
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
         if (SkyVideoPlayer == null && CurrentSceneScroll.SceneSky == SkyboxType.VideoSky)
         {
@@ -205,8 +217,9 @@ public class GameManager : MonoBehaviour
             //if we dont want to use fading, just load the next scene
             else
             {
-                string sceneToLoadName = Scribe.SceneDictionary[sceneEnum].SceneName;
-                SceneManager.LoadScene(sceneToLoadName);
+                CurrentScene = sceneEnum;
+                SceneManager.LoadScene(CurrentSceneScroll.SceneName);                
+                ReadScroll(CurrentSceneScroll);
                 if (OnSceneChange != null)
                 {
                     OnSceneChange(sceneEnum);
@@ -217,9 +230,7 @@ public class GameManager : MonoBehaviour
     }
 
     private IEnumerator FadeOutAndIn(DrugVR_SceneENUM nextSceneEnum)
-    {
-        CurrentSceneScroll = Scribe.SceneDictionary[nextSceneEnum];
-        
+    {                
         //get references to animatior and image component from children Game Object 
         m_anim = Instance.GetComponentInChildren<Animator>();
         m_fadeImage = Instance.GetComponentInChildren<Image>();
@@ -242,7 +253,7 @@ public class GameManager : MonoBehaviour
 
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
         StartCoroutine(ReadScroll(CurrentSceneScroll));
-
+        CurrentScene = nextSceneEnum;
         //trigger FadeIn on the animator so our image will fade back in 
         m_anim.SetTrigger("FadeIn");
 
