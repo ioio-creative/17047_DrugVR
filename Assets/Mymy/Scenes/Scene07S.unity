@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.520967, g: 0.5022091, b: 0.52119243, a: 1}
+  m_IndirectSpecularColor: {r: 0.41003078, g: 0.40951416, b: 0.44542342, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1292,13 +1292,13 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1784894935}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.28317848, z: 0, w: 0.9590672}
   m_LocalPosition: {x: 0, y: 0, z: 1.71}
   m_LocalScale: {x: 900, y: 900, z: 900}
   m_Children: []
   m_Father: {fileID: 19370854}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -32.9, z: 0}
 --- !u!114 &1784894937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1322,6 +1322,12 @@ MonoBehaviour:
     EffectRotation: 290
     FrameRate: 30
     numberOfFrames: 480
+    IsRepeat: 0
+  - m_PartyOption: 3
+    resourceFormatPath: s7-02c-once/tb_{0:d5}
+    EffectRotation: 327
+    FrameRate: 30
+    numberOfFrames: 359
     IsRepeat: 0
   m_SphereMeshRenderer: {fileID: 1784894938}
 --- !u!23 &1784894938
