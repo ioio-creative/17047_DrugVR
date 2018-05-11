@@ -13,8 +13,10 @@ namespace Scene07Party
         [Serializable]
         public class SphereAnimationPackage
         {
+            private PartyVFXAnimationControl AnimCtrlRef;
+
             [SerializeField]
-            private PartyOptionEnum PartyOption;
+            private PartyOptionEnum m_PartyOption;
             [SerializeField]
             private string resourceFormatPath;
             [SerializeField]
@@ -31,13 +33,18 @@ namespace Scene07Party
             public bool IsFinishedPlaying
             {
                 get { return m_IsFinishedPlaying; }
-                set { m_IsFinishedPlaying = value; }
+                set
+                {
+                    AnimCtrlRef.IsPlaying = !value;
+                    m_IsFinishedPlaying = value;
+                }
             }
             private bool m_IsFinishedPlaying = true;
-            public float AnimationStartTime { get; set; }
 
-            public void InitializeSphereAnimationPackage()
+            public void InitializeSphereAnimationPackage(PartyVFXAnimationControl ctrl)
             {
+                AnimCtrlRef = ctrl;
+
                 if (string.IsNullOrEmpty(resourceFormatPath))
                 {
                     resourceFormatPath = defaultResourceFormatPath;
@@ -52,10 +59,16 @@ namespace Scene07Party
                     Frames[i] = Resources.Load<Texture2D>(texturePath);
                 }
 
-                PartyFXDictionary.Add(PartyOption, this);
+                PartyFXDictionary.Add(m_PartyOption, this);
             }
         }
 
+        private bool m_IsPlaying;
+        public bool IsPlaying
+        {
+            get { return m_IsPlaying; }
+            set { m_IsPlaying = value; }
+        }
 
         [SerializeField]
         private SphereAnimationPackage[] m_SphereVFXAnimations = new SphereAnimationPackage[3];
@@ -63,6 +76,9 @@ namespace Scene07Party
         private MeshRenderer m_SphereMeshRenderer;
 
         private const string defaultResourceFormatPath = "s7-02a-once/B_{0:d5}";
+
+        public event Action OnFXPlay;
+        public event Action OnFXEnd;
 
         private void Awake()
         {
@@ -78,21 +94,26 @@ namespace Scene07Party
         {
             foreach (SphereAnimationPackage VFXPackage in m_SphereVFXAnimations)
             {
-                VFXPackage.InitializeSphereAnimationPackage();
+                VFXPackage.InitializeSphereAnimationPackage(this);
             }
             m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
             SetAnimationFrame(m_SphereVFXAnimations[0], 0);
         }
 
-        public IEnumerator PlayPartyVFX(PartyOptionEnum FXType)
+        public void PlayPartyVFX(PartyOptionEnum FXType)
         {
-            yield return StartCoroutine(PlayFXAnim(PartyFXDictionary[FXType]));          
+            StartCoroutine(PlayFXAnim(PartyFXDictionary[FXType]));          
         }
 
         private IEnumerator PlayFXAnim(SphereAnimationPackage sphereAnim)
         {
-            if (sphereAnim.IsFinishedPlaying)
+            if (!m_IsPlaying)
             {
+                if (OnFXPlay != null)
+                {
+                    OnFXPlay();
+                }
+
                 int currentFrame = 0;
                 float frameLength = 1.0f / sphereAnim.FrameRate;
                 Quaternion FXRotation = Quaternion.Euler(0, sphereAnim.EffectRotation, 0);
@@ -112,6 +133,8 @@ namespace Scene07Party
                         yield return new WaitForSeconds(frameLength);
                     }
                     sphereAnim.IsFinishedPlaying = true;
+                    m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+
                     //currentFrame = (int)(((Time.time - sphereAnim.AnimationStartTime) * sphereAnim.FrameRate) % sphereAnim.Frames.Length);
                     //if (currentFrame >= sphereAnim.Frames.Length)
                     //{
@@ -122,15 +145,20 @@ namespace Scene07Party
                 else
                 {
                     sphereAnim.IsFinishedPlaying = false;
+
                     for (; currentFrame < sphereAnim.Frames.Length; currentFrame++)
                     {
+                        if (sphereAnim.IsFinishedPlaying) break;
                         if (currentFrame == 0) continue;
                         SetAnimationFrame(sphereAnim, currentFrame);
                         yield return new WaitForSeconds(frameLength);
                     }
-
                     sphereAnim.IsFinishedPlaying = true;
                     m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+                    if (OnFXEnd != null)
+                    {
+                        OnFXEnd();
+                    }
 
                     //currentFrame = (int)(Time.time * frameRate);
                     //if (currentFrame >= frames.Length)
@@ -146,13 +174,15 @@ namespace Scene07Party
                     //print(currentFrame);
                 }
             }
-
-            //yield return null;
         }
 
         public void StopAnimation(SphereAnimationPackage sphereAnim)
         {
             sphereAnim.IsFinishedPlaying = true;
+            if (OnFXEnd != null)
+            {
+                OnFXEnd();
+            }
         }
 
         public void StopAnimation(SphereAnimationPackage sphereAnim, int frameToShowAfterStop)
@@ -162,6 +192,7 @@ namespace Scene07Party
             {
                 SetAnimationFrame(sphereAnim, frameToShowAfterStop);
             }
+            m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
         }
 
         private void SetAnimationFrame(SphereAnimationPackage sphereAnim, int i)
@@ -169,9 +200,5 @@ namespace Scene07Party
             m_SphereMeshRenderer.material.SetTexture("_MainTex", sphereAnim.Frames[i]);
         }
 
-        public IEnumerator HandlePartyOptionOnSelected(PartySelection partyOption)
-        {
-            yield return null;
-        }
     }
 }
