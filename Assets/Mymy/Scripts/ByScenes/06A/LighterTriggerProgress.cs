@@ -68,16 +68,6 @@ public class LighterTriggerProgress : MonoBehaviour
         m_HeadTransform = GameObject.Find(HeadObjectName).transform;        
     }
 
-    private void OnEnable()
-    {
-        FadeInProgressableFader();
-    }
-
-    private void OnDisable()
-    {
-        FadeOutProgressableFader();
-    }
-
     private void Start()
     {
         SetProgressableValueToMin();
@@ -266,19 +256,19 @@ public class LighterTriggerProgress : MonoBehaviour
     /* end of m_Progressable */
 
 
-    /* m_ProgressableFader */
+    /* Fader */
 
-    private void FadeInProgressableFader()
+    public void FadeInProgressable()
     {
         StartCoroutine(m_ProgressableFader.InterruptAndFadeIn());        
     }
 
-    private void FadeOutProgressableFader()
+    public void FadeOutProgressable()
     {        
         StartCoroutine(m_ProgressableFader.InterruptAndFadeOut());
     }
 
-    /* end of m_ProgressableFader */
+    /* end of Fader */
 
 
     /* IHandleUiButton interfaces */
@@ -294,7 +284,7 @@ public class LighterTriggerProgress : MonoBehaviour
         m_GazeOver = true;
         //PlayOnOverClip();
 
-        FadeInProgressableFader();
+        FadeInProgressable();
     }
 
     private void HandleExit()
@@ -302,7 +292,7 @@ public class LighterTriggerProgress : MonoBehaviour
         m_GazeOver = false;
         StopSelectionFillRoutine();
 
-        FadeOutProgressableFader();
+        FadeOutProgressable();
     }
 
     private void HandleUp()

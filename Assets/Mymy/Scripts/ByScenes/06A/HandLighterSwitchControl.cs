@@ -68,22 +68,22 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     private void Update()
     {        
-        bool isPress = waveVrDevice.GetPress(m_InputToListen);     
+        //bool isPress = waveVrDevice.GetPress(m_InputToListen);     
 
-        if (isPress)
-        {
-            lighterProgress.enabled = false;
-            handWaveProgress.enabled = true;
+        //if (isPress)
+        //{
+        //    lighterProgress.enabled = false;
+        //    handWaveProgress.enabled = true;
 
-            ReplaceLighterByController();
-        }
-        else
-        {
-            lighterProgress.enabled = true;
-            handWaveProgress.enabled = false;
+        //    ReplaceLighterByController();
+        //}
+        //else
+        //{
+        //    lighterProgress.enabled = true;
+        //    handWaveProgress.enabled = false;
 
-            ReplaceControllerByLighter();
-        }
+        //    ReplaceControllerByLighter();
+        //}
     }
 
     /* end of MonoBehaviour */

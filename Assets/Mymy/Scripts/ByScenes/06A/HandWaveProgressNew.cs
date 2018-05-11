@@ -47,15 +47,6 @@ public class HandWaveProgressNew : MonoBehaviour
     private void OnEnable()
     {
         m_ProgressBar.OnProgressComplete += HandleProgressBarProgressComplete;
-
-        if (!m_IsFirstTimeEnable)
-        {
-            StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeIn());
-        }
-        else
-        {
-            m_IsFirstTimeEnable = false;
-        }
     }
 
     private void OnDisable()
@@ -107,6 +98,22 @@ public class HandWaveProgressNew : MonoBehaviour
     }
 
     /* end of MonoBehaviour */
+
+
+    /* Fader */
+
+    public void FadeIn()
+    {
+        StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeIn());
+    }
+
+    public void FadeOut()
+    {
+        StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());
+        m_ProgressBar.Reset();
+    }
+
+    /* end of Fader */
 
 
     /* event handlers */
