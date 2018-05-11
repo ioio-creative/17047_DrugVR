@@ -13,7 +13,9 @@ public class Sc03AClient : MonoBehaviour
     [SerializeField]
     private Material introSphere;
     [SerializeField]
-    private Animator m_sphereAnim;
+    private Animator m_SphereAnim;
+    [SerializeField]
+    private Texture2D m_SphereTexture;
     [SerializeField]
     [Range(0,1.0f)]
     private float sphereAlpha = 1.0f;
@@ -28,14 +30,26 @@ public class Sc03AClient : MonoBehaviour
         {
             m_MemoButton = GetComponentInChildren<MemoButton>();
         }
+        if (m_SphereAnim == null)
+        {
+            m_SphereAnim = GetComponent<Animator>();
+        }
     }
 
     private void Start()
     {
         if (introSphere == null)
         {
-            introSphere = GetComponentInChildren<MeshRenderer>().material;         
+            introSphere = GetComponentInChildren<MeshRenderer>().material;
         }
+        else
+        {
+            if (m_SphereTexture != null)
+            {
+                introSphere.SetTexture("_MainTexture", m_SphereTexture);
+            }
+        }
+
         SetSphereOpacity(1.0f);
 
         if (m_MemoUIFader == null)
@@ -50,7 +64,7 @@ public class Sc03AClient : MonoBehaviour
         if (sphereAlpha <= 0)
         {
             sphereFadeOutSwitch = false;
-            m_sphereAnim.ResetTrigger("FadeOutSphere");
+            m_SphereAnim.ResetTrigger("FadeOutSphere");
         }
     }
 
@@ -74,7 +88,7 @@ public class Sc03AClient : MonoBehaviour
     public void FadeOutSphere()
     {
         sphereFadeOutSwitch = true;
-        m_sphereAnim.SetTrigger("FadeOutSphere");
+        m_SphereAnim.SetTrigger("FadeOutSphere");
         StartCoroutine(m_MemoUIFader.InterruptAndFadeIn());
     }
 

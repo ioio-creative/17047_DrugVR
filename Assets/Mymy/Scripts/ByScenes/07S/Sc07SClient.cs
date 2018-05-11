@@ -8,6 +8,8 @@ public class Sc07SClient : VideoSceneClientBase
 {
     [SerializeField]
     DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc07B;
+    [SerializeField]
+    private SelectionStandard m_ExitButton;
 
 
     protected override void Awake()
@@ -21,9 +23,23 @@ public class Sc07SClient : VideoSceneClientBase
         GameManager.SkyVideoPlayer.isLooping = true;
     }
 
+    private void Start()
+    {
+        if (m_ExitButton != null)
+        {
+            m_ExitButton.OnSelectionComplete += HandleExitSelected;
+        }
+    }
+
     protected override void HandleSystemVideoEnd(VideoPlayer source)
     {
         // This scene won't go to next scene based on Video ends
+    }
+
+    private void HandleExitSelected()
+    {
+        Scribe.Side06 = true;
+        GoToSceneOnChoice();
     }
 
     public static void GoToSceneOnChoice()
