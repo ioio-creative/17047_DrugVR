@@ -49,20 +49,22 @@ namespace Scene07Party
         private void Awake()
         {
             m_partyVFXControll = GetComponentInChildren<PartyVFXAnimationControl>();
+            
 
             LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt]);
         }
 
         private void OnEnable()
         {
-            foreach (PartySelection option in m_PartySelections)
-            {
-                option.OnSelected += HandlePartyOptionSelected;
-            }
+            m_partyVFXControll.OnFXPlay += HandleFXPlay;
+            m_partyVFXControll.OnFXEnd += HandleFXEnd;
         }
 
         private void OnDisable()
         {
+            m_partyVFXControll.OnFXPlay -= HandleFXPlay;
+            m_partyVFXControll.OnFXEnd -= HandleFXEnd;
+
             foreach (PartySelection option in m_PartySelections)
             {
                 option.OnSelected -= HandlePartyOptionSelected;
@@ -86,9 +88,23 @@ namespace Scene07Party
 
         private void LoadPartyRound(GameObject partyRound)
         {
+            partyRound.SetActive(true);
             m_PartySelections = partyRound.GetComponentsInChildren<PartySelection>();
             m_OptionUIFaders = partyRound.GetComponentsInChildren<UIFader>();
-            partyRound.SetActive(true);
+
+            foreach (PartySelection option in m_PartySelections)
+            {
+                option.OnSelected += HandlePartyOptionSelected;
+            }
+        }
+
+        private void UnloadPartyRound(GameObject partyRound)
+        {
+            foreach (PartySelection option in m_PartySelections)
+            {
+                option.OnSelected -= HandlePartyOptionSelected;
+            }
+            partyRound.SetActive(false);
         }
 
         public IEnumerator HandlePartyOptionSelected(PartySelection selectedPartyOption)
@@ -100,20 +116,22 @@ namespace Scene07Party
             }
 
             yield return StartCoroutine(WaitUntilAllFadedOut());
-            //Deactive current party round
-            m_PartyRoundContainer[m_PartyRoundCnt].SetActive(false);
 
             if (selectedPartyOption.PartyOption == PartyOptionEnum.METH)
             {
                 Scribe.Side06 = false;
-                Sc07SClient.GoToSceneOnChoice();
+                Sc07SClient.GoToSceneOnChoice();       
             }
             else 
             {
                 Scribe.Side06 = true;
-                
+
+                //Deactive current party round
+                UnloadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt++]);
+
                 //Play corresponding VFX anim after button fade out
-                yield return StartCoroutine(m_partyVFXControll.PlayPartyVFX(selectedPartyOption.PartyOption));
+                m_partyVFXControll.PlayPartyVFX(selectedPartyOption.PartyOption);
+
 
                 //TEST SCENE METHODS
                 //Save selection button transform
@@ -131,25 +149,32 @@ namespace Scene07Party
                 //Destroy(selectedPartyOption.gameObject);
                 //TEST SCENE METHODS ENDS
                 //Load Next Round
-                if (m_PartyRoundCnt < m_PartyRoundContainer.Length)
-                {
-                    LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt++]);
-                    //Fade in all the buttons for the next round
-                    foreach (UIFader fader in m_OptionUIFaders)
-                    {
-                        StartCoroutine(fader.InterruptAndFadeIn());
-                    }
-                }
-                else
-                {
-                    //Go To Next Scene if no more rounds to play
-                    Sc07SClient.GoToSceneOnChoice();
-                }
-
-
+                                         
             }
             
 
+        }
+
+        private void HandleFXPlay()
+        {
+            if (m_PartyRoundCnt < m_PartyRoundContainer.Length)
+            {
+                LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt]);
+            }
+            else
+            {
+                //Go To Next Scene if no more rounds to play
+                Sc07SClient.GoToSceneOnChoice();
+            }
+        }
+
+        private void HandleFXEnd()
+        {
+            //Fade in all the buttons for the next round
+            foreach (UIFader fader in m_OptionUIFaders)
+            {
+                StartCoroutine(fader.InterruptAndFadeIn());
+            }
         }
 
         private IEnumerator WaitUntilAllFadedOut()

@@ -25,16 +25,24 @@ namespace Scene07Party
 
 
         /* MonoBehaviour */
+        //protected override void Awake()
+        //{
+        //    base.Awake();
+        //    if (!m_PartyManager)
+        //    {
+        //        m_PartyManager = GetComponentInParent<Sc7SPartyManager>();
+        //    }
 
-        private void OnEnable()
-        {
-            if (!m_PartyManager)
-            {
-                m_PartyManager = GetComponentInParent<Sc7SPartyManager>();
-            }
+            
+        //}
 
-            OnSelected += m_PartyManager.HandlePartyOptionSelected;
-        }
+        //private void OnEnable()
+        //{         
+        //}
+
+        //private void OnDisable()
+        //{
+        //}
 
         protected override void Update()
         {
