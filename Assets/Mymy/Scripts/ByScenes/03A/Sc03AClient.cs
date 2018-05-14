@@ -9,9 +9,14 @@ public class Sc03AClient : MonoBehaviour
     //private DrugVR_SceneENUM nextSceneToLoad;
     public static GameManager managerInst;
     [SerializeField]
-    private MemoButton m_MemoButton;
-    [SerializeField]
     private Material introSphere;
+    [SerializeField]
+    private SelectionStandard m_StartGameButton;
+    [SerializeField]
+    private Animator m_InstructionAnim;   
+    [SerializeField]
+    private MemoButton m_MemoButton;
+    
     [SerializeField]
     private Animator m_SphereAnim;
     [SerializeField]
@@ -21,6 +26,7 @@ public class Sc03AClient : MonoBehaviour
     private float sphereAlpha = 1.0f;
     private bool sphereFadeOutSwitch = false;
 
+    private UIFader m_InstructionAnimFader;
     private UIFader m_MemoUIFader;
 
     private void Awake()
@@ -38,6 +44,8 @@ public class Sc03AClient : MonoBehaviour
 
     private void Start()
     {
+        m_InstructionAnimFader = m_InstructionAnim.GetComponent<UIFader>();
+
         if (introSphere == null)
         {
             introSphere = GetComponentInChildren<MeshRenderer>().material;
@@ -52,19 +60,20 @@ public class Sc03AClient : MonoBehaviour
 
         SetSphereOpacity(1.0f);
 
-        if (m_MemoUIFader == null)
-        {
-            m_MemoUIFader = m_MemoButton.gameObject.GetComponent<UIFader>();
-        }
+        //if (m_MemoUIFader == null)
+        //{
+        //    m_MemoUIFader = m_MemoButton.gameObject.GetComponent<UIFader>();
+        //}
     }
 
     private void FixedUpdate()
     {
         
-        if (sphereAlpha <= 0)
+        if (sphereAlpha <= 0 && sphereFadeOutSwitch)
         {
             sphereFadeOutSwitch = false;
             m_SphereAnim.ResetTrigger("FadeOutSphere");
+            m_InstructionAnim.SetTrigger("Play");
         }
     }
 
@@ -89,11 +98,20 @@ public class Sc03AClient : MonoBehaviour
     {
         sphereFadeOutSwitch = true;
         m_SphereAnim.SetTrigger("FadeOutSphere");
-        StartCoroutine(m_MemoUIFader.InterruptAndFadeIn());
+        m_StartGameButton.OnSelectionComplete += HandleStartGameButtonSelectionComplete;
+        StartCoroutine(m_StartGameButton.InterruptAndFadeIn());       
     }
 
     private void SetSphereOpacity(float alpha)
     {
         introSphere.SetFloat("_Transparency", alpha);
+    }
+
+    private void HandleStartGameButtonSelectionComplete()
+    {
+        m_InstructionAnim.SetTrigger("Stop");
+        StartCoroutine(m_InstructionAnimFader.InterruptAndFadeOut());
+        StartCoroutine(m_StartGameButton.InterruptAndFadeOut());        
+        StartCoroutine(m_MemoButton.InterruptAndFadeIn());
     }
 }

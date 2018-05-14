@@ -205,7 +205,7 @@ public class AudioSentenceControl : VrButtonBase
                     firstNotYetFilledAudioClauseSlot.FillSlotWithAudioClause(audioClauseSelection);
                     if (m_IsSelectionsDisappearOnSelectedOverride || audioClauseSelection.DisappearOnSelection)
                     {
-                        StartCoroutine(audioClauseSelection.InteruptAndFadeOut());
+                        StartCoroutine(audioClauseSelection.InterruptAndFadeOut());
                     }
 
                     HighlightNextAudioClauseToFill();
@@ -244,14 +244,14 @@ public class AudioSentenceControl : VrButtonBase
                 {                    
                     if (slot.AudioClause != null)
                     {
-                        StartCoroutine(slot.InteruptAndFadeOut());
+                        StartCoroutine(slot.InterruptAndFadeOut());
                     }
                 }
 
                 m_BossSelectedClause.FillSlotWithAudioClause(audioClauseSelection);
                 if (m_IsSelectionsDisappearOnSelectedOverride || audioClauseSelection.DisappearOnSelection)
                 {
-                    StartCoroutine(audioClauseSelection.InteruptAndFadeOut());
+                    StartCoroutine(audioClauseSelection.InterruptAndFadeOut());
                 }                
             }
         }
@@ -292,13 +292,13 @@ public class AudioSentenceControl : VrButtonBase
         {            
             if (slot.AudioClause != null)
             {
-                StartCoroutine(slot.InteruptAndFadeIn());
+                StartCoroutine(slot.InterruptAndFadeIn());
             }
         }
 
         if (m_IsSelectionsDisappearOnSelectedOverride || m_BossSelectedClause.DisappearOnSelection)
         {
-            StartCoroutine(m_BossSelectedClause.InteruptAndFadeOut());
+            StartCoroutine(m_BossSelectedClause.InterruptAndFadeOut());
         }
     }
 

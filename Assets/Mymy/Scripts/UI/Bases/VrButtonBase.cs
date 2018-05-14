@@ -151,7 +151,7 @@ public abstract class VrButtonBase : MonoBehaviour,
         yield return StartCoroutine(m_UIFader.WaitForFadeIn());
     }
 
-    public IEnumerator InteruptAndFadeIn()
+    public IEnumerator InterruptAndFadeIn()
     {
         yield return StartCoroutine(m_UIFader.InterruptAndFadeIn());
     }
@@ -171,7 +171,7 @@ public abstract class VrButtonBase : MonoBehaviour,
         yield return StartCoroutine(m_UIFader.WaitForFadeOut());
     }
 
-    public IEnumerator InteruptAndFadeOut()
+    public IEnumerator InterruptAndFadeOut()
     {
         yield return StartCoroutine(m_UIFader.InterruptAndFadeOut());
     }

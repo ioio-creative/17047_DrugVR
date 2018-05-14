@@ -18,12 +18,12 @@ public class BossAudioClauseSelected : VrButtonBase
     private IEnumerator HandleClicked()
     {
         // "restore m_AudioClause back to its original position"
-        StartCoroutine(m_AudioClause.InteruptAndFadeIn());
+        StartCoroutine(m_AudioClause.InterruptAndFadeIn());
         m_AudioClause = null;
 
         if (DisappearOnSelection)
         {
-            yield return StartCoroutine(InteruptAndFadeOut());
+            yield return StartCoroutine(InterruptAndFadeOut());
         }
 
         if (OnClicked != null)
@@ -40,7 +40,7 @@ public class BossAudioClauseSelected : VrButtonBase
         m_IsHighLighted = false;
         m_AudioClause = audioClause;
         m_ClauseImg.sprite = audioClause.ClauseImage.sprite;
-        StartCoroutine(base.InteruptAndFadeIn());
+        StartCoroutine(base.InterruptAndFadeIn());
     }
 
 

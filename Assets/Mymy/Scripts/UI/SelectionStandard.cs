@@ -46,7 +46,7 @@ public class SelectionStandard : VrButtonBase
         }
         if (DisappearOnSelection)
         {
-            StartCoroutine(InteruptAndFadeOut());
+            StartCoroutine(InterruptAndFadeOut());
         }
     }
 

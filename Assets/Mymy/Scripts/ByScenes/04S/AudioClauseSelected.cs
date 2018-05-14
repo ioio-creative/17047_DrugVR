@@ -39,12 +39,12 @@ public class AudioClauseSelected : VrButtonBase
         PlayOnSelectedClip();
 
         // "restore m_AudioClause back to its original position"
-        StartCoroutine(m_AudioClause.InteruptAndFadeIn());
+        StartCoroutine(m_AudioClause.InterruptAndFadeIn());
         m_AudioClause = null;
 
         if (base.DisappearOnSelection)
         {
-            yield return StartCoroutine(base.InteruptAndFadeOut());            
+            yield return StartCoroutine(base.InterruptAndFadeOut());            
         }
 
         if (OnClicked != null)
@@ -60,7 +60,7 @@ public class AudioClauseSelected : VrButtonBase
     {
         m_AudioClause = audioClause;
         m_ClauseImg.sprite = audioClause.ClauseImage.sprite;
-        StartCoroutine(base.InteruptAndFadeIn());        
+        StartCoroutine(base.InterruptAndFadeIn());        
     }
 
     public void SetHighLight()

@@ -118,7 +118,7 @@ public class SelectionProgress : VrButtonBase
         // If the selection should disappear once it's filled, hide it.
         if (m_DisappearOnSelectionFilled)
         {
-            base.InteruptAndFadeOut();
+            base.InterruptAndFadeOut();
         }
     }
 
