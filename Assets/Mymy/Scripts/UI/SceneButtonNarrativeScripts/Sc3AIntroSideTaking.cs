@@ -32,6 +32,14 @@ public class Sc3AIntroSideTaking : MonoBehaviour
         m_SelectionProgress.OnSelectionComplete -= HandleSelectionComplete;
     }
 
+    private void FixedUpdate()
+    {
+        if (!m_ButtonsContainer.Visible)
+        {
+            m_SelectionProgress.ForceDisableButton();
+        }
+    }
+
     private void HandleSelectionComplete()
     {
         if (m_DoTheDishes)
