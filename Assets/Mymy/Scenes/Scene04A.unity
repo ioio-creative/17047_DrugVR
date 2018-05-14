@@ -435,6 +435,11 @@ Prefab:
       propertyPath: CurrentScene
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_CurrentScene
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
   m_IsPrefabParent: 0

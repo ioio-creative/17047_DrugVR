@@ -26,4 +26,4 @@ Scene07B,VideoSky,1,39,1,1,1
 Scene08,VideoSky,1,39,1,1,1
 Scene09,VideoSky,1,39,1,1,1
 Scene10,VideoSky,1,39,1,1,1
-Summary,VideoSky,1,90,1,1,1
+Summary,VideoSky,1,90,1,1,1,ImageSky,StillImg/Summary_Sky
