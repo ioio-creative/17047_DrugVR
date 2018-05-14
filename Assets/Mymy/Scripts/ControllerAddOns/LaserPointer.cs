@@ -73,6 +73,8 @@ public class LaserPointer : MonoBehaviour
         }
     }
 
+    private  bool m_IsForceDisableGrab;
+
 
     // used when ray cast doesn't hit any object
     private RaycastHit defaultHit;
@@ -223,26 +225,39 @@ public class LaserPointer : MonoBehaviour
 
 
     /* grab object */
+    public void ForceDisableGrab()
+    {
+        m_IsForceDisableGrab = true;
+    }
+
+    public void UnforceDisableGrab()
+    {
+        m_IsForceDisableGrab = false;
+    }
+
     /* https://www.raywenderlich.com/149239/htc-vive-tutorial-unity */
 
     private void RaycastPickupAndRelease(RaycastHit hit, bool isHit, bool isBtnPressed)
-    {        
-        if (objectInHand == null)  // nothing in hand yet
+    {
+        if (!m_IsForceDisableGrab)
         {
-            // only pick object when isBtnDown
-            bool isBtnDown = WaveVR_Controller.Input(device).GetPressDown(inputToListen);
-            if (isHit && isBtnDown)
+            if (objectInHand == null)  // nothing in hand yet
             {
-                GrabObject(hit.collider.gameObject);
+                // only pick object when isBtnDown
+                bool isBtnDown = WaveVR_Controller.Input(device).GetPressDown(inputToListen);
+                if (isHit && isBtnDown)
+                {
+                    GrabObject(hit.collider.gameObject);
+                }
             }
-        }
-        else  // something is in hand
-        {
-            // Note: use isBtnPressed here
-            if (!isBtnPressed)
+            else  // something is in hand
             {
-                ReleaseObject();
-            }
+                // Note: use isBtnPressed here
+                if (!isBtnPressed)
+                {
+                    ReleaseObject();
+                }
+            } 
         }
     }
 

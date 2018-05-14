@@ -42,7 +42,6 @@ namespace VRStandardAssets.Utils
         private Renderer[] m_NonUiGroupsToFade;                 // All the groups of non-UIs elements that will fade in and out.        
         private Color m_FadeColor;                              // The colour the non-UI elements' material fades out to.
 
-
         private bool m_Fading;                                  // Whether the UI elements are currently fading in or out.
 
 
@@ -57,10 +56,7 @@ namespace VRStandardAssets.Utils
 
                 foreach (GameObject nonUiGroupsContainer in m_NonUiGroupsContainers)
                 {
-                    foreach (Transform child in nonUiGroupsContainer.transform)
-                    {
-                        nonUiGroups.Add(child.GetComponent<Renderer>());
-                    }
+                    nonUiGroups.AddRange(GetComponentsInChildren<Renderer>());
                 }
 
                 m_NonUiGroupsToFade = nonUiGroups.ToArray();

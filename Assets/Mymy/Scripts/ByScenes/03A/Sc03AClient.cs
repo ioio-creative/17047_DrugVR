@@ -8,6 +8,8 @@ public class Sc03AClient : MonoBehaviour
 {
     //private DrugVR_SceneENUM nextSceneToLoad;
     public static GameManager managerInst;
+    private LaserPointer m_PickupLaser;
+
     [SerializeField]
     private Material introSphere;
     [SerializeField]
@@ -32,6 +34,8 @@ public class Sc03AClient : MonoBehaviour
     private void Awake()
     {
         managerInst = GameManager.Instance;
+        m_PickupLaser = FindObjectOfType<LaserPointer>();
+
         if (m_MemoButton == null)
         {
             m_MemoButton = GetComponentInChildren<MemoButton>();
@@ -60,10 +64,7 @@ public class Sc03AClient : MonoBehaviour
 
         SetSphereOpacity(1.0f);
 
-        //if (m_MemoUIFader == null)
-        //{
-        //    m_MemoUIFader = m_MemoButton.gameObject.GetComponent<UIFader>();
-        //}
+        m_PickupLaser.ForceDisableGrab();
     }
 
     private void FixedUpdate()
@@ -113,5 +114,6 @@ public class Sc03AClient : MonoBehaviour
         StartCoroutine(m_InstructionAnimFader.InterruptAndFadeOut());
         StartCoroutine(m_StartGameButton.InterruptAndFadeOut());        
         StartCoroutine(m_MemoButton.InterruptAndFadeIn());
+        m_PickupLaser.UnforceDisableGrab();
     }
 }
