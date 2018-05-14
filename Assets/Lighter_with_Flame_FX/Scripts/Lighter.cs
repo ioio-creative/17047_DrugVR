@@ -16,6 +16,10 @@ public class Lighter : MonoBehaviour
     private WVR_InputId m_InputToListen;
     private WaveVR_Controller.Device waveVrDevice;
 
+    private bool m_IsTriggerPressDown;
+    private bool m_IsTriggerPressUp;
+
+
     private void Start()
     {
         FlameFX.SetActive(false);
@@ -26,12 +30,26 @@ public class Lighter : MonoBehaviour
 
     private void Update()
     {
-	    if (waveVrDevice.GetPressDown(m_InputToListen)) //check to see if the left mouse was pressed
+#if UNITY_EDITOR
+        /*
+            https://docs.unity3d.com/ScriptReference/Input.GetMouseButtonDown.html
+            button values are 0 for the primary button (often the left button),
+            1 for secondary button,
+            and 2 for the middle button
+        */
+        m_IsTriggerPressDown = Input.GetMouseButtonDown(0);
+        m_IsTriggerPressUp = Input.GetMouseButtonUp(0);
+#else
+        m_IsTriggerPressDown = waveVrDevice.GetPressDown(m_InputToListen);
+        m_IsTriggerPressUp = waveVrDevice.GetPressUp(m_InputToListen);
+#endif
+
+        if (m_IsTriggerPressDown)
         {
 		    StartCoroutine(LighterOn());
         }
 
-        if (waveVrDevice.GetPressUp(m_InputToListen))
+        if (m_IsTriggerPressUp)
         {
             LighterMesh.GetComponent<Animation>().Play("Release Button");
             FlameFX.SetActive(false);

@@ -4,6 +4,9 @@ using wvr;
 
 public class HandLighterSwitchControl : MonoBehaviour
 {
+    // TODO: There is same thing in LighterTriggerProgress.cs
+    private const string HeadObjectName = "/VIVEFocusWaveVR/head";
+
     private const string ControllerPosTrkManObjectName = "/VIVEFocusWaveVR/FocusController";
     private const string OriginalControllerModelObjectName = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
 
@@ -32,6 +35,8 @@ public class HandLighterSwitchControl : MonoBehaviour
     private WaveVR_Controller.Device waveVrDevice;
     private bool isLighterOn = false;
 
+    private Transform headTransform;
+
 
     /* MonoBehaviour */
 
@@ -50,7 +55,10 @@ public class HandLighterSwitchControl : MonoBehaviour
         controllerPT = controllerPosTrkMan.GetComponent<WaveVR_ControllerPoseTracker>();
 
         lighterTransform = lighter.transform;
+
+        headTransform = GameObject.Find(HeadObjectName).transform;
     }
+
 
     private void Start()
     {
@@ -61,33 +69,41 @@ public class HandLighterSwitchControl : MonoBehaviour
 
         ReplaceControllerByLighter();
 
+        // The following statement is no longer needed
+        // as update lighterTransform.position in the Update() method.
         //lighterTransform.parent = controllerPosTrkMan.transform;
 
         waveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);        
     }
 
     private void Update()
-    {        
-        //bool isPress = waveVrDevice.GetPress(m_InputToListen);     
+    {
+        bool isPress = waveVrDevice.GetPress(m_InputToListen);
 
-        //if (isPress)
-        //{
-        //    lighterProgress.enabled = false;
-        //    handWaveProgress.enabled = true;
+        // switch mode
+        if (isPress)
+        {
+            //lighterProgress.enabled = false;
+            //handWaveProgress.enabled = true;
 
-        //    ReplaceLighterByController();
-        //}
-        //else
-        //{
-        //    lighterProgress.enabled = true;
-        //    handWaveProgress.enabled = false;
+            //ReplaceLighterByController();
+        }
+        else
+        {
+            lighterProgress.enabled = true;
+            handWaveProgress.enabled = false;
 
-        //    ReplaceControllerByLighter();
-        //}
+            ReplaceControllerByLighter();
+        }
 
         if (isLighterOn)
         {
+            // update lighter transform
             lighterTransform.position = originalControllerModelTransform.position;
+            lighterTransform.rotation =
+                Quaternion.LookRotation(lighterTransform.position - headTransform.position);
+            // fix x-, z-axis rotation
+            lighterTransform.rotation = Quaternion.Euler(0, lighterTransform.eulerAngles.y, 0);
         }
     }
 
@@ -100,8 +116,11 @@ public class HandLighterSwitchControl : MonoBehaviour
         {
             lighter.SetActive(true);
 
-            //controllerPT.TrackRotation = false;
-            controllerPT.TrackRotation = true;
+            // The following two statements are longer needed
+            // as we no longer set the parent of lighterTransform to
+            // the transform of FocusController GameObject.
+            //controllerPT.TrackRotation = false;            
+            //lighterTransform.rotation = LighterFixedQuaternion;
 
             controllerLaser.IsEnableReticle = false;
             controllerLaser.IsEnableBeam = false;
@@ -109,9 +128,7 @@ public class HandLighterSwitchControl : MonoBehaviour
             
             originalControllerModel.SetActive(false);
             originalControllerModelTransform.localScale = Vector3.zero;
-
-            //lighterTransform.rotation = LighterFixedQuaternion;
-
+            
             isLighterOn = true;         
         }
     }
@@ -122,9 +139,14 @@ public class HandLighterSwitchControl : MonoBehaviour
         {
             lighter.SetActive(false);
 
-            controllerPT.TrackRotation = true;
+            // The following two statements are longer needed
+            // as we no longer set the parent of lighterTransform to
+            // the transform of FocusController GameObject.
+            //controllerPT.TrackRotation = true;
+
             originalControllerModel.SetActive(true);
             originalControllerModelTransform.localScale = originalControllerModelInitialScale;
+
             controllerLaser.enabled = true;
             controllerLaser.IsEnableReticle = true;
             controllerLaser.IsEnableBeam = true;

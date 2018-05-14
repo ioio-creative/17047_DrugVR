@@ -21,9 +21,11 @@ public class LighterTriggerProgress : MonoBehaviour
     [SerializeField]
     private AudioClip m_OnFilledClip;
     [SerializeField]
+    private Transform m_ProgressableTransform;
+    [SerializeField]
     private UIFader m_ProgressableFader;
     [SerializeField]
-    private Image m_Progressable;    
+    private Image m_Progressable; 
     private Coroutine m_SelectionFillRoutine;
     private bool m_SelectionFilled;
 
@@ -40,6 +42,7 @@ public class LighterTriggerProgress : MonoBehaviour
 
     /* for tracking transform angles */
 
+    // TODO: There is same thing in HandLighterSwitchControl.cs
     private const string HeadObjectName = "/VIVEFocusWaveVR/head";
 
     private static Vector3 StaticUp = Vector3.up;
@@ -50,7 +53,11 @@ public class LighterTriggerProgress : MonoBehaviour
     [SerializeField]
     private float m_StaticForwardOffset;
     [SerializeField]
-    private float m_LighterTargetHalfAngleRange;
+    private float m_LighterTargetHorizontalHalfAngleRange;
+    [SerializeField]
+    private float m_LighterTargetMaxAllowedHeight;
+    [SerializeField]
+    private float m_LighterTargetMinAllowedHeight;
     [SerializeField]
     private float m_Zenith = 0f;
     [SerializeField]
@@ -65,7 +72,7 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private void Awake()
     {
-        m_HeadTransform = GameObject.Find(HeadObjectName).transform;        
+        m_HeadTransform = GameObject.Find(HeadObjectName).transform;
     }
 
     private void Start()
@@ -81,7 +88,9 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private void Update()
     {
-        Vector3 forwardVec = m_HeadTransform.forward;
+        //Vector3 forwardVec = m_HeadTransform.forward;
+        // forward direction points from head to this transform
+        Vector3 forwardVec = transform.position - m_HeadTransform.position;
         m_Zenith = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(forwardVec, StaticUp));
 
         Vector3 normedProjectionOnFloor = Vector3.Normalize(forwardVec - new Vector3(0, forwardVec.y, 0));
@@ -96,8 +105,12 @@ public class LighterTriggerProgress : MonoBehaviour
         Debug.DrawRay(transform.position, normedProjectionOnFloor, Color.black);      
 
         // Debug.Log(newAzimuth);
-        if (IsLighterWithinTargetZone(newAzimuth))
+        if (IsLighterWithinTargetZone(newAzimuth, transform.position))
         {
+            // make progress bar always point to head
+            m_ProgressableTransform.rotation =
+                Quaternion.LookRotation(forwardVec);
+
             if (!m_GazeOver)
             {
                 HandleEnter();
@@ -148,9 +161,12 @@ public class LighterTriggerProgress : MonoBehaviour
     /* end of audios */
 
 
-    private bool IsLighterWithinTargetZone(float azimuth)
+    private bool IsLighterWithinTargetZone(float azimuth, Vector3 pos)
     {
-        return Mathf.Abs(azimuth) <= m_LighterTargetHalfAngleRange;
+        Debug.Log(pos.y);
+        return Mathf.Abs(azimuth) <= m_LighterTargetHorizontalHalfAngleRange
+            && pos.y >= m_LighterTargetMinAllowedHeight
+            && pos.y <= m_LighterTargetMaxAllowedHeight;
     }
 
     public IEnumerator WaitForSelectionToFill()
