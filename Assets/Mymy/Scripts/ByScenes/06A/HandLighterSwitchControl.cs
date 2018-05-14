@@ -20,7 +20,7 @@ public class HandLighterSwitchControl : MonoBehaviour
     [SerializeField]
     private GameObject lighter;
     private Transform lighterTransform;
-    private readonly Quaternion LighterFixedQuaternion = Quaternion.Euler(0, 0, 0);
+    //private readonly Quaternion LighterFixedQuaternion = Quaternion.Euler(0, 0, 0);
 
     private GameObject controllerPosTrkMan;
     private GameObject originalControllerModel;
@@ -61,7 +61,7 @@ public class HandLighterSwitchControl : MonoBehaviour
 
         ReplaceControllerByLighter();
 
-        lighterTransform.parent = controllerPosTrkMan.transform;
+        //lighterTransform.parent = controllerPosTrkMan.transform;
 
         waveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);        
     }
@@ -84,6 +84,11 @@ public class HandLighterSwitchControl : MonoBehaviour
 
         //    ReplaceControllerByLighter();
         //}
+
+        if (isLighterOn)
+        {
+            lighterTransform.position = originalControllerModelTransform.position;
+        }
     }
 
     /* end of MonoBehaviour */
@@ -95,17 +100,19 @@ public class HandLighterSwitchControl : MonoBehaviour
         {
             lighter.SetActive(true);
 
-            controllerPT.TrackRotation = false;
+            //controllerPT.TrackRotation = false;
+            controllerPT.TrackRotation = true;
 
             controllerLaser.IsEnableReticle = false;
             controllerLaser.IsEnableBeam = false;
-            controllerLaser.enabled = false;            
+            controllerLaser.enabled = false;
+            
             originalControllerModel.SetActive(false);
             originalControllerModelTransform.localScale = Vector3.zero;
 
-            lighterTransform.rotation = LighterFixedQuaternion;
+            //lighterTransform.rotation = LighterFixedQuaternion;
 
-            isLighterOn = true;            
+            isLighterOn = true;         
         }
     }
 
