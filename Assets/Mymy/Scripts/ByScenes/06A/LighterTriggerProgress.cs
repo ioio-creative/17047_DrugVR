@@ -46,9 +46,6 @@ public class LighterTriggerProgress : MonoBehaviour
 
     /* for tracking transform angles */
 
-    // TODO: There is same thing in HandLighterSwitchControl.cs
-    private const string HeadObjectName = "/VIVEFocusWaveVR/head";
-
     private static Vector3 StaticUp = Vector3.up;
     private static Vector3 StaticForward = Vector3.forward;
     private static Vector3 StaticRight = Vector3.right;
@@ -78,7 +75,7 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private void Awake()
     {
-        m_HeadTransform = GameObject.Find(HeadObjectName).transform;
+        m_HeadTransform = GameManager.Instance.HeadObject.transform;
     }
 
     private void Start()
@@ -98,21 +95,19 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private void Update()
     {
-        //Vector3 forwardVec = m_HeadTransform.forward;
         // forward direction points from head to this transform
         Vector3 forwardVec = transform.position - m_HeadTransform.position;
-        m_Zenith = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(forwardVec, StaticUp));
-
-        Vector3 normedProjectionOnFloor = Vector3.Normalize(forwardVec - new Vector3(0, forwardVec.y, 0));
-        float signedMagnitudeOfSineAzimuth = Vector3.Dot(Vector3.Cross(StaticForward, normedProjectionOnFloor), StaticUp);
-        float newAzimuth = Mathf.Rad2Deg * Mathf.Asin(signedMagnitudeOfSineAzimuth);
 
         Debug.DrawRay(transform.position, StaticUp, Color.green);
         Debug.DrawRay(transform.position, StaticForward, Color.yellow);
         Debug.DrawRay(transform.position, StaticRight, Color.red);
 
-        Debug.DrawRay(transform.position, forwardVec, Color.blue);
-        Debug.DrawRay(transform.position, normedProjectionOnFloor, Color.black);      
+        float newAzimuth = 0f;
+
+        // points from head to this transform
+        CalculateAzimuthAndZenithFromPointerDirection(forwardVec,
+            Color.blue, Color.black,
+            ref newAzimuth, ref m_Zenith);
 
         // Debug.Log(newAzimuth);
         if (IsLighterWithinTargetZone(newAzimuth, transform.position))
@@ -155,6 +150,22 @@ public class LighterTriggerProgress : MonoBehaviour
     }
 
     /* end of MonoBehaviour */
+
+
+    /* angle calculations */
+
+    private void CalculateAzimuthAndZenithFromPointerDirection(Vector3 pointerDirection,
+        Color debugRayColorForPointer, Color debugRayColorForPointerProjectionOnFloor,
+        ref float signedAzimuth, ref float unsignedZenith)
+    {
+        AngleCalculations.CalculateAzimuthAndZenithFromPointerDirection(pointerDirection,
+            StaticUp, StaticForward,
+            transform.position,
+            debugRayColorForPointer, debugRayColorForPointerProjectionOnFloor,
+            ref signedAzimuth, ref unsignedZenith);
+    }
+
+    /* end of angle calculations */
 
 
     /* audios */

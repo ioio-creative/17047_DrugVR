@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.Video;
-using DrugVR_Scribe;
+﻿using DrugVR_Scribe;
 using System;
-using System.IO;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.Video;
 
 public enum SkyboxType
 {
@@ -18,10 +16,75 @@ public enum SkyboxType
 
 public class GameManager : MonoBehaviour
 {
+    /* constants */
+
+    private const string FOCUS_CONTROLLER_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController";
+    private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
+    private const string CONTROLLER_POS_TRK_MAN_OBJECT_NAME
+        = "/VIVEFocusWaveVR/FocusController";
+    private const string CONTROLLER_MODEL_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
+
+    /* end of constants */
+
+
+    /* public references */
+
     public static GameManager Instance = null;
 
-    
+    private GameObject m_FocusControllerObject;
+    public GameObject FocusControllerObject
+    {
+        get
+        {
+            if (m_FocusControllerObject == null)
+            {
+                m_FocusControllerObject = GameObject.Find(FOCUS_CONTROLLER_OBJECT_NAME);
+            }
+            return m_FocusControllerObject;
+        }
+    }
+
+    private GameObject m_HeadObject;
+    public GameObject HeadObject
+    {
+        get
+        {
+            if (m_HeadObject == null)
+            {
+                m_HeadObject = GameObject.Find(HEAD_OBJECT_NAME);
+            }
+            return m_HeadObject;
+        }
+    }
+
+    private GameObject m_ControllerPosTrkManObject;
+    public GameObject ControllerPosTrkManObject
+    {
+        get
+        {
+            if (m_ControllerPosTrkManObject == null)
+            {
+                m_ControllerPosTrkManObject = GameObject.Find(CONTROLLER_POS_TRK_MAN_OBJECT_NAME);
+            }
+            return m_ControllerPosTrkManObject;
+        }
+    }
+
+    private GameObject m_ControllerModelObject;
+    public GameObject ControllerModelObject
+    {
+        get
+        {
+            if (m_ControllerModelObject == null)
+            {
+                m_ControllerModelObject = GameObject.Find(CONTROLLER_MODEL_OBJECT_NAME);
+            }
+            return m_ControllerModelObject;
+        }
+    }
+
     //Only one instance of this videoplayer can be obtained and present in any scenes
+    private static VideoPlayer m_SkyVideoPlayer;
     public static VideoPlayer SkyVideoPlayer
     {
         get
@@ -40,16 +103,10 @@ public class GameManager : MonoBehaviour
                 m_SkyVideoPlayer = value;
             }
         }
-    }
-
-    private static VideoPlayer m_SkyVideoPlayer;
-
-    private Animator m_anim;
-    private Image m_fadeImage;
+    }    
 
     [SerializeField]
     private DrugVR_SceneENUM m_CurrentScene;
-
     public DrugVR_SceneENUM CurrentScene
     {
         get { return m_CurrentScene; }
@@ -64,16 +121,26 @@ public class GameManager : MonoBehaviour
     public Material VideoSkyMat;
     public Material StillSkyMat;
 
-
     public bool FadeToBlack = true;
-
-    private WaveVR_DevicePoseTracker HMD;
-    private WaveVR_ControllerPoseTracker Controller;
-    private bool isLoadingScene = false;
 
     public event Action<VideoPlayer> OnSceneVideoEnd;
     public delegate void SceneChange(DrugVR_SceneENUM nextScene);
     public static event SceneChange OnSceneChange = null;
+
+    /* end of public references */
+
+
+    /* privates */
+
+    private Animator m_anim;
+    private Image m_fadeImage;
+    
+    private WaveVR_DevicePoseTracker HMD;
+    private WaveVR_ControllerPoseTracker Controller;
+    private bool isLoadingScene = false;
+
+    /* end of privates */
+
 
     //make sure that we only have a single instance of the game manager
     private void Awake()
@@ -162,7 +229,6 @@ public class GameManager : MonoBehaviour
             //    yield return www;
             //    www.LoadImageIntoTexture(stillSkyTex);
             //}
-
 
             RenderSettings.skybox = StillSkyMat;
             StillSkyMat.SetTexture("_MainTex", stillSkyTex);
