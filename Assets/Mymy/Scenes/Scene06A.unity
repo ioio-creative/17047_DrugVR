@@ -118,6 +118,12 @@ GameObject:
   m_PrefabParentObject: {fileID: 1376154387506388, guid: 42f2adb146a085b48bc0b39c79e04aa1,
     type: 2}
   m_PrefabInternal: {fileID: 1505320322}
+--- !u!114 &8686347 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114190932940012122, guid: 42f2adb146a085b48bc0b39c79e04aa1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1505320322}
+  m_Script: {fileID: 11500000, guid: c823a1b6abd932745ad9b61217083747, type: 3}
 --- !u!4 &8686348 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4400677746954476, guid: 42f2adb146a085b48bc0b39c79e04aa1,
@@ -221,8 +227,8 @@ GameObject:
   - component: {fileID: 299474746}
   - component: {fileID: 299474750}
   - component: {fileID: 299474749}
-  - component: {fileID: 299474748}
   - component: {fileID: 299474747}
+  - component: {fileID: 299474751}
   m_Layer: 0
   m_Name: HandWaveProgressUI
   m_TagString: Untagged
@@ -236,9 +242,9 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 299474745}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1390550361}
   - {fileID: 1856634354}
@@ -249,7 +255,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!225 &299474747
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -261,22 +267,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &299474748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 299474745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967291
 --- !u!114 &299474749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,7 +296,7 @@ Canvas:
   m_GameObject: {fileID: 299474745}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 2
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -318,6 +308,17 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &299474751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 299474745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097c38dbe6ff5b840a1e90a6c4070700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &312606326
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,8 +453,7 @@ MonoBehaviour:
   m_ProgressableTransform: {fileID: 554476762}
   m_ProgressableFader: {fileID: 554476763}
   m_Progressable: {fileID: 312606328}
-  m_DeviceToListen: 2
-  m_InputToListen: 17
+  m_Lighter: {fileID: 8686347}
   m_StaticForwardOffset: 177.5
   m_LighterTargetHorizontalHalfAngleRange: 30
   m_LighterTargetMaxAllowedHeight: 0.02
@@ -571,6 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0943dda6802d0c34eb779466251a358e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneToGoWhenLighterTriggered: 20
   lighterTriggerProgress: {fileID: 554476764}
   handWaveProgress: {fileID: 1453683844}
 --- !u!328 &1127897535
@@ -829,7 +830,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1390550362
 MonoBehaviour:
@@ -881,7 +882,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1453683841
 Transform:
   m_ObjectHideFlags: 0
@@ -889,7 +890,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1453683840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 7.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 299474746}
@@ -939,10 +940,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ProgressBar: {fileID: 1453683843}
-  m_NumOfHandWaveStrokes: 0
-  m_StaticForwardOffset: -182.5
-  m_Zenith: 0
-  m_Azimuth: 0
+  m_StaticForwardOffset: 177.5
+  m_HeadTargetHorizontalHalfAngleRange: 30
+  m_HeadTargetVerticalHalfAngleRange: 30
+  m_HandZenith: 0
+  m_HandAzimuth: 0
+  m_HeadZenith: 0
+  m_HeadAzimuth: 0
   m_HandWaveProgressFader: {fileID: 1453683842}
   m_HandImageTransform: {fileID: 1856634354}
 --- !u!1001 &1505320322
@@ -1129,7 +1133,7 @@ MonoBehaviour:
   m_InputToListen: 16
   lighterProgress: {fileID: 554476764}
   handWaveProgress: {fileID: 1453683844}
-  lighter: {fileID: 8686346}
+  lighterObject: {fileID: 8686346}
 --- !u!4 &1601530040
 Transform:
   m_ObjectHideFlags: 0
@@ -1241,7 +1245,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1856634355
 MonoBehaviour:

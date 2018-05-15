@@ -21,7 +21,7 @@ public class HandLighterSwitchControl : MonoBehaviour
     private HandWaveProgressNew handWaveProgress;
 
     [SerializeField]
-    private GameObject lighter;
+    private GameObject lighterObject;
     private Transform lighterTransform;
     //private readonly Quaternion LighterFixedQuaternion = Quaternion.Euler(0, 0, 0);
 
@@ -54,7 +54,7 @@ public class HandLighterSwitchControl : MonoBehaviour
         controllerLaser = FindObjectOfType<LaserPointer>();
         controllerPT = controllerPosTrkMan.GetComponent<WaveVR_ControllerPoseTracker>();
 
-        lighterTransform = lighter.transform;
+        lighterTransform = lighterObject.transform;
 
         headTransform = GameObject.Find(HeadObjectName).transform;
     }
@@ -67,7 +67,7 @@ public class HandLighterSwitchControl : MonoBehaviour
         lighterProgress.enabled = true;
         handWaveProgress.enabled = false;
 
-        ReplaceControllerByLighter();
+        ReplaceControllerByLighter();        
 
         // The following statement is no longer needed
         // as update lighterTransform.position in the Update() method.
@@ -80,18 +80,19 @@ public class HandLighterSwitchControl : MonoBehaviour
     {
         bool isPress = waveVrDevice.GetPress(m_InputToListen);
 
-        // switch mode
+        // switch mode       
         if (isPress)
         {
-            //lighterProgress.enabled = false;
-            //handWaveProgress.enabled = true;
+            lighterProgress.enabled = false;
+            handWaveProgress.enabled = true;            
 
-            //ReplaceLighterByController();
+            ReplaceLighterByController();
         }
         else
         {
             lighterProgress.enabled = true;
             handWaveProgress.enabled = false;
+            handWaveProgress.InterruptAndFadeOut();
 
             ReplaceControllerByLighter();
         }
@@ -114,7 +115,7 @@ public class HandLighterSwitchControl : MonoBehaviour
     {
         if (!isLighterOn)
         {
-            lighter.SetActive(true);
+            lighterObject.SetActive(true);
 
             // The following two statements are longer needed
             // as we no longer set the parent of lighterTransform to
@@ -137,7 +138,7 @@ public class HandLighterSwitchControl : MonoBehaviour
     {
         if (isLighterOn)
         {
-            lighter.SetActive(false);
+            lighterObject.SetActive(false);
 
             // The following two statements are longer needed
             // as we no longer set the parent of lighterTransform to
@@ -161,8 +162,8 @@ public class HandLighterSwitchControl : MonoBehaviour
     private void HandleSceneChange(DrugVR_SceneENUM nextScene)
     {
         enabled = false;
-        lighter.SetActive(false);
-        Destroy(lighter);
+        lighterObject.SetActive(false);
+        Destroy(lighterObject);
     }
 
     /* end of event handlers */

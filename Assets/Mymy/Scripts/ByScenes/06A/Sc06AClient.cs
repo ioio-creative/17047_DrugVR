@@ -4,6 +4,10 @@ using UnityEngine;
 public class Sc06AClient : VideoSceneClientBase
 {
     [SerializeField]
+    private DrugVR_SceneENUM sceneToGoWhenLighterTriggered = DrugVR_SceneENUM.Sc06B;
+    private DrugVR_SceneENUM sceneToGoWhenHandWaveTriggered = DrugVR_SceneENUM.Sc07;
+
+    [SerializeField]
     private LighterTriggerProgress lighterTriggerProgress;
     [SerializeField]
     private HandWaveProgressNew handWaveProgress;
@@ -14,6 +18,9 @@ public class Sc06AClient : VideoSceneClientBase
     protected override void Awake()
     {
         base.Awake();
+
+        // set default next scene
+        nextSceneToLoadBase = sceneToGoWhenHandWaveTriggered;
     }
 
     protected override void OnEnable()
@@ -34,25 +41,25 @@ public class Sc06AClient : VideoSceneClientBase
             HandlerHandWaveProgressSelectionComplete;
     }
 
-    private void Start()
-    {
-        
-    }
-
     /* end of MonoBehaviour */
 
 
     /* event handlers */
 
-    private void HandleLighterTriggerProgressSelectionComplete()
-    {
-        //GameManager.Instance.GoToScene(DrugVR_SceneENUM.Sc06B);
-    }
-
     private void HandlerHandWaveProgressSelectionComplete()
     {
-        //GameManager.Instance.GoToScene(DrugVR_SceneENUM.Sc06B);
+        Scribe.Side05 = true;
+        nextSceneToLoadBase = sceneToGoWhenHandWaveTriggered;
+        GameManager.PlayVideo();
+        // Going to next scene will be done on play video end, by base class.
     }
 
+    private void HandleLighterTriggerProgressSelectionComplete()
+    {
+        Scribe.Side05 = false;
+        nextSceneToLoadBase = sceneToGoWhenLighterTriggered;
+        GoToNextScene();
+    }
+    
     /* end of event handlers */
 }

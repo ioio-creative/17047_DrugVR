@@ -10,13 +10,14 @@ public class HandWaveProgressNew : MonoBehaviour
 
     [SerializeField]
     private HandWaveProgressable m_ProgressBar;
-    [SerializeField]
-    private int m_NumOfHandWaveStrokes = 0;
 
     /* end of progress */
 
 
     /* for tracking transform angles */
+
+    // TODO: There is same thing in LigherTriggerProgress.cs
+    private const string HeadObjectName = "/VIVEFocusWaveVR/head";
 
     private const string FocusControllerObjectName = "/VIVEFocusWaveVR/FocusController";    
 
@@ -27,9 +28,19 @@ public class HandWaveProgressNew : MonoBehaviour
     [SerializeField]
     private float m_StaticForwardOffset;
     [SerializeField]
-    private float m_Zenith = 0f;
+    private float m_HeadTargetHorizontalHalfAngleRange;
     [SerializeField]
-    private float m_Azimuth = 0f;
+    private float m_HeadTargetVerticalHalfAngleRange;
+
+    // m_Zenith & m_Azimuth are just for display, not to be set in Editor
+    [SerializeField]
+    private float m_HandZenith = 0f;
+    [SerializeField]
+    private float m_HandAzimuth = 0f;
+    [SerializeField]
+    private float m_HeadZenith = 0f;
+    [SerializeField]
+    private float m_HeadAzimuth = 0f;
 
     [SerializeField]
     private UIFader m_HandWaveProgressFader;
@@ -37,12 +48,17 @@ public class HandWaveProgressNew : MonoBehaviour
     private Transform m_HandImageTransform;    
     private Transform m_FocusControllerTransform;
 
-    private bool m_IsFirstTimeEnable = true;
+    private Transform m_HeadTransform;
 
     /* end of for tracking transform angles */
 
 
     /* MonoBehaviour */
+
+    private void Awake()
+    {
+        m_HeadTransform = GameObject.Find(HeadObjectName).transform;
+    }
 
     private void OnEnable()
     {
@@ -52,9 +68,6 @@ public class HandWaveProgressNew : MonoBehaviour
     private void OnDisable()
     {
         m_ProgressBar.OnProgressComplete -= HandleProgressBarProgressComplete;
-        
-        StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());        
-        m_ProgressBar.Reset();
     }
 
     private void Start()
@@ -76,41 +89,94 @@ public class HandWaveProgressNew : MonoBehaviour
         Debug.DrawRay(transform.position, StaticRight, Color.red);
 
         Vector3 forwardVec = m_FocusControllerTransform.forward;
-        Vector3 normedProjectionOnFloor = Vector3.Normalize(forwardVec - new Vector3(0, forwardVec.y, 0));
-        m_Zenith = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(forwardVec, StaticUp));
 
-        Debug.DrawRay(transform.position, forwardVec, Color.blue);
-        Debug.DrawRay(transform.position, normedProjectionOnFloor, Color.black);
+        // hand
+        float newHandAzimuth = 0f;
+        CalculateAzimuthAndZenithFromPointerDirection(m_FocusControllerTransform.forward,
+            Color.blue, Color.black,
+            ref newHandAzimuth, ref m_HandZenith);
 
-        float signedMagnitudeOfSineAzimuth = Vector3.Dot(Vector3.Cross(StaticForward, normedProjectionOnFloor), StaticUp);        
-        float newAzimuth = Mathf.Rad2Deg * Mathf.Asin(signedMagnitudeOfSineAzimuth);
+        // head
+        CalculateAzimuthAndZenithFromPointerDirection(m_HeadTransform.forward,
+            Color.cyan, Color.gray,
+            ref m_HeadAzimuth, ref m_HeadZenith);
 
-        m_HandImageTransform.localRotation = Quaternion.Euler(0, 0, newAzimuth);
-
-        // if azimuth changes sign
-        if (m_Azimuth * newAzimuth < 0)
+        if (IsHeadWithinTargetZone(m_HeadAzimuth, m_HeadZenith))
         {
-            m_NumOfHandWaveStrokes++;
-            m_ProgressBar.StepIt();
+            Debug.Log("head in zone");
+            CheckAndFadeIn();
+
+            m_HandImageTransform.localRotation = Quaternion.Euler(0, 0, newHandAzimuth);
+
+            // if azimuth changes sign
+            if (m_HandAzimuth * newHandAzimuth < 0)
+            {
+                m_ProgressBar.StepIt();
+            }
+        }
+        else
+        {
+            Debug.Log("head not in zone");
+            CheckAndFadeOutAndReset();
         }
 
-        m_Azimuth = newAzimuth;
+        m_HandAzimuth = newHandAzimuth;
     }
 
     /* end of MonoBehaviour */
 
 
-    /* Fader */
+    /* angle calculations */
 
-    public void FadeIn()
+    private void CalculateAzimuthAndZenithFromPointerDirection(Vector3 pointerDirection,
+        Color debugRayColorForPointer, Color debugRayColorForPointerProjectionOnFloor,
+        ref float azimuth, ref float zenith)
     {
-        StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeIn());
+        Vector3 normedProjectionOnFloor = Vector3.Normalize(pointerDirection - new Vector3(0, pointerDirection.y, 0));
+        zenith = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(pointerDirection, StaticUp));
+
+        Debug.DrawRay(transform.position, pointerDirection, debugRayColorForPointer);
+        Debug.DrawRay(transform.position, normedProjectionOnFloor, debugRayColorForPointerProjectionOnFloor);
+
+        float signedMagnitudeOfSineAzimuth = Vector3.Dot(Vector3.Cross(StaticForward, normedProjectionOnFloor), StaticUp);
+        azimuth = Mathf.Rad2Deg * Mathf.Asin(signedMagnitudeOfSineAzimuth);
     }
 
-    public void FadeOut()
+    private bool IsHeadWithinTargetZone(float azimuth, float zenith)
     {
-        StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());
+        return Mathf.Abs(azimuth) <= m_HeadTargetHorizontalHalfAngleRange
+            && (90 - Mathf.Abs(zenith)) <= m_HeadTargetVerticalHalfAngleRange;
+    }
+
+    /* end of angle calculations */
+
+
+    /* Fader */
+
+    private void CheckAndFadeIn()
+    {
+        if (!m_HandWaveProgressFader.Visible)
+        {            
+            StartCoroutine(m_HandWaveProgressFader.CheckAndFadeIn());
+        }
+    }
+
+    private void CheckAndFadeOutAndReset()
+    {
+        if (m_HandWaveProgressFader.Visible)
+        {
+            StartCoroutine(m_HandWaveProgressFader.CheckAndFadeOut());
+        }
         m_ProgressBar.Reset();
+    }
+
+    // HandLigherSwitchControl can control fade out
+    public void InterruptAndFadeOut()
+    {
+        if (m_HandWaveProgressFader.Visible)
+        {
+            StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());
+        }
     }
 
     /* end of Fader */

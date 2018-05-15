@@ -38,8 +38,15 @@ public class VideoSceneClientBase : MonoBehaviour
 
     /* event handlers */
 
-    protected virtual void HandleSystemVideoEnd(VideoPlayer source)
+    protected void GoToNextScene()
     {
         managerInst.GoToScene(nextSceneToLoadBase);
     }
+
+    protected virtual void HandleSystemVideoEnd(VideoPlayer source)
+    {
+        GoToNextScene();
+    }
+
+    /* end of event handlers */
 }

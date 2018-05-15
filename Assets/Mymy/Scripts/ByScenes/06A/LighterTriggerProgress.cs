@@ -32,10 +32,14 @@ public class LighterTriggerProgress : MonoBehaviour
     private bool m_GazeOver;
     private bool m_ButtonPressed;
 
+    // use m_Lighter to set m_WaveVrDevice, m_InputToListen & m_EditorUseMouseButton
     [SerializeField]
-    private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-    [SerializeField]
-    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_Alias1_Trigger;
+    private Lighter m_Lighter;
+    private WaveVR_Controller.Device m_WaveVrDevice;
+    private WVR_InputId m_InputToListen;
+    private int m_EditorUseMouseButton = 0;
+
+    private bool m_IsTriggerPress;
 
     /* end of progressable */
 
@@ -58,6 +62,8 @@ public class LighterTriggerProgress : MonoBehaviour
     private float m_LighterTargetMaxAllowedHeight;
     [SerializeField]
     private float m_LighterTargetMinAllowedHeight;
+
+    // m_Zenith & m_Azimuth are just for display, not to be set in Editor
     [SerializeField]
     private float m_Zenith = 0f;
     [SerializeField]
@@ -77,6 +83,10 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private void Start()
     {
+        m_WaveVrDevice = WaveVR_Controller.Input(m_Lighter.DeviceToListen);
+        m_InputToListen = m_Lighter.InputToListen;
+        m_EditorUseMouseButton = m_Lighter.EditorUseMouseButton;
+
         SetProgressableValueToMin();
         
         // offset scene rotation + a fixed offset
@@ -117,8 +127,13 @@ public class LighterTriggerProgress : MonoBehaviour
             }
             else
             {
+#if UNITY_EDITOR
+                m_IsTriggerPress = Input.GetMouseButton(m_EditorUseMouseButton);
+#else
+                m_IsTriggerPress = waveVrDevice.GetPress(m_InputToListen);        
+#endif
                 // Get button press state from controller device
-                if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))
+                if (m_IsTriggerPress)
                 {                                        
                     HandleDown();
                 }
@@ -163,7 +178,7 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private bool IsLighterWithinTargetZone(float azimuth, Vector3 pos)
     {
-        Debug.Log(pos.y);
+        //Debug.Log(pos.y);
         return Mathf.Abs(azimuth) <= m_LighterTargetHorizontalHalfAngleRange
             && pos.y >= m_LighterTargetMinAllowedHeight
             && pos.y <= m_LighterTargetMaxAllowedHeight;
