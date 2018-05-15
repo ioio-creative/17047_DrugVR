@@ -5,14 +5,15 @@ using wvr;
 public class HandLighterSwitchControl : MonoBehaviour
 {    
     [SerializeField]
-    private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
+    private WVR_DeviceType deviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
-    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_Alias1_Touchpad;
+    private WVR_InputId inputToListen = WVR_InputId.WVR_InputId_Alias1_Touchpad;
 
     [SerializeField]
     private LighterTriggerProgress lighterProgress;
     [SerializeField]
     private HandWaveProgressNew handWaveProgress;
+    private bool modelSwitch = true;
 
     [SerializeField]
     private GameObject lighterObject;
@@ -41,11 +42,11 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     private void Awake()
     {
-        controllerPosTrkMan = GameManager.Instance.ControllerPosTrkManObject;
+        controllerPosTrkMan = GameManager.Instance.FocusControllerObject;
         originalControllerModel = GameManager.Instance.ControllerModelObject;
         originalControllerModelTransform = originalControllerModel.transform;
         originalControllerModelInitialScale = originalControllerModelTransform.localScale;
-        controllerLaser = FindObjectOfType<LaserPointer>();
+        controllerLaser = controllerPosTrkMan.GetComponentInChildren<LaserPointer>();
         controllerPT = controllerPosTrkMan.GetComponent<WaveVR_ControllerPoseTracker>();
 
         lighterTransform = lighterObject.transform;
@@ -53,6 +54,17 @@ public class HandLighterSwitchControl : MonoBehaviour
         headTransform = GameManager.Instance.HeadObject.transform;
     }
 
+    private void OnEnable()
+    {
+        handWaveProgress.OnSelectionComplete += HandleHandWaveSelectionComplete;
+        lighterProgress.OnSelectionComplete += HandleLighterSelectionComplete;
+    }
+
+    private void OnDisable()
+    {
+        handWaveProgress.OnSelectionComplete -= HandleHandWaveSelectionComplete;
+        lighterProgress.OnSelectionComplete -= HandleLighterSelectionComplete;
+    }
 
     private void Start()
     {
@@ -67,30 +79,33 @@ public class HandLighterSwitchControl : MonoBehaviour
         // as update lighterTransform.position in the Update() method.
         //lighterTransform.parent = controllerPosTrkMan.transform;
 
-        waveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);        
+        waveVrDevice = WaveVR_Controller.Input(deviceToListen);        
     }
 
     private void Update()
     {
-        bool isPress = waveVrDevice.GetPress(m_InputToListen);
-
-        // switch mode       
-        if (isPress)
+        if (modelSwitch)
         {
-            lighterProgress.enabled = false;
-            handWaveProgress.enabled = true;            
+            bool isPress = waveVrDevice.GetPress(inputToListen);
 
-            ReplaceLighterByController();
+            // switch mode       
+            if (isPress)
+            {
+                lighterProgress.enabled = false;
+                handWaveProgress.enabled = true;
+                lighterProgress.InterruptAndFadeOut();
+
+                ReplaceLighterByController();
+            }
+            else
+            {
+                lighterProgress.enabled = true;
+                handWaveProgress.enabled = false;
+                handWaveProgress.InterruptAndFadeOutAndReset();
+
+                ReplaceControllerByLighter();
+            }
         }
-        else
-        {
-            lighterProgress.enabled = true;
-            handWaveProgress.enabled = false;
-            handWaveProgress.InterruptAndFadeOutAndReset();
-
-            ReplaceControllerByLighter();
-        }
-
         if (isLighterOn)
         {
             // update lighter transform
@@ -142,9 +157,9 @@ public class HandLighterSwitchControl : MonoBehaviour
             originalControllerModel.SetActive(true);
             originalControllerModelTransform.localScale = originalControllerModelInitialScale;
 
-            controllerLaser.enabled = true;
-            controllerLaser.IsEnableReticle = true;
-            controllerLaser.IsEnableBeam = true;
+            //controllerLaser.enabled = true;
+            //controllerLaser.IsEnableReticle = true;
+            //controllerLaser.IsEnableBeam = true;
 
             isLighterOn = false;
         }
@@ -158,6 +173,18 @@ public class HandLighterSwitchControl : MonoBehaviour
         ReplaceLighterByController();
         enabled = false;        
         Destroy(lighterObject);
+    }
+
+    private void HandleHandWaveSelectionComplete()
+    {
+        handWaveProgress.enabled = false;
+        modelSwitch = false;
+    }
+
+    private void HandleLighterSelectionComplete()
+    {
+        lighterProgress.enabled = false;
+        modelSwitch = false;
     }
 
     /* end of event handlers */

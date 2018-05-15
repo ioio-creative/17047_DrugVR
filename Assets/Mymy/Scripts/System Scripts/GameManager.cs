@@ -20,8 +20,6 @@ public class GameManager : MonoBehaviour
 
     private const string FOCUS_CONTROLLER_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController";
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
-    private const string CONTROLLER_POS_TRK_MAN_OBJECT_NAME
-        = "/VIVEFocusWaveVR/FocusController";
     private const string CONTROLLER_MODEL_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
 
     /* end of constants */
@@ -54,19 +52,6 @@ public class GameManager : MonoBehaviour
                 m_HeadObject = GameObject.Find(HEAD_OBJECT_NAME);
             }
             return m_HeadObject;
-        }
-    }
-
-    private GameObject m_ControllerPosTrkManObject;
-    public GameObject ControllerPosTrkManObject
-    {
-        get
-        {
-            if (m_ControllerPosTrkManObject == null)
-            {
-                m_ControllerPosTrkManObject = GameObject.Find(CONTROLLER_POS_TRK_MAN_OBJECT_NAME);
-            }
-            return m_ControllerPosTrkManObject;
         }
     }
 

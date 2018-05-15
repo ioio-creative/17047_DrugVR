@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -885,7 +885,6 @@ MonoBehaviour:
   controllerObjTransform: {fileID: 700590418}
   laserTransform: {fileID: 205053607}
   reticleTransform: {fileID: 631252688}
-  reticleObj: {fileID: 0}
   reticleOffset: {x: 0, y: 0, z: 0}
   maxPointerDist: 400
   isUseRaycastNormalForReticleOrientation: 1

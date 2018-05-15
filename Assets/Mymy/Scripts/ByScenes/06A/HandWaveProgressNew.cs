@@ -11,11 +11,15 @@ public class HandWaveProgressNew : MonoBehaviour
     [SerializeField]
     private HandWaveProgressable m_ProgressBar;
 
+    [SerializeField]
+    private AudioSource m_Audio;
+    [SerializeField]
+    private AudioClip m_OnSelectedClip;
     /* end of progress */
 
 
     /* for tracking transform angles */
-    
+
     private static Vector3 StaticUp = Vector3.up;
     private static Vector3 StaticForward = Vector3.forward;
     private static Vector3 StaticRight = Vector3.right;
@@ -26,6 +30,10 @@ public class HandWaveProgressNew : MonoBehaviour
     private float m_HeadTargetHorizontalHalfAngleRange;
     [SerializeField]
     private float m_HeadTargetVerticalHalfAngleRange;
+    [SerializeField]
+    private float m_HandTargetVerticalUpperHalfAngleRange;
+    [SerializeField]
+    private float m_HandTargetVerticalLowerHalfAngleRange;
 
     // m_Zenith & m_Azimuth are just for display, not to be set in Editor
     [SerializeField]
@@ -94,11 +102,11 @@ public class HandWaveProgressNew : MonoBehaviour
             Color.cyan, Color.gray,
             ref m_HeadAzimuth, ref m_HeadZenith);
 
-        if (IsHeadWithinTargetZone(m_HeadAzimuth, m_HeadZenith))
+        if (IsHeadWithinTargetZone(m_HeadAzimuth, m_HeadZenith) && IsHandWithinTargetZone(m_HandZenith))
         {
             //Debug.Log("head in zone");
             CheckAndFadeIn();
-
+            newHandAzimuth = (Mathf.Abs(newHandAzimuth) < 90 ? Mathf.Abs(newHandAzimuth) : 180 - Mathf.Abs(newHandAzimuth)) * Mathf.Sign(newHandAzimuth);
             m_HandImageTransform.localRotation = Quaternion.Euler(0, 0, newHandAzimuth);
 
             // if azimuth changes sign
@@ -136,7 +144,14 @@ public class HandWaveProgressNew : MonoBehaviour
     {
         //Debug.Log(zenith);
         return Mathf.Abs(azimuth) <= m_HeadTargetHorizontalHalfAngleRange
-            && Mathf.Abs(Mathf.Abs(zenith) - 90) <= m_HeadTargetVerticalHalfAngleRange;
+            && Mathf.Abs(zenith - 90) <= m_HeadTargetVerticalHalfAngleRange;
+    }
+
+    private bool IsHandWithinTargetZone(float zenith)
+    {
+        return (zenith - 90f) < 0f ? 
+                Mathf.Abs(zenith - 90f) <= m_HandTargetVerticalUpperHalfAngleRange
+                : Mathf.Abs(zenith - 90f) <= m_HandTargetVerticalLowerHalfAngleRange;
     }
 
     /* end of angle calculations */
@@ -157,8 +172,9 @@ public class HandWaveProgressNew : MonoBehaviour
         if (m_HandWaveProgressFader.Visible)
         {
             StartCoroutine(m_HandWaveProgressFader.CheckAndFadeOut());
+            m_ProgressBar.Reset();
         }
-        m_ProgressBar.Reset();
+        
     }
 
     // HandLigherSwitchControl can control fade out
@@ -167,8 +183,9 @@ public class HandWaveProgressNew : MonoBehaviour
         if (m_HandWaveProgressFader.Visible)
         {
             StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());
+            m_ProgressBar.Reset();
         }
-        m_ProgressBar.Reset();
+        
     }
 
     /* end of Fader */
@@ -178,6 +195,11 @@ public class HandWaveProgressNew : MonoBehaviour
 
     private void HandleProgressBarProgressComplete()
     {
+        m_Audio.clip = m_OnSelectedClip;
+        m_Audio.Play();
+
+        InterruptAndFadeOutAndReset();
+
         if (OnSelectionComplete != null)
         {
             OnSelectionComplete();

@@ -95,12 +95,14 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private void Update()
     {
-        // forward direction points from head to this transform
-        Vector3 forwardVec = transform.position - m_HeadTransform.position;
+        Vector3 lighterPos = m_Lighter.transform.position;
 
-        Debug.DrawRay(transform.position, StaticUp, Color.green);
-        Debug.DrawRay(transform.position, StaticForward, Color.yellow);
-        Debug.DrawRay(transform.position, StaticRight, Color.red);
+        // forward direction points from head to this transform
+        Vector3 forwardVec = lighterPos - m_HeadTransform.position;
+
+        Debug.DrawRay(lighterPos, StaticUp, Color.green);
+        Debug.DrawRay(lighterPos, StaticForward, Color.yellow);
+        Debug.DrawRay(lighterPos, StaticRight, Color.red);
 
         float newAzimuth = 0f;
 
@@ -110,11 +112,11 @@ public class LighterTriggerProgress : MonoBehaviour
             ref newAzimuth, ref m_Zenith);
 
         // Debug.Log(newAzimuth);
-        if (IsLighterWithinTargetZone(newAzimuth, transform.position))
+        if (IsLighterWithinTargetZone(newAzimuth, lighterPos))
         {
             // make progress bar always point to head
-            m_ProgressableTransform.rotation =
-                Quaternion.LookRotation(forwardVec);
+            //m_ProgressableTransform.rotation =
+            //     Quaternion.LookRotation(forwardVec);
 
             if (!m_GazeOver)
             {
@@ -160,7 +162,7 @@ public class LighterTriggerProgress : MonoBehaviour
     {
         AngleCalculations.CalculateAzimuthAndZenithFromPointerDirection(pointerDirection,
             StaticUp, StaticForward,
-            transform.position,
+            m_Lighter.transform.position,
             debugRayColorForPointer, debugRayColorForPointerProjectionOnFloor,
             ref signedAzimuth, ref unsignedZenith);
     }
@@ -177,11 +179,11 @@ public class LighterTriggerProgress : MonoBehaviour
 
     public void PlayAudioClip(AudioClip aClip)
     {
-        //m_Audio.clip = aClip;
-        //if (m_Audio.clip != null)
-        //{
-        //    m_Audio.Play();
-        //}
+        m_Audio.clip = aClip;
+        if (m_Audio.clip != null)
+        {
+            m_Audio.Play();
+        }
     }
 
     /* end of audios */
@@ -238,13 +240,15 @@ public class LighterTriggerProgress : MonoBehaviour
         // When the loop is finished set the fill amount to be full.
         SetProgressableValueToMax();
 
-        // The selection is now filled so the coroutine waiting for it can continue.
-        m_SelectionFilled = true;
+        if (!m_SelectionFilled)
+        {
+            RaiseOnSelectedEvent();
+            // The selection is now filled so the coroutine waiting for it can continue.
+            m_SelectionFilled = true;
+        }
+        
 
-        RaiseOnSelectedEvent();
-
-        // Play the clip for when the selection is filled.        
-        PlayOnFilledClip();
+               
     }
 
     private void StartSelectionFillRoutine()
@@ -272,6 +276,9 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private void RaiseOnSelectedEvent()
     {
+        // Play the clip for when the selection is filled.        
+        PlayOnFilledClip();
+
         // If there is anything subscribed to OnSelectionComplete call it.
         if (OnSelectionComplete != null)
             OnSelectionComplete();
@@ -300,14 +307,25 @@ public class LighterTriggerProgress : MonoBehaviour
 
     /* Fader */
 
-    public void FadeInProgressable()
+    public void InterruptAndFadeIn()
     {
-        StartCoroutine(m_ProgressableFader.InterruptAndFadeIn());        
+        if (!m_ProgressableFader.Visible)
+        {
+            StartCoroutine(m_ProgressableFader.InterruptAndFadeIn()); 
+        }        
     }
 
-    public void FadeOutProgressable()
-    {        
-        StartCoroutine(m_ProgressableFader.InterruptAndFadeOut());
+    public void InterruptAndFadeOut()
+    {
+        if (m_ProgressableFader.Visible)
+        {
+            StartCoroutine(m_ProgressableFader.InterruptAndFadeOut());
+            m_GazeOver = false;
+
+            //!! DO NOT CALL HandleExit() HERE!!//
+            //this IS CALLED BY HandleExit()///
+        }
+        
     }
 
     /* end of Fader */
@@ -326,7 +344,7 @@ public class LighterTriggerProgress : MonoBehaviour
         m_GazeOver = true;
         //PlayOnOverClip();
 
-        FadeInProgressable();
+        InterruptAndFadeIn();
     }
 
     private void HandleExit()
@@ -334,7 +352,7 @@ public class LighterTriggerProgress : MonoBehaviour
         m_GazeOver = false;
         StopSelectionFillRoutine();
 
-        FadeOutProgressable();
+        InterruptAndFadeOut();
     }
 
     private void HandleUp()

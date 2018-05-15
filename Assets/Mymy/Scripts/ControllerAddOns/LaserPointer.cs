@@ -38,7 +38,6 @@ public class LaserPointer : MonoBehaviour
     private GameObject laserObj;
     [SerializeField]
     private Transform reticleTransform;
-    [SerializeField]
     private GameObject reticleObj;
     [SerializeField]
     private Vector3 reticleOffset;
@@ -106,23 +105,6 @@ public class LaserPointer : MonoBehaviour
             distance = maxPointerDist
         };
 
-        if (isEnableReticle)
-        {
-            ShowReticle(defaultHit);            
-        }
-        else
-        {
-            HideReticle();
-        }
-
-        if (isEnableBeam)
-        {
-            ShowLaser(defaultHit);
-        }
-        else
-        {
-            HideLaser();
-        }
     }
 
     private void FixedUpdate()
