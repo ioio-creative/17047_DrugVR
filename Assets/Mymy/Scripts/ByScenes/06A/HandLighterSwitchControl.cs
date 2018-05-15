@@ -3,13 +3,7 @@ using UnityEngine;
 using wvr;
 
 public class HandLighterSwitchControl : MonoBehaviour
-{
-    // TODO: There is same thing in LighterTriggerProgress.cs
-    private const string HeadObjectName = "/VIVEFocusWaveVR/head";
-
-    private const string ControllerPosTrkManObjectName = "/VIVEFocusWaveVR/FocusController";
-    private const string OriginalControllerModelObjectName = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
-
+{    
     [SerializeField]
     private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
@@ -47,8 +41,8 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     private void Awake()
     {
-        controllerPosTrkMan = GameObject.Find(ControllerPosTrkManObjectName);
-        originalControllerModel = GameObject.Find(OriginalControllerModelObjectName);
+        controllerPosTrkMan = GameManager.Instance.ControllerPosTrkManObject;
+        originalControllerModel = GameManager.Instance.ControllerModelObject;
         originalControllerModelTransform = originalControllerModel.transform;
         originalControllerModelInitialScale = originalControllerModelTransform.localScale;
         controllerLaser = FindObjectOfType<LaserPointer>();
@@ -56,7 +50,7 @@ public class HandLighterSwitchControl : MonoBehaviour
 
         lighterTransform = lighterObject.transform;
 
-        headTransform = GameObject.Find(HeadObjectName).transform;
+        headTransform = GameManager.Instance.HeadObject.transform;
     }
 
 
@@ -92,7 +86,7 @@ public class HandLighterSwitchControl : MonoBehaviour
         {
             lighterProgress.enabled = true;
             handWaveProgress.enabled = false;
-            handWaveProgress.InterruptAndFadeOut();
+            handWaveProgress.InterruptAndFadeOutAndReset();
 
             ReplaceControllerByLighter();
         }
@@ -161,8 +155,8 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     private void HandleSceneChange(DrugVR_SceneENUM nextScene)
     {
-        enabled = false;
-        lighterObject.SetActive(false);
+        ReplaceLighterByController();
+        enabled = false;        
         Destroy(lighterObject);
     }
 
