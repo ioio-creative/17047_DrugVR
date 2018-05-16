@@ -15,6 +15,10 @@ public class ReplyModeBroadcast : MonoBehaviour
     public event Action<ReplyMode> OnReplyModeIndicated;
     public bool IsReplyModeIndicated { get { return m_IsReplyModeIndicated; } }
 
+    [SerializeField]
+    private AudioSource m_Audio;
+    [SerializeField]
+    private AudioClip m_OnReplyModeIndicatedClip;
 
     [SerializeField]
     private float m_XDisplacementThreshold;
@@ -55,8 +59,12 @@ public class ReplyModeBroadcast : MonoBehaviour
 
         // broadcast replyMode if m_RectTransformToListen is "swiped"
         // beyond certain thresholds
-        if (replyMode != ReplyMode.Null)
+        if (replyMode != ReplyMode.Null && !m_IsReplyModeIndicated)
         {
+            m_IsReplyModeIndicated = true;
+
+            PlayOnReplyModeIndicatedClip();
+
             // make m_PopupMsgImage transparent
             Color popupMsgImageOriginalColor = m_PopupMsgImage.color;
             popupMsgImageOriginalColor.a = 0;
@@ -72,6 +80,25 @@ public class ReplyModeBroadcast : MonoBehaviour
     }
 
     /* end of MonoBahaviour */
+
+
+    /* audios */
+
+    private void PlayOnReplyModeIndicatedClip()
+    {
+        PlayAudioClip(m_OnReplyModeIndicatedClip);
+    }
+
+    private void PlayAudioClip(AudioClip aClip)
+    {
+        m_Audio.clip = aClip;
+        if (m_Audio.clip != null)
+        {
+            m_Audio.Play();
+        }
+    }
+
+    /* end of audios */
 
 
     public void Reset()
