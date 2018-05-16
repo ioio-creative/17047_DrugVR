@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.41076326, g: 0.41067937, b: 0.44639224, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1839,19 +1839,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SphereVFXAnimations:
   - m_PartyOption: 1
-    resourceFormatPath: s7-02a-once/B_{0:d5}
+    resourceFormatPath: s7-02a-once/B_{0:d5}.png
     EffectRotation: 0
     FrameRate: 30
     numberOfFrames: 360
     IsRepeat: 0
   - m_PartyOption: 2
-    resourceFormatPath: s7-02b-once/d_{0:d5}
+    resourceFormatPath: s7-02b-once/d_{0:d5}.png
     EffectRotation: 290
     FrameRate: 30
     numberOfFrames: 480
     IsRepeat: 0
   - m_PartyOption: 3
-    resourceFormatPath: s7-02c-once/tb_{0:d5}
+    resourceFormatPath: s7-02c-once/tb_{0:d5}.png
     EffectRotation: 327
     FrameRate: 30
     numberOfFrames: 359

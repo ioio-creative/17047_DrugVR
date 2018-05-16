@@ -21,11 +21,12 @@ public class GameManager : MonoBehaviour
     private const string FOCUS_CONTROLLER_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController";
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
     private const string CONTROLLER_MODEL_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
-
-    //Put Path under App. persistant data path here
-    private static string APP_VIDEO_SKY_DATA_PATH = "Videos/";
+    
     //Put Path under Resources here
     private static string APP_IMAGE_SKY_DATA_PATH = "StillImg/";
+    //Put Path under App. persistant data path here
+    private static string APP_VIDEO_SKY_DATA_PATH = "Videos/";
+    public static string APP_IMGSEQUENCE_DATA_PATH = "ImgSequences/";
 
     /* end of constants */
 
@@ -146,6 +147,7 @@ public class GameManager : MonoBehaviour
         }
 
         APP_VIDEO_SKY_DATA_PATH = Application.persistentDataPath + "/" + APP_VIDEO_SKY_DATA_PATH;
+        APP_IMGSEQUENCE_DATA_PATH = Application.persistentDataPath + "/" + APP_IMGSEQUENCE_DATA_PATH;
     }
 
     private void Start()
