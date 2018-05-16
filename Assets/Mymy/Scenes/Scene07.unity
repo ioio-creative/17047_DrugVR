@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -113,6 +113,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &229057677 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114932200241293848, guid: c4fa829701ba7bb42a976a9f719c2e15,
+    type: 2}
+  m_PrefabInternal: {fileID: 1587428874}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1587428874
 Prefab:
   m_ObjectHideFlags: 0
@@ -156,6 +162,20 @@ Prefab:
         type: 2}
       propertyPath: m_CurrentScene
       value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_DebugText
+      value: 
+      objectReference: {fileID: 229057677}
+    - target: {fileID: 1062724205722608, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_IsShowDebugText
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}

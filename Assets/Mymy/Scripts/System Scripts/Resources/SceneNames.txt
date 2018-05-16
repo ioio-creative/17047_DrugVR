@@ -1,18 +1,18 @@
 Format:[SceneName][SceneSky][SkyShaderDefaultRotation][Video_or_ImgPath][VideoAutoPlayOnSceneChange]
 Introduction,VideoSky,128,drug vr intro.mp4,1
 Scene01,VideoSky,135,Sc1_Shot1.mp4,1
-Scene01S,ImageSky,135,Sc01S_Sky
+Scene01S,ImageSky,135,Sc01S_Sky,0
 Scene01A,VideoSky,135,Sc1_Shot2.mp4,1
 Scene01B,VideoSky,135,Sc1_Shot3.mp4,1
 Scene02A,VideoSky,95,Sc2a_shot4.mp4,1
 Scene02B,VideoSky,95,Sc2b_shot4.mp4,1
 Scene02S,VideoSky,95,Sc2_Shot4_continous.mp4,0
 Scene03,VideoSky,347,Sc3_Shot5.mp4,1
-Scene03A,ImageSky,104,1,Sc03A_Sky
+Scene03A,ImageSky,104,Sc03A_Sky,0
 Scene03B,VideoSky,65,Sc3_Shot7.mp4,1
 Scene03S,VideoSky,65,Sc3_Shot7_continous.mp4,0
 Scene04,VideoSky,95,Sc4_Shot8.mp4,1
-Scene04S,ImageSky,95,1,Sc04S_Sky
+Scene04S,ImageSky,95,Sc04S_Sky,0
 Scene04A,VideoSky,95,Sc4_Shot9.mp4,1
 Scene04B,VideoSky,95,Sc4_Shot10-11(Updated 0511).mp4,1
 Scene05A,VideoSky,39,Sc5A_Shot4A.mp4,1
@@ -26,4 +26,4 @@ Scene07B,VideoSky,39,Sc7_Shot17_continous (Updated 0511).mp4,1
 Scene08,VideoSky,117,EndA.mp4,1
 Scene09,VideoSky,100,EndB.mp4,1
 Scene10,VideoSky,260,EndC_sound revised.mp4,1
-Summary,VideoSky,90,outro.mp4,1,ImageSky,Summary_Sky
+Summary,VideoSky,90,outro.mp4,1,ImageSky,Summary_Sky,0

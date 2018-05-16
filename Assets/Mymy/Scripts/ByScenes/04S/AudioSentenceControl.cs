@@ -267,6 +267,7 @@ public class AudioSentenceControl : VrButtonBase
     private void HandleClauseSlotOnClicked(AudioClauseSelected audioClauseSelected)
     {
         HighlightNextAudioClauseToFill();
+        StartCoroutine(audioClauseSelected.InterruptAndFadeOut());
     }
 
     // BossAudioClauseSelected.OnClicked()
@@ -356,7 +357,16 @@ public class AudioSentenceControl : VrButtonBase
         base.HandleDown();
         if (base.m_GazeOver)
         {
-            StartCoroutine(HandleDownSequenceOfActions());
+            // complete case
+            if (GetFirstNotYetFilledAudioClauseSlot() == null)
+            {
+                StartCoroutine(HandleDownSequenceOfActions());
+            }
+            // incomplete case
+            else
+            {
+                PlayOnErrorClip();
+            }
         }
     }
 

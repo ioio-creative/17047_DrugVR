@@ -789,6 +789,11 @@ Prefab:
       propertyPath: m_Colors.m_NormalColor.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114523304236801252, guid: dec1fc06ef64c9344b71a5330151fd93,
+        type: 2}
+      propertyPath: m_IsSelectionsDisappearOnSelectedOverride
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dec1fc06ef64c9344b71a5330151fd93, type: 2}
   m_IsPrefabParent: 0
@@ -2333,7 +2338,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -2367,9 +2372,13 @@ MonoBehaviour:
   m_Collider: {fileID: 1044021377}
   m_Button: {fileID: 1044021374}
   m_EventTrigger: {fileID: 1044021373}
-  m_DeviceToListen: 2
-  m_InputToListen: 16
   m_ClauseImg: {fileID: 1044021375}
+--- !u!114 &1749021702 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114399777601878604, guid: c4fa829701ba7bb42a976a9f719c2e15,
+    type: 2}
+  m_PrefabInternal: {fileID: 1925551397}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1757885002
 Prefab:
   m_ObjectHideFlags: 0
@@ -2944,7 +2953,27 @@ Prefab:
       propertyPath: m_CurrentScene
       value: 13
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_DebugText
+      value: 
+      objectReference: {fileID: 1952943408}
+    - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_IsShowDebugText
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114932200241293848, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062724205722608, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114340778101362000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1936585346
@@ -3053,6 +3082,29 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &1952943405 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1178960048435720, guid: c4fa829701ba7bb42a976a9f719c2e15,
+    type: 2}
+  m_PrefabInternal: {fileID: 1925551397}
+--- !u!114 &1952943406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1952943405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 048ca27d838ae5d489da9322911b0517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textField: {fileID: 1749021702}
+--- !u!114 &1952943408 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114932200241293848, guid: c4fa829701ba7bb42a976a9f719c2e15,
+    type: 2}
+  m_PrefabInternal: {fileID: 1925551397}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1989472216
 GameObject:
   m_ObjectHideFlags: 0

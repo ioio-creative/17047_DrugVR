@@ -160,18 +160,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        DebugLog(Application.persistentDataPath);
+
         CurrentScene = m_CurrentScene;
 
         HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
         Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();
         
-        StartCoroutine(ReadScroll(CurrentSceneScroll));
+        StartCoroutine(ReadScroll(CurrentSceneScroll));       
     }
 
-    //private void Update()
-    //{
-    //    DebugLog(CurrentSceneScroll.VideoAutoPlay.ToString());        
-    //}
+    private void Update()
+    {
+        //DebugLog(CurrentSceneScroll.VideoAutoPlay.ToString());
+        //DebugLog(File.Exists(APP_VIDEO_SKY_DATA_PATH + CurrentSceneScroll.Video_ImgPath).ToString());
+        //DebugLog(APP_VIDEO_SKY_DATA_PATH + CurrentSceneScroll.Video_ImgPath);
+        //DebugLog(CurrentSceneScroll.SceneSky.ToString());
+    }
 
     private void FixedUpdate()
     {
@@ -238,6 +243,9 @@ public class GameManager : MonoBehaviour
             //    yield return www;
             //    www.LoadImageIntoTexture(stillSkyTex);
             //}
+
+            DebugLog("Reading sky image: " + (stillSkyTex != null));
+            //DebugLog(APP_IMAGE_SKY_DATA_PATH + scroll.Video_ImgPath);
 
             RenderSettings.skybox = StillSkyMat;
             StillSkyMat.SetTexture("_MainTex", stillSkyTex);
@@ -352,7 +360,7 @@ public class GameManager : MonoBehaviour
 
     public void DebugLog(string txt)
     {
-        if (m_IsShowDebugText)
+        if (m_IsShowDebugText && m_DebugText != null && m_DebugText.isActiveAndEnabled)
         {
             m_DebugText.text = txt;
         }

@@ -117,7 +117,7 @@ namespace DrugVR_Scribe
             }
             catch (Exception ex)
             {
-                GameManager.Instance.DebugLog(ex.ToString());
+                //GameManager.Instance.DebugLog(ex.ToString());
             }
         }
 
@@ -134,6 +134,7 @@ namespace DrugVR_Scribe
             }
             else
             {
+                GameManager.Instance.DebugLog(returnValue);
                 throw new FormatException("The string is not a recognized as a valid boolean value.");
             }
         }
