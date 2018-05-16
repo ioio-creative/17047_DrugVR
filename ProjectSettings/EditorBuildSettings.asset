@@ -59,7 +59,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Mymy/Scenes/Scene05B.unity
     guid: b3de2d3540027c14f8d4ce716f76fc79
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene06.unity
     guid: 4a77a6cba9de8fb4aba1df1523e62960
   - enabled: 1
@@ -68,7 +68,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Mymy/Scenes/Scene06B.unity
     guid: 654b318012727b04787846c0b4d81626
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mymy/Scenes/Scene07.unity
     guid: ce28c4535f3baee46b0fe6cec0a02636
   - enabled: 0

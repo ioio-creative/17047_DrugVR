@@ -11,7 +11,9 @@ public class LighterTriggerProgress : MonoBehaviour
     /* progress */
 
     public event Action OnSelectionComplete;
+    public event Action OnSelectionFadeOutComplete;
     public float SelectionDuration { get { return m_SelectionDuration; } }
+
 
     [SerializeField]
     private float m_SelectionDuration = 2f;
@@ -39,7 +41,7 @@ public class LighterTriggerProgress : MonoBehaviour
     private WVR_InputId m_InputToListen;
     private int m_EditorUseMouseButton = 0;
 
-    private bool m_IsTriggerPress;
+    private bool m_IsInputPress;
 
     /* end of progressable */
 
@@ -75,12 +77,13 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private void Awake()
     {
+        m_WaveVrDevice = WaveVR_Controller.Input(m_Lighter.DeviceToListen);
         m_HeadTransform = GameManager.Instance.HeadObject.transform;
     }
 
     private void Start()
     {
-        m_WaveVrDevice = WaveVR_Controller.Input(m_Lighter.DeviceToListen);
+        //m_WaveVrDevice = WaveVR_Controller.Input(m_Lighter.DeviceToListen);
         m_InputToListen = m_Lighter.InputToListen;
         m_EditorUseMouseButton = m_Lighter.EditorUseMouseButton;
 
@@ -125,12 +128,14 @@ public class LighterTriggerProgress : MonoBehaviour
             else
             {
 #if UNITY_EDITOR
-                m_IsTriggerPress = Input.GetMouseButton(m_EditorUseMouseButton);
+
+                m_IsInputPress = Input.GetMouseButton(m_EditorUseMouseButton);
 #else
-                m_IsTriggerPress = m_WaveVrDevice.GetPress(m_InputToListen);        
+                m_IsInputPress = m_WaveVrDevice.GetPress(m_InputToListen);
+
 #endif
                 // Get button press state from controller device
-                if (m_IsTriggerPress)
+                if (m_IsInputPress)
                 {                                        
                     HandleDown();
                 }
@@ -279,6 +284,9 @@ public class LighterTriggerProgress : MonoBehaviour
         // Play the clip for when the selection is filled.        
         PlayOnFilledClip();
 
+        m_ProgressableFader.OnFadeOutComplete += HandleProgressableFadeOutComplete;
+        InterruptAndFadeOut();
+
         // If there is anything subscribed to OnSelectionComplete call it.
         if (OnSelectionComplete != null)
             OnSelectionComplete();
@@ -362,4 +370,15 @@ public class LighterTriggerProgress : MonoBehaviour
     }
 
     /* end of IHandleUiButton interfaces */
+
+    /* event handlers */
+    private void HandleProgressableFadeOutComplete()
+    {
+        if (OnSelectionFadeOutComplete != null)
+        {
+            OnSelectionFadeOutComplete();
+        }
+        m_ProgressableFader.OnFadeOutComplete -= HandleProgressableFadeOutComplete;
+    }
+    /* end of event handlers */
 }

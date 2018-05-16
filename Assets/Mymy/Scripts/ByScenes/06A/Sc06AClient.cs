@@ -26,19 +26,19 @@ public class Sc06AClient : VideoSceneClientBase
     protected override void OnEnable()
     {
         base.OnEnable();
-        lighterTriggerProgress.OnSelectionComplete +=
-            HandleLighterTriggerProgressSelectionComplete;
-        handWaveProgress.OnSelectionComplete +=
-            HandlerHandWaveProgressSelectionComplete;
+        lighterTriggerProgress.OnSelectionFadeOutComplete +=
+            HandleLighterTriggerProgressSelectionFadeOutComplete;
+        handWaveProgress.OnSelectionFadeOutComplete +=
+            HandlerHandWaveProgressSelectionFadeOutComplete;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        lighterTriggerProgress.OnSelectionComplete -=
-            HandleLighterTriggerProgressSelectionComplete;
-        handWaveProgress.OnSelectionComplete -=
-            HandlerHandWaveProgressSelectionComplete;
+        lighterTriggerProgress.OnSelectionFadeOutComplete -=
+            HandleLighterTriggerProgressSelectionFadeOutComplete;
+        handWaveProgress.OnSelectionFadeOutComplete -=
+            HandlerHandWaveProgressSelectionFadeOutComplete;
     }
 
     /* end of MonoBehaviour */
@@ -46,7 +46,7 @@ public class Sc06AClient : VideoSceneClientBase
 
     /* event handlers */
 
-    private void HandlerHandWaveProgressSelectionComplete()
+    private void HandlerHandWaveProgressSelectionFadeOutComplete()
     {
         Scribe.Side05 = true;
         nextSceneToLoadBase = sceneToGoWhenHandWaveTriggered;
@@ -54,7 +54,7 @@ public class Sc06AClient : VideoSceneClientBase
         // Going to next scene will be done on play video end, by base class.
     }
 
-    private void HandleLighterTriggerProgressSelectionComplete()
+    private void HandleLighterTriggerProgressSelectionFadeOutComplete()
     {
         Scribe.Side05 = false;
         nextSceneToLoadBase = sceneToGoWhenLighterTriggered;

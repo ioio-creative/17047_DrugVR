@@ -40,11 +40,6 @@ public abstract class VrButtonBase : MonoBehaviour,
     [SerializeField]
     private EventTrigger m_EventTrigger;
 
-    [SerializeField]
-    private WVR_DeviceType m_DeviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
-    [SerializeField]
-    private WVR_InputId m_InputToListen = WVR_InputId.WVR_InputId_Alias1_Touchpad;
-
     private EventSystem m_CurrentEventSystem;
 
     protected bool m_GazeOver;
@@ -210,21 +205,6 @@ public abstract class VrButtonBase : MonoBehaviour,
         // Play the clip appropriate when the user
         // starts looking at the selection.
         PlayOnOverClip();
-
-        // Get button press state from controller device
-        //if (WaveVR_Controller.Input(m_DeviceToListen).GetPress(m_InputToListen))
-        //{
-        //    m_ButtonPressed = true;
-        //}
-        //else
-        //{
-        //    m_ButtonPressed = false;
-        //}
-
-        //if (m_ButtonPressed)
-        //{
-        //    RaiseOnSelectedEvent();
-        //}
     }
 
     public virtual void HandleExit()

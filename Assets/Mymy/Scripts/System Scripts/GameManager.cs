@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour
             if (Scroll.ParseZeroAndOne(scroll.VideoStart_ImgPath))
             {
                 PlayVideo();
-            }
+             }
             else
             {
                 SkyVideoPlayer.sendFrameReadyEvents = true;

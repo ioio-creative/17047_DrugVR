@@ -28,34 +28,40 @@ public class Lighter : MonoBehaviour
     [SerializeField]
     private int m_EditorUseMouseButton = 0;
 
-    private bool m_IsTriggerPressDown;
-    private bool m_IsTriggerPressUp;
+    private bool m_IsInputPressDown;
+    private bool m_IsInputPressUp;
 
+    private void Awake()
+    {
+        m_WaveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
+    }
 
     private void Start()
     {
         FlameFX.SetActive(false);
         FlameLight.SetActive(false);
 
-        m_WaveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
+        //m_WaveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
     }
 
     private void Update()
     {
-#if UNITY_EDITOR        
-        m_IsTriggerPressDown = Input.GetMouseButtonDown(m_EditorUseMouseButton);
-        m_IsTriggerPressUp = Input.GetMouseButtonUp(m_EditorUseMouseButton);
+#if UNITY_EDITOR
+
+        m_IsInputPressDown = Input.GetMouseButtonDown(m_EditorUseMouseButton);
+        m_IsInputPressUp = Input.GetMouseButtonUp(m_EditorUseMouseButton);
+
 #else
-        m_IsTriggerPressDown = m_WaveVrDevice.GetPressDown(m_InputToListen);
-        m_IsTriggerPressUp = m_WaveVrDevice.GetPressUp(m_InputToListen);
+        m_IsInputPressDown = m_WaveVrDevice.GetPressDown(m_InputToListen);
+        m_IsInputPressUp = m_WaveVrDevice.GetPressUp(m_InputToListen);
 #endif
 
-        if (m_IsTriggerPressDown)
+        if (m_IsInputPressDown)
         {
 		    StartCoroutine(LighterOn());
         }
 
-        if (m_IsTriggerPressUp)
+        if (m_IsInputPressUp)
         {
             LighterMesh.GetComponent<Animation>().Play("Release Button");
             FlameFX.SetActive(false);

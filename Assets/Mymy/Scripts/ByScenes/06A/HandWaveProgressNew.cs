@@ -7,6 +7,7 @@ public class HandWaveProgressNew : MonoBehaviour
     /* progress */
 
     public event Action OnSelectionComplete;
+    public event Action OnSelectionFadeOutComplete;
 
     [SerializeField]
     private HandWaveProgressable m_ProgressBar;
@@ -198,13 +199,21 @@ public class HandWaveProgressNew : MonoBehaviour
         m_Audio.clip = m_OnSelectedClip;
         m_Audio.Play();
 
+        m_HandWaveProgressFader.OnFadeOutComplete += HandleHandWaveProgressFadeOutComplete;
         InterruptAndFadeOutAndReset();
-
         if (OnSelectionComplete != null)
         {
             OnSelectionComplete();
-        }            
+        }
     }
 
+    private void HandleHandWaveProgressFadeOutComplete()
+    {
+        if (OnSelectionFadeOutComplete != null)
+        {
+            OnSelectionFadeOutComplete();
+        }
+        m_HandWaveProgressFader.OnFadeOutComplete -= HandleHandWaveProgressFadeOutComplete;
+    }
     /* end of event handlers */
 }
