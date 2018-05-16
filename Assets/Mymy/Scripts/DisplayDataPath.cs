@@ -8,6 +8,6 @@ public class DisplayDataPath : MonoBehaviour
 
     private void Start()
     {        
-        textField.text = Application.persistentDataPath;
+        //textField.text = Application.persistentDataPath;
     }
 }

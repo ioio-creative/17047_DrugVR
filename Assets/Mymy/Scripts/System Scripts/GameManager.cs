@@ -1,6 +1,7 @@
 ﻿using DrugVR_Scribe;
 using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,7 +18,7 @@ public enum SkyboxType
 public class GameManager : MonoBehaviour
 {
     /* constants */
-
+    
     private const string FOCUS_CONTROLLER_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController";
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
     private const string CONTROLLER_MODEL_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
@@ -34,6 +35,12 @@ public class GameManager : MonoBehaviour
     /* public references */
 
     public static GameManager Instance = null;
+
+    [SerializeField]
+    private Text m_DebugText;
+
+    [SerializeField]
+    private bool m_IsShowDebugText = false;
 
     private GameObject m_FocusControllerObject;
     public GameObject FocusControllerObject
@@ -139,15 +146,16 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             DontDestroyOnLoad(gameObject);
-            Instance = this;          
+            Instance = this;
+
+            // The following won't be run by other instances, so that they are run once only.
+            APP_VIDEO_SKY_DATA_PATH = Application.persistentDataPath + "/" + APP_VIDEO_SKY_DATA_PATH;
+            APP_IMGSEQUENCE_DATA_PATH = Application.persistentDataPath + "/" + APP_IMGSEQUENCE_DATA_PATH;
         }
         else if (Instance != this)
         {
             Destroy(gameObject);
-        }
-
-        APP_VIDEO_SKY_DATA_PATH = Application.persistentDataPath + "/" + APP_VIDEO_SKY_DATA_PATH;
-        APP_IMGSEQUENCE_DATA_PATH = Application.persistentDataPath + "/" + APP_IMGSEQUENCE_DATA_PATH;
+        }        
     }
 
     private void Start()
@@ -157,15 +165,13 @@ public class GameManager : MonoBehaviour
         HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
         Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();
         
-
-
-        if (SkyVideoPlayer == null && CurrentSceneScroll.SceneSky == SkyboxType.VideoSky)
-        {
-            SkyVideoPlayer = GetVideoPlayerInScene();
-        }
         StartCoroutine(ReadScroll(CurrentSceneScroll));
-
     }
+
+    //private void Update()
+    //{
+    //    DebugLog(CurrentSceneScroll.VideoAutoPlay.ToString());        
+    //}
 
     private void FixedUpdate()
     {
@@ -216,8 +222,7 @@ public class GameManager : MonoBehaviour
                 SkyVideoPlayer.sendFrameReadyEvents = true;
                 SkyVideoPlayer.frameReady += OnNewVideoFrameArrived;
                 PlayVideo();
-            }
-
+            }            
         }
         else if (scroll.SceneSky == SkyboxType.ImageSky)
         {
@@ -341,4 +346,17 @@ public class GameManager : MonoBehaviour
     {
         return GetComponentInChildren<VideoPlayer>();
     }
+
+
+    /* debugging */
+
+    public void DebugLog(string txt)
+    {
+        if (m_IsShowDebugText)
+        {
+            m_DebugText.text = txt;
+        }
+    }
+
+    /* end of debugging */
 }

@@ -112,21 +112,23 @@ namespace DrugVR_Scribe
                 SceneSky = (SkyboxType)Enum.Parse(typeof(SkyboxType), paramArray[1]);               
                 SkyShaderDefaultRotation = float.Parse(paramArray[2]);
                 Video_ImgPath = paramArray[3];
+                // Warning: paramArray[4] may include trailing '\n'
                 VideoAutoPlay = ParseZeroAndOne(paramArray[4]);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                GameManager.Instance.DebugLog(ex.ToString());
             }
         }
 
         public static bool ParseZeroAndOne(string returnValue)
         {
-            if (returnValue == "1")
+            // Warning: paramArray[4] may include trailing '\n'
+            if (returnValue[0] == '1')
             {
                 return true;
             }
-            else if (returnValue == "0")
+            else if (returnValue[0] == '0')
             {
                 return false;
             }
