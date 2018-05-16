@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 namespace Scene07Party
 {
@@ -55,8 +56,16 @@ namespace Scene07Party
                 for (int i = 0; i < numberOfFrames; i++)
                 {
                     //Folder Frame Index Starts with <00001>
-                    string texturePath = string.Format(resourceFormatPath, i+1);
-                    Frames[i] = Resources.Load<Texture2D>(texturePath);
+                    string texturePath = GameManager.APP_IMGSEQUENCE_DATA_PATH + string.Format(resourceFormatPath, i+1);                 
+
+                    // http://answers.unity3d.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
+                    Texture2D _imgTex = null;
+                    byte[] fileData;
+            
+                    fileData = File.ReadAllBytes(texturePath);
+                    _imgTex = new Texture2D(2, 2);
+                    _imgTex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+                    Frames[i] = _imgTex;
                 }
 
                 PartyFXDictionary.Add(m_PartyOption, this);
