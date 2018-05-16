@@ -28,7 +28,7 @@ public class Sc03SClient : VideoSceneClientBase
 
     private void GoToSceneOnChoice()
     {
-        GameManager.Instance.GoToScene(nextSceneToLoad);
+        managerInst.GoToScene(nextSceneToLoad);
     }
 
     private void HandleButtonSelected()
@@ -40,7 +40,7 @@ public class Sc03SClient : VideoSceneClientBase
 
     private void HandleButtonFadeOutCompleted()
     {
-        GameManager.PlayVideo();
+        managerInst.PlayVideo();
     }
 
 }

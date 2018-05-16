@@ -50,7 +50,7 @@ public class Sc06AClient : VideoSceneClientBase
     {
         Scribe.Side05 = true;
         nextSceneToLoadBase = sceneToGoWhenHandWaveTriggered;
-        GameManager.PlayVideo();
+        managerInst.PlayVideo();
         // Going to next scene will be done on play video end, by base class.
     }
 

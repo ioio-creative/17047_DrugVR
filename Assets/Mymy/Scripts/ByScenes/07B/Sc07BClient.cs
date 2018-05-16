@@ -18,7 +18,7 @@ public class Sc07BClient : VideoSceneClientBase
         GoToEndSceneOnChoice();
     }
 
-    public static void GoToEndSceneOnChoice()
+    public void GoToEndSceneOnChoice()
     {
         if (Scribe.Side05 || Scribe.Side06)
         {

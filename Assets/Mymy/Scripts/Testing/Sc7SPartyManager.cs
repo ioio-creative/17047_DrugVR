@@ -29,6 +29,9 @@ namespace Scene07Party
 
     public class Sc7SPartyManager : MonoBehaviour
     {
+        [SerializeField]
+        private Sc07SClient m_Sc7SClientRef;
+
         private int m_PartyRoundCnt = 0;
         [SerializeField]
         private GameObject[] m_PartyRoundContainer;
@@ -120,7 +123,7 @@ namespace Scene07Party
             if (selectedPartyOption.PartyOption == PartyOptionEnum.METH)
             {
                 Scribe.Side06 = false;
-                Sc07SClient.GoToSceneOnChoice();       
+                m_Sc7SClientRef.GoToSceneOnChoice();       
             }
             else 
             {
@@ -164,7 +167,7 @@ namespace Scene07Party
             else
             {
                 //Go To Next Scene if no more rounds to play
-                Sc07SClient.GoToSceneOnChoice();
+                m_Sc7SClientRef.GoToSceneOnChoice();
             }
         }
 

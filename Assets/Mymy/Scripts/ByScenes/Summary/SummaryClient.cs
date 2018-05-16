@@ -13,7 +13,7 @@ public class SummaryClient : VideoSceneClientBase
     protected override void OnEnable()
     {
         base.OnEnable();
-        skyVideoPlayer.isLooping = true;
+        managerInst.SkyVideoPlayer.isLooping = true;
     }
 
     protected override void OnDisable()

@@ -20,7 +20,7 @@ public class Sc07SClient : VideoSceneClientBase
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameManager.SkyVideoPlayer.isLooping = true;
+        managerInst.SkyVideoPlayer.isLooping = true;
     }
 
     private void Start()
@@ -42,7 +42,7 @@ public class Sc07SClient : VideoSceneClientBase
         GoToSceneOnChoice();
     }
 
-    public static void GoToSceneOnChoice()
+    public void GoToSceneOnChoice()
     {
         if (Scribe.Side06 == false)
         {
@@ -55,12 +55,12 @@ public class Sc07SClient : VideoSceneClientBase
 
     }
 
-    private static void GoToMethScene()
+    private void GoToMethScene()
     {
         managerInst.GoToScene(DrugVR_SceneENUM.Sc07B);
     }
 
-    private static void GoToEndSceneOnChoice()
+    private void GoToEndSceneOnChoice()
     {
         if (Scribe.Side05 && Scribe.Side06)
         {

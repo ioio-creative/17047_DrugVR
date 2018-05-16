@@ -96,15 +96,11 @@ namespace DrugVR_Scribe
 
         public SkyboxType SceneSky = SkyboxType.Null;
 
-        public string VideoStart_ImgPath = null;
-
         public float SkyShaderDefaultRotation = 0;
 
-        public bool HMDRotationEnabled = true;
+        public string Video_ImgPath = null;
 
-        public bool ControllerEnabled = true;
-
-        public bool ControllerRotEnabled = true;
+        public bool VideoAutoPlay = false;
 
         public Scroll(string paramPresplit)
         {
@@ -113,12 +109,10 @@ namespace DrugVR_Scribe
             SceneName = paramArray[0];
             try
             {
-                SceneSky = (SkyboxType)Enum.Parse(typeof(SkyboxType), paramArray[1]);
-                VideoStart_ImgPath = paramArray[2];
-                SkyShaderDefaultRotation = float.Parse(paramArray[3]);
-                HMDRotationEnabled = ParseZeroAndOne(paramArray[4]);
-                ControllerEnabled = ParseZeroAndOne(paramArray[5]);
-                ControllerRotEnabled = ParseZeroAndOne(paramArray[6]);
+                SceneSky = (SkyboxType)Enum.Parse(typeof(SkyboxType), paramArray[1]);               
+                SkyShaderDefaultRotation = float.Parse(paramArray[2]);
+                Video_ImgPath = paramArray[3];
+                VideoAutoPlay = ParseZeroAndOne(paramArray[4]);
             }
             catch (Exception)
             {

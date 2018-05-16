@@ -67,7 +67,7 @@ public class Sc02SClient : VideoSceneClientBase
     private IEnumerator TransitionToNextWhenIsReply()
     {
         yield return new WaitForSeconds(m_SecondsToWaitBeforeTransitionToNext);
-        GameManager.PlayVideo();
+        managerInst.PlayVideo();
     }
 
     private IEnumerator TransitionToNextWhenIsNotReply()

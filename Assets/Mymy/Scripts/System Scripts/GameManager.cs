@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
     private const string CONTROLLER_MODEL_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
 
+    //Put Path under App. persistant data path here
+    private static string APP_VIDEO_SKY_DATA_PATH = "Videos/";
+    //Put Path under Resources here
+    private static string APP_IMAGE_SKY_DATA_PATH = "StillImg/";
+
     /* end of constants */
 
 
@@ -69,8 +74,8 @@ public class GameManager : MonoBehaviour
     }
 
     //Only one instance of this videoplayer can be obtained and present in any scenes
-    private static VideoPlayer m_SkyVideoPlayer;
-    public static VideoPlayer SkyVideoPlayer
+    private VideoPlayer m_SkyVideoPlayer;
+    public VideoPlayer SkyVideoPlayer
     {
         get
         {
@@ -138,7 +143,9 @@ public class GameManager : MonoBehaviour
         else if (Instance != this)
         {
             Destroy(gameObject);
-        }               
+        }
+
+        APP_VIDEO_SKY_DATA_PATH = Application.persistentDataPath + "/" + APP_VIDEO_SKY_DATA_PATH + "/";
     }
 
     private void Start()
@@ -148,13 +155,14 @@ public class GameManager : MonoBehaviour
         HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
         Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();
         
-        //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
+
+
         if (SkyVideoPlayer == null && CurrentSceneScroll.SceneSky == SkyboxType.VideoSky)
         {
             SkyVideoPlayer = GetVideoPlayerInScene();
         }
         StartCoroutine(ReadScroll(CurrentSceneScroll));
-        //if (CurrentSceneScroll.SceneSky == SkyboxType.VideoSky) PlayVideo();
+
     }
 
     private void FixedUpdate()
@@ -187,11 +195,20 @@ public class GameManager : MonoBehaviour
             SkyVideoPlayer.enabled = true;
             SkyVideoPlayer.loopPointReached += OnVideoEnd;
 
+            SkyVideoPlayer.source = VideoSource.Url;
+            SkyVideoPlayer.url = APP_VIDEO_SKY_DATA_PATH + scroll.Video_ImgPath;
+            SkyVideoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+            SkyVideoPlayer.controlledAudioTrackCount = 1;
+            SkyVideoPlayer.SetTargetAudioSource(0, SkyVideoPlayer.GetComponent<AudioSource>());
+            SkyVideoPlayer.Prepare();
+
             StartCoroutine(WaitForVideoPrepared());
-            if (Scroll.ParseZeroAndOne(scroll.VideoStart_ImgPath))
+            SkyVideoPlayer.skipOnDrop = true;
+
+            if (scroll.VideoAutoPlay)
             {
                 PlayVideo();
-             }
+            }
             else
             {
                 SkyVideoPlayer.sendFrameReadyEvents = true;
@@ -205,7 +222,7 @@ public class GameManager : MonoBehaviour
             SkyVideoPlayer = null;
             Texture2D stillSkyTex = new Texture2D(2, 2);
 
-            stillSkyTex = (Texture2D)Resources.Load(scroll.VideoStart_ImgPath);
+            stillSkyTex = (Texture2D)Resources.Load(APP_IMAGE_SKY_DATA_PATH + scroll.Video_ImgPath);
 
             //string path = "jar:file://" + Application.dataPath + "!/assets/" +
             //    "skybox/resources/" + scroll.SkyContentPath + ".png";
@@ -220,30 +237,7 @@ public class GameManager : MonoBehaviour
             DynamicGI.UpdateEnvironment();
 
             StillSkyMat.SetFloat("_Rotation", scroll.SkyShaderDefaultRotation);            
-        }        
-
-        
-
-        HMD.trackRotation = scroll.HMDRotationEnabled;
-
-        //TO BE REVIEWED WHEN NEEDED
-        //---------------POSE TRACKER MANAGER----------------
-        // Consider a situation: no pose is updated and WaveVR_PoseTrackerManager is enabled <-> disabled multiple times.
-        // At this situation, IncludedStates will be set to false forever since they are deactivated at 1st time OnEnable()
-        // and the deactivated state will be updated to IncludedStates in 2nd time OnEnable().
-        // To prevent this situation, activate IncludedObjects in OnDisable to restore the state Children GameObjects.
-
-        //if (scroll.ControllerEnabled)
-        //{
-        //    Controller.gameObject.SetActive(scroll.ControllerEnabled);
-        //    Controller.enabled = scroll.ControllerEnabled;
-        //    Controller.TrackRotation = scroll.ControllerRotEnabled;
-        //}
-        //else
-        //{
-        //    Controller.gameObject.SetActive(scroll.ControllerEnabled);
-        //    Controller.enabled = scroll.ControllerEnabled;
-        //}
+        }
         yield return null;
     }
 
@@ -264,12 +258,13 @@ public class GameManager : MonoBehaviour
             if (FadeToBlack)
             {
                 isLoadingScene = true;
-                StartCoroutine(FadeOutAndIn(sceneEnum));
+                StartCoroutine(SceneChangeWithFadeOutIn(sceneEnum));
             }
             //if we dont want to use fading, just load the next scene
             else
-            {                
-                SceneManager.LoadScene(CurrentSceneScroll.SceneName);                
+            {
+                SceneManager.LoadScene(CurrentSceneScroll.SceneName);
+
                 ReadScroll(CurrentSceneScroll);
                 if (OnSceneChange != null)
                 {
@@ -280,7 +275,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private IEnumerator FadeOutAndIn(DrugVR_SceneENUM nextSceneEnum)
+    private IEnumerator SceneChangeWithFadeOutIn(DrugVR_SceneENUM nextSceneEnum)
     {                
         //get references to animatior and image component from children Game Object 
         m_anim = Instance.GetComponentInChildren<Animator>();
@@ -314,13 +309,13 @@ public class GameManager : MonoBehaviour
     }
 
     //Find the video in the scene and pause it
-    public static void PauseVideo()
+    public void PauseVideo()
     {
         SkyVideoPlayer.Pause();
     }
 
     //Find the video in the scene and play it
-    public static void PlayVideo()
+    public void PlayVideo()
     {
         SkyVideoPlayer.Play();
     }
@@ -340,8 +335,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private static VideoPlayer GetVideoPlayerInScene()
+    private VideoPlayer GetVideoPlayerInScene()
     {
-        return FindObjectOfType<VideoPlayer>();
+        return GetComponentInChildren<VideoPlayer>();
     }
 }
