@@ -127,7 +127,7 @@ public class LighterTriggerProgress : MonoBehaviour
 #if UNITY_EDITOR
                 m_IsTriggerPress = Input.GetMouseButton(m_EditorUseMouseButton);
 #else
-                m_IsTriggerPress = waveVrDevice.GetPress(m_InputToListen);        
+                m_IsTriggerPress = m_WaveVrDevice.GetPress(m_InputToListen);        
 #endif
                 // Get button press state from controller device
                 if (m_IsTriggerPress)

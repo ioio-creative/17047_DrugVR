@@ -46,8 +46,8 @@ public class Lighter : MonoBehaviour
         m_IsTriggerPressDown = Input.GetMouseButtonDown(m_EditorUseMouseButton);
         m_IsTriggerPressUp = Input.GetMouseButtonUp(m_EditorUseMouseButton);
 #else
-        m_IsTriggerPressDown = waveVrDevice.GetPressDown(m_InputToListen);
-        m_IsTriggerPressUp = waveVrDevice.GetPressUp(m_InputToListen);
+        m_IsTriggerPressDown = m_WaveVrDevice.GetPressDown(m_InputToListen);
+        m_IsTriggerPressUp = m_WaveVrDevice.GetPressUp(m_InputToListen);
 #endif
 
         if (m_IsTriggerPressDown)
