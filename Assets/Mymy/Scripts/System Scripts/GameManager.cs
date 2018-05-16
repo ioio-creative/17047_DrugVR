@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        APP_VIDEO_SKY_DATA_PATH = Application.persistentDataPath + "/" + APP_VIDEO_SKY_DATA_PATH + "/";
+        APP_VIDEO_SKY_DATA_PATH = Application.persistentDataPath + "/" + APP_VIDEO_SKY_DATA_PATH;
     }
 
     private void Start()
