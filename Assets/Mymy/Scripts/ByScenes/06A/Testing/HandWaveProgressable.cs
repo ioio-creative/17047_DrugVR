@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,13 +43,23 @@ public class HandWaveProgressable : MonoBehaviour
 
     public void StepIt()
     {
+        StartCoroutine(StepItRoutine());
+    }
+
+    private IEnumerator StepItRoutine()
+    {
         m_ProgressBar.fillAmount += m_ProgressPerStep;
         if (m_ProgressBar.fillAmount >= MaxValue)
         {
+            // wait for some time for user to see the filled progress bar
+            yield return new WaitForSeconds(0.1f);
+
             if (OnProgressComplete != null)
             {
                 OnProgressComplete();
             }
         }
+
+        yield return null;
     }
 }
