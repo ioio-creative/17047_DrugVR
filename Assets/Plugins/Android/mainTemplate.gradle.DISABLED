@@ -34,7 +34,7 @@ android {
 
 	defaultConfig {
 		targetSdkVersion 25
-		applicationId 'com.ioiocreative.DVR_DemoV3'
+		applicationId 'com.ioiocreative.DrugVR'
 	}
 
 	lintOptions {
@@ -62,6 +62,6 @@ android {
 	}
 	
 	dexOptions {
-             javaMaxHeapSize "4g"
+            javaMaxHeapSize "4g"
     }
 }

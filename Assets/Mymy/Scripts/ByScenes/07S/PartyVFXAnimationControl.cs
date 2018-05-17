@@ -30,6 +30,8 @@ namespace Scene07Party
             [SerializeField]
             public bool IsRepeat;
 
+            private bool m_IsReady = false;
+
             public Texture2D[] Frames { get; private set; }
             public bool IsFinishedPlaying
             {
@@ -42,7 +44,7 @@ namespace Scene07Party
             }
             private bool m_IsFinishedPlaying = true;
 
-            public void InitializeSphereAnimationPackage(PartyVFXAnimationControl ctrl)
+            public IEnumerator InitializeSphereAnimationPackage(PartyVFXAnimationControl ctrl)
             {
                 AnimCtrlRef = ctrl;
 
@@ -66,9 +68,11 @@ namespace Scene07Party
                     _imgTex = new Texture2D(2, 2);
                     _imgTex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
                     Frames[i] = _imgTex;
+                    yield return null;
                 }
 
                 PartyFXDictionary.Add(m_PartyOption, this);
+                
             }
         }
 
@@ -103,7 +107,7 @@ namespace Scene07Party
         {
             foreach (SphereAnimationPackage VFXPackage in m_SphereVFXAnimations)
             {
-                VFXPackage.InitializeSphereAnimationPackage(this);
+                StartCoroutine(VFXPackage.InitializeSphereAnimationPackage(this));
             }
             m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
             SetAnimationFrame(m_SphereVFXAnimations[0], 0);

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3993662, g: 0.43671122, b: 0.40576118, a: 1}
+  m_IndirectSpecularColor: {r: 0.52569705, g: 0.5102972, b: 0.5254302, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 38125795}
   - component: {fileID: 38125796}
   m_Layer: 0
-  m_Name: SceneClient
+  m_Name: 01SClient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,6 +204,11 @@ Prefab:
       propertyPath: m_CurrentScene
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114712628161233988, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: Controller.RaycastMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
   m_IsPrefabParent: 0
@@ -280,6 +285,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 1b39215d3fe3e1c489fcc3196caddd2f,
         type: 3}
+    - target: {fileID: 114986224629109202, guid: 5eaf7586b35b5de45824df0df00875a1,
+        type: 2}
+      propertyPath: m_Patience
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5eaf7586b35b5de45824df0df00875a1, type: 2}
   m_IsPrefabParent: 0
@@ -367,24 +377,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5eaf7586b35b5de45824df0df00875a1, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1805774337 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1691671938473520, guid: 5eaf7586b35b5de45824df0df00875a1,
-    type: 2}
-  m_PrefabInternal: {fileID: 207283840}
---- !u!114 &1805774338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1805774337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df749f5adcbb23247bf16c26d7ac9306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SelectionProgress: {fileID: 0}
-  m_Patience: 0
 --- !u!4 &1805774343 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4459634426868382, guid: 5eaf7586b35b5de45824df0df00875a1,

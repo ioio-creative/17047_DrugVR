@@ -51,13 +51,15 @@ public class Sc02SClient : VideoSceneClientBase
         
         switch (replyMode)
         {
-            case ReplyModeBroadcast.ReplyMode.NotReply:
-                StartCoroutine(TransitionToNextWhenIsNotReply());
-                break;
             case ReplyModeBroadcast.ReplyMode.Reply:
             default:
-                StartCoroutine(TransitionToNextWhenIsReply());                
+                Scribe.Side02 = true;
+                StartCoroutine(TransitionToNextWhenIsReply());
                 break;
+            case ReplyModeBroadcast.ReplyMode.NotReply:
+                Scribe.Side02 = false;
+                StartCoroutine(TransitionToNextWhenIsNotReply());
+                break;            
         }        
     }
 

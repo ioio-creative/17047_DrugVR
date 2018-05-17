@@ -1372,6 +1372,16 @@ Prefab:
       propertyPath: m_BlocksRaycasts
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114246641391466822, guid: 13c051d7f4f413e459d8ecb59a6ec290,
+        type: 2}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.9925963
+      objectReference: {fileID: 0}
+    - target: {fileID: 114246641391466822, guid: 13c051d7f4f413e459d8ecb59a6ec290,
+        type: 2}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.46323532
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13c051d7f4f413e459d8ecb59a6ec290, type: 2}
   m_IsPrefabParent: 0
@@ -1568,7 +1578,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.09558821, b: 0.09558821, a: 1}
+    m_HighlightedColor: {r: 0.9925963, g: 1, b: 0.46323532, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -2165,6 +2175,16 @@ Prefab:
         type: 2}
       propertyPath: m_BlocksRaycasts
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114246641391466822, guid: 13c051d7f4f413e459d8ecb59a6ec290,
+        type: 2}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.9925963
+      objectReference: {fileID: 0}
+    - target: {fileID: 114246641391466822, guid: 13c051d7f4f413e459d8ecb59a6ec290,
+        type: 2}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.46323532
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13c051d7f4f413e459d8ecb59a6ec290, type: 2}
@@ -3566,6 +3586,16 @@ Prefab:
         type: 2}
       propertyPath: m_BlocksRaycasts
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114246641391466822, guid: 13c051d7f4f413e459d8ecb59a6ec290,
+        type: 2}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.9925963
+      objectReference: {fileID: 0}
+    - target: {fileID: 114246641391466822, guid: 13c051d7f4f413e459d8ecb59a6ec290,
+        type: 2}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.46323532
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13c051d7f4f413e459d8ecb59a6ec290, type: 2}

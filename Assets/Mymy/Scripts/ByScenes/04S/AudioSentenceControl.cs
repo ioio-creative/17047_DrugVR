@@ -271,6 +271,7 @@ public class AudioSentenceControl : VrButtonBase
     }
 
     // BossAudioClauseSelected.OnClicked()
+    // Reset when boss clause choice unmade 
     private void HandleBossClauseSlotOnClicked()
     {
         // set what appear and what disappear
@@ -339,13 +340,21 @@ public class AudioSentenceControl : VrButtonBase
 
     private IEnumerator HandleDownSequenceOfActions()
     {
-        foreach (AudioClauseSelected selectedAudio in m_SelectedClauseSeq)
+        if (IsBossOptionSelected)
         {
-            selectedAudio.ForceDisableButton();
+            m_BossSelectedClause.ForceDisableButton();
         }
+        else
+        {
+            foreach (AudioClauseSelected selectedAudio in m_SelectedClauseSeq)
+            {
+                selectedAudio.ForceDisableButton();
+            }
+        }
+
         yield return StartCoroutine(StartPlayClipsInSequence());
         bool isGoodChoiceMade = ExtractAnswerSequence();
-        Scribe.Side04 = isGoodChoiceMade;
+        Scribe.Side04 = isGoodChoiceMade;          
         Sc04SClient.GoToSceneOnChoice();
     }
 
@@ -358,7 +367,7 @@ public class AudioSentenceControl : VrButtonBase
         if (base.m_GazeOver)
         {
             // complete case
-            if (GetFirstNotYetFilledAudioClauseSlot() == null)
+            if (GetFirstNotYetFilledAudioClauseSlot() == null || IsBossOptionSelected)
             {
                 StartCoroutine(HandleDownSequenceOfActions());
             }
