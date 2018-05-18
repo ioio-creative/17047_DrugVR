@@ -226,6 +226,7 @@ public class GameManager : MonoBehaviour
             {
                 SkyVideoPlayer.sendFrameReadyEvents = true;
                 SkyVideoPlayer.frameReady += OnNewVideoFrameArrived;
+                SkyVideoPlayer.GetComponent<AudioSource>().mute = true;
                 PlayVideo();
             }            
         }
@@ -310,7 +311,8 @@ public class GameManager : MonoBehaviour
         Scene nextScene = SceneManager.GetSceneByName(nextSceneName);
         Debug.Log("loading scene:" + nextScene.name);
         yield return new WaitUntil(() => nextScene.isLoaded);
-
+        Resources.UnloadUnusedAssets();
+        GC.Collect();
 
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
         StartCoroutine(ReadScroll(CurrentSceneScroll));
@@ -345,6 +347,7 @@ public class GameManager : MonoBehaviour
         if (frameIdx >= 0)
         {
             PauseVideo();
+            source.GetComponent<AudioSource>().mute = false;
             source.sendFrameReadyEvents = false;
             source.frameReady -= OnNewVideoFrameArrived;
         }

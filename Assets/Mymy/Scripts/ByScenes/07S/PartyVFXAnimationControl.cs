@@ -54,25 +54,41 @@ namespace Scene07Party
                 }
 
                 Frames = new Texture2D[numberOfFrames];
-                
+                PartyFXDictionary.Add(m_PartyOption, this);
+                Debug.Log(m_PartyOption + " FX Loading");
                 for (int i = 0; i < numberOfFrames; i++)
                 {
+                    //----------------------------------------
+                    //Load File From Persistant Datapath
+                    //----------------------------------------
                     //Folder Frame Index Starts with <00001>
-                    string texturePath = GameManager.APP_IMGSEQUENCE_DATA_PATH + string.Format(resourceFormatPath, i+1);                 
+                    //string texturePath = GameManager.APP_IMGSEQUENCE_DATA_PATH + string.Format(resourceFormatPath, i+1);                 
 
-                    // http://answers.unity3d.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
-                    Texture2D _imgTex = null;
-                    byte[] fileData;
-            
-                    fileData = File.ReadAllBytes(texturePath);
-                    _imgTex = new Texture2D(2, 2);
-                    _imgTex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
-                    Frames[i] = _imgTex;
-                    yield return null;
+                    //// http://answers.unity3d.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
+                    //Texture2D _imgTex = null;
+                    //byte[] fileData;
+
+                    //fileData = File.ReadAllBytes(texturePath);
+                    //_imgTex = new Texture2D(2, 2);
+                    //_imgTex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+                    //Frames[i] = _imgTex;
+                    //yield return null;
+                    //------------------------------------------
+                    //------------------------------------------
+
+                    //----------------------------------------
+                    //Load File From Streaming Assets
+                    //----------------------------------------
+                    ////https://www.cnblogs.com/murongxiaopifu/p/4199541.html
+                    string texturePath = Application.streamingAssetsPath + "/" + string.Format(resourceFormatPath, i + 1);
+                    using (WWW www = new WWW(texturePath))
+                    { 
+                        yield return www;
+                        Frames[i] = www.texture; 
+                    }
                 }
-
-                PartyFXDictionary.Add(m_PartyOption, this);
-                
+               
+                Debug.Log(m_PartyOption + " FX Loading Completed");
             }
         }
 
