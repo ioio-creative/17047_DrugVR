@@ -58,10 +58,19 @@ namespace Scene07Party
                 Debug.Log(m_PartyOption + " FX Loading");
                 for (int i = 0; i < numberOfFrames; i++)
                 {
+                    //Folder Frame Index Starts with <00001>
+                    //----------------------------------------
+                    //Load File From Resources Folder
+                    //----------------------------------------
+                    Frames[i] = Resources.Load<Texture2D>(string.Format(resourceFormatPath, i + 1));
+                    yield return null;
+                    //------------------------------------------
+                    //------------------------------------------
+
                     //----------------------------------------
                     //Load File From Persistant Datapath
                     //----------------------------------------
-                    //Folder Frame Index Starts with <00001>
+
                     //string texturePath = GameManager.APP_IMGSEQUENCE_DATA_PATH + string.Format(resourceFormatPath, i+1);                 
 
                     //// http://answers.unity3d.com/questions/432655/loading-texture-file-from-pngjpg-file-on-disk.html
@@ -80,14 +89,16 @@ namespace Scene07Party
                     //Load File From Streaming Assets
                     //----------------------------------------
                     ////https://www.cnblogs.com/murongxiaopifu/p/4199541.html
-                    string texturePath = Application.streamingAssetsPath + "/" + string.Format(resourceFormatPath, i + 1);
-                    using (WWW www = new WWW(texturePath))
-                    { 
-                        yield return www;
-                        Frames[i] = www.texture; 
-                    }
+                    //string texturePath = Application.streamingAssetsPath + "/" + string.Format(resourceFormatPath, i + 1);
+                    //using (WWW www = new WWW(texturePath))
+                    //{ 
+                    //    yield return www;
+                    //    Frames[i] = www.texture; 
+                    //}
+                    //------------------------------------------
+                    //------------------------------------------
                 }
-               
+
                 Debug.Log(m_PartyOption + " FX Loading Completed");
             }
         }

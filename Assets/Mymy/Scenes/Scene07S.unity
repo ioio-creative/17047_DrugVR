@@ -1859,19 +1859,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SphereVFXAnimations:
   - m_PartyOption: 1
-    resourceFormatPath: s7-02a-once/B_{0:d5}.png
+    resourceFormatPath: s7-02a-once/B_{0:d5}
     EffectRotation: 0
     FrameRate: 30
     numberOfFrames: 360
     IsRepeat: 0
   - m_PartyOption: 2
-    resourceFormatPath: s7-02b-once/d_{0:d5}.png
+    resourceFormatPath: s7-02b-once/d_{0:d5}
     EffectRotation: 290
     FrameRate: 30
     numberOfFrames: 480
     IsRepeat: 0
   - m_PartyOption: 3
-    resourceFormatPath: s7-02c-once/tb_{0:d5}.png
+    resourceFormatPath: s7-02c-once/tb_{0:d5}
     EffectRotation: 327
     FrameRate: 30
     numberOfFrames: 359

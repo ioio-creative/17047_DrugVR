@@ -291,6 +291,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public ienumerator routine;
+    private ienumerator dosomething()
+    {
+        yield return startcoroutine(routine);
+    }
+
     private IEnumerator SceneChangeWithFadeOutIn(DrugVR_SceneENUM nextSceneEnum)
     {                
         //get references to animatior and image component from children Game Object 
@@ -302,8 +308,12 @@ public class GameManager : MonoBehaviour
 
         //wait until the fade image is entirely black (alpha=1) then load next scene
         yield return new WaitUntil(() => m_fadeImage.color.a == 1);
+
+        //Resources.UnloadUnusedAssets();
+        //GC.Collect();
+
         string nextSceneName = CurrentSceneScroll.SceneName;
-        SceneManager.LoadScene(nextSceneName);
+        SceneManager.LoadScene(nextSceneName);       
         if (OnSceneChange != null)
         {
             OnSceneChange(nextSceneEnum);
@@ -311,8 +321,10 @@ public class GameManager : MonoBehaviour
         Scene nextScene = SceneManager.GetSceneByName(nextSceneName);
         Debug.Log("loading scene:" + nextScene.name);
         yield return new WaitUntil(() => nextScene.isLoaded);
-        Resources.UnloadUnusedAssets();
-        GC.Collect();
+        
+        
+
+        //yield return DoSomething();
 
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
         StartCoroutine(ReadScroll(CurrentSceneScroll));
