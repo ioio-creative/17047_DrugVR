@@ -291,10 +291,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public ienumerator routine;
-    private ienumerator dosomething()
+    public IEnumerator routine;
+    private IEnumerator Dosomething()
     {
-        yield return startcoroutine(routine);
+        yield return StartCoroutine(routine);
     }
 
     private IEnumerator SceneChangeWithFadeOutIn(DrugVR_SceneENUM nextSceneEnum)

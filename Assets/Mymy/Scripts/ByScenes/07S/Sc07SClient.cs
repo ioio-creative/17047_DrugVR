@@ -23,6 +23,12 @@ public class Sc07SClient : VideoSceneClientBase
         managerInst.SkyVideoPlayer.isLooping = true;
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        managerInst.SkyVideoPlayer.isLooping = false;
+    }
+
     private void Start()
     {
         if (m_ExitButton != null)
