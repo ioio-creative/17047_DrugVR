@@ -78,8 +78,13 @@ namespace DrugVR_Scribe
 
             //string filePath = Path.Combine(Application.persistentDataPath, "Mymy/Scripts/System Scripts/SceneNames.txt").ToString();
             //Debug.Log(filePath);
-            string[] stringScenesParams = sceneNameTXT.text.Split(Environment.NewLine.ToCharArray(),StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray();//File.ReadAllLines(filePath).Skip(1).ToArray();
-            Debug.Log(stringScenesParams[1]);
+
+            // use '\r' and '\n' (preferred to Environment.NewLine only) to cater for both Unix and non-Unix systems
+            // because the txt file may be written in Windows (where Environment.NewLine = "\r\n")
+            // and it may be read in Android (linux where Environment.NewLine = "\n", so there may be a trailing '\r' at the end of every line after string.Split())
+            char[] newLineChars = (Environment.NewLine + "\r\n").ToCharArray().Distinct().ToArray();
+            string[] stringScenesParams = sceneNameTXT.text.Split(newLineChars, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray();
+            //Debug.Log(stringScenesParams[1]);
             DrugVR_SceneENUM enumIndex = 0;
 
             foreach (string sceneParam in stringScenesParams)
@@ -111,8 +116,7 @@ namespace DrugVR_Scribe
             {
                 SceneSky = (SkyboxType)Enum.Parse(typeof(SkyboxType), paramArray[1]);               
                 SkyShaderDefaultRotation = float.Parse(paramArray[2]);
-                Video_ImgPath = paramArray[3];
-                // Warning: paramArray[4] may include trailing '\n'
+                Video_ImgPath = paramArray[3];                
                 VideoAutoPlay = ParseZeroAndOne(paramArray[4]);
             }
             catch (Exception ex)
@@ -122,13 +126,12 @@ namespace DrugVR_Scribe
         }
 
         public static bool ParseZeroAndOne(string returnValue)
-        {
-            // Warning: paramArray[4] may include trailing '\n'
-            if (returnValue[0] == '1')
+        {            
+            if (returnValue == "1")
             {
                 return true;
             }
-            else if (returnValue[0] == '0')
+            else if (returnValue == "0")
             {
                 return false;
             }
