@@ -245,7 +245,7 @@ public class GameManager : MonoBehaviour
             //    www.LoadImageIntoTexture(stillSkyTex);
             //}
 
-            DebugLog("Reading sky image: " + (stillSkyTex != null));
+            //DebugLog("Reading sky image: " + (stillSkyTex != null));
             //DebugLog(APP_IMAGE_SKY_DATA_PATH + scroll.Video_ImgPath);
 
             RenderSettings.skybox = StillSkyMat;
@@ -309,8 +309,9 @@ public class GameManager : MonoBehaviour
         //wait until the fade image is entirely black (alpha=1) then load next scene
         yield return new WaitUntil(() => m_fadeImage.color.a == 1);
 
-        //Resources.UnloadUnusedAssets();
-        //GC.Collect();
+        //TODO
+        Resources.UnloadUnusedAssets();
+        GC.Collect();
 
         string nextSceneName = CurrentSceneScroll.SceneName;
         SceneManager.LoadScene(nextSceneName);       
