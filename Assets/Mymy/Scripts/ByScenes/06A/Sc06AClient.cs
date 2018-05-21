@@ -5,6 +5,7 @@ public class Sc06AClient : VideoSceneClientBase
 {
     [SerializeField]
     private DrugVR_SceneENUM sceneToGoWhenLighterTriggered = DrugVR_SceneENUM.Sc06B;
+    [SerializeField]
     private DrugVR_SceneENUM sceneToGoWhenHandWaveTriggered = DrugVR_SceneENUM.Sc07;
 
     [SerializeField]

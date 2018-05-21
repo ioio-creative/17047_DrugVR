@@ -1,28 +1,34 @@
 ﻿using DrugVR_Scribe;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class Sc01SClient : MonoBehaviour
 {
-    //private DrugVR_SceneENUM nextSceneToLoad;
-    public static GameManager managerInst;
+    [SerializeField]
+    private DrugVR_SceneENUM sceneToGoWhenSide01IsTrue = DrugVR_SceneENUM.Sc01A;
+    [SerializeField]
+    private DrugVR_SceneENUM sceneToGoWhenSide01IsFalse = DrugVR_SceneENUM.Sc01B;
+    private GameManager managerInst;
+
+
+    /* MonoBehaviour */
 
     private void Awake()
     {
         managerInst = GameManager.Instance;
     }
 
-    public static void GoToSceneOnChoice()
+    /* end of MonoBehaviour */
+
+
+    public void GoToSceneOnChoice()
     {
         if (Scribe.Side01)
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc01A);
+            managerInst.GoToScene(sceneToGoWhenSide01IsTrue);
         }
         else
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc01B);
+            managerInst.GoToScene(sceneToGoWhenSide01IsFalse);
         }
     }
 }

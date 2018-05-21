@@ -11,6 +11,8 @@ public class AudioSentenceControl : VrButtonBase
     public bool IsBossOptionSelected { get { return m_IsBossOptionSelected; } }
 
     [SerializeField]
+    private Sc04SClient m_Sc04SClient;
+    [SerializeField]
     private Sprite m_PlayClipsBtnNormalSprite;
     [SerializeField]
     private Sprite m_PlayClipsBtnHighLightSprite;
@@ -354,8 +356,8 @@ public class AudioSentenceControl : VrButtonBase
 
         yield return StartCoroutine(StartPlayClipsInSequence());
         bool isGoodChoiceMade = ExtractAnswerSequence();
-        Scribe.Side04 = isGoodChoiceMade;          
-        Sc04SClient.GoToSceneOnChoice();
+        Scribe.Side04 = isGoodChoiceMade;
+        m_Sc04SClient.GoToSceneOnChoice();
     }
 
 
