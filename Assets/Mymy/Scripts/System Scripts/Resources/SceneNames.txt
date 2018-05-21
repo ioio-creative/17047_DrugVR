@@ -27,3 +27,4 @@ Scene08,VideoSky,117,EndA.mp4,1
 Scene09,VideoSky,100,EndB.mp4,1
 Scene10,VideoSky,260,EndC_sound revised.mp4,1
 Summary,VideoSky,90,outro.mp4,1,ImageSky,Summary_Sky,0
+Menu,ImageSky,135,Sc01S_Sky,0

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
 
 public class SelectionStandard : VrButtonBase
 {
@@ -39,11 +35,13 @@ public class SelectionStandard : VrButtonBase
     public override void HandleDown()
     {
         base.HandleDown();
+
         // If there is anything subscribed to OnSelectionComplete call it.
         if (OnSelectionComplete != null)
         { 
             OnSelectionComplete();
         }
+
         if (DisappearOnSelection)
         {
             StartCoroutine(InterruptAndFadeOut());

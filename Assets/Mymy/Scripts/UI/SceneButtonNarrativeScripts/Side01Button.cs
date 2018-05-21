@@ -3,15 +3,20 @@ using UnityEngine;
 
 [RequireComponent(typeof(SelectionProgress))]
 public class Side01Button : MonoBehaviour
-{    
+{
+    [SerializeField]
+    private Sc01SClient m_sc01SClient;
     [SerializeField]
     private SelectionProgress m_SelectionProgress;
     [SerializeField]
     private bool m_Patience = false;
 
     private void Awake()
-    {        
-        if (m_SelectionProgress == null) m_SelectionProgress = GetComponent<SelectionProgress>();
+    {
+        if (m_SelectionProgress == null)
+        {
+            m_SelectionProgress = GetComponent<SelectionProgress>();
+        }
     }
 
     private void OnEnable()
@@ -27,6 +32,6 @@ public class Side01Button : MonoBehaviour
     private void HandleSelectionComplete()
     {
         Scribe.Side01 = m_Patience;
-        Sc01SClient.GoToSceneOnChoice();
+        m_sc01SClient.GoToSceneOnChoice();
     }
 }

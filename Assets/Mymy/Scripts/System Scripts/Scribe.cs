@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Video;
 
 namespace DrugVR_Scribe
 {
@@ -38,7 +35,8 @@ namespace DrugVR_Scribe
         Sc08,
         Sc09,
         Sc10,
-        Summary
+        Summary,
+        Menu
     }
 
     //This Static class records all the choices made by player, as well as storing scene names as string
@@ -57,7 +55,8 @@ namespace DrugVR_Scribe
             }
         }
 
-        public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary = new Dictionary<DrugVR_SceneENUM, Scroll>(new DrugVREnumComparer());
+        public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary = 
+            new Dictionary<DrugVR_SceneENUM, Scroll>(new DrugVREnumComparer());
 
         //Scene 1 Side Taking
         public static bool Side01 = false;
@@ -90,8 +89,7 @@ namespace DrugVR_Scribe
             foreach (string sceneParam in stringScenesParams)
             {           
                 SceneDictionary.Add(enumIndex++, new Scroll(sceneParam));
-            }
-            
+            }            
         }
     }
 

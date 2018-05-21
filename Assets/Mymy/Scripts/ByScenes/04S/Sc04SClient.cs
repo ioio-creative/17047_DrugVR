@@ -4,19 +4,20 @@ using UnityEngine;
 using VRStandardAssets.Utils;
 
 public class Sc04SClient : MonoBehaviour
-{
-    public static GameManager managerInst;
-
+{   
     [SerializeField]
     private GameObject[] m_FaderToStartContainers;
     private UIFader[] m_FadersToStart;
+
+    private GameManager m_ManagerInst;
 
 
     /* MonoBehaviour */
 
     private void Awake()
     {
-        managerInst = GameManager.Instance;
+        m_ManagerInst = GameManager.Instance;
+
         List<UIFader> faders = new List<UIFader>();
         foreach (GameObject faderToStartContainer in m_FaderToStartContainers)
         {
@@ -34,7 +35,6 @@ public class Sc04SClient : MonoBehaviour
                 faders.AddRange(faderToStartContainer.GetComponentsInChildren<UIFader>());
             }
         }
-
         m_FadersToStart = faders.ToArray();
     }
 
@@ -49,15 +49,15 @@ public class Sc04SClient : MonoBehaviour
     /* end of MonoBehaviour */
 
 
-    public static void GoToSceneOnChoice()
+    public void GoToSceneOnChoice()
     {
         if (Scribe.Side04)
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc04A);
+            m_ManagerInst.GoToScene(DrugVR_SceneENUM.Sc04A);
         }
         else
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc04B);
+            m_ManagerInst.GoToScene(DrugVR_SceneENUM.Sc04B);
         }
     }
 }

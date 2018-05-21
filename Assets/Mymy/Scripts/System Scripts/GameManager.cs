@@ -1,7 +1,6 @@
 ﻿using DrugVR_Scribe;
 using System;
 using System.Collections;
-using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,9 +22,9 @@ public class GameManager : MonoBehaviour
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
     private const string CONTROLLER_MODEL_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
     
-    //Put Path under Resources here
+    // Put Path under Resources here
     private static string APP_IMAGE_SKY_DATA_PATH = "StillImg/";
-    //Put Path under App. persistant data path here
+    // Put Path under App. persistant data path here
     private static string APP_VIDEO_SKY_DATA_PATH = "Videos/";
     public static string APP_IMGSEQUENCE_DATA_PATH = "ImgSequences/";
 
@@ -257,12 +256,10 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-
     private IEnumerator WaitForVideoPrepared()
     {
         yield return new WaitUntil(() => SkyVideoPlayer.isPrepared);
     }
-
     
     //Select scene is called from either the menu manager or hotspot manager, and is used to load the desired scene
     public void GoToScene(DrugVR_SceneENUM sceneEnum)
@@ -291,11 +288,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public IEnumerator routine;
-    private IEnumerator Dosomething()
-    {
-        yield return StartCoroutine(routine);
-    }
+    //public IEnumerator Routine;
+    //private IEnumerator DoSomething()
+    //{
+    //    yield return StartCoroutine(Routine);
+    //}
 
     private IEnumerator SceneChangeWithFadeOutIn(DrugVR_SceneENUM nextSceneEnum)
     {                
