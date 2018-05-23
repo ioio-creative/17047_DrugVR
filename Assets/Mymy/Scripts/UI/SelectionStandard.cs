@@ -36,6 +36,8 @@ public class SelectionStandard : VrButtonBase
     {
         base.HandleDown();
 
+        PlayOnSelectedClip();
+
         // If there is anything subscribed to OnSelectionComplete call it.
         if (OnSelectionComplete != null)
         { 

@@ -657,7 +657,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e54fab7032e0e548b394505c12292a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CurrentScene: 19
+  m_DebugText: {fileID: 0}
+  m_IsShowDebugText: 0
+  m_CurrentScene: 2
   VideoSkyMat: {fileID: 2100000, guid: bee79b527dc6b154eb4ca20485e8ff81, type: 2}
   StillSkyMat: {fileID: 2100000, guid: a5dc82d49b2032b4ebfba70fc2b6a96e, type: 2}
   FadeToBlack: 1
@@ -1201,7 +1203,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!114 &114943538587385728
 MonoBehaviour:
   m_ObjectHideFlags: 1
