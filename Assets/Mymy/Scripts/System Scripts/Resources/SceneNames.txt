@@ -16,7 +16,7 @@ Scene04S,ImageSky,95,Sc04S_Sky,0
 Scene04A,VideoSky,95,Sc4_Shot9.mp4,1
 Scene04B,VideoSky,95,Sc4_Shot10-11(Updated 0511).mp4,1
 Scene05A,VideoSky,128,Sc5A_Shot4A.mp4,1
-Scene05B,VideoSky,39,Sc5B_Shot12.mp4,1
+Scene05B,VideoSky,170,Sc5B_Shot12.mp4,1
 Scene06,VideoSky,130,Sc6_Shot13-15.mp4,1
 Scene06A,VideoSky,130,Sc6_Shot13-15_continous.mp4,0
 Scene06B,VideoSky,130,Sc6_Shot16.mp4,1
