@@ -47,10 +47,8 @@ public class Lighter : MonoBehaviour
     private void Update()
     {
 #if UNITY_EDITOR
-
         m_IsInputPressDown = Input.GetMouseButtonDown(m_EditorUseMouseButton);
         m_IsInputPressUp = Input.GetMouseButtonUp(m_EditorUseMouseButton);
-
 #else
         m_IsInputPressDown = m_WaveVrDevice.GetPressDown(m_InputToListen);
         m_IsInputPressUp = m_WaveVrDevice.GetPressUp(m_InputToListen);

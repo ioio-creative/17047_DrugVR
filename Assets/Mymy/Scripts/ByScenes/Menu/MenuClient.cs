@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRStandardAssets.Utils;
 
-public class MenuClient : MonoBehaviour
+public class MenuClient : MonoBehaviour,
+    ShowAndHideSceneMenu
 {    
     [SerializeField]
     private GameObject[] m_FaderToStartContainers;
@@ -60,10 +61,7 @@ public class MenuClient : MonoBehaviour
 
     private void Start()
     {
-        foreach (UIFader fader in m_FadersToStart)
-        {
-            StartCoroutine(fader.InterruptAndFadeIn());
-        }        
+        ShowSceneMenu();
     }
 		
     /* end of MonoBehaviour */
@@ -80,4 +78,25 @@ public class MenuClient : MonoBehaviour
         newSceneBtn.GetComponentInChildren<Text>().text = scene.ToString();
         return newSceneBtn;
     }
+
+
+    /* ShowAndHideSceneMenu interface */
+
+    public void ShowSceneMenu()
+    {
+        foreach (UIFader fader in m_FadersToStart)
+        {
+            StartCoroutine(fader.InterruptAndFadeIn());
+        }
+    }
+
+    public void HideSceneMenu()
+    {
+        foreach (UIFader fader in m_FadersToStart)
+        {
+            StartCoroutine(fader.InterruptAndFadeOut());
+        }
+    }
+
+    /* end of ShowAndHideSceneMenu interface */
 }
