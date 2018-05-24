@@ -1,16 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FadeSceneMenuOnSelected : MonoBehaviour
 {
-	// Use this for initialization
-	private void Start () {
+    public SelectionStandard Selection
+    {
+        set
+        {
+            m_Selection = value;
+        }
+    }
+    [SerializeField]
+    private SelectionStandard m_Selection;
+
+    public IShowAndHideSceneMenu SceneMenuControl
+    {
+        set
+        {
+            m_SceneMenuControl = value;
+        }
+    }
+    [SerializeField]
+    private IShowAndHideSceneMenu m_SceneMenuControl;
+
+
+    /* MonoBehaviour */
+
+    private void OnEnable()
+    {
+        m_Selection.OnSelectionComplete += HandleSelectionComplete;
+    }
+
+    private void OnDisable()
+    {
+        m_Selection.OnSelectionComplete -= HandleSelectionComplete;
+    }
+
+    private void Start()
+    {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    /* end of MonoBehaviour */
+
+
+    /* event handlers */
+
+    private void HandleSelectionComplete()
+    {
+        m_SceneMenuControl.HideSceneMenu();
+    }
+
+    /* end of event handlers */
 }

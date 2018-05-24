@@ -8,7 +8,7 @@ using wvr;
 
 // This class is essentially a copy of MenuClient
 public class SceneMenuControl : MonoBehaviour,
-    ShowAndHideSceneMenu
+    IShowAndHideSceneMenu
 {
     [SerializeField]
     private List<UIFader> m_Faders;
@@ -173,8 +173,9 @@ public class SceneMenuControl : MonoBehaviour,
 
         // TODO: The following assume some hierachical structure among the components
         newSceneBtn.GetComponent<GoToSceneOnSelected>().SceneToGoNext = scene;
+        newSceneBtn.GetComponent<FadeSceneMenuOnSelected>().SceneMenuControl = this;
         newSceneBtn.GetComponent<MatchColliderToGrid>().Grid = gridLayoutGroup;
-        newSceneBtn.GetComponentInChildren<Text>().text = scene.ToString();
+        newSceneBtn.GetComponentInChildren<Text>().text = scene.ToString();        
         m_Faders.Add(newSceneBtn.GetComponent<UIFader>());
 
         return newSceneBtn;
@@ -182,17 +183,17 @@ public class SceneMenuControl : MonoBehaviour,
 
     private IEnumerator DestroySceneBtnsAndDeassignFaders()
     {
-        m_Faders = null;
-
         foreach (UIFader fader in m_Faders)
         {
             Destroy(fader.gameObject);
             yield return null;
         }
+
+        m_Faders = null;
     }
 
 
-    /* ShowAndHideSceneMenu interface */
+    /* IShowAndHideSceneMenu interface */
 
     public void ShowSceneMenu()
     {
@@ -204,5 +205,5 @@ public class SceneMenuControl : MonoBehaviour,
         StartCoroutine(HideSceneMenuRoutine());
     }
 
-    /* end of ShowAndHideSceneMenu interface */
+    /* end of IShowAndHideSceneMenu interface */
 }
