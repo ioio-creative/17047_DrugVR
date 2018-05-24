@@ -68,20 +68,19 @@ public class Sc07SClient : VideoSceneClientBase
 
     private void GoToEndSceneOnChoice()
     {
-        if (Scribe.Side05 && Scribe.Side06)
+        switch (Scribe.EndingForPlayer)
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc08);               
+            case Ending.EndingA:
+                managerInst.GoToScene(DrugVR_SceneENUM.Sc08);
+                break;
+            case Ending.EndingB:
+                //ToDo: Different sound cues based on Side05 and Side06
+                managerInst.GoToScene(DrugVR_SceneENUM.Sc09);
+                break;
+            case Ending.EndingC:
+            default:
+                managerInst.GoToScene(DrugVR_SceneENUM.Sc10);
+                break;
         }
-        else if (Scribe.Side05 || Scribe.Side06)
-        {
-            //ToDo: Different sound cues based on Side05 and Side06
-
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc09);
-        }
-        else if (!Scribe.Side05 || !Scribe.Side06)
-        {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc10);
-        }
-
     }
 }

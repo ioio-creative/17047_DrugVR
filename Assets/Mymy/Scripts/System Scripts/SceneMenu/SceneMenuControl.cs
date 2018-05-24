@@ -35,8 +35,11 @@ public class SceneMenuControl : MonoBehaviour,
     private float m_LastMouseUpTime;  // The time when Fire1 was last released.
     private int m_NumOfConsecutiveClicks = 1;
 
+    private Transform m_HeadTransform;
+    private Transform m_ThisTransform;
+
     private bool m_IsInputPressUp;
-    private bool m_IsMenuShown = false;
+    private bool m_IsMenuShown = false;    
 
 
     /* MonoBehaviour */
@@ -54,6 +57,8 @@ public class SceneMenuControl : MonoBehaviour,
         m_BackgroundImage.enabled = false;
 
         m_WaveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
+        m_HeadTransform = GameManager.Instance.HeadObject.transform;
+        m_ThisTransform = transform;
     }
 
     private void Update()
@@ -100,13 +105,11 @@ public class SceneMenuControl : MonoBehaviour,
     private void OnMultipleClicked()
     {
         if (!m_IsMenuShown)
-        {
-            m_IsMenuShown = true;
+        {         
             ShowSceneMenu();
         }
         else
-        {
-            m_IsMenuShown = false;
+        {            
             HideSceneMenu();
         }
     }
@@ -206,11 +209,24 @@ public class SceneMenuControl : MonoBehaviour,
 
     public void ShowSceneMenu()
     {
+        m_IsMenuShown = true;
+
+        // rotate the scene menu to face the user's head
+        float signedAzimuthOfHeadForward = 0f;
+        float zenithOfHeadForward = 0f;
+        AngleCalculations.CalculateAzimuthAndZenithFromPointerDirection(m_HeadTransform.forward,
+            Vector3.up, Vector3.forward, Vector3.zero, default(Color), default(Color),
+            ref signedAzimuthOfHeadForward, ref zenithOfHeadForward);
+
+        m_ThisTransform.localRotation = 
+            Quaternion.Euler(0, -signedAzimuthOfHeadForward, 0);
+
         StartCoroutine(ShowSceneMenuRoutine());
     }
 
     public void HideSceneMenu()
     {
+        m_IsMenuShown = false;
         StartCoroutine(HideSceneMenuRoutine());
     }
 
