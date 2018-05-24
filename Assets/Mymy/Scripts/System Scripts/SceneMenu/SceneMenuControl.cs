@@ -36,7 +36,7 @@ public class SceneMenuControl : MonoBehaviour,
     private int m_NumOfConsecutiveClicks = 1;
 
     private bool m_IsInputPressUp;
-    private bool m_IsMenuShown;
+    private bool m_IsMenuShown = false;
 
 
     /* MonoBehaviour */
@@ -99,7 +99,16 @@ public class SceneMenuControl : MonoBehaviour,
 
     private void OnMultipleClicked()
     {
-        ShowSceneMenu();
+        if (!m_IsMenuShown)
+        {
+            m_IsMenuShown = true;
+            ShowSceneMenu();
+        }
+        else
+        {
+            m_IsMenuShown = false;
+            HideSceneMenu();
+        }
     }
 
     private IEnumerator ShowSceneMenuRoutine()
