@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.408733, g: 0.40787095, b: 0.44385615, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -819,7 +819,7 @@ Prefab:
     - target: {fileID: 224494173897399494, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
@@ -1294,7 +1294,7 @@ MonoBehaviour:
   lighterProgress: {fileID: 554476764}
   handWaveProgress: {fileID: 1453683844}
   lighterObject: {fileID: 8686346}
-  lighterHeadDistanceMultiplier: 1.5
+  lighterHeadDistanceMultiplier: 1.25
 --- !u!4 &1601530040
 Transform:
   m_ObjectHideFlags: 0

@@ -112,7 +112,7 @@ public class HandLighterSwitchControl : MonoBehaviour
         if (isLighterOn)
         {
             // update lighter transform
-            lighterTransform.position = (originalControllerModelTransform.position - headTransform.position) * lighterHeadDistanceMultiplier;
+            lighterTransform.position = (originalControllerModelTransform.position - headTransform.position) * lighterHeadDistanceMultiplier + headTransform.position;
             lighterTransform.rotation =
                 Quaternion.LookRotation(lighterTransform.position - headTransform.position);
             // fix x-, z-axis rotation

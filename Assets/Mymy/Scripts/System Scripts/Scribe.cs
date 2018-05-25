@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -126,9 +127,33 @@ namespace DrugVR_Scribe
             DrugVR_SceneENUM enumIndex = 0;
 
             foreach (string sceneParam in stringScenesParams)
-            {           
+            {
                 SceneDictionary.Add(enumIndex++, new Scroll(sceneParam));
-            }            
+            }
+
+        }
+
+        public static IEnumerator LoadTxtDataWWW()
+        {
+            string sceneNameData;
+            using (WWW sceneNameDataRaw = new WWW(Application.streamingAssetsPath + "/SceneNames.txt"))
+            {
+                yield return sceneNameDataRaw;
+                sceneNameData = sceneNameDataRaw.text;
+            }
+
+            // use '\r' and '\n' (preferred to Environment.NewLine only) to cater for both Unix and non-Unix systems
+            // because the txt file may be written in Windows (where Environment.NewLine = "\r\n")
+            // and it may be read in Android (linux where Environment.NewLine = "\n", so there may be a trailing '\r' at the end of every line after string.Split())
+            char[] newLineChars = (Environment.NewLine + "\r\n").ToCharArray().Distinct().ToArray();
+            string[] stringScenesParams = sceneNameData.Split(newLineChars, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray();
+            //Debug.Log(stringScenesParams[1]);
+            DrugVR_SceneENUM enumIndex = 0;
+
+            foreach (string sceneParam in stringScenesParams)
+            {
+                SceneDictionary.Add(enumIndex++, new Scroll(sceneParam));
+            }
         }
     }
 

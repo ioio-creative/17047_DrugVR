@@ -107,6 +107,11 @@ namespace Scene07Party
         [Serializable]
         public class SphereVideoPackage
         {
+            /*
+                Reference of Alpha Video import in Unity:
+                http://tsubakit1.hateblo.jp/entry/2017/03/20/134727 
+            */
+
             private PartyVFXAnimationControl AnimCtrlRef;
             [SerializeField]
             private PartyOptionEnum m_PartyOption;
@@ -153,15 +158,16 @@ namespace Scene07Party
         {
             if (!m_SphereMeshRenderer)
             {
-                m_SphereMeshRenderer = GetComponent<MeshRenderer>();
-                m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+                m_SphereMeshRenderer = GetComponent<MeshRenderer>();              
             }
+            m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+
             if (!m_FXVideoPlayer)
             {
-                m_FXVideoPlayer = GetComponent<VideoPlayer>();
-                m_FXVideoPlayer.source = VideoSource.VideoClip;
-                m_FXVideoPlayer.skipOnDrop = true;
+                m_FXVideoPlayer = GetComponent<VideoPlayer>();              
             }
+            m_FXVideoPlayer.source = VideoSource.VideoClip;
+            m_FXVideoPlayer.skipOnDrop = true;
         }
 
         private void Start()

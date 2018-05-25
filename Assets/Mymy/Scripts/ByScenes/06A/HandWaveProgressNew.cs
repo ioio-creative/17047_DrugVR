@@ -159,15 +159,16 @@ public class HandWaveProgressNew : MonoBehaviour
 
 
     /* Fader */
-
+    
     private void CheckAndFadeIn()
     {
-        if (!m_HandWaveProgressFader.Visible)
+        if (m_HandWaveProgressFader.Fading == m_HandWaveProgressFader.Visible)
         {            
-            StartCoroutine(m_HandWaveProgressFader.CheckAndFadeIn());
-        }
+            StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeIn());
+        }        
     }
 
+    //TODO::Revise Condition
     private void CheckAndFadeOutAndReset()
     {
         if (m_HandWaveProgressFader.Visible)
@@ -179,9 +180,10 @@ public class HandWaveProgressNew : MonoBehaviour
     }
 
     // HandLigherSwitchControl can control fade out
+    //TODO::Revise Condition
     public void InterruptAndFadeOutAndReset()
     {
-        if (m_HandWaveProgressFader.Visible)
+        if (m_HandWaveProgressFader.Fading || m_HandWaveProgressFader.Visible)
         {
             StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());
             m_ProgressBar.Reset();

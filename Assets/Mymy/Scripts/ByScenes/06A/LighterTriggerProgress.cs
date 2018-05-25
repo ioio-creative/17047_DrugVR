@@ -315,17 +315,19 @@ public class LighterTriggerProgress : MonoBehaviour
 
     /* Fader */
 
-    public void InterruptAndFadeIn()
+    //TODO::Revise Condition
+    private void InterruptAndFadeIn()
     {
-        if (!m_ProgressableFader.Visible)
+        if (m_ProgressableFader.Fading || !m_ProgressableFader.Visible)
         {
             StartCoroutine(m_ProgressableFader.InterruptAndFadeIn()); 
         }        
     }
 
+    //TODO::Revise Condition
     public void InterruptAndFadeOut()
     {
-        if (m_ProgressableFader.Visible)
+        if (m_ProgressableFader.Fading || m_ProgressableFader.Visible)
         {
             StartCoroutine(m_ProgressableFader.InterruptAndFadeOut());
             m_GazeOver = false;

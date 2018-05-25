@@ -154,10 +154,10 @@ public class GameManager : MonoBehaviour
         else if (Instance != this)
         {
             Destroy(gameObject);
-        }        
+        }       
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
         DebugLog(Application.persistentDataPath);
 
@@ -165,7 +165,9 @@ public class GameManager : MonoBehaviour
 
         HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
         Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();
-        
+
+        yield return StartCoroutine(Scribe.LoadTxtDataWWW());
+
         StartCoroutine(ReadScroll(CurrentSceneScroll));       
     }
 
