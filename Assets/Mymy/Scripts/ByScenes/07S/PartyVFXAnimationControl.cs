@@ -116,15 +116,6 @@ namespace Scene07Party
             public float EffectRotation;
             public bool IsRepeat;
            
-            public bool IsFinishedPlaying
-            {
-                get { return m_IsFinishedPlaying; }
-                set
-                {
-                    AnimCtrlRef.IsPlaying = !value;
-                    m_IsFinishedPlaying = value;
-                }
-            }
             private bool m_IsFinishedPlaying = true;
 
             public void InitializeSphereVideoPackage(PartyVFXAnimationControl partyVFXAnimationControl)
@@ -268,7 +259,6 @@ namespace Scene07Party
                 }
             }
         }
-
         public void StopAnimationSeq(SphereAnimationSeqPackage sphereAnim)
         {
             sphereAnim.IsFinishedPlaying = true;
@@ -293,27 +283,39 @@ namespace Scene07Party
 
 
         private IEnumerator PlayFXVideo(SphereVideoPackage sphereVideo)
-        {           
-            m_FXVideoPlayer.clip = sphereVideo.FXVideoClip;
-            m_FXVideoPlayer.Prepare();
-            yield return m_FXVideoPlayer.isPrepared;
-
-            Quaternion FXRotation = Quaternion.Euler(0, sphereVideo.EffectRotation, 0);
-            m_SphereMeshRenderer.transform.rotation = FXRotation;
-            m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
-
-            m_FXVideoPlayer.loopPointReached += HandleFXVideoEnd;
-            m_FXVideoPlayer.Play();
-            sphereVideo.IsFinishedPlaying = false;
-            if (OnFXPlay != null)
+        {
+            if (!m_FXVideoPlayer.isPlaying)
             {
-                OnFXPlay();
+                m_FXVideoPlayer.clip = sphereVideo.FXVideoClip;
+                m_FXVideoPlayer.Prepare();
+                yield return m_FXVideoPlayer.isPrepared;
+
+                Quaternion FXRotation = Quaternion.Euler(0, sphereVideo.EffectRotation, 0);
+                m_SphereMeshRenderer.transform.rotation = FXRotation;
+                m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
+
+                m_FXVideoPlayer.loopPointReached += HandleFXVideoEnd;
+                m_FXVideoPlayer.Play();
+                if (OnFXPlay != null)
+                {
+                    OnFXPlay();
+                } 
             }
         }
-
+        public void StopFXVideo()
+        {
+            m_FXVideoPlayer.Stop();
+            m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+            if (OnFXEnd != null)
+            {
+                OnFXEnd();
+            }
+            m_FXVideoPlayer.loopPointReached -= HandleFXVideoEnd;
+        }
         private void HandleFXVideoEnd(VideoPlayer source)
         {
             m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+            source.Stop();
             if (OnFXEnd != null)
             {
                 OnFXEnd();
