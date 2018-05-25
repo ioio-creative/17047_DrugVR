@@ -12,23 +12,28 @@ public class RotateWithTimeIntermittenly : MonoBehaviour
     [SerializeField]
     private float secondsToWaitBetweenRotations;
     [SerializeField]
+    private float secondsToWaitBeforeStartingRotation;
+    [SerializeField]
     private float secondsForEachRotation;
 
     private Transform thisTransform;
+    private int numOfRotationsMade;
 
 
-    private void Start()
+    private IEnumerator Start()
     {
         thisTransform = transform;
+        numOfRotationsMade = 0;
+
+        yield return new WaitForSeconds(secondsToWaitBeforeStartingRotation);
         StartCoroutine(RotateIntermittenly());
     }
 
     private IEnumerator RotateIntermittenly()
     {
-        Quaternion fromRotation = Quaternion.identity;
-        Quaternion toRotation = fromRotation;
-        Quaternion amountToRotateEachTime = 
-            Quaternion.AngleAxis(360 / numOfPartsToDivideTheCircle, rotationAxis);
+        Quaternion intialRotation = thisTransform.rotation;
+        Quaternion fromRotation = intialRotation;
+        Quaternion toRotation = Quaternion.AngleAxis(360 / numOfPartsToDivideTheCircle, rotationAxis);
 
         float startTime = Time.time;
 
@@ -36,9 +41,22 @@ public class RotateWithTimeIntermittenly : MonoBehaviour
         {
             if (thisTransform.rotation == toRotation)
             {
+                numOfRotationsMade++;
+
                 fromRotation = thisTransform.rotation;
-                // https://docs.unity3d.com/ScriptReference/Quaternion-operator_multiply.html
-                toRotation = thisTransform.rotation * amountToRotateEachTime;
+                // even though numOfPartsToDivideTheCircle may not divide 360, this won't result in any error
+                toRotation = Quaternion.AngleAxis(numOfRotationsMade * 360 / numOfPartsToDivideTheCircle, rotationAxis);
+
+                // didn't use modulus here because Quaternion.AngleAxis(0, rotationAxis) would result in no rotation
+
+                // also didn't use the following, somehow won't work after one complete rotation
+                //if (numOfRotationsMade == numOfPartsToDivideTheCircle)
+                //{
+                //    numOfRotationsMade = 0;
+                //}
+                //Debug.Log("num of rotations: " + numOfRotationsMade + ", current: " + thisTransform.rotation + ", to: " + toRotation);
+
+                // so I just allow numOfRotationsMade continue to increase, it's OK.
 
                 yield return new WaitForSeconds(secondsToWaitBetweenRotations);
 
@@ -48,7 +66,7 @@ public class RotateWithTimeIntermittenly : MonoBehaviour
             {
                 thisTransform.rotation = Quaternion.Slerp(
                     fromRotation, toRotation, (Time.time - startTime) / secondsForEachRotation);
-            }
+            }            
 
             yield return null;
         }                

@@ -20,6 +20,9 @@ public class HandLighterSwitchControl : MonoBehaviour
     private Transform lighterTransform;
     //private readonly Quaternion LighterFixedQuaternion = Quaternion.Euler(0, 0, 0);
 
+    [SerializeField]
+    private float lighterHeadDistanceMultiplier;
+
     private GameObject controllerPosTrkMan;
     private GameObject originalControllerModel;
     private Transform originalControllerModelTransform;
@@ -109,7 +112,7 @@ public class HandLighterSwitchControl : MonoBehaviour
         if (isLighterOn)
         {
             // update lighter transform
-            lighterTransform.position = originalControllerModelTransform.position;
+            lighterTransform.position = (originalControllerModelTransform.position - headTransform.position) * lighterHeadDistanceMultiplier;
             lighterTransform.rotation =
                 Quaternion.LookRotation(lighterTransform.position - headTransform.position);
             // fix x-, z-axis rotation

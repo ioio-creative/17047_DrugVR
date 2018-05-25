@@ -440,6 +440,7 @@ MonoBehaviour:
   rotationAxis: {x: 0, y: -1, z: 0}
   numOfPartsToDivideTheCircle: 7
   secondsToWaitBetweenRotations: 5
+  secondsToWaitBeforeStartingRotation: 5
   secondsForEachRotation: 5
 --- !u!1001 &986460148
 Prefab:
