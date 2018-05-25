@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.Video;
 
 namespace Scene07Party
 {
     [RequireComponent(typeof(MeshRenderer))]
     public class PartyVFXAnimationControl : MonoBehaviour {
 
-        private static IDictionary<PartyOptionEnum, SphereAnimationPackage> PartyFXDictionary = new Dictionary<PartyOptionEnum, SphereAnimationPackage>(new PartyEnumComparer());
+        //private static IDictionary<PartyOptionEnum, SphereAnimationSeqPackage> PartyFXDictionary = new Dictionary<PartyOptionEnum, SphereAnimationSeqPackage>(new PartyEnumComparer());
+        //private static IDictionary<PartyOptionEnum, VideoClip> PartyFXDictionary = new Dictionary<PartyOptionEnum, VideoClip>(new PartyEnumComparer());
+        private static IDictionary<PartyOptionEnum, object> PartyFXDictionary = new Dictionary<PartyOptionEnum, object>(new PartyEnumComparer());
 
         [Serializable]
-        public class SphereAnimationPackage
+        public class SphereAnimationSeqPackage
         {
             private PartyVFXAnimationControl AnimCtrlRef;
 
@@ -24,13 +27,11 @@ namespace Scene07Party
             [Range(0, 360)]
             public float EffectRotation;
             [SerializeField]
-            public float FrameRate;
+            public float FrameRate = 30;
             [SerializeField]
             private int numberOfFrames;
-            [SerializeField]
-            public bool IsRepeat;
 
-            private bool m_IsReady = false;
+            public bool IsRepeat;
 
             public Texture2D[] Frames { get; private set; }
             public bool IsFinishedPlaying
@@ -103,19 +104,56 @@ namespace Scene07Party
             }
         }
 
+        [Serializable]
+        public class SphereVideoPackage
+        {
+            private PartyVFXAnimationControl AnimCtrlRef;
+            [SerializeField]
+            private PartyOptionEnum m_PartyOption;
+            public VideoClip FXVideoClip;
+            [SerializeField]
+            [Range(0, 360)]
+            public float EffectRotation;
+            public bool IsRepeat;
+           
+            public bool IsFinishedPlaying
+            {
+                get { return m_IsFinishedPlaying; }
+                set
+                {
+                    AnimCtrlRef.IsPlaying = !value;
+                    m_IsFinishedPlaying = value;
+                }
+            }
+            private bool m_IsFinishedPlaying = true;
+
+            public void InitializeSphereVideoPackage(PartyVFXAnimationControl partyVFXAnimationControl)
+            {
+                AnimCtrlRef = partyVFXAnimationControl;
+                PartyFXDictionary.Add(m_PartyOption, this);
+                Debug.Log(m_PartyOption + " FX Loading Completed");
+            }
+        }
+
         private bool m_IsPlaying;
         public bool IsPlaying
         {
             get { return m_IsPlaying; }
             set { m_IsPlaying = value; }
         }
-
-        [SerializeField]
-        private SphereAnimationPackage[] m_SphereVFXAnimations = new SphereAnimationPackage[3];
         [SerializeField]
         private MeshRenderer m_SphereMeshRenderer;
+        [SerializeField]
+        private VideoPlayer m_FXVideoPlayer;
 
+        [SerializeField]
+        private SphereAnimationSeqPackage[] m_SphereImgSequences;
         private const string defaultResourceFormatPath = "s7-02a-once/B_{0:d5}";
+
+
+        [SerializeField]
+        private SphereVideoPackage[] m_SphereVideos;
+        
 
         public event Action OnFXPlay;
         public event Action OnFXEnd;
@@ -125,27 +163,42 @@ namespace Scene07Party
             if (!m_SphereMeshRenderer)
             {
                 m_SphereMeshRenderer = GetComponent<MeshRenderer>();
+                m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
             }
-
-            
+            if (!m_FXVideoPlayer)
+            {
+                m_FXVideoPlayer = GetComponent<VideoPlayer>();
+                m_FXVideoPlayer.source = VideoSource.VideoClip;
+                m_FXVideoPlayer.skipOnDrop = true;
+            }
         }
 
         private void Start()
         {
-            foreach (SphereAnimationPackage VFXPackage in m_SphereVFXAnimations)
+            foreach (SphereAnimationSeqPackage VFXPackage in m_SphereImgSequences)
             {
                 StartCoroutine(VFXPackage.InitializeSphereAnimationPackage(this));
             }
-            m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
-            SetAnimationFrame(m_SphereVFXAnimations[0], 0);
+
+            foreach (SphereVideoPackage VFXPackage in m_SphereVideos)
+            {
+                VFXPackage.InitializeSphereVideoPackage(this);
+            }        
         }
 
         public void PlayPartyVFX(PartyOptionEnum FXType)
-        {
-            StartCoroutine(PlayFXAnim(PartyFXDictionary[FXType]));          
+        {          
+            if (PartyFXDictionary[FXType] is SphereAnimationSeqPackage)
+            {
+                StartCoroutine(PlayFXAnimSeq(PartyFXDictionary[FXType] as SphereAnimationSeqPackage));
+            }
+            else if (PartyFXDictionary[FXType] is SphereVideoPackage)
+            {
+                StartCoroutine(PlayFXVideo(PartyFXDictionary[FXType] as SphereVideoPackage));
+            }
         }
 
-        private IEnumerator PlayFXAnim(SphereAnimationPackage sphereAnim)
+        private IEnumerator PlayFXAnimSeq(SphereAnimationSeqPackage sphereAnim)
         {
             if (!m_IsPlaying)
             {
@@ -216,7 +269,7 @@ namespace Scene07Party
             }
         }
 
-        public void StopAnimation(SphereAnimationPackage sphereAnim)
+        public void StopAnimationSeq(SphereAnimationSeqPackage sphereAnim)
         {
             sphereAnim.IsFinishedPlaying = true;
             if (OnFXEnd != null)
@@ -224,21 +277,48 @@ namespace Scene07Party
                 OnFXEnd();
             }
         }
-
-        public void StopAnimation(SphereAnimationPackage sphereAnim, int frameToShowAfterStop)
+        public void StopAnimationSeq(SphereAnimationSeqPackage sphereAnim, int frameToShowAfterStop)
         {
-            StopAnimation(sphereAnim);
+            StopAnimationSeq(sphereAnim);
             if (frameToShowAfterStop < sphereAnim.Frames.Length)
             {
                 SetAnimationFrame(sphereAnim, frameToShowAfterStop);
             }
             m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
         }
-
-        private void SetAnimationFrame(SphereAnimationPackage sphereAnim, int i)
+        private void SetAnimationFrame(SphereAnimationSeqPackage sphereAnim, int i)
         {
             m_SphereMeshRenderer.material.SetTexture("_MainTex", sphereAnim.Frames[i]);
         }
 
+
+        private IEnumerator PlayFXVideo(SphereVideoPackage sphereVideo)
+        {           
+            m_FXVideoPlayer.clip = sphereVideo.FXVideoClip;
+            m_FXVideoPlayer.Prepare();
+            yield return m_FXVideoPlayer.isPrepared;
+
+            Quaternion FXRotation = Quaternion.Euler(0, sphereVideo.EffectRotation, 0);
+            m_SphereMeshRenderer.transform.rotation = FXRotation;
+            m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
+
+            m_FXVideoPlayer.loopPointReached += HandleFXVideoEnd;
+            m_FXVideoPlayer.Play();
+            sphereVideo.IsFinishedPlaying = false;
+            if (OnFXPlay != null)
+            {
+                OnFXPlay();
+            }
+        }
+
+        private void HandleFXVideoEnd(VideoPlayer source)
+        {
+            m_SphereMeshRenderer.material.SetFloat("_Transparency", 0);
+            if (OnFXEnd != null)
+            {
+                OnFXEnd();
+            }
+            source.loopPointReached -= HandleFXVideoEnd;
+        }
     }
 }

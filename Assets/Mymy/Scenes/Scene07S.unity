@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41003078, g: 0.40951416, b: 0.44542342, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1825,6 +1825,7 @@ GameObject:
   - component: {fileID: 1784894937}
   - component: {fileID: 1784894939}
   - component: {fileID: 1784894938}
+  - component: {fileID: 1784894940}
   m_Layer: 0
   m_Name: PartyVFXSphereMask
   m_TagString: Untagged
@@ -1857,26 +1858,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8610870d29ce6be4e955ceb9669a91f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SphereVFXAnimations:
+  m_SphereMeshRenderer: {fileID: 1784894938}
+  m_FXVideoPlayer: {fileID: 1784894940}
+  m_SphereImgSequences: []
+  m_SphereVideos:
   - m_PartyOption: 1
-    resourceFormatPath: s7-02a-once/B_{0:d5}
+    FXVideoClip: {fileID: 32900000, guid: e3d2f27ac38a4e446b69ce554902733e, type: 3}
     EffectRotation: 0
-    FrameRate: 30
-    numberOfFrames: 360
     IsRepeat: 0
   - m_PartyOption: 2
-    resourceFormatPath: s7-02b-once/d_{0:d5}
-    EffectRotation: 290
-    FrameRate: 30
-    numberOfFrames: 480
+    FXVideoClip: {fileID: 32900000, guid: a10a57ba625339147890fe4d758007d3, type: 3}
+    EffectRotation: 0
     IsRepeat: 0
   - m_PartyOption: 3
-    resourceFormatPath: s7-02c-once/tb_{0:d5}
-    EffectRotation: 327
-    FrameRate: 30
-    numberOfFrames: 359
+    FXVideoClip: {fileID: 32900000, guid: 9ce7a998a7b950c428e66f9fa425450b, type: 3}
+    EffectRotation: 320
     IsRepeat: 0
-  m_SphereMeshRenderer: {fileID: 1784894938}
 --- !u!23 &1784894938
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1920,6 +1917,37 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1784894935}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!328 &1784894940
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1784894935}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 0}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 109fb1c0ff6f80d4a8a9618fa596ad82, type: 2}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: _MainTex
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 0
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
+  m_Url: 
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
+  m_PlayOnAwake: 0
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
 --- !u!1001 &1827540351
 Prefab:
   m_ObjectHideFlags: 0

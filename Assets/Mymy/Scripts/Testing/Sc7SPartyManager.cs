@@ -164,19 +164,23 @@ namespace Scene07Party
             {
                 LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt]);
             }
-            else
-            {
-                //Go To Next Scene if no more rounds to play
-                m_Sc7SClientRef.GoToSceneOnChoice();
-            }
+            
         }
 
         private void HandleFXEnd()
         {
-            //Fade in all the buttons for the next round
-            foreach (UIFader fader in m_OptionUIFaders)
+            if (m_PartyRoundCnt < m_PartyRoundContainer.Length)
             {
-                StartCoroutine(fader.InterruptAndFadeIn());
+                //Fade in all the buttons for the next round
+                foreach (UIFader fader in m_OptionUIFaders)
+                {
+                    StartCoroutine(fader.InterruptAndFadeIn());
+                } 
+            }
+            else
+            {
+                //Go To Next Scene if no more rounds to play
+                m_Sc7SClientRef.GoToSceneOnChoice();
             }
         }
 
