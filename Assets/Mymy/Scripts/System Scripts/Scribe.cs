@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace DrugVR_Scribe
@@ -98,6 +99,15 @@ namespace DrugVR_Scribe
                     return Ending.EndingC;
                 }
             }
+        }
+
+        public static bool GetSideValueByName(string nameOfSide)
+        {
+            // use C# reflection here
+            FieldInfo sceneChoiceField = typeof(Scribe).GetField(nameOfSide);
+
+            // null for getting value from static field
+            return (bool)sceneChoiceField.GetValue(null);
         }
 
         static Scribe()

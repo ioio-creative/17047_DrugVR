@@ -24,12 +24,8 @@ public class SceneChoiceDisplay : MonoBehaviour
     /* MonoBehaviour */
 
     private void Start()
-    {
-        // use C# reflection here
-        FieldInfo sceneChoiceField = typeof(Scribe).GetField(m_SceneChoiceName);
-
-        // null for getting value from static field
-        m_SceneChoice = (bool)sceneChoiceField.GetValue(null);
+    {       
+        m_SceneChoice = Scribe.GetSideValueByName(m_SceneChoiceName);
 
         m_ChoiceImage.sprite = m_SceneChoice ?
             m_TrueChoiceSprite : m_FalseChoiceSprite;
