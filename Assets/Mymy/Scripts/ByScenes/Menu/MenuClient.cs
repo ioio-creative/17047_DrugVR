@@ -1,15 +1,16 @@
 ﻿using DrugVR_Scribe;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using VRStandardAssets.Utils;
 
 public class MenuClient : MonoBehaviour,
-    ShowAndHideSceneMenu
+    IShowAndHideSceneMenu
 {    
     [SerializeField]
-    private GameObject[] m_FaderToStartContainers;
-    private UIFader[] m_FadersToStart;
+    private GameObject[] m_FaderContainers;
+    private UIFader[] m_Faders;
 
     [SerializeField]
     private GridLayoutGroup m_SceneBtnGrid;
@@ -38,10 +39,10 @@ public class MenuClient : MonoBehaviour,
         }
 
         List<UIFader> faders = new List<UIFader>();
-        foreach (GameObject faderToStartContainer in m_FaderToStartContainers)
+        foreach (GameObject faderContainer in m_FaderContainers)
         {
             // check if the game object contains UIFader component
-            UIFader fader = faderToStartContainer.GetComponent<UIFader>();
+            UIFader fader = faderContainer.GetComponent<UIFader>();
 
             if (fader)
             {
@@ -51,10 +52,10 @@ public class MenuClient : MonoBehaviour,
             // check the game object's children
             else
             {
-                faders.AddRange(faderToStartContainer.GetComponentsInChildren<UIFader>());
+                faders.AddRange(faderContainer.GetComponentsInChildren<UIFader>());
             }
         }
-        m_FadersToStart = faders.ToArray();
+        m_Faders = faders.ToArray();
 
         m_SceneBtnGridTransform = m_SceneBtnGrid.transform;
     }
@@ -74,17 +75,39 @@ public class MenuClient : MonoBehaviour,
 
         // TODO: The following assume some hierachical structure among the components
         newSceneBtn.GetComponent<GoToSceneOnSelected>().SceneToGoNext = scene;
+        newSceneBtn.GetComponent<FadeSceneMenuOnSelected>().SceneMenuControl = this;
         newSceneBtn.GetComponent<MatchColliderToGrid>().Grid = gridLayoutGroup;
         newSceneBtn.GetComponentInChildren<Text>().text = scene.ToString();
         return newSceneBtn;
     }
 
+    private IEnumerator HideSceneMenuRoutine()
+    {
+        foreach (UIFader fader in m_Faders)
+        {
+            StartCoroutine(fader.InterruptAndFadeOut());
+        }
 
-    /* ShowAndHideSceneMenu interface */
+        // wait till all faders are invisible
+        yield return new WaitUntil(() =>
+        {
+            foreach (UIFader fader in m_Faders)
+            {
+                if (fader.Visible)
+                {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
+
+
+    /* IShowAndHideSceneMenu interface */
 
     public void ShowSceneMenu()
     {
-        foreach (UIFader fader in m_FadersToStart)
+        foreach (UIFader fader in m_Faders)
         {
             StartCoroutine(fader.InterruptAndFadeIn());
         }
@@ -92,11 +115,8 @@ public class MenuClient : MonoBehaviour,
 
     public void HideSceneMenu()
     {
-        foreach (UIFader fader in m_FadersToStart)
-        {
-            StartCoroutine(fader.InterruptAndFadeOut());
-        }
+        StartCoroutine(HideSceneMenuRoutine());
     }
 
-    /* end of ShowAndHideSceneMenu interface */
+    /* end of IShowAndHideSceneMenu interface */
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace DrugVR_Scribe
@@ -39,6 +40,13 @@ namespace DrugVR_Scribe
         Menu
     }
 
+    public enum Ending
+    {
+        EndingA,
+        EndingB,
+        EndingC
+    }
+
     //This Static class records all the choices made by player, as well as storing scene names as string
     public static class Scribe
     {
@@ -55,7 +63,7 @@ namespace DrugVR_Scribe
             }
         }
 
-        public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary = 
+        public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary =
             new Dictionary<DrugVR_SceneENUM, Scroll>(new DrugVREnumComparer());
 
         //Scene 1 Side Taking
@@ -70,6 +78,37 @@ namespace DrugVR_Scribe
         public static bool Side05 = false;
         //Scene 7 Side Taking
         public static bool Side06 = false;
+        //Which ending to display for the player
+        public static Ending EndingForPlayer
+        {
+            get
+            {
+                // both Side05 and Side06 are true
+                if (Side05 && Side06)
+                {
+                    return Ending.EndingA;                    
+                }
+                // either one of Side05 or Side06 is true
+                else if (Scribe.Side05 || Scribe.Side06)
+                {
+                    return Ending.EndingB;
+                }
+                // both Side05 and Side06 are false
+                else
+                {
+                    return Ending.EndingC;
+                }
+            }
+        }
+
+        public static bool GetSideValueByName(string nameOfSide)
+        {
+            // use C# reflection here
+            FieldInfo sceneChoiceField = typeof(Scribe).GetField(nameOfSide);
+
+            // null for getting value from static field
+            return (bool)sceneChoiceField.GetValue(null);
+        }
 
         static Scribe()
         {
@@ -141,3 +180,5 @@ namespace DrugVR_Scribe
         }
     }
 }
+ 
+ 

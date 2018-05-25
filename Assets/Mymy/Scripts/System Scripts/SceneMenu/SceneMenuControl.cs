@@ -8,7 +8,7 @@ using wvr;
 
 // This class is essentially a copy of MenuClient
 public class SceneMenuControl : MonoBehaviour,
-    ShowAndHideSceneMenu
+    IShowAndHideSceneMenu
 {
     [SerializeField]
     private List<UIFader> m_Faders;
@@ -35,8 +35,11 @@ public class SceneMenuControl : MonoBehaviour,
     private float m_LastMouseUpTime;  // The time when Fire1 was last released.
     private int m_NumOfConsecutiveClicks = 1;
 
+    private Transform m_HeadTransform;
+    private Transform m_ThisTransform;
+
     private bool m_IsInputPressUp;
-    private bool m_IsMenuShown;
+    private bool m_IsMenuShown = false;    
 
 
     /* MonoBehaviour */
@@ -54,6 +57,8 @@ public class SceneMenuControl : MonoBehaviour,
         m_BackgroundImage.enabled = false;
 
         m_WaveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
+        m_HeadTransform = GameManager.Instance.HeadObject.transform;
+        m_ThisTransform = transform;
     }
 
     private void Update()
@@ -99,7 +104,14 @@ public class SceneMenuControl : MonoBehaviour,
 
     private void OnMultipleClicked()
     {
-        ShowSceneMenu();
+        if (!m_IsMenuShown)
+        {         
+            ShowSceneMenu();
+        }
+        else
+        {            
+            HideSceneMenu();
+        }
     }
 
     private IEnumerator ShowSceneMenuRoutine()
@@ -173,8 +185,9 @@ public class SceneMenuControl : MonoBehaviour,
 
         // TODO: The following assume some hierachical structure among the components
         newSceneBtn.GetComponent<GoToSceneOnSelected>().SceneToGoNext = scene;
+        newSceneBtn.GetComponent<FadeSceneMenuOnSelected>().SceneMenuControl = this;
         newSceneBtn.GetComponent<MatchColliderToGrid>().Grid = gridLayoutGroup;
-        newSceneBtn.GetComponentInChildren<Text>().text = scene.ToString();
+        newSceneBtn.GetComponentInChildren<Text>().text = scene.ToString();        
         m_Faders.Add(newSceneBtn.GetComponent<UIFader>());
 
         return newSceneBtn;
@@ -182,27 +195,40 @@ public class SceneMenuControl : MonoBehaviour,
 
     private IEnumerator DestroySceneBtnsAndDeassignFaders()
     {
-        m_Faders = null;
-
         foreach (UIFader fader in m_Faders)
         {
             Destroy(fader.gameObject);
             yield return null;
         }
+
+        m_Faders = null;
     }
 
 
-    /* ShowAndHideSceneMenu interface */
+    /* IShowAndHideSceneMenu interface */
 
     public void ShowSceneMenu()
     {
+        m_IsMenuShown = true;
+
+        // rotate the scene menu to face the user's head
+        float signedAzimuthOfHeadForward = 0f;
+        float zenithOfHeadForward = 0f;
+        AngleCalculations.CalculateAzimuthAndZenithFromPointerDirection(m_HeadTransform.forward,
+            Vector3.up, Vector3.forward, Vector3.zero, default(Color), default(Color),
+            ref signedAzimuthOfHeadForward, ref zenithOfHeadForward);
+
+        m_ThisTransform.localRotation = 
+            Quaternion.Euler(0, -signedAzimuthOfHeadForward, 0);
+
         StartCoroutine(ShowSceneMenuRoutine());
     }
 
     public void HideSceneMenu()
     {
+        m_IsMenuShown = false;
         StartCoroutine(HideSceneMenuRoutine());
     }
 
-    /* end of ShowAndHideSceneMenu interface */
+    /* end of IShowAndHideSceneMenu interface */
 }

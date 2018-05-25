@@ -1,4 +1,4 @@
-﻿public interface ShowAndHideSceneMenu
+﻿public interface IShowAndHideSceneMenu
 {
     void ShowSceneMenu();
     void HideSceneMenu();

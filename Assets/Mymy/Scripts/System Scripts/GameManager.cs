@@ -349,7 +349,10 @@ public class GameManager : MonoBehaviour
 
     private void OnVideoEnd(VideoPlayer source)
     {
-        OnSceneVideoEnd(source);
+        if (OnSceneVideoEnd != null)
+        {
+            OnSceneVideoEnd(source);
+        }
     }
 
     private void OnNewVideoFrameArrived(VideoPlayer source, long frameIdx)
