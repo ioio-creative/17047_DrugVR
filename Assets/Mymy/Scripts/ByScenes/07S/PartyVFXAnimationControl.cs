@@ -303,10 +303,10 @@ namespace Scene07Party
 
                 Quaternion FXRotation = Quaternion.Euler(0, sphereVideo.EffectRotation, 0);
                 m_SphereMeshRenderer.transform.rotation = FXRotation;
-                m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
-
+                
                 m_FXVideoPlayer.loopPointReached += HandleFXVideoEnd;
                 m_FXVideoPlayer.Play();
+                m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
                 if (OnFXPlay != null)
                 {
                     OnFXPlay();
