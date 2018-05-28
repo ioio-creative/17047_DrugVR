@@ -1,6 +1,7 @@
 ﻿using DrugVR_Scribe;
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -189,6 +190,11 @@ public class GameManager : MonoBehaviour
         DebugLog(Application.persistentDataPath);
 
         CurrentScene = m_CurrentScene;
+
+        if (SceneManager.GetActiveScene().name != CurrentSceneScroll.SceneName)
+        {
+            CurrentScene = Scribe.SceneDictionary.Single(x => x.Value.SceneName == SceneManager.GetActiveScene().name).Key;
+        }
 
         HMD = FindObjectOfType<WaveVR_Render>().gameObject.GetComponent<WaveVR_DevicePoseTracker>();
         Controller = FindObjectOfType<WaveVR_ControllerPoseTracker>();

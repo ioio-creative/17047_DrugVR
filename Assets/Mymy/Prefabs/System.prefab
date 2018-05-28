@@ -557,7 +557,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1575039817763564}
-  m_LocalRotation: {x: -0, y: 0.53774107, z: -0, w: 0.84311}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -865,7 +865,7 @@ MonoBehaviour:
   m_DebugCanvas: {fileID: 223050204269839014}
   m_DebugText: {fileID: 114932200241293848}
   m_IsShowDebugCanvas: 0
-  m_CurrentScene: 9
+  m_CurrentScene: 0
   VideoSkyMat: {fileID: 2100000, guid: bee79b527dc6b154eb4ca20485e8ff81, type: 2}
   StillSkyMat: {fileID: 2100000, guid: a5dc82d49b2032b4ebfba70fc2b6a96e, type: 2}
   FadeToBlack: 1
