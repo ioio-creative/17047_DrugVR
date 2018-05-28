@@ -36,10 +36,27 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance = null;
 
     [SerializeField]
-    private Text m_DebugText;
-
+    private Canvas m_DebugCanvas;
     [SerializeField]
-    private bool m_IsShowDebugText = false;
+    private Text m_DebugText;
+    [SerializeField]
+    private bool m_IsShowDebugCanvas;
+    public bool IsShowingDebugCanvas
+    {
+        get { return m_IsShowDebugCanvas; }
+        set
+        {
+            m_IsShowDebugCanvas = value;
+            if (m_IsShowDebugCanvas)
+            {
+                m_DebugCanvas.gameObject.SetActive(true);
+            }
+            else
+            {
+                m_DebugCanvas.gameObject.SetActive(false);
+            }
+        }
+    }
 
     private GameObject m_FocusControllerObject;
     public GameObject FocusControllerObject
@@ -154,7 +171,17 @@ public class GameManager : MonoBehaviour
         else if (Instance != this)
         {
             Destroy(gameObject);
-        }       
+        }
+
+        //Debug Canvas
+        if (m_IsShowDebugCanvas)
+        {
+            m_DebugCanvas.gameObject.SetActive(true);
+        }
+        else
+        {
+            m_DebugCanvas.gameObject.SetActive(false);
+        }
     }
 
     private IEnumerator Start()
@@ -278,6 +305,7 @@ public class GameManager : MonoBehaviour
             //if we dont want to use fading, just load the next scene
             else
             {
+                PauseVideo();
                 SceneManager.LoadScene(CurrentSceneScroll.SceneName);
 
                 ReadScroll(CurrentSceneScroll);
@@ -308,6 +336,7 @@ public class GameManager : MonoBehaviour
         //wait until the fade image is entirely black (alpha=1) then load next scene
         yield return new WaitUntil(() => m_fadeImage.color.a == 1);
 
+        StopVideo();
         //TODO
         Resources.UnloadUnusedAssets();
         GC.Collect();
@@ -336,18 +365,23 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => m_fadeImage.color.a == 0);
         isLoadingScene = false;
     }
-
-    //Find the video in the scene and pause it
-    public void PauseVideo()
-    {
-        SkyVideoPlayer.Pause();
-    }
-
-    //Find the video in the scene and play it
+    
+    //Find the video in the scene and play/pause/stop it
     public void PlayVideo()
     {
         SkyVideoPlayer.Play();
     }
+    public void PauseVideo()
+    {
+        SkyVideoPlayer.Pause();
+    }
+    public void StopVideo()
+    {
+        SkyVideoPlayer.Stop();
+    }
+    
+
+    
 
     private void OnVideoEnd(VideoPlayer source)
     {
@@ -378,7 +412,7 @@ public class GameManager : MonoBehaviour
 
     public void DebugLog(string txt)
     {
-        if (m_IsShowDebugText && m_DebugText != null && m_DebugText.isActiveAndEnabled)
+        if (m_IsShowDebugCanvas && m_DebugText != null && m_DebugText.isActiveAndEnabled)
         {
             m_DebugText.text = txt;
         }

@@ -1914,6 +1914,8 @@ MonoBehaviour:
     FXVideoClip: {fileID: 32900000, guid: 9ce7a998a7b950c428e66f9fa425450b, type: 3}
     EffectRotation: 320
     IsRepeat: 0
+  m_SphereVideoTexture: {fileID: 8400000, guid: 109fb1c0ff6f80d4a8a9618fa596ad82,
+    type: 2}
 --- !u!23 &1784894938
 MeshRenderer:
   m_ObjectHideFlags: 0

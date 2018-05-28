@@ -146,10 +146,10 @@ namespace Scene07Party
         private SphereAnimationSeqPackage[] m_SphereImgSequences;
         private const string defaultResourceFormatPath = "s7-02a-once/B_{0:d5}";
 
-
         [SerializeField]
         private SphereVideoPackage[] m_SphereVideos;
-        
+        [SerializeField]
+        private RenderTexture m_SphereVideoTexture;
 
         public event Action OnFXPlay;
         public event Action OnFXEnd;
@@ -168,6 +168,11 @@ namespace Scene07Party
             }
             m_FXVideoPlayer.source = VideoSource.VideoClip;
             m_FXVideoPlayer.skipOnDrop = true;
+
+            if (m_SphereVideoTexture != null)
+            {
+                GetComponent<MeshRenderer>().material.SetTexture("_MainTex", m_SphereVideoTexture);
+            }
         }
 
         private void Start()

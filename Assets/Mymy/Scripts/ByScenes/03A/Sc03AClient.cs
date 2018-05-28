@@ -54,14 +54,11 @@ public class Sc03AClient : MonoBehaviour
         {
             introSphere = GetComponentInChildren<MeshRenderer>().material;
         }
-        else
+        
+        if (m_SphereTexture != null)
         {
-            if (m_SphereTexture != null)
-            {
-                introSphere.SetTexture("_MainTexture", m_SphereTexture);
-            }
-        }
-
+            introSphere.SetTexture("_MainTex", m_SphereTexture);
+        }       
         SetSphereOpacity(1.0f);
 
         m_PickupLaser.ForceDisableGrab();
