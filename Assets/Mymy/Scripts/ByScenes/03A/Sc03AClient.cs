@@ -46,6 +46,12 @@ public class Sc03AClient : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        m_StartGameButton.OnSelectionComplete -= HandleStartGameButtonSelectionComplete;
+        m_PickupLaser.UnforceDisableGrab();
+    }
+
     private void Start()
     {
         m_InstructionAnimFader = m_InstructionAnim.GetComponent<UIFader>();
@@ -109,7 +115,8 @@ public class Sc03AClient : MonoBehaviour
     {
         m_InstructionAnim.SetTrigger("Stop");
         StartCoroutine(m_InstructionAnimFader.InterruptAndFadeOut());
-        StartCoroutine(m_StartGameButton.InterruptAndFadeOut());        
+        StartCoroutine(m_StartGameButton.InterruptAndFadeOut());
+        m_StartGameButton.OnSelectionComplete -= HandleStartGameButtonSelectionComplete;
         StartCoroutine(m_MemoButton.InterruptAndFadeIn());
         m_PickupLaser.UnforceDisableGrab();
     }

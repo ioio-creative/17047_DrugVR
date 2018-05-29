@@ -1,4 +1,5 @@
 ﻿using DrugVR_Scribe;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ using wvr;
 public class SceneMenuControl : MonoBehaviour,
     IShowAndHideSceneMenu
 {
+    public event Action OnShowMenu;
+    public event Action OnHideMenu;
+
     [SerializeField]
     private List<UIFader> m_Faders;
     [SerializeField]
@@ -20,6 +24,11 @@ public class SceneMenuControl : MonoBehaviour,
     private Transform m_SceneBtnGridTransform;
     [SerializeField]
     private GameObject m_SceneBtnPrefab;
+
+    private MyControllerSwtich m_ControllerSwitch;
+    private bool _ControllerVisible;
+    private bool _BeamEnable;
+    private bool _ReticleEnable;
 
     [SerializeField]
     private WVR_DeviceType m_DeviceToListen;
@@ -39,7 +48,7 @@ public class SceneMenuControl : MonoBehaviour,
     private Transform m_ThisTransform;
 
     private bool m_IsInputPressUp;
-    private bool m_IsMenuShown = false;    
+    private bool m_IsMenuShown = false;
 
 
     /* MonoBehaviour */
@@ -59,6 +68,8 @@ public class SceneMenuControl : MonoBehaviour,
         m_WaveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
         m_HeadTransform = GameManager.Instance.HeadObject.transform;
         m_ThisTransform = transform;
+
+        m_ControllerSwitch = GameManager.Instance.ControllerSwitch;
     }
 
     private void Update()
@@ -105,12 +116,15 @@ public class SceneMenuControl : MonoBehaviour,
     private void OnMultipleClicked()
     {
         if (!m_IsMenuShown)
-        {         
+        {
+            SaveControllerState();
+            m_ControllerSwitch.ShowController();
             ShowSceneMenu();
         }
         else
         {            
             HideSceneMenu();
+            ResumeControllerState();
         }
     }
 
@@ -204,6 +218,25 @@ public class SceneMenuControl : MonoBehaviour,
         m_Faders = null;
     }
 
+    private void SaveControllerState()
+    {
+        _ControllerVisible = m_ControllerSwitch.IsControllerVisible;
+        _BeamEnable = m_ControllerSwitch.LaserPointerRef.IsEnableBeam;
+        _ReticleEnable = m_ControllerSwitch.LaserPointerRef.IsEnableReticle;
+    }
+
+    private void ResumeControllerState()
+    {
+        if (_ControllerVisible)
+        {
+            m_ControllerSwitch.ShowController(_BeamEnable, _ReticleEnable);
+        }
+        else
+        {
+            m_ControllerSwitch.HideController(_BeamEnable, _ReticleEnable);
+        }
+
+    }
 
     /* IShowAndHideSceneMenu interface */
 
@@ -222,12 +255,22 @@ public class SceneMenuControl : MonoBehaviour,
             Quaternion.Euler(0, -signedAzimuthOfHeadForward, 0);
 
         StartCoroutine(ShowSceneMenuRoutine());
+
+        if (OnShowMenu != null)
+        {
+            OnShowMenu();
+        }
     }
 
     public void HideSceneMenu()
     {
         m_IsMenuShown = false;
         StartCoroutine(HideSceneMenuRoutine());
+
+        if (OnHideMenu != null)
+        {
+            OnHideMenu();
+        }
     }
 
     /* end of IShowAndHideSceneMenu interface */

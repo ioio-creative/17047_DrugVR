@@ -49,6 +49,7 @@ public class LaserPointer : MonoBehaviour
     private LayerMask layersForRaycast;
     [SerializeField]
     private int pickableObjLayer = 10;
+
     [SerializeField]
     private bool isEnableBeam;
     public bool IsEnableBeam
@@ -157,7 +158,6 @@ public class LaserPointer : MonoBehaviour
     {
         laserObj.SetActive(false);
     }
-
     // https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
     private void ShowLaser(RaycastHit hitTarget)
     {
@@ -179,7 +179,6 @@ public class LaserPointer : MonoBehaviour
     {
         reticleObj.SetActive(false);
     }
-
     // https://unity3d.com/learn/tutorials/topics/virtual-reality/interaction-vr
     private void ShowReticle(RaycastHit hitTarget)
     {

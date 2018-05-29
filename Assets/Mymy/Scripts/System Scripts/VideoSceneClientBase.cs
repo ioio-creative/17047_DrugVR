@@ -13,11 +13,14 @@ public class VideoSceneClientBase : MonoBehaviour
     {
         managerInst = GameManager.Instance;
         managerInst.SkyVideoPlayer = GetComponent<VideoPlayer>();
+        if (managerInst.SkyVideoPlayer.isLooping)
+        {
+            managerInst.SkyVideoPlayer.isLooping = false;
+        }
     }
 
     protected virtual void OnEnable()
-    {
-        
+    {       
         managerInst.OnSceneVideoEnd += HandleSystemVideoEnd;
     }
 
@@ -28,7 +31,18 @@ public class VideoSceneClientBase : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        managerInst.SkyVideoPlayer = null;
+        if (managerInst != null)
+        {
+            if (managerInst.SkyVideoPlayer.isPlaying)
+            {
+                managerInst.StopVideo();
+            }
+            if (managerInst.SkyVideoPlayer.isLooping)
+            {
+                managerInst.SkyVideoPlayer.isLooping = false;
+            }
+            managerInst.SkyVideoPlayer = null; 
+        }
     }
 
 

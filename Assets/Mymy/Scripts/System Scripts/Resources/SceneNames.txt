@@ -7,8 +7,8 @@ Scene01B,VideoSky,135,Sc1_Shot3.mp4,1
 Scene02A,VideoSky,95,Sc2a_shot4.mp4,1
 Scene02B,VideoSky,95,Sc2b_shot4.mp4,1
 Scene02S,VideoSky,95,Sc2_Shot4_continous.mp4,0
-Scene03,VideoSky,347,Sc3_Shot5.mp4,1
-Scene03A,ImageSky,104,Sc03A_Sky,0
+Scene03,VideoSky,37,Sc3_Shot5.mp4,1
+Scene03A,ImageSky,154,Sc03A_Sky,0
 Scene03B,VideoSky,65,Sc3_Shot7.mp4,1
 Scene03S,VideoSky,65,Sc3_Shot7_continous.mp4,0
 Scene04,VideoSky,95,Sc4_Shot8.mp4,1

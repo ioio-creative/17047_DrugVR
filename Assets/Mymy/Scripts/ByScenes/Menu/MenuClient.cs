@@ -1,4 +1,5 @@
 ﻿using DrugVR_Scribe;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,10 @@ using VRStandardAssets.Utils;
 
 public class MenuClient : MonoBehaviour,
     IShowAndHideSceneMenu
-{    
+{
+    public event Action OnShowMenu;
+    public event Action OnHideMenu;
+
     [SerializeField]
     private GameObject[] m_FaderContainers;
     private UIFader[] m_Faders;
@@ -17,6 +21,8 @@ public class MenuClient : MonoBehaviour,
     private Transform m_SceneBtnGridTransform;
     [SerializeField]
     private GameObject m_SceneBtnPrefab;
+
+    
 
 
     /* MonoBehaviour */
@@ -111,11 +117,21 @@ public class MenuClient : MonoBehaviour,
         {
             StartCoroutine(fader.InterruptAndFadeIn());
         }
+
+        if (OnShowMenu != null)
+        {
+            OnShowMenu();
+        }
     }
 
     public void HideSceneMenu()
     {
         StartCoroutine(HideSceneMenuRoutine());
+
+        if (OnHideMenu != null)
+        {
+            OnHideMenu();
+        }
     }
 
     /* end of IShowAndHideSceneMenu interface */

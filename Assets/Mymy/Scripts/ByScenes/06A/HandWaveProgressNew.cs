@@ -20,10 +20,10 @@ public class HandWaveProgressNew : MonoBehaviour
 
 
     /* for tracking transform angles */
-
-    private static Vector3 StaticUp = Vector3.up;
-    private static Vector3 StaticForward = Vector3.forward;
-    private static Vector3 StaticRight = Vector3.right;
+    //!! CANNOT USE STATIC FIELD, won't reset after class instance destroyed !!//
+    private Vector3 SceneUp = Vector3.up;
+    private Vector3 SceneForward = Vector3.forward;
+    private Vector3 SceneRight = Vector3.right;
     
     [SerializeField]
     private float m_StaticForwardOffset;
@@ -82,23 +82,31 @@ public class HandWaveProgressNew : MonoBehaviour
         // offset scene rotation + a fixed offset
         float sceneRotation = GameManager.Instance.CurrentSceneScroll.SkyShaderDefaultRotation;
         Quaternion rotationAlongY = Quaternion.Euler(0, sceneRotation + m_StaticForwardOffset, 0);
-        StaticForward = rotationAlongY * StaticForward;
-        StaticRight = rotationAlongY * StaticRight;
+        SceneForward = rotationAlongY * SceneForward;
+        SceneRight = rotationAlongY * SceneRight;
     }
 
     private void Update()
     {        
-        Debug.DrawRay(transform.position, StaticUp, Color.green);
-        Debug.DrawRay(transform.position, StaticForward, Color.yellow);
-        Debug.DrawRay(transform.position, StaticRight, Color.red);
+        Debug.DrawRay(transform.position, SceneUp, Color.green);
+        Debug.DrawRay(transform.position, SceneForward, Color.yellow);
+        Debug.DrawRay(transform.position, SceneRight, Color.red);
 
         // hand
+        // We use the Head's forward vector to Calculate central axis for hand waving
         float newHandAzimuth = 0f;
-        CalculateAzimuthAndZenithFromPointerDirection(m_FocusControllerTransform.forward,
+        Vector3 handwaveForward = Vector3.ProjectOnPlane(m_HeadTransform.forward, SceneUp);
+        //CalculateAzimuthAndZenithFromPointerDirection(m_FocusControllerTransform.forward,
+        //    Color.blue, Color.black,
+        //    ref newHandAzimuth, ref m_HandZenith);
+        AngleCalculations.CalculateAzimuthAndZenithFromPointerDirection(m_FocusControllerTransform.forward,
+            SceneUp, handwaveForward,
+            transform.position,
             Color.blue, Color.black,
             ref newHandAzimuth, ref m_HandZenith);
 
         // head
+        // We use Scene Forward (the man's position in scene) to calculate central axis allowed for HandWaveProgress
         CalculateAzimuthAndZenithFromPointerDirection(m_HeadTransform.forward,
             Color.cyan, Color.gray,
             ref m_HeadAzimuth, ref m_HeadZenith);
@@ -135,7 +143,7 @@ public class HandWaveProgressNew : MonoBehaviour
         ref float signedAzimuth, ref float unsignedZenith)
     {
         AngleCalculations.CalculateAzimuthAndZenithFromPointerDirection(pointerDirection,
-            StaticUp, StaticForward,
+            SceneUp, SceneForward,
             transform.position,
             debugRayColorForPointer, debugRayColorForPointerProjectionOnFloor,
             ref signedAzimuth, ref unsignedZenith);        

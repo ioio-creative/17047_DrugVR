@@ -47,10 +47,10 @@ public class LighterTriggerProgress : MonoBehaviour
 
 
     /* for tracking transform angles */
-
-    private static Vector3 StaticUp = Vector3.up;
-    private static Vector3 StaticForward = Vector3.forward;
-    private static Vector3 StaticRight = Vector3.right;
+    //!! CANNOT USE STATIC FIELD, won't reset after class instance destroyed !!//
+    private Vector3 SceneUp = Vector3.up;
+    private Vector3 SceneForward = Vector3.forward;
+    private Vector3 SceneRight = Vector3.right;
 
     // TODO: need to offset scene rotation
     [SerializeField]
@@ -92,8 +92,8 @@ public class LighterTriggerProgress : MonoBehaviour
         // offset scene rotation + a fixed offset
         float sceneRotation = GameManager.Instance.CurrentSceneScroll.SkyShaderDefaultRotation;
         Quaternion rotationAlongY = Quaternion.Euler(0, sceneRotation + m_StaticForwardOffset, 0);
-        StaticForward = rotationAlongY * StaticForward;
-        StaticRight = rotationAlongY * StaticRight;
+        SceneForward = rotationAlongY * SceneForward;
+        SceneRight = rotationAlongY * SceneRight;
     }
 
     private void Update()
@@ -103,9 +103,9 @@ public class LighterTriggerProgress : MonoBehaviour
         // forward direction points from head to this transform
         Vector3 forwardVec = lighterPos - m_HeadTransform.position;
 
-        Debug.DrawRay(lighterPos, StaticUp, Color.green);
-        Debug.DrawRay(lighterPos, StaticForward, Color.yellow);
-        Debug.DrawRay(lighterPos, StaticRight, Color.red);
+        Debug.DrawRay(lighterPos, SceneUp, Color.green);
+        Debug.DrawRay(lighterPos, SceneForward, Color.yellow);
+        Debug.DrawRay(lighterPos, SceneRight, Color.red);
 
         float newAzimuth = 0f;
 
@@ -166,7 +166,7 @@ public class LighterTriggerProgress : MonoBehaviour
         ref float signedAzimuth, ref float unsignedZenith)
     {
         AngleCalculations.CalculateAzimuthAndZenithFromPointerDirection(pointerDirection,
-            StaticUp, StaticForward,
+            SceneUp, SceneForward,
             m_Lighter.transform.position,
             debugRayColorForPointer, debugRayColorForPointerProjectionOnFloor,
             ref signedAzimuth, ref unsignedZenith);

@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     
     private const string FOCUS_CONTROLLER_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController";
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
-    private const string CONTROLLER_MODEL_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController/MIA_Ctrl";
     
     // Put Path under Resources here
     private static string APP_IMAGE_SKY_DATA_PATH = "StillImg/";
@@ -71,7 +70,7 @@ public class GameManager : MonoBehaviour
             return m_FocusControllerObject;
         }
     }
-
+    
     private GameObject m_HeadObject;
     public GameObject HeadObject
     {
@@ -85,18 +84,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private GameObject m_ControllerModelObject;
-    public GameObject ControllerModelObject
+    private MyControllerSwtich m_ControllerSwitch;
+    public MyControllerSwtich ControllerSwitch
     {
         get
         {
-            if (m_ControllerModelObject == null)
+            if (m_ControllerSwitch == null)
             {
-                m_ControllerModelObject = GameObject.Find(CONTROLLER_MODEL_OBJECT_NAME);
+                m_ControllerSwitch = FindObjectOfType<MyControllerSwtich>();
             }
-            return m_ControllerModelObject;
+            return m_ControllerSwitch;
         }
+        set { m_ControllerSwitch = value; }
     }
+
+    private SceneMenuControl m_MenuControl;
+
+    public SceneMenuControl MenuControl
+    {
+        get
+        {
+            if (m_MenuControl == null)
+            {
+                m_MenuControl = GetComponentInChildren<SceneMenuControl>();
+            }
+            return m_MenuControl;
+        }
+        set { m_MenuControl = value; }
+    }
+        
 
     //Only one instance of this videoplayer can be obtained and present in any scenes
     private VideoPlayer m_SkyVideoPlayer;
@@ -156,7 +172,8 @@ public class GameManager : MonoBehaviour
 
     /* end of privates */
 
-
+    /* MonoBehaviour */
+    
     //make sure that we only have a single instance of the game manager
     private void Awake()
     {
@@ -204,6 +221,16 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ReadScroll(CurrentSceneScroll));       
     }
 
+    private void FixedUpdate()
+    {
+#if UNITY_EDITOR
+        if (Input.GetKey("f"))
+        {
+            GoToScene(++CurrentScene);
+        }
+#endif
+    }
+
     private void Update()
     {
         //DebugLog(CurrentSceneScroll.VideoAutoPlay.ToString());
@@ -212,15 +239,7 @@ public class GameManager : MonoBehaviour
         //DebugLog(CurrentSceneScroll.SceneSky.ToString());
     }
 
-    private void FixedUpdate()
-    {
-        #if UNITY_EDITOR
-            if (Input.GetKey("f"))
-            {
-                GoToScene(++CurrentScene);
-            } 
-        #endif
-    }
+    /* end of MonoBehaviour */
 
     private IEnumerator ReadScroll(Scroll scroll)
     {
@@ -416,11 +435,11 @@ public class GameManager : MonoBehaviour
 
     /* debugging */
 
-    public void DebugLog(string txt)
+    public void DebugLog(object obj)
     {
         if (m_IsShowDebugCanvas && m_DebugText != null && m_DebugText.isActiveAndEnabled)
         {
-            m_DebugText.text = txt;
+            m_DebugText.text = obj.ToString();
         }
     }
 
