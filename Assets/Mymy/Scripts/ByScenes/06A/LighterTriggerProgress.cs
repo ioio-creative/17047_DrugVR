@@ -285,7 +285,7 @@ public class LighterTriggerProgress : MonoBehaviour
         PlayOnFilledClip();
 
         m_ProgressableFader.OnFadeOutComplete += HandleProgressableFadeOutComplete;
-        InterruptAndFadeOut();
+        CheckAndFadeOut();
 
         // If there is anything subscribed to OnSelectionComplete call it.
         if (OnSelectionComplete != null)
@@ -315,27 +315,24 @@ public class LighterTriggerProgress : MonoBehaviour
 
     /* Fader */
 
-    //TODO::Revise Condition
-    private void InterruptAndFadeIn()
+    public void CheckAndFadeIn()
     {
-        if (m_ProgressableFader.Fading || !m_ProgressableFader.Visible)
+        if (m_ProgressableFader.IsFadingOut() || m_ProgressableFader.IsCompletelyFadedOut())
         {
             StartCoroutine(m_ProgressableFader.InterruptAndFadeIn()); 
         }        
     }
-
-    //TODO::Revise Condition
-    public void InterruptAndFadeOut()
+    
+    public void CheckAndFadeOut()
     {
-        if (m_ProgressableFader.Fading || m_ProgressableFader.Visible)
+        if (m_ProgressableFader.IsFadingIn() || m_ProgressableFader.IsCompletelyFadedIn())
         {
             StartCoroutine(m_ProgressableFader.InterruptAndFadeOut());
             m_GazeOver = false;
 
             //!! DO NOT CALL HandleExit() HERE!!//
             //this IS CALLED BY HandleExit()///
-        }
-        
+        }      
     }
 
     /* end of Fader */
@@ -354,7 +351,7 @@ public class LighterTriggerProgress : MonoBehaviour
         m_GazeOver = true;
         //PlayOnOverClip();
 
-        InterruptAndFadeIn();
+        CheckAndFadeIn();
     }
 
     private void HandleExit()
@@ -362,7 +359,7 @@ public class LighterTriggerProgress : MonoBehaviour
         m_GazeOver = false;
         StopSelectionFillRoutine();
 
-        InterruptAndFadeOut();
+        CheckAndFadeOut();
     }
 
     private void HandleUp()

@@ -310,5 +310,30 @@ namespace VRStandardAssets.Utils
                 uiGroup.blocksRaycasts = isBlockRaycast;
             }
         }
+
+
+        /* UIFader states */
+
+        public bool IsFadingOut()
+        {
+            return Fading && Visible;
+        }
+
+        public bool IsFadingIn()
+        {
+            return Fading && !Visible;
+        }
+
+        public bool IsCompletelyFadedOut()
+        {
+            return !Fading && !Visible;
+        }
+
+        public bool IsCompletelyFadedIn()
+        {
+            return !Fading && Visible;
+        }
+        
+        /* end of UIFader states */
     }
 }

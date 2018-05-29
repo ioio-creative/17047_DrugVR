@@ -99,7 +99,7 @@ public class HandLighterSwitchControl : MonoBehaviour
             {
                 lighterProgress.enabled = false;
                 handWaveProgress.enabled = true;
-                lighterProgress.InterruptAndFadeOut();
+                lighterProgress.CheckAndFadeOut();
 
                 ReplaceLighterByController();
             }
@@ -107,7 +107,7 @@ public class HandLighterSwitchControl : MonoBehaviour
             {
                 lighterProgress.enabled = true;
                 handWaveProgress.enabled = false;
-                handWaveProgress.InterruptAndFadeOutAndReset();
+                handWaveProgress.CheckAndFadeOutAndReset();
 
                 ReplaceControllerByLighter();
             }
@@ -139,7 +139,6 @@ public class HandLighterSwitchControl : MonoBehaviour
             //lighterTransform.rotation = LighterFixedQuaternion;
 
             controllerSwitch.HideController();
-
             
             isLighterOn = true;         
         }
@@ -198,5 +197,6 @@ public class HandLighterSwitchControl : MonoBehaviour
         lighterProgress.gameObject.SetActive(true);
         enabled = true;
     }
+
     /* end of event handlers */
 }
