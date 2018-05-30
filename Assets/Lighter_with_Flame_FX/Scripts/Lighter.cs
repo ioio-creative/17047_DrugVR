@@ -18,7 +18,7 @@ public class Lighter : MonoBehaviour
     private WVR_DeviceType m_DeviceToListen;
     [SerializeField]
     private WVR_InputId m_InputToListen;
-    private WaveVR_Controller.Device m_WaveVrDevice;
+    //private WaveVR_Controller.Device m_WaveVrDevice;
     /*
         https://docs.unity3d.com/ScriptReference/Input.GetMouseButtonDown.html
         button values are 0 for the primary button (often the left button),
@@ -33,7 +33,15 @@ public class Lighter : MonoBehaviour
 
     private void Awake()
     {
-        m_WaveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
+        //m_WaveVrDevice = WaveVR_Controller.Input(m_DeviceToListen);
+        if (DeviceToListen == WVR_DeviceType.WVR_DeviceType_Controller_Right)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (DeviceToListen == WVR_DeviceType.WVR_DeviceType_Controller_Left)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 
     private void Start()
