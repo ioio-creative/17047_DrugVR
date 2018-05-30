@@ -166,7 +166,9 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     private void HandleSceneChange(DrugVR_SceneENUM nextScene)
     {
-        ReplaceLighterByController();
+        lighterObject.SetActive(false);
+
+        controllerSwitch.ShowController(true, true);
 
         enabled = false;        
         Destroy(lighterObject);

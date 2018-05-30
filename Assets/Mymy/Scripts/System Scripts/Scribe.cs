@@ -181,10 +181,10 @@ namespace DrugVR_Scribe
         public static bool GetSideValueByName(string nameOfSide)
         {
             // use C# reflection here
-            FieldInfo sceneChoiceField = typeof(Scribe).GetField(nameOfSide);
+            PropertyInfo propInfo = typeof(Scribe).GetProperty(nameOfSide);
 
             // null for getting value from static field
-            return (bool)sceneChoiceField.GetValue(null);
+            return (bool)propInfo.GetValue(null, null);
         }
 
         static Scribe()

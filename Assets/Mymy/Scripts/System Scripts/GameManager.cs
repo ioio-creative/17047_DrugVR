@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using wvr;
 
 public enum SkyboxType
 {
@@ -375,8 +376,10 @@ public class GameManager : MonoBehaviour
         Scene nextScene = SceneManager.GetSceneByName(nextSceneName);
         Debug.Log("loading scene:" + nextScene.name);
         yield return new WaitUntil(() => nextScene.isLoaded);
-        
-        
+
+#if !UNITY_EDITOR && UNITY_ANDROID
+        Interop.WVR_TriggerRecenter(); 
+#endif
 
         //yield return DoSomething();
 

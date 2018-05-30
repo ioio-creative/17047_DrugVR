@@ -20,7 +20,9 @@ public class RestrictDisplacement2D : MonoBehaviour,
     private float lerpSpeed = 10f;
 
     [SerializeField]
-    private float axisConstrainThreshold = 0.1f;
+    private float xAxisConstrainThreshold = 0.25f;
+    [SerializeField]
+    private float yAxisConstrainThreshold = 0.1f;
     private ScrollRectConstrainStates scrollState = ScrollRectConstrainStates.Unlocked; 
 
     //Position pre contrain
@@ -74,11 +76,11 @@ public class RestrictDisplacement2D : MonoBehaviour,
                         z = originalPos.z
                     };
                 }
-                if (Mathf.Abs(dragDisplacementFromOriginalPos.x) > axisConstrainThreshold)
+                if (Mathf.Abs(dragDisplacementFromOriginalPos.x) > xAxisConstrainThreshold)
                 {
                     scrollState = ScrollRectConstrainStates.Horizontal;
                 }
-                else if (Mathf.Abs(dragDisplacementFromOriginalPos.y) > axisConstrainThreshold)
+                else if (Mathf.Abs(dragDisplacementFromOriginalPos.y) > yAxisConstrainThreshold)
                 {
                     scrollState = ScrollRectConstrainStates.Vertical;
                 }
@@ -111,13 +113,13 @@ public class RestrictDisplacement2D : MonoBehaviour,
             switch (scrollState)
             {
                 case ScrollRectConstrainStates.Horizontal:
-                    if (Mathf.Abs(rectToConstrain.position.x) < axisConstrainThreshold)
+                    if (Mathf.Abs(rectToConstrain.position.x) < xAxisConstrainThreshold)
                     {
                         scrollState = ScrollRectConstrainStates.Unlocked;
                     }
                     break;
                 case ScrollRectConstrainStates.Vertical:
-                    if (Mathf.Abs(rectToConstrain.position.y) < axisConstrainThreshold)
+                    if (Mathf.Abs(rectToConstrain.position.y) < xAxisConstrainThreshold)
                     {
                         scrollState = ScrollRectConstrainStates.Unlocked;
                     }

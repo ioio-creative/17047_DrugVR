@@ -188,6 +188,18 @@ namespace Scene07Party
             }        
         }
 
+        public void PreparePartyVFX(PartyOptionEnum FXType)
+        {
+            if (PartyFXDictionary[FXType] is SphereAnimationSeqPackage)
+            {
+                PrepareFXAnimSeq(PartyFXDictionary[FXType] as SphereAnimationSeqPackage);
+            }
+            else if (PartyFXDictionary[FXType] is SphereVideoPackage)
+            {
+                PrepareFXVideo(PartyFXDictionary[FXType] as SphereVideoPackage);
+            }
+        }
+
         public void PlayPartyVFX(PartyOptionEnum FXType)
         {          
             if (PartyFXDictionary[FXType] is SphereAnimationSeqPackage)
@@ -198,6 +210,12 @@ namespace Scene07Party
             {
                 StartCoroutine(PlayFXVideo(PartyFXDictionary[FXType] as SphereVideoPackage));
             }
+        }
+
+        private void PrepareFXAnimSeq(SphereAnimationSeqPackage sphereAnim)
+        {
+            Quaternion FXRotation = Quaternion.Euler(0, sphereAnim.EffectRotation, 0);
+            m_SphereMeshRenderer.transform.rotation = FXRotation;
         }
 
         private IEnumerator PlayFXAnimSeq(SphereAnimationSeqPackage sphereAnim)
@@ -211,8 +229,7 @@ namespace Scene07Party
 
                 int currentFrame = 0;
                 float frameLength = 1.0f / sphereAnim.FrameRate;
-                Quaternion FXRotation = Quaternion.Euler(0, sphereAnim.EffectRotation, 0);
-                m_SphereMeshRenderer.transform.rotation = FXRotation;
+                
                 m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
 
                 if (sphereAnim.IsRepeat)
@@ -292,26 +309,24 @@ namespace Scene07Party
             m_SphereMeshRenderer.material.SetTexture("_MainTex", sphereAnim.Frames[i]);
         }
 
+        private void PrepareFXVideo(SphereVideoPackage sphereVideo)
+        {
+            m_FXVideoPlayer.clip = sphereVideo.FXVideoClip;
+            m_FXVideoPlayer.Prepare();
+            Quaternion FXRotation = Quaternion.Euler(0, sphereVideo.EffectRotation, 0);
+            m_SphereMeshRenderer.transform.rotation = FXRotation;
+        }
 
         private IEnumerator PlayFXVideo(SphereVideoPackage sphereVideo)
         {
-            if (!m_FXVideoPlayer.isPlaying)
+            yield return new WaitUntil(() => m_FXVideoPlayer.isPrepared);              
+            m_FXVideoPlayer.loopPointReached += HandleFXVideoEnd;
+            m_FXVideoPlayer.Play();
+            m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
+            if (OnFXPlay != null)
             {
-                m_FXVideoPlayer.clip = sphereVideo.FXVideoClip;
-                m_FXVideoPlayer.Prepare();
-                yield return m_FXVideoPlayer.isPrepared;
-
-                Quaternion FXRotation = Quaternion.Euler(0, sphereVideo.EffectRotation, 0);
-                m_SphereMeshRenderer.transform.rotation = FXRotation;
-                
-                m_FXVideoPlayer.loopPointReached += HandleFXVideoEnd;
-                m_FXVideoPlayer.Play();
-                m_SphereMeshRenderer.material.SetFloat("_Transparency", 1);
-                if (OnFXPlay != null)
-                {
-                    OnFXPlay();
-                } 
-            }
+                OnFXPlay();
+            }           
         }
         public void StopFXVideo()
         {

@@ -288,15 +288,13 @@ MonoBehaviour:
   m_ResetButtonStateAfterPressed: 1
   m_DisappearOnSelection: 0
   m_Audio: {fileID: 82504895850579354}
-  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
-  m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_OnErrorClip: {fileID: 0}
+  m_OnOverClip: {fileID: 8300000, guid: c94045f33e7059042a066ac63f51d024, type: 3}
+  m_OnSelectedClip: {fileID: 8300000, guid: 26c4e08cf1d4df54188693295cb68c93, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 99cfea0cf3b88b54385b9d310fc0d502, type: 3}
   m_UIFader: {fileID: 114565674256367152}
   m_Collider: {fileID: 65856664906819120}
   m_Button: {fileID: 114008801337732906}
   m_EventTrigger: {fileID: 114141287510570742}
-  m_DeviceToListen: 2
-  m_InputToListen: 16
   m_SelectionDuration: 1.5
   m_DisappearOnSelectionFilled: 0
 --- !u!114 &114066389150186360
@@ -496,7 +494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df749f5adcbb23247bf16c26d7ac9306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SelectionProgress: {fileID: 0}
+  m_sc01SClient: {fileID: 0}
+  m_SelectionProgress: {fileID: 114012676063225622}
   m_Patience: 1
 --- !u!222 &222641200255310098
 CanvasRenderer:

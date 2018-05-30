@@ -41,7 +41,8 @@ public class VideoSceneClientBase : MonoBehaviour
             {
                 managerInst.SkyVideoPlayer.isLooping = false;
             }
-            managerInst.SkyVideoPlayer = null; 
+            //This line is obsolete since we no longer have different VideoPlayer for each scene
+            //managerInst.SkyVideoPlayer = null; 
         }
     }
 

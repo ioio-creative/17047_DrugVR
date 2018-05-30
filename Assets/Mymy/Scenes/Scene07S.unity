@@ -960,7 +960,7 @@ Prefab:
     - target: {fileID: 224494173897399494, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
@@ -1904,11 +1904,11 @@ MonoBehaviour:
   m_SphereVideos:
   - m_PartyOption: 1
     FXVideoClip: {fileID: 32900000, guid: e3d2f27ac38a4e446b69ce554902733e, type: 3}
-    EffectRotation: 0
+    EffectRotation: 320
     IsRepeat: 0
   - m_PartyOption: 2
     FXVideoClip: {fileID: 32900000, guid: a10a57ba625339147890fe4d758007d3, type: 3}
-    EffectRotation: 0
+    EffectRotation: 320
     IsRepeat: 0
   - m_PartyOption: 3
     FXVideoClip: {fileID: 32900000, guid: 9ce7a998a7b950c428e66f9fa425450b, type: 3}

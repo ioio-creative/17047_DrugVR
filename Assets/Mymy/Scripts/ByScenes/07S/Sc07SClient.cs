@@ -26,7 +26,11 @@ public class Sc07SClient : VideoSceneClientBase
     protected override void OnDisable()
     {
         base.OnDisable();
-        managerInst.SkyVideoPlayer.isLooping = false;
+        if (managerInst)
+        {
+            //prevent exception when quit app during this scene and 
+            managerInst.SkyVideoPlayer.isLooping = false;
+        }
     }
 
     private void Start()
