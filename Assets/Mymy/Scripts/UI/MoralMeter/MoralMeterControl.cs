@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DrugVR_Scribe;
 
 public class MoralMeterControl : MonoBehaviour
 {
@@ -16,6 +17,16 @@ public class MoralMeterControl : MonoBehaviour
     //Green fill: [0, 60]
     //Red fill: [-60, 0]
     private float m_MoraleValue;
+
+    private void OnEnable()
+    {
+        Scribe.OnSideTaking += HandleSideTaking;
+    }
+
+    private void OnDisable()
+    {
+        Scribe.OnSideTaking -= HandleSideTaking;
+    }
 
     private void Start ()
     {
@@ -58,4 +69,8 @@ public class MoralMeterControl : MonoBehaviour
         pointerRectTransform.localEulerAngles = clampedRotInEulerAngles;
     }
 
+    private void HandleSideTaking()
+    {
+        //TODO
+    }
 }

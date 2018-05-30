@@ -188,7 +188,7 @@ public class HandWaveProgressNew : MonoBehaviour
     private void InterruptAndFadeOutAndReset()
     {
         StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());
-        m_ProgressBar.Reset();                
+        m_ProgressBar.Reset();               
     }
 
     /* end of Fader */

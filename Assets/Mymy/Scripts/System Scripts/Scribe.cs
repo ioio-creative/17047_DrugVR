@@ -51,6 +51,9 @@ namespace DrugVR_Scribe
     //This Static class records all the choices made by player, as well as storing scene names as string
     public static class Scribe
     {
+        //Event will fire whenever any bool Side is set
+        public static event Action OnSideTaking;
+
         public class DrugVREnumComparer : IEqualityComparer<DrugVR_SceneENUM>
         {
             public bool Equals(DrugVR_SceneENUM x, DrugVR_SceneENUM y)
@@ -68,17 +71,90 @@ namespace DrugVR_Scribe
             new Dictionary<DrugVR_SceneENUM, Scroll>(new DrugVREnumComparer());
 
         //Scene 1 Side Taking
-        public static bool Side01 = false;
+        private static bool _Side01;
+        public static bool Side01
+        {
+            get{ return _Side01; }
+            set
+            {
+                _Side01 = value;
+                if (OnSideTaking != null)
+                {
+                    OnSideTaking();
+                }               
+            }
+        }
         //Scene 2 Side Taking
-        public static bool Side02 = false;
+        private static bool _Side02;
+        public static bool Side02
+        {
+            get { return _Side02; }
+            set
+            {
+                _Side02 = value;
+                if (OnSideTaking != null)
+                {
+                    OnSideTaking();
+                }
+            }
+        }
         //Scene 3 Side Taking
-        public static bool Side03 = false;
+        private static bool _Side03;
+        public static bool Side03
+        {
+            get { return _Side03; }
+            set
+            {
+                _Side03 = value;
+                if (OnSideTaking != null)
+                {
+                    OnSideTaking();
+                }
+            }
+        }
         //Scene 4 Side Taking
-        public static bool Side04 = false;
+        private static bool _Side04;
+        public static bool Side04
+        {
+            get { return _Side04; }
+            set
+            {
+                _Side04 = value;
+                if (OnSideTaking != null)
+                {
+                    OnSideTaking();
+                }
+            }
+        }
         //Scene 6 Side Taking
-        public static bool Side05 = false;
+        private static bool _Side05;
+        public static bool Side05
+        {
+            get { return _Side05; }
+            set
+            {
+                _Side05 = value;
+                if (OnSideTaking != null)
+                {
+                    OnSideTaking();
+                }
+            }
+        }
         //Scene 7 Side Taking
-        public static bool Side06 = false;
+        private static bool _Side06;
+        public static bool Side06
+        {
+            get { return _Side06; }
+            set
+            {
+                _Side06 = value;
+                if (OnSideTaking != null)
+                {
+                    OnSideTaking();
+                }
+            }
+        }
+        
         //Which ending to display for the player
         public static Ending EndingForPlayer
         {
