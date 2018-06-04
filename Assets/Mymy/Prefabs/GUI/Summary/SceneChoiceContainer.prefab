@@ -183,8 +183,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "\u9762\u5C0D\u7D50\u5A5A\u7684\u7169\u60F1\u6642\u751F\u6D3B\u4E0A\u7169\u64FE\u7684\u4E8B\uFF0C\\n\u4F60\u52C7\u65BC\u9762\u5C0D\u3002"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 85d16024891428849a936f0c035bbe43, type: 2}
-  m_sharedMaterial: {fileID: 21641764811935308, guid: 85d16024891428849a936f0c035bbe43,
+  m_fontAsset: {fileID: 11400000, guid: dfbecb863718a614c9b86a0c32e93360, type: 2}
+  m_sharedMaterial: {fileID: 21024066818131744, guid: dfbecb863718a614c9b86a0c32e93360,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: -43.39
+  m_lineSpacing: -20.4
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -253,11 +253,11 @@ MonoBehaviour:
     characterCount: 23
     spriteCount: 0
     spaceCount: 1
-    wordCount: 6
+    wordCount: 2
     linkCount: 0
     lineCount: 2
     pageCount: 1
-    materialCount: 2
+    materialCount: 1
   m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0

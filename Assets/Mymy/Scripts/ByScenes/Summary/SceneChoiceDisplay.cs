@@ -39,23 +39,13 @@ public class SceneChoiceDisplay : MonoBehaviour
     {       
         m_SceneChoice = Scribe.GetSideValueByName(m_SceneChoiceName);
 
-        Sprite spriteToUse;
-        string strToUse;
+        m_ChoiceImage.sprite = m_SceneChoice ?
+            m_TrueChoiceSprite : m_FalseChoiceSprite;
 
-        if (m_SceneChoice)
-        {
-            spriteToUse = m_TrueChoiceSprite;
-            strToUse = m_TrueChoiceStr;
-        }
-        else
-        {
-            spriteToUse = m_FalseChoiceSprite;
-            strToUse = m_FalseChoiceStr;
-        }
-
-        m_ChoiceImage.sprite = spriteToUse;
-        m_ChoiceText.text = strToUse.Replace(m_NewLineSymbol, Environment.NewLine);
-
+        m_ChoiceText.text = (m_SceneChoice ?
+            m_TrueChoiceStr : m_FalseChoiceStr)
+            .Replace(m_NewLineSymbol, Environment.NewLine);
+        
         StartCoroutine(m_Fader.InterruptAndFadeIn());
     }
 

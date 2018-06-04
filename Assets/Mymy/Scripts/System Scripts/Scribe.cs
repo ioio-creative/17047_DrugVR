@@ -178,6 +178,58 @@ namespace DrugVR_Scribe
             }
         }
 
+        public static string SummaryStr
+        {
+            get
+            {
+                string resultStr = "";
+
+                bool[] sides = new bool[]
+                {
+                    _Side01,
+                    _Side02,
+                    _Side03,
+                    _Side04,
+                    _Side05,
+                    _Side06
+                };
+
+                string trueSideSymbol = "A";
+                string falseSideSymbol = "B";
+
+                string endingASymbol = "A";
+                string endingBSymbol = "B";
+                string endingCSymbol = "C";
+
+                int idx = 1;
+                foreach (bool side in sides)
+                {
+                    resultStr += idx.ToString() +
+                        (side ? trueSideSymbol : falseSideSymbol);
+                    idx++;
+                }
+
+                string endingSymbolToUse;
+                switch (EndingForPlayer)
+                {
+                    case Ending.EndingA:
+                        endingSymbolToUse = endingASymbol;
+                        break;
+                    case Ending.EndingB:
+                        endingSymbolToUse = endingBSymbol;
+                        break;
+                    case Ending.EndingC:
+                    default:
+                        endingSymbolToUse = endingCSymbol;
+                        break;
+                }
+
+                resultStr += idx.ToString() + endingSymbolToUse;
+
+                return resultStr;
+            }
+        }
+    
         public static bool GetSideValueByName(string nameOfSide)
         {
             // use C# reflection here
@@ -230,7 +282,7 @@ namespace DrugVR_Scribe
             {
                 SceneDictionary.Add(enumIndex++, new Scroll(sceneParam));
             }
-        }
+        }        
     }
 
     public class Scroll
