@@ -244,6 +244,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ReadScroll(Scroll scroll)
     {
+        //TODO: Try to impletment HMD rotation offest to sky rotation
 
         //m_video.enabled = false;
         //m_video.loopPointReached -= OnVideoEnd;
