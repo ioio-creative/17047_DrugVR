@@ -75,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1095715366900036}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224711366146854500}
@@ -90,9 +90,9 @@ BoxCollider:
   m_GameObject: {fileID: 1308151556468348}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 5.71, y: 1.38, z: 0.02}
+  m_Size: {x: 4.7, y: 1, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82256667974638796
 AudioSource:
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.84313726, g: 0.9529412, b: 0.9529412, a: 1}
-    m_HighlightedColor: {r: 0.62352943, g: 1, b: 0.8117647, a: 1}
+    m_HighlightedColor: {r: 0.9925963, g: 1, b: 0.46323532, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -226,19 +226,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d340f4539e13d6d4eb5cf7f83f59d3fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsDisappearOnSelected: 1
+  m_ResetButtonStateAfterPressed: 1
+  m_DisappearOnSelection: 0
   m_Audio: {fileID: 82256667974638796}
-  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
-  m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_OnErrorClip: {fileID: 0}
+  m_OnOverClip: {fileID: 8300000, guid: c94045f33e7059042a066ac63f51d024, type: 3}
+  m_OnSelectedClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 99cfea0cf3b88b54385b9d310fc0d502, type: 3}
   m_UIFader: {fileID: 114443286442038172}
   m_Collider: {fileID: 65698718707718868}
   m_Button: {fileID: 114246641391466822}
   m_EventTrigger: {fileID: 114985610821315250}
-  m_DeviceToListen: 2
-  m_InputToListen: 16
-  m_HighLightSprite: {fileID: 21300000, guid: b369f5828dffd164892385e9eb7675c6, type: 3}
+  m_HighLightFader: {fileID: 0}
   m_ClauseImg: {fileID: 114936347107437414}
+  m_IsSetClauseImgSpriteToNullWhenStart: 1
 --- !u!114 &114443286442038172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,7 +426,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &224413886950007904
 RectTransform:
@@ -444,7 +444,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.35, y: 2.82}
+  m_SizeDelta: {x: 6.3, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224711366146854500
 RectTransform:

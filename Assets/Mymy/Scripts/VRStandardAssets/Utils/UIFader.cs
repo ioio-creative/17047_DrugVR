@@ -33,6 +33,10 @@ namespace VRStandardAssets.Utils
         private bool m_IsSetVisibleWhenAwake = false;
 
         [SerializeField]
+        private float m_MaxAlpha = 1f;
+        [SerializeField]
+        private float m_MinAlpha = 0f;
+        [SerializeField]
         private float m_FadeSpeed = 1f;        // The amount the alpha of the UI elements changes per second.        
         [SerializeField]
         private CanvasGroup[] m_UiGroupsToFade;  // All the groups of UI elements that will fade in and out.
@@ -127,7 +131,7 @@ namespace VRStandardAssets.Utils
             do
             {
                 // Assume the lowest alpha has faded in already.
-                lowestAlpha = 1f;
+                lowestAlpha = m_MaxAlpha;
 
                 // Go through all the groups...
                 for (int i = 0; i < m_UiGroupsToFade.Length; i++)
@@ -158,7 +162,8 @@ namespace VRStandardAssets.Utils
                     }
                 }
 
-                if (!m_FadeInThresholdTriggered && m_FadeInAlphaThreshold < 1f && lowestAlpha > m_FadeInAlphaThreshold)
+                //Trigger Event upon threshold reached
+                if (!m_FadeInThresholdTriggered && m_FadeInAlphaThreshold < m_MaxAlpha && lowestAlpha > m_FadeInAlphaThreshold)
                 {
                     m_FadeInThresholdTriggered = true;
 
@@ -170,7 +175,7 @@ namespace VRStandardAssets.Utils
                 yield return null;
             }
             // Continue doing this until the lowest alpha is one or greater.
-            while (lowestAlpha < 1f);
+            while (lowestAlpha < m_MaxAlpha);
 
             // If there is anything subscribed to OnFadeInComplete, call it.
             if (OnFadeInComplete != null)
@@ -219,7 +224,7 @@ namespace VRStandardAssets.Utils
 
             do
             {
-                highestAlpha = 0f;
+                highestAlpha = m_MinAlpha;
 
                 for (int i = 0; i < m_UiGroupsToFade.Length; i++)
                 {
@@ -243,7 +248,8 @@ namespace VRStandardAssets.Utils
                     }
                 }
 
-                if (!m_FadeOutThresholdTriggered && m_FadeOutAlphaThreshold > 0f && highestAlpha < m_FadeOutAlphaThreshold)
+                //Trigger Event upon threshold reached
+                if (!m_FadeOutThresholdTriggered && m_FadeOutAlphaThreshold > m_MinAlpha && highestAlpha < m_FadeOutAlphaThreshold)
                 {
                     m_FadeOutThresholdTriggered = true;
 
@@ -253,7 +259,7 @@ namespace VRStandardAssets.Utils
 
                 yield return null;
             }
-            while (highestAlpha > 0f);
+            while (highestAlpha > m_MinAlpha);
 
             if (OnFadeOutComplete != null)
                 OnFadeOutComplete();
@@ -269,14 +275,14 @@ namespace VRStandardAssets.Utils
         {
             for (int i = 0; i < m_UiGroupsToFade.Length; i++)
             {
-                m_UiGroupsToFade[i].alpha = 1f;
+                m_UiGroupsToFade[i].alpha = m_MaxAlpha;
             }
 
             if (m_NonUiGroupsToFade != null)
             {
                 foreach (Renderer renderer in m_NonUiGroupsToFade)
                 {
-                    renderer.material.color = new Color(m_FadeColor.r, m_FadeColor.g, m_FadeColor.b, 1f);
+                    renderer.material.color = new Color(m_FadeColor.r, m_FadeColor.g, m_FadeColor.b, m_MaxAlpha);
                 }
             }
 
@@ -288,14 +294,14 @@ namespace VRStandardAssets.Utils
         {
             for (int i = 0; i < m_UiGroupsToFade.Length; i++)
             {
-                m_UiGroupsToFade[i].alpha = 0f;
+                m_UiGroupsToFade[i].alpha = m_MinAlpha;
             }
 
             if (m_NonUiGroupsToFade != null)
             {
                 foreach (Renderer renderer in m_NonUiGroupsToFade)
                 {
-                    renderer.material.color = new Color(m_FadeColor.r, m_FadeColor.g, m_FadeColor.b, 0f);
+                    renderer.material.color = new Color(m_FadeColor.r, m_FadeColor.g, m_FadeColor.b, m_MinAlpha);
                 }
             }
 

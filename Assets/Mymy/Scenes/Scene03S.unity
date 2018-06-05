@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41076326, g: 0.41067937, b: 0.44639224, a: 1}
+  m_IndirectSpecularColor: {r: 0.5006836, g: 0.4861632, b: 0.52353346, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -454,6 +454,46 @@ Prefab:
       propertyPath: m_CurrentScene
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 224182807057996564, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224182807057996564, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224182807057996564, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 224182807057996564, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 224182807057996564, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 224182807057996564, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 224494173897399494, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 224494173897399494, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
   m_IsPrefabParent: 0
@@ -781,9 +821,9 @@ MonoBehaviour:
   m_ResetButtonStateAfterPressed: 1
   m_DisappearOnSelection: 0
   m_Audio: {fileID: 1449622619}
-  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
-  m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_OnErrorClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
+  m_OnOverClip: {fileID: 8300000, guid: c94045f33e7059042a066ac63f51d024, type: 3}
+  m_OnSelectedClip: {fileID: 8300000, guid: 1b3b63c6b57276048a9814a0a6707564, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 99cfea0cf3b88b54385b9d310fc0d502, type: 3}
   m_UIFader: {fileID: 1449622617}
   m_Collider: {fileID: 1924519201}
   m_Button: {fileID: 1924519198}
@@ -1058,9 +1098,9 @@ MonoBehaviour:
   m_ResetButtonStateAfterPressed: 1
   m_DisappearOnSelection: 0
   m_Audio: {fileID: 1912900523}
-  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
-  m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_OnErrorClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
+  m_OnOverClip: {fileID: 8300000, guid: c94045f33e7059042a066ac63f51d024, type: 3}
+  m_OnSelectedClip: {fileID: 8300000, guid: 370a587e2a5141747a1c393556aca6da, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 99cfea0cf3b88b54385b9d310fc0d502, type: 3}
   m_UIFader: {fileID: 1912900522}
   m_Collider: {fileID: 1001501437}
   m_Button: {fileID: 1001501439}

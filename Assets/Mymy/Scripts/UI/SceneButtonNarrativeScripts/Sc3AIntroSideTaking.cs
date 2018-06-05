@@ -44,13 +44,20 @@ public class Sc3AIntroSideTaking : MonoBehaviour
     {
         if (m_DoTheDishes)
         {
+            m_SelectionProgress.PlayOnSelectedClip();
             StartCoroutine(m_ButtonsContainer.InterruptAndFadeOut());
             m_3AClientRef.FadeOutSphere();
         }
         else
         {
             Scribe.Side03 = m_DoTheDishes;
-            Sc03AClient.GoToSceneOnChoice();
+            StartCoroutine(ResignChoiceRoutine());
         }
+    }
+    
+    private IEnumerator ResignChoiceRoutine()
+    {
+        yield return m_SelectionProgress.PlayErrorClipAndWaitWhilePlaying();
+        StartCoroutine(m_3AClientRef.ResignRoutine());
     }
 }

@@ -38,12 +38,12 @@ AnimationClip:
         time: 0
         value: {x: 0, y: 0, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 40, z: 0}
+        outSlope: {x: 0, y: 24, z: 0}
         tangentMode: 0
       - serializedVersion: 2
-        time: 9
+        time: 15
         value: {x: 0, y: 360, z: 0}
-        inSlope: {x: 0, y: 40, z: 0}
+        inSlope: {x: 0, y: 24, z: 0}
         outSlope: {x: 0, y: Infinity, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
@@ -102,7 +102,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 9
+    m_StopTime: 15
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -125,12 +125,12 @@ AnimationClip:
         time: 0
         value: 0
         inSlope: 0
-        outSlope: 40
+        outSlope: 24
         tangentMode: 69
       - serializedVersion: 2
-        time: 9
+        time: 15
         value: 360
-        inSlope: 40
+        inSlope: 24
         outSlope: Infinity
         tangentMode: 69
       m_PreInfinity: 2

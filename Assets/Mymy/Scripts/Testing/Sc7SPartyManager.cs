@@ -43,17 +43,22 @@ namespace Scene07Party
         private PartySelection[] m_PartySelections;
         private UIFader[] m_OptionUIFaders;
 
-
-        //private List<PartySelection> m_PartySelections = new List<PartySelection>();
-        //private List<UIFader> m_OptionUIFaders = new List<UIFader>();
+        [SerializeField]
+        private AudioSource m_AudioSrc;
+        [SerializeField]
+        private AudioClip m_PersuadeClip;
 
         /* MonoBehavior */
 
         private void Awake()
         {
+            if (m_AudioSrc == null)
+            {
+                m_AudioSrc = GetComponent<AudioSource>();
+            }           
+
             m_partyVFXControll = GetComponentInChildren<PartyVFXAnimationControl>();
             
-
             LoadPartyRound(m_PartyRoundContainer[m_PartyRoundCnt]);
         }
 
@@ -173,11 +178,19 @@ namespace Scene07Party
         {
             if (m_PartyRoundCnt < m_PartyRoundContainer.Length)
             {
-                //Fade in all the buttons for the next round
-                foreach (UIFader fader in m_OptionUIFaders)
+                //Handle case before 2nd round is faded in
+                if (m_PartyRoundCnt == 1)
                 {
-                    StartCoroutine(fader.InterruptAndFadeIn());
-                } 
+                    StartCoroutine(PersuadeMethRoutine());
+                }
+                else
+                {
+                    //Fade in all the buttons for the next round
+                    foreach (UIFader fader in m_OptionUIFaders)
+                    {
+                        StartCoroutine(fader.InterruptAndFadeIn());
+                    }
+                }                                           
             }
             else
             {
@@ -201,5 +214,20 @@ namespace Scene07Party
             });
         }
 
+        private IEnumerator PersuadeMethRoutine()
+        {
+            if (m_PersuadeClip != null)
+            {
+                m_AudioSrc.clip = m_PersuadeClip;
+            }
+            m_AudioSrc.Play();
+            yield return new WaitWhile(() => m_AudioSrc.isPlaying);
+            //Fade in all the buttons for the next round
+            foreach (UIFader fader in m_OptionUIFaders)
+            {
+                StartCoroutine(fader.InterruptAndFadeIn());
+            }
+            m_Sc7SClientRef.ActivateExitButton();
+        }
     }
 }

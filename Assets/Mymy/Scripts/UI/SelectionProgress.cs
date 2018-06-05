@@ -32,8 +32,11 @@ public class SelectionProgress : VrButtonBase
     private Coroutine m_SelectionFillRoutine;
 
     // Used to allow the coroutine to WAIT for the bar to fill.
-    private bool m_SelectionFilled;    
+    private bool m_SelectionFilled;
 
+    //if true, will play Selected Clip on Selected by default; otherwise need to call function explicitly
+    [SerializeField]
+    private bool m_AutoPlaySelectedClip;
 
     /* MonoBehaviour */
 
@@ -113,7 +116,7 @@ public class SelectionProgress : VrButtonBase
         RaiseOnSelectedEvent();
 
         // Play the clip for when the selection is filled.        
-        base.PlayOnSelectedClip();
+        if (m_AutoPlaySelectedClip) base.PlayOnSelectedClip();      
 
         // If the selection should disappear once it's filled, hide it.
         if (m_DisappearOnSelectionFilled)

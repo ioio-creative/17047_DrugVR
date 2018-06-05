@@ -176,7 +176,7 @@ public class AudioSentenceControl : VrButtonBase
 
     private void HighLightPlayClipsBtn()
     {
-        m_PlayClipsBtnImage.sprite = m_PlayClipsBtnHighLightSprite;            
+        m_PlayClipsBtnImage.sprite = m_PlayClipsBtnHighLightSprite;
     }
 
     private void UnHighLightPlayClipsBtn()
@@ -214,7 +214,7 @@ public class AudioSentenceControl : VrButtonBase
                 }
                 else
                 {
-                    audioClauseSelection.PlayOnErrorClip();
+                    audioClauseSelection.PlayOnOverClip();
                 }
             }
             else
@@ -261,7 +261,7 @@ public class AudioSentenceControl : VrButtonBase
         else
         {
             // selecting other audio clause option would result in no effect
-            audioClauseSelection.PlayOnErrorClip();
+            audioClauseSelection.PlayOnOverClip();
         }
     }
 
@@ -356,6 +356,14 @@ public class AudioSentenceControl : VrButtonBase
 
         yield return StartCoroutine(StartPlayClipsInSequence());
         bool isGoodChoiceMade = ExtractAnswerSequence();
+        if (isGoodChoiceMade)
+        {
+            PlayOnSelectedClip();
+        }
+        else
+        {
+            PlayOnErrorClip();
+        }
         Scribe.Side04 = isGoodChoiceMade;
         m_Sc04SClient.GoToSceneOnChoice();
     }
@@ -371,12 +379,13 @@ public class AudioSentenceControl : VrButtonBase
             // complete case
             if (GetFirstNotYetFilledAudioClauseSlot() == null || IsBossOptionSelected)
             {
+                ForceDisableButton();
                 StartCoroutine(HandleDownSequenceOfActions());
             }
             // incomplete case
             else
             {
-                PlayOnErrorClip();
+                PlayOnOverClip();
             }
         }
     }

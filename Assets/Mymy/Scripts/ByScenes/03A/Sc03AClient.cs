@@ -18,6 +18,8 @@ public class Sc03AClient : MonoBehaviour
     private Animator m_InstructionAnim;   
     [SerializeField]
     private MemoButton m_MemoButton;
+    [SerializeField]
+    private BasinTrigger m_BasinTrigger;
     
     [SerializeField]
     private Animator m_SphereAnim;
@@ -30,6 +32,13 @@ public class Sc03AClient : MonoBehaviour
 
     private UIFader m_InstructionAnimFader;
     private UIFader m_MemoUIFader;
+
+    [SerializeField]
+    private AudioSource m_ClientAudioSource;
+    [SerializeField]
+    private AudioClip m_ChefVOClip;
+    [SerializeField]
+    private AudioClip m_ResignClip;
 
     private void Awake()
     {
@@ -46,8 +55,14 @@ public class Sc03AClient : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        m_BasinTrigger.OnProgressTrigger += HandleBasinTriggerProgress;
+    }
+
     private void OnDisable()
     {
+        m_BasinTrigger.OnProgressTrigger -= HandleBasinTriggerProgress;
         m_StartGameButton.OnSelectionComplete -= HandleStartGameButtonSelectionComplete;
         m_PickupLaser.UnforceDisableGrab();
     }
@@ -86,6 +101,12 @@ public class Sc03AClient : MonoBehaviour
         if (sphereFadeOutSwitch) SetSphereOpacity(sphereAlpha);
     }
 
+    public IEnumerator ResignRoutine()
+    {
+        yield return PlayResignClipAndWaitWhilePlaying();
+        GoToSceneOnChoice();
+    }
+
     public static void GoToSceneOnChoice()
     {
         if (Scribe.Side03)
@@ -111,6 +132,46 @@ public class Sc03AClient : MonoBehaviour
         introSphere.SetFloat("_Transparency", alpha);
     }
 
+    public void PlayResignClip()
+    {
+        PlayAudioClip(m_ResignClip);
+    }
+
+    public void PlayChefClip()
+    {
+        PlayAudioClip(m_ChefVOClip);
+    }
+
+    private void PlayAudioClip(AudioClip aClip)
+    {
+        m_ClientAudioSource.clip = aClip;
+        if (m_ClientAudioSource.clip != null)
+        {
+            m_ClientAudioSource.Play();
+        }
+    }
+
+    private IEnumerator PlayResignClipAndWaitWhilePlaying()
+    {
+        yield return PlayAudioClipAndWaitWhilePlaying(m_ResignClip);
+    }
+
+    private IEnumerator PlayChefClipAndWaitWhilePlaying()
+    {
+        yield return PlayAudioClipAndWaitWhilePlaying(m_ChefVOClip);
+    }
+
+    private IEnumerator PlayAudioClipAndWaitWhilePlaying(AudioClip aClip)
+    {
+        PlayAudioClip(aClip);
+        yield return WaitWhileAudioIsPlaying();
+    }
+
+    private IEnumerator WaitWhileAudioIsPlaying()
+    {
+        yield return new WaitWhile(() => m_ClientAudioSource.isPlaying);
+    }
+
     private void HandleStartGameButtonSelectionComplete()
     {
         m_InstructionAnim.SetTrigger("Stop");
@@ -118,6 +179,12 @@ public class Sc03AClient : MonoBehaviour
         StartCoroutine(m_StartGameButton.InterruptAndFadeOut());
         m_StartGameButton.OnSelectionComplete -= HandleStartGameButtonSelectionComplete;
         StartCoroutine(m_MemoButton.InterruptAndFadeIn());
+        
         m_PickupLaser.UnforceDisableGrab();
+    }
+
+    private void HandleBasinTriggerProgress()
+    {
+        PlayChefClip();
     }
 }

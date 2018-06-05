@@ -90,8 +90,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1631089119319482}
-  m_LocalRotation: {x: 0, y: 0.15686543, z: 0, w: 0.98762}
-  m_LocalPosition: {x: 67.7, y: -10.7, z: 215.64}
+  m_LocalRotation: {x: -0, y: -0.2752179, z: -0, w: 0.9613819}
+  m_LocalPosition: {x: -121.67313, y: -10.7, z: 190.47194}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224641446129385998}
@@ -328,9 +328,9 @@ MonoBehaviour:
   m_ResetButtonStateAfterPressed: 1
   m_DisappearOnSelection: 1
   m_Audio: {fileID: 82848348413653204}
-  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
-  m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_OnErrorClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
+  m_OnOverClip: {fileID: 8300000, guid: c94045f33e7059042a066ac63f51d024, type: 3}
+  m_OnSelectedClip: {fileID: 8300000, guid: 26c4e08cf1d4df54188693295cb68c93, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 99cfea0cf3b88b54385b9d310fc0d502, type: 3}
   m_UIFader: {fileID: 114709395447217422}
   m_Collider: {fileID: 65644377013259228}
   m_Button: {fileID: 114788884059148750}

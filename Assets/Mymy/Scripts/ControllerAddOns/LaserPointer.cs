@@ -248,7 +248,8 @@ public class LaserPointer : MonoBehaviour
         if (objectInHand == null && objectToGrab.layer == pickableObjLayer)
         {
             objectInHand = objectToGrab;
-            
+
+            //Laser Pointer Only Grabs Object with Component<PickableConfinedToPlane>
             pickableComponentInObjectInHand = objectInHand.GetComponent<PickableConfinedToPlane>();
             
             if (pickableComponentInObjectInHand == null)

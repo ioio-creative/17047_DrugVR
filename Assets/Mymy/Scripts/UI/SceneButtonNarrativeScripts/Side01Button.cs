@@ -31,6 +31,14 @@ public class Side01Button : MonoBehaviour
 
     private void HandleSelectionComplete()
     {
+        if (m_Patience)
+        {
+            m_SelectionProgress.PlayOnSelectedClip();
+        }
+        else
+        {
+            m_SelectionProgress.PlayOnErrorClip();
+        }
         Scribe.Side01 = m_Patience;
         m_sc01SClient.GoToSceneOnChoice();
     }

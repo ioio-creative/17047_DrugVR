@@ -10,17 +10,46 @@ public class UIImageAnimationControl : MonoBehaviour
 {
     private Image image;
     private SpriteRenderer animationSpriteRenderer;
+    private Animator anim;
+    [SerializeField]
+    private bool playAnimation;
 
     private void Awake()
     {
         image = GetComponent<Image>();
         animationSpriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        Color _color = image.color;
-        image.sprite = animationSpriteRenderer.sprite;
-        image.color = _color;
+        if (playAnimation)
+        {
+            Color _color = image.color;
+            image.sprite = animationSpriteRenderer.sprite;
+            image.color = _color; 
+        }
+    }
+
+    public void ActivateUIAnimation()
+    {
+        playAnimation = true;
+        SetAnimBool();
+    }
+
+    public void DeactivateUIAnimation()
+    {
+        playAnimation = false;
+        SetAnimBool();
+    }
+
+    private void SetAnimBool()
+    {
+        anim.SetBool("Activated", playAnimation);
+    }
+
+    public void SetColor(Color color)
+    {
+        image.color = color;
     }
 }

@@ -75,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901723138308006}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.17, y: 3.19, z: 0}
+  m_LocalPosition: {x: 9.5, y: 3.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224273875253755566}
@@ -92,7 +92,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.25, y: 1, z: 0.02}
+  m_Size: {x: 2.08, y: 1.15, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82474183551768992
 AudioSource:
@@ -187,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
   m_FadeSpeed: 0.5
   m_UiGroupsToFade:
   - {fileID: 225664393473680388}
@@ -218,18 +219,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd1ae187543464b9e467c71bfadbb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsDisappearOnSelected: 0
-  m_AreSelectionsDisappearOnSelected: 1
+  m_ResetButtonStateAfterPressed: 1
+  m_DisappearOnSelection: 0
+  m_Audio: {fileID: 82474183551768992}
+  m_OnOverClip: {fileID: 8300000, guid: c94045f33e7059042a066ac63f51d024, type: 3}
+  m_OnSelectedClip: {fileID: 8300000, guid: 26c4e08cf1d4df54188693295cb68c93, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 99cfea0cf3b88b54385b9d310fc0d502, type: 3}
   m_UIFader: {fileID: 114079776634909420}
   m_Collider: {fileID: 65542443593418978}
   m_Button: {fileID: 114775603970395448}
   m_EventTrigger: {fileID: 114881438670055112}
-  m_Audio: {fileID: 82474183551768992}
-  m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
+  m_Sc04SClient: {fileID: 0}
+  m_PlayClipsBtnNormalSprite: {fileID: 21300000, guid: c3889d68b1990f440a1c59d5155648e3,
+    type: 3}
+  m_PlayClipsBtnHighLightSprite: {fileID: 21300000, guid: 01db8518639e599479ccd9ae69fe7d9f,
+    type: 3}
+  m_PlayClipsBtnImage: {fileID: 114904192234160254}
+  m_IsSelectionsDisappearOnSelectedOverride: 1
+  m_HighlightSlotsContainer: {fileID: 0}
   m_ClauseAvailableOptionsContainer: {fileID: 0}
   m_SelectedClauseContainer: {fileID: 0}
-  m_DeviceToListen: 2
-  m_InputToListen: 16
+  m_BossSelectedClause: {fileID: 0}
+  m_NormalSelectedClauseTextBgFader: {fileID: 0}
 --- !u!114 &114775603970395448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -247,18 +258,19 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
-    m_NormalColor: {r: 0.84313726, g: 0.9529412, b: 0.9529412, a: 1}
+    m_NormalColor: {r: 0.6764706, g: 0.9330628, b: 1, a: 1}
     m_HighlightedColor: {r: 0.62352943, g: 1, b: 0.8117647, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 01db8518639e599479ccd9ae69fe7d9f,
+      type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 01db8518639e599479ccd9ae69fe7d9f, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: c3889d68b1990f440a1c59d5155648e3, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -392,9 +404,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: c3889d68b1990f440a1c59d5155648e3, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -424,7 +436,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &224250207087255328
 RectTransform:
@@ -442,7 +454,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 6.14, y: 1.07}
+  m_SizeDelta: {x: 2.75, y: 1.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224273875253755566
 RectTransform:

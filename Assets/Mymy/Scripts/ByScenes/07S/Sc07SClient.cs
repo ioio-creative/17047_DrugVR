@@ -10,11 +10,13 @@ public class Sc07SClient : VideoSceneClientBase
     DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc07B;
     [SerializeField]
     private SelectionStandard m_ExitButton;
+    private UIImageAnimationControl m_ExitUIAnimCtrl;
 
 
     protected override void Awake()
     {
         base.Awake();
+        m_ExitUIAnimCtrl = m_ExitButton.GetComponentInChildren<UIImageAnimationControl>();
     }
 
     protected override void OnEnable()
@@ -37,8 +39,25 @@ public class Sc07SClient : VideoSceneClientBase
     {
         if (m_ExitButton != null)
         {
-            m_ExitButton.OnSelectionComplete += HandleExitSelected;
+            DeactivateExitButton();
         }
+        
+    }
+
+    public void ActivateExitButton()
+    {
+        m_ExitButton.UnforceDisableButton();
+        m_ExitUIAnimCtrl.ActivateUIAnimation();
+        m_ExitButton.OnSelectionComplete += HandleExitSelected;
+        StartCoroutine(m_ExitButton.InterruptAndFadeIn());
+    }
+
+    public void DeactivateExitButton()
+    {
+        m_ExitButton.ForceDisableButton();
+        m_ExitUIAnimCtrl.DeactivateUIAnimation();
+        m_ExitButton.OnSelectionComplete -= HandleExitSelected;
+        StartCoroutine(m_ExitButton.InterruptAndFadeOut());
     }
 
     protected override void HandleSystemVideoEnd(VideoPlayer source)
