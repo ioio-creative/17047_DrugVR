@@ -112,6 +112,7 @@ public class HandLighterSwitchControl : MonoBehaviour
                 ReplaceControllerByLighter();
             }
         }
+
         if (isLighterOn)
         {
             // update lighter transform
