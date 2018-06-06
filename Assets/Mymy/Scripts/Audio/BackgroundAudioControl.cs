@@ -60,62 +60,72 @@ public class BackgroundAudioControl : MonoBehaviour
         GameManager.OnSceneChange -= HandleSceneChange;
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log("BGACtrl Destroy");
-    }
-
     private void HandleSceneChange(DrugVR_SceneENUM nextScene)
     {
         IEnumerable<AudioLoopPackage> applicableAudioLoops =
             m_AudioLoops.Where(x => x.ScenesToLoop.Contains(nextScene));
 
-
-        //We check if AudioLoopPackage is applicable to this scene, including cases when jumping scenes via menu
-        foreach (AudioLoopPackage applicableAudioLoop in applicableAudioLoops)
+        AudioLoopPackage package = applicableAudioLoops.SingleOrDefault(x => x.LoopType == AudioLoopType.Ambience);
+        if (package == null)
         {
-            AudioSource _audioSrc;
-            //TODO Play loop
-            switch (applicableAudioLoop.LoopType)
-            {
-                case AudioLoopType.Ambience:
-                default:
-                    _audioSrc = m_AmbAudioSrc;
-                    break;
-                case AudioLoopType.Music:
-                    _audioSrc = m_MusicAudioSrc;
-                    break;
-            }
+            //Mute audio source when no clip is assigned to this scene
+            StartCoroutine(FadeOutAndMuteAudioSrcRoutine(m_AmbAudioSrc));
+        }
+        else
+        {
+            CheckAndPlayClip(m_AmbAudioSrc, package.Clip);
+        }
 
-            if (_audioSrc.isPlaying && _audioSrc.clip == applicableAudioLoop.Clip)
-            {
-                //We leave the audio to play when it matches the package already
-                continue;
-            }
-            else if (!_audioSrc.isPlaying && _audioSrc.clip == applicableAudioLoop.Clip)
-            {
-                _audioSrc.mute = false;
-                _audioSrc.Play();
-                StartCoroutine(AudioUtils.FadeInAudioToOne(_audioSrc, 1f));
-            }
-            else
-            {
-                StartCoroutine(AudioTransitionRoutine(_audioSrc, applicableAudioLoop));
-            }
+        package = applicableAudioLoops.SingleOrDefault(x => x.LoopType == AudioLoopType.Music);
+        if (package == null)
+        {
+            //Mute audio source when no clip is assigned to this scene
+            StartCoroutine(FadeOutAndMuteAudioSrcRoutine(m_MusicAudioSrc));
+        }
+        else
+        {
+            CheckAndPlayClip(m_MusicAudioSrc, package.Clip);
         }
     }
 
-    private IEnumerator AudioTransitionRoutine(AudioSource audioSrc, AudioLoopPackage loopPkg)
+    private void CheckAndPlayClip(AudioSource audioSrc, AudioClip audioClip)
+    {
+        if (audioSrc.isPlaying && audioSrc.clip == audioClip)
+        {
+            //We leave the audio to play when it matches the package already
+        }
+        else if (!audioSrc.isPlaying && audioSrc.clip == audioClip)
+        {
+            //if correct clip already assigned then we simply play and fade in
+            audioSrc.mute = false;
+            audioSrc.Play();
+            StartCoroutine(AudioUtils.FadeInAudioToOne(audioSrc, 1f));
+        }
+        else
+        {
+            //Otherwise we replace and play clip
+            StartCoroutine(AudioClipReplaceAndPlayRoutine(audioSrc, audioClip));
+        }
+    }
+
+    private IEnumerator FadeOutAndMuteAudioSrcRoutine(AudioSource audioSrc)
+    {
+        yield return StartCoroutine(AudioUtils.FadeOutAudioToZero(audioSrc, 0.5f));
+        audioSrc.mute = true;
+        audioSrc.Stop();
+    }
+
+    private IEnumerator AudioClipReplaceAndPlayRoutine(AudioSource audioSrc, AudioClip audioClip)
     {
         if (!audioSrc.mute)
         {
-            yield return StartCoroutine(AudioUtils.FadeOutAudioToZero(audioSrc, 0.5f));
-            audioSrc.mute = true;
-            audioSrc.Stop();
+            yield return StartCoroutine(FadeOutAndMuteAudioSrcRoutine(audioSrc));
         }
-        audioSrc.clip = loopPkg.Clip;
+        audioSrc.clip = audioClip;
         audioSrc.mute = false;
         audioSrc.Play();
         StartCoroutine(AudioUtils.FadeInAudioToOne(audioSrc, 1f));
     }
+
+    
 }
