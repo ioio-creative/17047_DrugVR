@@ -17,10 +17,11 @@ public class HandWaveProgressable : MonoBehaviour
         }       
     }
 
+    private readonly float m_MinValue = 0f;
+    public float MinValue { get { return m_MinValue; } }
 
-    private const float MinValue = 0f;
-    private const float MaxValue = 1f;
-
+    private readonly float m_MaxValue = 1f;
+    public float MaxValue { get { return m_MaxValue; } }
 
     [SerializeField]
     private Image m_ProgressBar;
@@ -33,12 +34,12 @@ public class HandWaveProgressable : MonoBehaviour
     private void Start()
     {
         Reset();
-        m_ProgressPerStep = (MaxValue - MinValue) / m_NumOfStepsToCompletion;
+        m_ProgressPerStep = (m_MaxValue - m_MinValue) / m_NumOfStepsToCompletion;
     }
 
     public void Reset()
     {
-        m_ProgressBar.fillAmount = MinValue;
+        m_ProgressBar.fillAmount = m_MinValue;
     }
 
     public void StepIt()
@@ -49,7 +50,7 @@ public class HandWaveProgressable : MonoBehaviour
     private IEnumerator StepItRoutine()
     {
         m_ProgressBar.fillAmount += m_ProgressPerStep;
-        if (m_ProgressBar.fillAmount >= MaxValue)
+        if (m_ProgressBar.fillAmount >= m_MaxValue)
         {
             // wait for some time for user to see the filled progress bar
             yield return new WaitForSeconds(0.1f);

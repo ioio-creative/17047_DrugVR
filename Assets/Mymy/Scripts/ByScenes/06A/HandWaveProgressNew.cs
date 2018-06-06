@@ -16,10 +16,16 @@ public class HandWaveProgressNew : MonoBehaviour
     private AudioSource m_Audio;
     [SerializeField]
     private AudioClip m_OnSelectedClip;
+
+    // to make lighter instruction fade out when hand wave is in progress
+    [SerializeField]
+    private UIFader m_LighterInstructionFader;
+
     /* end of progress */
 
 
     /* for tracking transform angles */
+
     //!! CANNOT USE STATIC FIELD, won't reset after class instance destroyed !!//
     private Vector3 SceneUp = Vector3.up;
     private Vector3 SceneForward = Vector3.forward;
@@ -123,11 +129,24 @@ public class HandWaveProgressNew : MonoBehaviour
             {
                 m_ProgressBar.StepIt();
             }
+
+            // if some progress exists
+            if (m_ProgressBar.Progress > m_ProgressBar.MinValue)
+            {
+                //CheckAndFadeOutLighterInstruction();
+            }
+            // if no progress exists
+            else
+            {
+                //CheckAndFadeInLighterInstruction();
+            }
         }
         else
         {
             //Debug.Log("head not in zone");
             CheckAndFadeOutAndReset();
+
+            //CheckAndFadeInLighterInstruction();
         }
 
         m_HandAzimuth = newHandAzimuth;
@@ -189,6 +208,22 @@ public class HandWaveProgressNew : MonoBehaviour
     {
         StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());
         m_ProgressBar.Reset();               
+    }
+
+    public void CheckAndFadeInLighterInstruction()
+    {
+        if (!m_LighterInstructionFader.IsCompletelyFadedIn())
+        {
+            StartCoroutine(m_LighterInstructionFader.InterruptAndFadeIn());
+        }
+    }
+
+    public void CheckAndFadeOutLighterInstruction()
+    {
+        if (!m_LighterInstructionFader.IsCompletelyFadedOut())
+        {
+            StartCoroutine(m_LighterInstructionFader.InterruptAndFadeOut());
+        }
     }
 
     /* end of Fader */

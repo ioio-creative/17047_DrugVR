@@ -240,6 +240,8 @@ namespace VRStandardAssets.Utils
 
                         if (currentAlpha > highestAlpha)
                             highestAlpha = currentAlpha;
+
+                        Debug.Log(renderer.material.color);
                     }
                 }
 

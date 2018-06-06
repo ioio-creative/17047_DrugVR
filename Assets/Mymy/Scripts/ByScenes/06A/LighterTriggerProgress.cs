@@ -43,6 +43,10 @@ public class LighterTriggerProgress : MonoBehaviour
 
     private bool m_IsInputPress;
 
+    // to make hand wave instruction fade out when lighter is in progress
+    [SerializeField]
+    private UIFader m_HandWaveInstructionFader;
+
     /* end of progressable */
 
 
@@ -335,6 +339,22 @@ public class LighterTriggerProgress : MonoBehaviour
         }      
     }
 
+    public void CheckAndFadeInHandWaveInstruction()
+    {
+        if (!m_HandWaveInstructionFader.IsCompletelyFadedIn())
+        {
+            StartCoroutine(m_HandWaveInstructionFader.InterruptAndFadeIn());
+        }
+    }
+
+    public void CheckAndFadeOutHandWaveInstruction()
+    {
+        if (!m_HandWaveInstructionFader.IsCompletelyFadedOut())
+        {
+            StartCoroutine(m_HandWaveInstructionFader.InterruptAndFadeOut());
+        }
+    }
+
     /* end of Fader */
 
 
@@ -344,6 +364,8 @@ public class LighterTriggerProgress : MonoBehaviour
     {     
         m_ButtonPressed = true;
         StartSelectionFillRoutine();
+
+        CheckAndFadeOutHandWaveInstruction();
     }
 
     private void HandleEnter()
@@ -360,17 +382,22 @@ public class LighterTriggerProgress : MonoBehaviour
         StopSelectionFillRoutine();
 
         CheckAndFadeOut();
+
+        CheckAndFadeInHandWaveInstruction();
     }
 
     private void HandleUp()
     {        
         m_ButtonPressed = false;
         StopSelectionFillRoutine();
+
+        CheckAndFadeInHandWaveInstruction();
     }
 
     /* end of IHandleUiButton interfaces */
 
     /* event handlers */
+
     private void HandleProgressableFadeOutComplete()
     {
         if (OnSelectionFadeOutComplete != null)
@@ -379,5 +406,6 @@ public class LighterTriggerProgress : MonoBehaviour
         }
         m_ProgressableFader.OnFadeOutComplete -= HandleProgressableFadeOutComplete;
     }
+
     /* end of event handlers */
 }

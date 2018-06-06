@@ -1,5 +1,6 @@
 ﻿using DrugVR_Scribe;
 using UnityEngine;
+using VRStandardAssets.Utils;
 
 public class Sc06AClient : VideoSceneClientBase
 {
@@ -13,6 +14,9 @@ public class Sc06AClient : VideoSceneClientBase
     [SerializeField]
     private HandWaveProgressNew handWaveProgress;
 
+    [SerializeField]
+    private UIFader[] m_FadersToStart;
+
 
     /* MonoBehaviour */
 
@@ -22,6 +26,11 @@ public class Sc06AClient : VideoSceneClientBase
 
         // set default next scene
         nextSceneToLoadBase = sceneToGoWhenHandWaveTriggered;
+
+        foreach (UIFader fader in m_FadersToStart)
+        {
+            StartCoroutine(fader.InterruptAndFadeIn());
+        }
     }
 
     protected override void OnEnable()
