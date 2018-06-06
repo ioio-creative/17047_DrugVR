@@ -18,7 +18,9 @@ public class ReplyModeBroadcast : MonoBehaviour
     [SerializeField]
     private AudioSource m_Audio;
     [SerializeField]
-    private AudioClip m_OnReplyModeIndicatedClip;
+    private AudioClip m_OnReplyClip;
+    [SerializeField]
+    private AudioClip m_OnIgnoreMsgClip;
 
     [SerializeField]
     private float m_XDisplacementThreshold;
@@ -63,7 +65,7 @@ public class ReplyModeBroadcast : MonoBehaviour
         {
             m_IsReplyModeIndicated = true;
 
-            PlayOnReplyModeIndicatedClip();
+            PlayOnReplyModeIndicatedClip(replyMode);
 
             // make m_PopupMsgImage transparent
             Color popupMsgImageOriginalColor = m_PopupMsgImage.color;
@@ -84,9 +86,19 @@ public class ReplyModeBroadcast : MonoBehaviour
 
     /* audios */
 
-    private void PlayOnReplyModeIndicatedClip()
+    private void PlayOnReplyModeIndicatedClip(ReplyMode _replyMode)
     {
-        PlayAudioClip(m_OnReplyModeIndicatedClip);
+        switch (_replyMode)
+        {
+            case ReplyMode.Reply:
+                PlayAudioClip(m_OnReplyClip);
+                break;
+            case ReplyMode.NotReply:
+                PlayAudioClip(m_OnIgnoreMsgClip);
+                break;
+            default:
+                break;
+        }
     }
 
     private void PlayAudioClip(AudioClip aClip)

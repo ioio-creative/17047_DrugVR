@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 19370854}
   - component: {fileID: 19370855}
+  - component: {fileID: 19370856}
   m_Layer: 0
   m_Name: Party Manager
   m_TagString: Untagged
@@ -162,6 +163,88 @@ MonoBehaviour:
   - {fileID: 1491706659}
   - {fileID: 2084414834}
   m_partyVFXControll: {fileID: 0}
+  m_AudioSrc: {fileID: 19370856}
+  m_PersuadeClip: {fileID: 0}
+--- !u!82 &19370856
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 19370853}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8501c21c8d10a0c41995acd0d3063ce7, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1001 &30278210
 Prefab:
   m_ObjectHideFlags: 0
@@ -544,7 +627,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
-  m_IsSetVisibleWhenAwake: 1
+  m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0.5
   m_FadeSpeed: 0.5
   m_UiGroupsToFade:
   - {fileID: 1777760689}
@@ -960,7 +1045,7 @@ Prefab:
     - target: {fileID: 224494173897399494, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
@@ -1141,6 +1226,48 @@ Prefab:
         type: 2}
       propertyPath: m_Delegates.Array.data[3].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: HandleUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114454261776154450, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4,
+        type: 2}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847299937229314, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4,
+        type: 2}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ec4acdf1bafaea4488dc6b4f487753fa,
+        type: 3}
+    - target: {fileID: 114847299937229314, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4,
+        type: 2}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114847299937229314, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114454261776154450, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ec4acdf1bafaea4488dc6b4f487753fa,
+        type: 3}
+    - target: {fileID: 225432335447459752, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4,
+        type: 2}
+      propertyPath: m_Alpha
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114443798503763858, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4,
+        type: 2}
+      propertyPath: m_IsSetVisibleWhenAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114443798503763858, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4,
+        type: 2}
+      propertyPath: m_MinAlpha
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
@@ -1511,13 +1638,13 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 21300000, guid: 8b16be25bf449554aa61accaae33134b,
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 8b16be25bf449554aa61accaae33134b, type: 3}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: ec4acdf1bafaea4488dc6b4f487753fa, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1242392626}
   m_OnClick:
     m_PersistentCalls:
@@ -1544,7 +1671,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: af249b0c893323c43823bd3006ec54a2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ec4acdf1bafaea4488dc6b4f487753fa, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1789,7 +1916,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 872896045}
   m_GameObject: {fileID: 1777760687}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.5
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

@@ -63,7 +63,7 @@ public abstract class VrButtonBase : MonoBehaviour,
     {
         // If this selection is using a UIFader 
         // turn off the "interaction" when it's invisible.
-        bool isEnableCollider = !m_IsForceDisableButton && (m_UIFader.Visible && !m_UIFader.Fading);
+        bool isEnableCollider = !m_IsForceDisableButton && m_UIFader.IsCompletelyFadedIn();
         SetInteractionEnabled(isEnableCollider);
     }
 
@@ -72,11 +72,13 @@ public abstract class VrButtonBase : MonoBehaviour,
     public void ForceDisableButton()
     {
         m_IsForceDisableButton = true;
+        m_Button.interactable = false;
     }
 
     public void UnforceDisableButton()
     {
         m_IsForceDisableButton = false;
+        m_Button.interactable = true;
     }
 
     private void SetInteractionEnabled(bool isEnabled)
@@ -125,6 +127,16 @@ public abstract class VrButtonBase : MonoBehaviour,
         }
     }
 
+    public IEnumerator PlaySelectedClipAndWaitWhilePlaying()
+    {
+        yield return PlayAudioClipAndWaitWhilePlaying(m_OnSelectedClip);
+    }
+
+    public IEnumerator PlayErrorClipAndWaitWhilePlaying()
+    {
+        yield return PlayAudioClipAndWaitWhilePlaying(m_OnErrorClip);
+    }
+
     public IEnumerator PlayAudioClipAndWaitWhilePlaying(AudioClip aClip)
     {
         PlayAudioClip(aClip);
@@ -134,6 +146,11 @@ public abstract class VrButtonBase : MonoBehaviour,
     private IEnumerator WaitWhileAudioIsPlaying()
     {
         yield return new WaitWhile(() => m_Audio.isPlaying);
+    }
+
+    public bool IsAudioPlaying()
+    {
+        return m_Audio.isPlaying;
     }
 
     /* end of audios */
@@ -211,6 +228,7 @@ public abstract class VrButtonBase : MonoBehaviour,
     {
         Debug.Log("HandleExit: " + this.name);
         m_GazeOver = false;
+        //We explicitly reset button state for other styles of button control e.g. progressable
         if (m_ResetButtonStateAfterPressed)
         {
             ResetSelectionHoverState();

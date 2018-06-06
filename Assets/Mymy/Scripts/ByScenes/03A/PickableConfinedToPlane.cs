@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PickableConfinedToPlane : MonoBehaviour
 {
+    public static event Action OnAnyPickableObjectPicked;
+    public static event Action OnAnyPickableObjectDestroyed;
+
     [SerializeField]
     private BoxCollider m_ConfinedPlane;
     public BoxCollider ConfinedPlane
@@ -45,7 +49,15 @@ public class PickableConfinedToPlane : MonoBehaviour
         OrbitLocked = false;
 
         m_OriginalRBPosition = m_ControlledRigidBody.transform.position;
-    }    
+    }
+
+    private void OnDestroy()
+    {
+        if (OnAnyPickableObjectDestroyed != null)
+        {
+            OnAnyPickableObjectDestroyed();
+        }
+    }
 
     private void Update()
     {
@@ -63,6 +75,11 @@ public class PickableConfinedToPlane : MonoBehaviour
 
     public void OnObjectPicked(GameObject raycastOriginObject, float raycastMaxDist)
     {
+        if (OnAnyPickableObjectPicked != null)
+        {
+            OnAnyPickableObjectPicked();
+        }
+
         OrbitLocked = true;
 
         m_RaycastOriginObject = raycastOriginObject;
