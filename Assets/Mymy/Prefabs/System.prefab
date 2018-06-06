@@ -641,8 +641,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -654,9 +654,9 @@ AudioSource:
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
+  BypassEffects: 1
+  BypassListenerEffects: 1
+  BypassReverbZones: 1
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -801,8 +801,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -814,9 +814,9 @@ AudioSource:
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
+  BypassEffects: 1
+  BypassListenerEffects: 1
+  BypassReverbZones: 1
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -880,7 +880,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: adbfbadf275b3e040a0bda20c0d0f5ef, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1107,7 +1107,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd3c2abca1ab69541a864c74ce2b6085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioLoops: []
+  audioLoops:
+  - LoopType: 0
+    Clip: {fileID: 8300000, guid: b248e68c59354b04e8da02f31d82f95e, type: 3}
+    SceneToStartLoop: 1
+  - LoopType: 0
+    Clip: {fileID: 8300000, guid: 40e2d09759aa4c34390052623e705b15, type: 3}
+    SceneToStartLoop: 3
+  - LoopType: 1
+    Clip: {fileID: 8300000, guid: 18ce6b4f8b32ef7408a421c3982af65e, type: 3}
+    SceneToStartLoop: 2
+  m_AmbAudioSrc: {fileID: 82636442446621104}
+  m_MusicAudioSrc: {fileID: 82040372178979188}
 --- !u!114 &114303621593741886
 MonoBehaviour:
   m_ObjectHideFlags: 1
