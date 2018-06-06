@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -157,6 +157,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1856889852}
@@ -452,6 +454,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1936585351}
@@ -710,6 +714,16 @@ Prefab:
       propertyPath: m_Colors.m_DisabledColor.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114523304236801252, guid: dec1fc06ef64c9344b71a5330151fd93,
+        type: 2}
+      propertyPath: m_CorrectAnswer1FullClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ae08a042caa298348892513d78ac64d0, type: 3}
+    - target: {fileID: 114523304236801252, guid: dec1fc06ef64c9344b71a5330151fd93,
+        type: 2}
+      propertyPath: m_CorrectAnswer2FullClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ad52615401cb10f4987ef21abcde5016, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dec1fc06ef64c9344b71a5330151fd93, type: 2}
   m_IsPrefabParent: 0
@@ -1248,6 +1262,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 620404865}
@@ -1766,6 +1782,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 2021177802}
@@ -1814,6 +1832,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 224289035}
@@ -2035,6 +2055,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1989472221}

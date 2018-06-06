@@ -10,6 +10,7 @@ namespace DrugVR_Scribe
     //Scene 
     public enum DrugVR_SceneENUM
     {
+        PreIntro,
         Intro,
         Sc01,
         Sc01S,
@@ -71,7 +72,7 @@ namespace DrugVR_Scribe
             new Dictionary<DrugVR_SceneENUM, Scroll>(new DrugVREnumComparer());
 
         //Scene 1 Side Taking
-        private static bool _Side01;
+        private static bool _Side01 = true;
         public static bool Side01
         {
             get{ return _Side01; }
@@ -85,7 +86,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 2 Side Taking
-        private static bool _Side02;
+        private static bool _Side02 = true;
         public static bool Side02
         {
             get { return _Side02; }
@@ -99,7 +100,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 3 Side Taking
-        private static bool _Side03;
+        private static bool _Side03 = true;
         public static bool Side03
         {
             get { return _Side03; }
@@ -113,7 +114,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 4 Side Taking
-        private static bool _Side04;
+        private static bool _Side04 = true;
         public static bool Side04
         {
             get { return _Side04; }
@@ -127,7 +128,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 6 Side Taking
-        private static bool _Side05;
+        private static bool _Side05 = true;
         public static bool Side05
         {
             get { return _Side05; }
@@ -141,7 +142,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 7 Side Taking
-        private static bool _Side06;
+        private static bool _Side06 = true;
         public static bool Side06
         {
             get { return _Side06; }
