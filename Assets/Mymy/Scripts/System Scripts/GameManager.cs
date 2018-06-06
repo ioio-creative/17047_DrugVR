@@ -17,8 +17,11 @@ public enum SkyboxType
 
 public class GameManager : MonoBehaviour
 {
+    public delegate void SceneChange(DrugVR_SceneENUM nextScene);
+    public static event SceneChange OnSceneChange = null;
+
     /* constants */
-    
+
     private const string FOCUS_CONTROLLER_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController";
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
     
@@ -112,8 +115,8 @@ public class GameManager : MonoBehaviour
         }
         set { m_MenuControl = value; }
     }
-        
 
+    public event Action<VideoPlayer> OnSceneVideoEnd;
     //Only one instance of this videoplayer can be obtained and present in any scenes
     private VideoPlayer m_SkyVideoPlayer;
     public VideoPlayer SkyVideoPlayer
@@ -153,10 +156,6 @@ public class GameManager : MonoBehaviour
     public Material StillSkyMat;
 
     public bool FadeToBlack = true;
-
-    public event Action<VideoPlayer> OnSceneVideoEnd;
-    public delegate void SceneChange(DrugVR_SceneENUM nextScene);
-    public static event SceneChange OnSceneChange = null;
 
     /* end of public references */
 
@@ -218,7 +217,11 @@ public class GameManager : MonoBehaviour
 
         yield return StartCoroutine(Scribe.LoadTxtDataWWW());
 
-        StartCoroutine(ReadScroll(CurrentSceneScroll));       
+        StartCoroutine(ReadScroll(CurrentSceneScroll));
+        if (OnSceneChange != null)
+        {
+            OnSceneChange(CurrentScene);
+        }
     }
 
     private void FixedUpdate()
@@ -334,11 +337,11 @@ public class GameManager : MonoBehaviour
                 PauseVideo();
                 SceneManager.LoadScene(CurrentSceneScroll.SceneName);
 
-                ReadScroll(CurrentSceneScroll);
-                if (OnSceneChange != null)
-                {
-                    OnSceneChange(sceneEnum);
-                }
+                ReadScroll(CurrentSceneScroll);               
+            }
+            if (OnSceneChange != null)
+            {
+                OnSceneChange(sceneEnum);
             }
         }
 

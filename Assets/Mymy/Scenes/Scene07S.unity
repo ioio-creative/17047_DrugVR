@@ -1463,6 +1463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5042fc42edc80474ab4ed172018da6b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playAnimation: 0
 --- !u!212 &1242392622
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1993,6 +1994,7 @@ GameObject:
   - component: {fileID: 1784894939}
   - component: {fileID: 1784894938}
   - component: {fileID: 1784894940}
+  - component: {fileID: 1784894941}
   m_Layer: 0
   m_Name: PartyVFXSphereMask
   m_TagString: Untagged
@@ -2030,15 +2032,15 @@ MonoBehaviour:
   m_SphereImgSequences: []
   m_SphereVideos:
   - m_PartyOption: 1
-    FXVideoClip: {fileID: 32900000, guid: e3d2f27ac38a4e446b69ce554902733e, type: 3}
+    FXVideoClip: {fileID: 32900000, guid: ae956fa01342e5442a246dd1a21da599, type: 3}
     EffectRotation: 320
     IsRepeat: 0
   - m_PartyOption: 2
-    FXVideoClip: {fileID: 32900000, guid: a10a57ba625339147890fe4d758007d3, type: 3}
+    FXVideoClip: {fileID: 32900000, guid: 24b5db566ebc8474c9acf695a8d26363, type: 3}
     EffectRotation: 320
     IsRepeat: 0
   - m_PartyOption: 3
-    FXVideoClip: {fileID: 32900000, guid: 9ce7a998a7b950c428e66f9fa425450b, type: 3}
+    FXVideoClip: {fileID: 32900000, guid: be3573f07e7264746a7f82ce899239ca, type: 3}
     EffectRotation: 320
     IsRepeat: 0
   m_SphereVideoTexture: {fileID: 8400000, guid: 109fb1c0ff6f80d4a8a9618fa596ad82,
@@ -2105,7 +2107,7 @@ VideoPlayer:
   m_AspectRatio: 2
   m_DataSource: 0
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 0
+  m_AudioOutputMode: 1
   m_TargetAudioSources: []
   m_DirectAudioVolumes: []
   m_Url: 
@@ -2117,6 +2119,86 @@ VideoPlayer:
   m_Looping: 0
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
+--- !u!82 &1784894941
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1784894935}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1001 &1827540351
 Prefab:
   m_ObjectHideFlags: 0

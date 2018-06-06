@@ -167,6 +167,8 @@ namespace Scene07Party
                 m_FXVideoPlayer = GetComponent<VideoPlayer>();              
             }
             m_FXVideoPlayer.source = VideoSource.VideoClip;
+            m_FXVideoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+            m_FXVideoPlayer.controlledAudioTrackCount = 1;
             m_FXVideoPlayer.skipOnDrop = true;
 
             if (m_SphereVideoTexture != null)
@@ -312,6 +314,9 @@ namespace Scene07Party
         private void PrepareFXVideo(SphereVideoPackage sphereVideo)
         {
             m_FXVideoPlayer.clip = sphereVideo.FXVideoClip;
+            m_FXVideoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+            m_FXVideoPlayer.controlledAudioTrackCount = 1;
+            m_FXVideoPlayer.SetTargetAudioSource(0, m_FXVideoPlayer.GetComponent<AudioSource>());
             m_FXVideoPlayer.Prepare();
             Quaternion FXRotation = Quaternion.Euler(0, sphereVideo.EffectRotation, 0);
             m_SphereMeshRenderer.transform.rotation = FXRotation;
