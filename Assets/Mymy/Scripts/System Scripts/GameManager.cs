@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
     public Material VideoSkyMat;
     public Material StillSkyMat;
 
-    public bool FadeToBlack = true;
+    public bool FadeBetweenScenes = true;
 
     /* end of public references */
 
@@ -188,6 +188,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        //get references to animatior and image component from children Game Object 
+        m_anim = Instance.GetComponentInChildren<Animator>();
+        m_fadeImage = Instance.GetComponentInChildren<Image>();
 
         //Debug Canvas
         if (m_IsShowDebugCanvas)
@@ -272,11 +276,12 @@ public class GameManager : MonoBehaviour
             SkyVideoPlayer.SetTargetAudioSource(0, SkyVideoPlayer.GetComponent<AudioSource>());
             SkyVideoPlayer.Prepare();
 
-            StartCoroutine(WaitForVideoPrepared());
+            yield return StartCoroutine(WaitForVideoPrepared());
             SkyVideoPlayer.skipOnDrop = true;
 
             if (scroll.VideoAutoPlay)
             {
+                SkyVideoPlayer.GetComponent<AudioSource>().volume = 1;
                 PlayVideo();
             }
             else
@@ -320,16 +325,16 @@ public class GameManager : MonoBehaviour
     }
     
     //Select scene is called from either the menu manager or hotspot manager, and is used to load the desired scene
-    public void GoToScene(DrugVR_SceneENUM sceneEnum)
+    public void GoToScene(DrugVR_SceneENUM sceneEnum, float delayInSeconds = 0f)
     {
         CurrentScene = sceneEnum;
         if (!isLoadingScene)
         {
             //if we want to use the fading between scenes, start the coroutine here
-            if (FadeToBlack)
+            if (FadeBetweenScenes)
             {
                 isLoadingScene = true;
-                StartCoroutine(SceneChangeWithFadeOutIn(sceneEnum));
+                StartCoroutine(SceneChangeWithFadeOutIn(sceneEnum, delayInSeconds));
             }
             //if we dont want to use fading, just load the next scene
             else
@@ -353,17 +358,12 @@ public class GameManager : MonoBehaviour
     //    yield return StartCoroutine(Routine);
     //}
 
-    private IEnumerator SceneChangeWithFadeOutIn(DrugVR_SceneENUM nextSceneEnum)
-    {                
-        //get references to animatior and image component from children Game Object 
-        m_anim = Instance.GetComponentInChildren<Animator>();
-        m_fadeImage = Instance.GetComponentInChildren<Image>();
-
-        //Trigger FadeOut on the animator so our image will fade out
-        m_anim.SetTrigger("FadeOut");
-
-        //wait until the fade image is entirely black (alpha=1) then load next scene
-        yield return new WaitUntil(() => m_fadeImage.color.a == 1);
+    private IEnumerator SceneChangeWithFadeOutIn(DrugVR_SceneENUM nextSceneEnum, float delayTime = 0)
+    {
+        if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("FadeIn"))
+        {
+            yield return StartCoroutine(FadeOutRoutine());
+        }
 
         StopVideo();
         //TODO
@@ -380,16 +380,20 @@ public class GameManager : MonoBehaviour
         Debug.Log("loading scene:" + nextScene.name);
         yield return new WaitUntil(() => nextScene.isLoaded);
 
-        //yield return DoSomething();
+        if (delayTime > 0f)
+        {
+            yield return new WaitForSecondsRealtime(delayTime);
+        }
 
         //yield return StartCoroutine(ReadScroll(CurrentSceneScroll));
         StartCoroutine(ReadScroll(CurrentSceneScroll));
         CurrentScene = nextSceneEnum;
-        //trigger FadeIn on the animator so our image will fade back in 
-        m_anim.SetTrigger("FadeIn");
 
-        //wait until the fade image is completely transparent (alpha = 0) and control UI back on
-        yield return new WaitUntil(() => m_fadeImage.color.a == 0);
+        //trigger FadeIn on the animator so our scene will fade back in 
+        if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("FadeOut"))
+        {
+            yield return StartCoroutine(FadeInRoutine());
+        }
         isLoadingScene = false;
     }
     
@@ -408,8 +412,6 @@ public class GameManager : MonoBehaviour
     }
     
 
-    
-
     private void OnVideoEnd(VideoPlayer source)
     {
         if (OnSceneVideoEnd != null)
@@ -420,6 +422,7 @@ public class GameManager : MonoBehaviour
 
     private void OnNewVideoFrameArrived(VideoPlayer source, long frameIdx)
     {
+        //Pause Video on the first Frame
         if (frameIdx >= 0)
         {
             PauseVideo();
@@ -432,6 +435,37 @@ public class GameManager : MonoBehaviour
     private VideoPlayer GetVideoPlayerInScene()
     {
         return GetComponentInChildren<VideoPlayer>();
+    }
+
+    //FadeOut == fade image fade in
+    public IEnumerator FadeOutToBlackRoutine()
+    {   
+        yield return StartCoroutine(FadeToColorRoutine(Color.black));
+    }
+
+    public IEnumerator FadeOutToWhiteRoutine()
+    {
+        yield return StartCoroutine(FadeToColorRoutine(Color.white));
+    }
+
+    public IEnumerator FadeToColorRoutine(Color color)
+    {
+        m_fadeImage.color = color;
+        yield return StartCoroutine(FadeOutRoutine());
+    }
+
+    public IEnumerator FadeOutRoutine()
+    {       
+        m_anim.SetTrigger("FadeOut");
+        //wait until the fade image is entirely black (alpha=1) then load next scene
+        yield return new WaitUntil(() => m_fadeImage.color.a == 1);
+    }
+
+    public IEnumerator FadeInRoutine()
+    {
+        m_anim.SetTrigger("FadeIn");
+        //wait until the fade image is completely transparent (alpha = 0) and control UI back on
+        yield return new WaitUntil(() => m_fadeImage.color.a == 0);
     }
 
 

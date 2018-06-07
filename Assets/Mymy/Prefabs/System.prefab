@@ -1146,9 +1146,6 @@ MonoBehaviour:
   - LoopType: 1
     Clip: {fileID: 8300000, guid: b919d9aded882dd4c96eae63f4645731, type: 3}
     ScenesToLoop: 1600000017000000
-  - LoopType: 0
-    Clip: {fileID: 0}
-    ScenesToLoop: 
   m_AmbAudioSrc: {fileID: 82636442446621104}
   m_MusicAudioSrc: {fileID: 82040372178979188}
 --- !u!114 &114303621593741886
