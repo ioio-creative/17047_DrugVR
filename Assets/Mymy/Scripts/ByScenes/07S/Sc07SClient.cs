@@ -6,16 +6,31 @@ using UnityEngine.Video;
 
 public class Sc07SClient : VideoSceneClientBase
 {
-    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc07B;
+    private const DrugVR_SceneENUM partyMethSceneToLoad = DrugVR_SceneENUM.Sc07B;
+    private DrugVR_SceneENUM endSceneToLoad;
+
     [SerializeField]
     private SelectionStandard m_ExitButton;
     private UIImageAnimationControl m_ExitUIAnimCtrl;
 
+    [SerializeField]
+    private AudioSource m_AudioSrc;
+    [SerializeField]
+    private AudioClip m_PoliceSingleClip;
+    [SerializeField]
+    private AudioClip m_ExitDoorWhiteClip;
+    [SerializeField]
+    private AudioClip m_ExitDoorBlackClip;
 
     protected override void Awake()
     {
         base.Awake();
         m_ExitUIAnimCtrl = m_ExitButton.GetComponentInChildren<UIImageAnimationControl>();
+
+        if (m_AudioSrc == null)
+        {
+            m_AudioSrc = GetComponent<AudioSource>();
+        }
     }
 
     protected override void OnEnable()
@@ -67,6 +82,32 @@ public class Sc07SClient : VideoSceneClientBase
     private void HandleExitSelected()
     {
         Scribe.Side06 = true;
+        StartCoroutine(ExitDoorRoutine());      
+    }
+
+    private IEnumerator ExitDoorRoutine()
+    {       
+        if (Scribe.EndingForPlayer == Ending.EndingA)
+        {
+            m_AudioSrc.clip = m_ExitDoorWhiteClip;
+            m_AudioSrc.Play();
+            StartCoroutine(GameManager.Instance.FadeOutToWhiteRoutine());
+            StartCoroutine(AudioUtils.FadeOutAudioToZero(BackgroundAudioControl.Instance.BackgroundAudioSrcs, 2f));
+            StartCoroutine(AudioUtils.FadeOutAudioToZero(GameManager.Instance.SkyVideoPlayer.GetComponent<AudioSource>(), 2f));
+            yield return new WaitWhile(() => m_AudioSrc.isPlaying);
+        }
+        else
+        {
+            m_AudioSrc.clip = m_ExitDoorBlackClip;
+            m_AudioSrc.Play();
+            StartCoroutine(GameManager.Instance.FadeOutToBlackRoutine());
+            StartCoroutine(AudioUtils.FadeOutAudioToZero(GameManager.Instance.SkyVideoPlayer.GetComponent<AudioSource>(), 2f));
+            yield return new WaitWhile(() => m_AudioSrc.isPlaying);
+            m_AudioSrc.clip = m_PoliceSingleClip;
+            m_AudioSrc.Play();
+            yield return new WaitWhile(() => m_AudioSrc.isPlaying);
+        }
+
         GoToSceneOnChoice();
     }
 
@@ -85,24 +126,12 @@ public class Sc07SClient : VideoSceneClientBase
 
     private void GoToMethScene()
     {
-        managerInst.GoToScene(DrugVR_SceneENUM.Sc07B);
+        managerInst.GoToScene(partyMethSceneToLoad);
     }
 
     private void GoToEndSceneOnChoice()
     {
-        switch (Scribe.EndingForPlayer)
-        {
-            case Ending.EndingA:
-                managerInst.GoToScene(DrugVR_SceneENUM.Sc08);
-                break;
-            case Ending.EndingB:
-                //ToDo: Different sound cues based on Side05 and Side06
-                managerInst.GoToScene(DrugVR_SceneENUM.Sc09);
-                break;
-            case Ending.EndingC:
-            default:
-                managerInst.GoToScene(DrugVR_SceneENUM.Sc10);
-                break;
-        }
+        endSceneToLoad = Scribe.EndingSceneENUM();
+        managerInst.GoToScene(endSceneToLoad, 2f);
     }
 }

@@ -129,7 +129,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 6 Side Taking
-        private static bool _Side05 = true;
+        private static bool _Side05 = false;
         public static bool Side05
         {
             get { return _Side05; }
@@ -157,6 +157,25 @@ namespace DrugVR_Scribe
             }
         }
         
+        public static DrugVR_SceneENUM EndingSceneENUM()
+        {
+            DrugVR_SceneENUM end;
+            switch (EndingForPlayer)
+            {
+                case Ending.EndingA:
+                default:
+                    end = DrugVR_SceneENUM.Sc08;
+                    break;
+                case Ending.EndingB:
+                    end = DrugVR_SceneENUM.Sc09;
+                    break;
+                case Ending.EndingC:
+                    end = DrugVR_SceneENUM.Sc10;
+                    break;
+            }
+            return end;
+        }
+
         //Which ending to display for the player
         public static Ending EndingForPlayer
         {

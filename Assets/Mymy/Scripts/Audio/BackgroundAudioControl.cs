@@ -30,6 +30,13 @@ public class BackgroundAudioControl : MonoBehaviour
     private AudioSource m_AmbAudioSrc;
     [SerializeField]
     private AudioSource m_MusicAudioSrc;
+    public AudioSource[] BackgroundAudioSrcs
+    {
+        get
+        {
+            return new AudioSource[] { m_AmbAudioSrc, m_MusicAudioSrc };
+        }
+    }
 
     private void Awake()
     {
