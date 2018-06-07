@@ -10,7 +10,8 @@ namespace DrugVR_Scribe
     //Scene 
     public enum DrugVR_SceneENUM
     {
-        PreIntro,
+        PrePreIntro,
+        PreIntro = 0,
         Intro,
         Sc01,
         Sc01S,

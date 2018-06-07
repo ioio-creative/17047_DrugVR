@@ -6,7 +6,9 @@ using VRStandardAssets.Utils;
 
 public class Sc03AClient : MonoBehaviour
 {
-    //private DrugVR_SceneENUM nextSceneToLoad;
+    private const DrugVR_SceneENUM nextSceneToLoadWhenSide03IsTrue = DrugVR_SceneENUM.Sc04;
+    private const DrugVR_SceneENUM nextSceneToLoadWhenSide03IsFalse = DrugVR_SceneENUM.Sc03B;
+
     public static GameManager managerInst;
     private LaserPointer m_PickupLaser;
 
@@ -111,11 +113,11 @@ public class Sc03AClient : MonoBehaviour
     {
         if (Scribe.Side03)
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc04);
+            managerInst.GoToScene(nextSceneToLoadWhenSide03IsTrue);
         }
         else
         {
-            managerInst.GoToScene(DrugVR_SceneENUM.Sc03B);
+            managerInst.GoToScene(nextSceneToLoadWhenSide03IsFalse);
         }
     }
 

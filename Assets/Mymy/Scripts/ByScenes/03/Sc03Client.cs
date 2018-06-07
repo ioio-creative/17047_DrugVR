@@ -6,8 +6,7 @@ using UnityEngine.Video;
 
 public class Sc03Client : VideoSceneClientBase
 {
-    [SerializeField]
-    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc03A;
+    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc03A;
 
     protected override void Awake()
     {

@@ -7,8 +7,7 @@ using VRStandardAssets.Utils;
 
 public class Sc03SClient : VideoSceneClientBase
 {
-    [SerializeField]
-    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc04;
+    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc04;
     [SerializeField]
     private SelectionStandard[] m_ComicOrMeth;
 

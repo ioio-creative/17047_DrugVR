@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -865,7 +865,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29c8c21bd9e840409c51c1bad773ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneToLoad: 1
   m_FadersToStart:
   - {fileID: 1159664053}
   m_StartButton: {fileID: 611803391}
@@ -920,10 +919,6 @@ Prefab:
     - target: {fileID: 4348182473592100, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1524278817519228, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
-      propertyPath: m_Name
-      value: System
       objectReference: {fileID: 0}
     - target: {fileID: 224182807057996564, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
@@ -1035,10 +1030,6 @@ Prefab:
     - target: {fileID: 4347673543896578, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1807304836202366, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}
-      propertyPath: m_Name
-      value: VIVEFocusWaveVR
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f869faf05141a9488a7dff6f5806fd7, type: 2}

@@ -4,8 +4,7 @@ using VRStandardAssets.Utils;
 
 public class PreIntroClient : MonoBehaviour
 {
-    [SerializeField]
-    private DrugVR_SceneENUM nextSceneToLoad;
+    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Intro;
 
     [SerializeField]
     private UIFader[] m_FadersToStart;
@@ -18,12 +17,12 @@ public class PreIntroClient : MonoBehaviour
 
     private void OnEnable()
     {
-        m_StartButton.OnSelectionComplete += HandleStartButtonSelectionComplete;
+        //m_StartButton.OnSelectionComplete += HandleStartButtonSelectionComplete;
     }
 
     private void OnDisable()
     {
-        m_StartButton.OnSelectionComplete -= HandleStartButtonSelectionComplete;
+        //m_StartButton.OnSelectionComplete -= HandleStartButtonSelectionComplete;
     }
 
     private void Start()

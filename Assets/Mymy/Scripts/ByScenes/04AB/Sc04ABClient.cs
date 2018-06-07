@@ -6,13 +6,14 @@ using UnityEngine.Video;
 
 public class Sc04ABClient : VideoSceneClientBase
 {
-    [SerializeField]
-    private DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc05A;
+    private const DrugVR_SceneENUM nextSceneToLoadWhenSide02IsTrue = 
+        DrugVR_SceneENUM.Sc05A;
+    private const DrugVR_SceneENUM nextSceneToLoadWhenSide02IsFalse = 
+        DrugVR_SceneENUM.Sc05B;
 
     protected override void Awake()
     {
         base.Awake();
-        nextSceneToLoad = Scribe.Side02 ? DrugVR_SceneENUM.Sc05A : DrugVR_SceneENUM.Sc05B;
-        nextSceneToLoadBase = nextSceneToLoad;
+        nextSceneToLoadBase = Scribe.Side02 ? nextSceneToLoadWhenSide02IsTrue : nextSceneToLoadWhenSide02IsFalse;
     }
 }
