@@ -8,12 +8,24 @@ using VRStandardAssets.Utils;
 
 public class AudioSentenceControl : VrButtonBase
 {
+    private enum AnswerType
+    {
+        Correct1,
+        Correct2,
+        Wrong,
+        Boss
+    }
+
     public bool IsBossOptionSelected { get { return m_IsBossOptionSelected; } }
 
+    // 我戒咗差唔多一年喇，我希望你唔好擔心！
+    private readonly int[] CorrectAnswer1 = new int[] { 0, 4, 6 };
     [SerializeField]
-    private AudioClip m_Answer1FullClip;
+    private AudioClip m_CorrectAnswer1FullClip;
+    // 我最近返工太攰，所以先手震啫！
+    private readonly int[] CorrectAnswer2 = new int[] { 1, 3, 8 };
     [SerializeField]
-    private AudioClip m_Answer2FullClip;
+    private AudioClip m_CorrectAnswer2FullClip;
 
     [SerializeField]
     private Sc04SClient m_Sc04SClient;
@@ -314,18 +326,12 @@ public class AudioSentenceControl : VrButtonBase
     /* end of event handlers */
 
 
-    private bool ExtractAnswerSequence()
+    private AnswerType ExtractAnswerSequence()
     {
-        bool isGoodChoiceMade = false;
+        AnswerType answerType;        
 
         if (!m_IsBossOptionSelected)
-        {
-            // 我戒咗差唔多一年喇，我希望你唔好擔心！
-            int[] correctAnswer1 = new int[] { 0, 4, 6 };
-
-            // 我最近返工太攰，所以先手震啫！
-            int[] correctAnswer2 = new int[] { 1, 3, 8 };
-
+        {                      
             int[] selectedClauseIdices = new int[]
             {
                 Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[0].AudioClause),
@@ -333,16 +339,25 @@ public class AudioSentenceControl : VrButtonBase
                 Array.IndexOf(m_ClauseAvailableOptions, m_SelectedClauseSeq[2].AudioClause)
             };
 
-            isGoodChoiceMade =
-                correctAnswer1.SequenceEqual(selectedClauseIdices) ||
-                correctAnswer2.SequenceEqual(selectedClauseIdices);            
+            if (CorrectAnswer1.SequenceEqual(selectedClauseIdices))
+            {
+                answerType = AnswerType.Correct1;
+            }
+            else if (CorrectAnswer2.SequenceEqual(selectedClauseIdices))
+            {
+                answerType = AnswerType.Correct2;
+            }
+            else
+            {
+                answerType = AnswerType.Wrong;
+            }
         }
         else
         {
-            isGoodChoiceMade = false;
+            answerType = AnswerType.Boss;
         }
 
-        return isGoodChoiceMade;        
+        return answerType;        
     }
 
     private IEnumerator HandleDownSequenceOfActions()
@@ -359,17 +374,28 @@ public class AudioSentenceControl : VrButtonBase
             }
         }
 
-        bool isGoodChoiceMade = ExtractAnswerSequence();
+        AnswerType answerType = ExtractAnswerSequence();
+        bool isGoodChoiceMade;
 
-        yield return StartCoroutine(StartPlayClipsInSequence());
-        
-        if (isGoodChoiceMade)
+        switch (answerType)
         {
-            PlayOnSelectedClip();
-        }
-        else
-        {
-            PlayOnErrorClip();
+            case AnswerType.Correct1:
+                isGoodChoiceMade = true;
+                yield return StartCoroutine(base.PlayOnSelectedClipAndWaitWhilePlaying());
+                yield return StartCoroutine(base.PlayAudioClipAndWaitWhilePlaying(m_CorrectAnswer1FullClip));
+                break;
+            case AnswerType.Correct2:
+                isGoodChoiceMade = true;
+                yield return StartCoroutine(base.PlayOnSelectedClipAndWaitWhilePlaying());
+                yield return StartCoroutine(base.PlayAudioClipAndWaitWhilePlaying(m_CorrectAnswer2FullClip));
+                break;
+            case AnswerType.Boss:                
+            case AnswerType.Wrong:
+            default:
+                isGoodChoiceMade = false;
+                yield return StartCoroutine(base.PlayOnErrorClipAndWaitWhilePlaying());
+                yield return StartCoroutine(StartPlayClipsInSequence());
+                break;
         }
 
         Scribe.Side04 = isGoodChoiceMade;

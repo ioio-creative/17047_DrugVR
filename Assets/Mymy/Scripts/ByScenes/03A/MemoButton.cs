@@ -17,7 +17,7 @@ public class MemoButton : VrButtonBase
 
     private IEnumerator ResignMemoRoutine()
     {
-        yield return PlayErrorClipAndWaitWhilePlaying();
+        yield return PlayOnErrorClipAndWaitWhilePlaying();
         StartCoroutine(m_3AClientRef.ResignRoutine());
     }
 

@@ -112,13 +112,13 @@ public abstract class VrButtonBase : MonoBehaviour,
     {
         PlayAudioClip(m_OnSelectedClip);
     }
-
+    
     public void PlayOnErrorClip()
     {
         PlayAudioClip(m_OnErrorClip);        
     }
 
-    private void PlayAudioClip(AudioClip aClip)
+    public void PlayAudioClip(AudioClip aClip)
     {
         m_Audio.clip = aClip;
         if (m_Audio.clip != null)
@@ -127,14 +127,19 @@ public abstract class VrButtonBase : MonoBehaviour,
         }
     }
 
-    public IEnumerator PlaySelectedClipAndWaitWhilePlaying()
+    public IEnumerator PlayOnOverClipAndWaitWhilePlaying()
     {
-        yield return PlayAudioClipAndWaitWhilePlaying(m_OnSelectedClip);
+        yield return StartCoroutine(PlayAudioClipAndWaitWhilePlaying(m_OnOverClip));
     }
 
-    public IEnumerator PlayErrorClipAndWaitWhilePlaying()
+    public IEnumerator PlayOnSelectedClipAndWaitWhilePlaying()
     {
-        yield return PlayAudioClipAndWaitWhilePlaying(m_OnErrorClip);
+        yield return StartCoroutine(PlayAudioClipAndWaitWhilePlaying(m_OnSelectedClip));
+    }
+
+    public IEnumerator PlayOnErrorClipAndWaitWhilePlaying()
+    {
+        yield return StartCoroutine(PlayAudioClipAndWaitWhilePlaying(m_OnErrorClip));
     }
 
     public IEnumerator PlayAudioClipAndWaitWhilePlaying(AudioClip aClip)

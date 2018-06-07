@@ -120,7 +120,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1474131927205700}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 104}
+  m_LocalPosition: {x: 0, y: 8.96, z: 104}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224158838254455022}
@@ -295,7 +295,8 @@ MonoBehaviour:
   m_NewLineSymbol: \n
   m_ChoiceText: {fileID: 114328363228123572}
   m_TrueChoiceStr: "\u9762\u5C0D\u7D50\u5A5A\u7684\u7169\u60F1\u6642\u751F\u6D3B\u4E0A\u7169\u64FE\u7684\u4E8B\uFF0C\\n\u4F60\u52C7\u65BC\u9762\u5C0D\u3002"
-  m_FalseChoiceStr: "\u9762\u5C0D\u7D50\u5A5A\u7684\u7169\u60F1\u6642\u751F\u6D3B\u4E0A\u7169\u64FE\u7684\u4E8B\uFF0C\\n\u4F60\u9078\u64C7\u9003\u907F\u3002"
+  m_FalseChoiceStr: "\u9762\u5C0D\u7D50\u5A5A\u7684\u7169\u60F1\u6642\u751F\u6D3B\u4E0A\\n
+    \u7169\u64FE\u7684\u4E8B\uFF0C\u4F60\u9078\u64C7\u9003\u907F\u3002"
   m_Fader: {fileID: 114388849586953386}
 --- !u!114 &114388849586953386
 MonoBehaviour:
@@ -311,6 +312,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 0.1
   m_UiGroupsToFade:
   - {fileID: 225112017957841612}
@@ -440,7 +443,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224104323390437826
 RectTransform:
@@ -496,7 +499,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -58.9}
+  m_AnchoredPosition: {x: 0, y: -46.33}
   m_SizeDelta: {x: 100, y: 13.14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &225112017957841612

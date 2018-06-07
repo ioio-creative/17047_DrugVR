@@ -57,7 +57,7 @@ public class Sc3AIntroSideTaking : MonoBehaviour
     
     private IEnumerator ResignChoiceRoutine()
     {
-        yield return m_SelectionProgress.PlayErrorClipAndWaitWhilePlaying();
+        yield return m_SelectionProgress.PlayOnErrorClipAndWaitWhilePlaying();
         StartCoroutine(m_3AClientRef.ResignRoutine());
     }
 }
