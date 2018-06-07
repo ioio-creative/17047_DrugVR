@@ -597,9 +597,13 @@ MonoBehaviour:
   m_StartGameButton: {fileID: 989613528}
   m_InstructionAnim: {fileID: 1467972092}
   m_MemoButton: {fileID: 1709270187}
+  m_BasinTrigger: {fileID: 1882685082}
   m_SphereAnim: {fileID: 117591903}
   m_SphereTexture: {fileID: 2800000, guid: 31438b020df17c34c9448142959008a3, type: 3}
   sphereAlpha: 1
+  m_ClientAudioSource: {fileID: 478994475}
+  m_ChefVOClip: {fileID: 8300000, guid: 61fe188ca738bbb4c8ddab8ec4142931, type: 3}
+  m_ResignClip: {fileID: 8300000, guid: 8509e65d769d0ef4ebfec2e5897d514a, type: 3}
 --- !u!4 &117591902
 Transform:
   m_ObjectHideFlags: 0
@@ -948,6 +952,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 1
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 563835918}
@@ -1418,7 +1424,7 @@ GameObject:
   - component: {fileID: 478994474}
   - component: {fileID: 478994475}
   m_Layer: 0
-  m_Name: Chef Audio
+  m_Name: Client Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1804,6 +1810,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 1
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 507443103}
@@ -3849,7 +3857,6 @@ MonoBehaviour:
   m_DebugCanvas: {fileID: 215500271}
   m_DebugText: {fileID: 1312985780}
   m_IsShowDebugCanvas: 0
-  m_CurrentScene: 9
   VideoSkyMat: {fileID: 2100000, guid: bee79b527dc6b154eb4ca20485e8ff81, type: 2}
   StillSkyMat: {fileID: 2100000, guid: a5dc82d49b2032b4ebfba70fc2b6a96e, type: 2}
   FadeToBlack: 1
@@ -4917,6 +4924,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 1
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade: []
   m_NonUiGroupsContainers:
@@ -5444,6 +5453,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1091106825}
@@ -5469,6 +5480,7 @@ MonoBehaviour:
   m_Collider: {fileID: 1091106821}
   m_Button: {fileID: 1949801799}
   m_EventTrigger: {fileID: 1949801798}
+  m_3AClientRef: {fileID: 0}
 --- !u!82 &1709270188
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6063,6 +6075,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3900452b85af7d41a1fa57a6c1ead36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_TriggerThresholdPlates: 3
+  m_TriggerDelaySeconds: 2
+  m_SinkAudio: {fileID: 0}
+  m_DishInSinkClip: {fileID: 0}
+  m_DishWashCompleteClip: {fileID: 0}
 --- !u!65 &1882685083
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6294,6 +6311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5042fc42edc80474ab4ed172018da6b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playAnimation: 0
 --- !u!222 &1949801797
 CanvasRenderer:
   m_ObjectHideFlags: 0
