@@ -143,7 +143,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 7 Side Taking
-        private static bool _Side06 = true;
+        private static bool _Side06 = false;
         public static bool Side06
         {
             get { return _Side06; }
@@ -187,7 +187,7 @@ namespace DrugVR_Scribe
                     return Ending.EndingA;                    
                 }
                 // either one of Side05 or Side06 is true
-                else if (Scribe.Side05 || Scribe.Side06)
+                else if (Side05 || Side06)
                 {
                     return Ending.EndingB;
                 }

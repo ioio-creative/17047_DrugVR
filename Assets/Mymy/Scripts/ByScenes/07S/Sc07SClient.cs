@@ -121,7 +121,6 @@ public class Sc07SClient : VideoSceneClientBase
         {
             GoToEndSceneOnChoice();
         }
-
     }
 
     private void GoToMethScene()
