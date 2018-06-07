@@ -118,7 +118,7 @@ namespace Scene07Party
         public IEnumerator HandlePartyOptionSelected(PartySelection selectedPartyOption)
         {
             //Load Party VFX in the background first
-            m_partyVFXControll.PreparePartyVFX(selectedPartyOption.PartyOption);
+            if (selectedPartyOption.PartyOption != PartyOptionEnum.METH) m_partyVFXControll.PreparePartyVFX(selectedPartyOption.PartyOption);
 
             foreach (UIFader fader in m_OptionUIFaders)
             {

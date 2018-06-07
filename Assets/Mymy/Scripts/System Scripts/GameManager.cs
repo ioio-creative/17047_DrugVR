@@ -139,7 +139,6 @@ public class GameManager : MonoBehaviour
         }
     }    
 
-    [SerializeField]
     private DrugVR_SceneENUM m_CurrentScene;
     public DrugVR_SceneENUM CurrentScene
     {
@@ -207,6 +206,7 @@ public class GameManager : MonoBehaviour
 
         CurrentScene = m_CurrentScene;
 
+        //This is to fail-safe check in case CurrentScene does not match current scene
         if (SceneManager.GetActiveScene().name != CurrentSceneScroll.SceneName)
         {
             CurrentScene = Scribe.SceneDictionary.Single(x => x.Value.SceneName == SceneManager.GetActiveScene().name).Key;
@@ -379,10 +379,6 @@ public class GameManager : MonoBehaviour
         Scene nextScene = SceneManager.GetSceneByName(nextSceneName);
         Debug.Log("loading scene:" + nextScene.name);
         yield return new WaitUntil(() => nextScene.isLoaded);
-
-#if !UNITY_EDITOR && UNITY_ANDROID
-        Interop.WVR_TriggerRecenter(); 
-#endif
 
         //yield return DoSomething();
 

@@ -6,8 +6,7 @@ using UnityEngine.Video;
 
 public class Sc07SClient : VideoSceneClientBase
 {
-    [SerializeField]
-    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc07B;
+    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc07B;
     [SerializeField]
     private SelectionStandard m_ExitButton;
     private UIImageAnimationControl m_ExitUIAnimCtrl;

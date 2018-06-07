@@ -5,8 +5,7 @@ using VRStandardAssets.Utils;
 
 public class Sc02SClient : VideoSceneClientBase
 {
-    [SerializeField]
-    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc03;
+    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc03;
     [SerializeField]
     private UIFader m_PopupMsgOnPhoneFader;
     [SerializeField]

@@ -5,9 +5,9 @@ using VRStandardAssets.Utils;
 public class Sc06AClient : VideoSceneClientBase
 {
     [SerializeField]
-    private DrugVR_SceneENUM sceneToGoWhenLighterTriggered = DrugVR_SceneENUM.Sc06B;
+    private const DrugVR_SceneENUM nextSceneToLoadWhenLighterTriggered = DrugVR_SceneENUM.Sc06B;
     [SerializeField]
-    private DrugVR_SceneENUM sceneToGoWhenHandWaveTriggered = DrugVR_SceneENUM.Sc07;
+    private const DrugVR_SceneENUM nextSceneToLoadWhenHandWaveTriggered = DrugVR_SceneENUM.Sc07;
 
     [SerializeField]
     private LighterTriggerProgress lighterTriggerProgress;
@@ -15,7 +15,7 @@ public class Sc06AClient : VideoSceneClientBase
     private HandWaveProgressNew handWaveProgress;
 
     [SerializeField]
-    private UIFader[] m_FadersToStart;
+    private UIFader[] fadersToStart;
 
 
     /* MonoBehaviour */
@@ -25,9 +25,9 @@ public class Sc06AClient : VideoSceneClientBase
         base.Awake();
 
         // set default next scene
-        nextSceneToLoadBase = sceneToGoWhenHandWaveTriggered;
+        nextSceneToLoadBase = nextSceneToLoadWhenHandWaveTriggered;
 
-        foreach (UIFader fader in m_FadersToStart)
+        foreach (UIFader fader in fadersToStart)
         {
             StartCoroutine(fader.InterruptAndFadeIn());
         }
@@ -59,7 +59,7 @@ public class Sc06AClient : VideoSceneClientBase
     private void HandlerHandWaveProgressSelectionFadeOutComplete()
     {
         Scribe.Side05 = true;
-        nextSceneToLoadBase = sceneToGoWhenHandWaveTriggered;
+        nextSceneToLoadBase = nextSceneToLoadWhenHandWaveTriggered;
         managerInst.PlayVideo();
         // Going to next scene will be done on play video end, by base class.
     }
@@ -67,7 +67,7 @@ public class Sc06AClient : VideoSceneClientBase
     private void HandleLighterTriggerProgressSelectionFadeOutComplete()
     {
         Scribe.Side05 = false;
-        nextSceneToLoadBase = sceneToGoWhenLighterTriggered;
+        nextSceneToLoadBase = nextSceneToLoadWhenLighterTriggered;
         GoToNextScene();
     }
     
