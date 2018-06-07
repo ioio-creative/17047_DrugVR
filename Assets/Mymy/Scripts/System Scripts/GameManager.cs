@@ -20,10 +20,12 @@ public class GameManager : MonoBehaviour
     public delegate void SceneChange(DrugVR_SceneENUM nextScene);
     public static event SceneChange OnSceneChange = null;
 
+
     /* constants */
 
     private const string FOCUS_CONTROLLER_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController";
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
+    private const string LOGO_CONTAINER_OBJECT_NAME = "/System/LogoContainer";
     
     // Put Path under Resources here
     private static string APP_IMAGE_SKY_DATA_PATH = "StillImg/";
@@ -84,6 +86,19 @@ public class GameManager : MonoBehaviour
                 m_HeadObject = GameObject.Find(HEAD_OBJECT_NAME);
             }
             return m_HeadObject;
+        }
+    }
+
+    private GameObject m_LogoContainerObject;
+    public GameObject LogoContainerObject
+    {
+        get
+        {
+            if (m_LogoContainerObject == null)
+            {
+                m_LogoContainerObject = GameObject.Find(LOGO_CONTAINER_OBJECT_NAME);
+            }
+            return m_LogoContainerObject;
         }
     }
 
