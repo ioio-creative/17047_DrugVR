@@ -133,7 +133,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1580587725899262}
-  m_LocalRotation: {x: 0, y: 0.781847, z: 0, w: 0.62347037}
+  m_LocalRotation: {x: 0, y: 0.43389496, z: 0, w: 0.9009635}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -181,10 +181,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "\u9762\u5C0D\u5DE5\u4F5C\u7684\u58D3\u529B\uFF0C\u4F60\u9078\u64C7\u6D88\u6975\u96E2\u958B\u3002"
+  m_text: "\u9762\u5C0D\u751F\u6D3B\u4E0A\u7169\u64FE\u7684\u4E8B\uFF0C\\n\u4F60\u52C7\u65BC\u9762\u5C0D\u3002"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dfbecb863718a614c9b86a0c32e93360, type: 2}
-  m_sharedMaterial: {fileID: 21024066818131744, guid: dfbecb863718a614c9b86a0c32e93360,
+  m_sharedMaterial: {fileID: 21561116346401010, guid: dfbecb863718a614c9b86a0c32e93360,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -250,12 +250,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 114328363228123572}
-    characterCount: 16
+    characterCount: 17
     spriteCount: 0
-    spaceCount: 0
+    spaceCount: 1
     wordCount: 2
     linkCount: 0
-    lineCount: 1
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -287,15 +287,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6b0ea1bff749b4897b9e36ad0710ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneChoiceName: Side02
+  m_SceneChoiceName: Side01
   m_ChoiceImage: {fileID: 114684413517019186}
-  m_TrueChoiceSprite: {fileID: 21300000, guid: bf9b9df1f3f82ed4d86be95df6b7b883, type: 3}
-  m_FalseChoiceSprite: {fileID: 21300000, guid: 4ddc1a44621a6e94e942fab38e72f92a,
+  m_TrueChoiceSprite: {fileID: 21300000, guid: ca718d8839610584795481e24c6fe4f0, type: 3}
+  m_FalseChoiceSprite: {fileID: 21300000, guid: f3da49b9d3698dd45826a3b19c958823,
     type: 3}
   m_NewLineSymbol: \n
   m_ChoiceText: {fileID: 114328363228123572}
-  m_TrueChoiceStr: "\u9762\u5C0D\u5DE5\u4F5C\u7684\u58D3\u529B\uFF0C\\n\u4F60\u9078\u64C7\u7A4D\u6975\u89E3\u6C7A\u3002"
-  m_FalseChoiceStr: "\u9762\u5C0D\u5DE5\u4F5C\u7684\u58D3\u529B\uFF0C\\n\u4F60\u9078\u64C7\u6D88\u6975\u96E2\u958B\u3002"
+  m_TrueChoiceStr: "\u9762\u5C0D\u751F\u6D3B\u4E0A\u7169\u64FE\u7684\u4E8B\uFF0C\\n\u4F60\u52C7\u65BC\u9762\u5C0D\u3002"
+  m_FalseChoiceStr: "\u9762\u5C0D\u751F\u6D3B\u4E0A\u7169\u64FE\u7684\u4E8B\uFF0C\\n\u4F60\u9078\u64C7\u9003\u907F\u3002"
   m_Fader: {fileID: 114388849586953386}
 --- !u!114 &114388849586953386
 MonoBehaviour:
@@ -380,7 +380,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: bf9b9df1f3f82ed4d86be95df6b7b883, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ca718d8839610584795481e24c6fe4f0, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

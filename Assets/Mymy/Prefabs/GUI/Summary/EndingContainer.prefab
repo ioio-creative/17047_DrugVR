@@ -207,10 +207,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "\u9762\u5C0D\u7D50\u5A5A\u7684\u7169\u60F1\u6642\u751F\u6D3B\u4E0A\u7169\u64FE\u7684\u4E8B\uFF0C\n\u4F60\u52C7\u65BC\u9762\u5C0D\u3002"
+  m_text: "\u4F60\u5805\u6C7A\u62D2\u7D55\u6BD2\u54C1\u548C\u670B\u8F29\u7684\u8A98\u60D1\uFF0C\\n\u70BA\u4F60\u548C\u5BB6\u4EBA\u5E36\u4F86\u7F8E\u597D\u7684\u5C07\u4F86\u3002"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dfbecb863718a614c9b86a0c32e93360, type: 2}
-  m_sharedMaterial: {fileID: 21024066818131744, guid: dfbecb863718a614c9b86a0c32e93360,
+  m_sharedMaterial: {fileID: 21561116346401010, guid: dfbecb863718a614c9b86a0c32e93360,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 258
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: -3.2
+  m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: -20.4
   m_lineSpacingMax: 0
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 114292320500534112}
-    characterCount: 23
+    characterCount: 28
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_EndingCSprite: {fileID: 21300000, guid: 5a5e8a7150e39b541813caf7345638fb, type: 3}
   m_NewLineSymbol: \n
   m_EndingText: {fileID: 114292320500534112}
-  m_EndingAStr: "\u4F60\u52C7\u6562\u5730\u9762\u5C0D\u6BD2\u5BB3\u548C\u8A98\u60D1\u4F60\u5805\u6C7A\u62D2\u7D55\u6BD2\u54C1\\n\u548C\u670B\u8F29\u7684\u8A98\u60D1\uFF0C\u70BA\u4F60\u548C\u5BB6\u4EBA\u5E36\u4F86\u7F8E\u597D\u7684\u5C07\u4F86\u3002"
+  m_EndingAStr: "\u4F60\u5805\u6C7A\u62D2\u7D55\u6BD2\u54C1\u548C\u670B\u8F29\u7684\u8A98\u60D1\uFF0C\\n\u70BA\u4F60\u548C\u5BB6\u4EBA\u5E36\u4F86\u7F8E\u597D\u7684\u5C07\u4F86\u3002"
   m_EndingBStr: "\u5076\u7136\u7684\u8FF7\u5931\u4E0D\u4EE3\u8868\u5931\u6557\uFF0C\u53EA\u8981\u8A02\u4E0B\u76EE\u6A19\uFF0C\\n\u91CD\u65B0\u51FA\u767C\uFF0C\u4E00\u5B9A\u6703\u6709\u66F4\u597D\u7684\u5C07\u4F86\u3002"
   m_EndingCStr: "\u6212\u6BD2\u8DEF\u4E0A\u5F9E\u4E0D\u8F15\u9B06\uFF0C\u4F46\u6709\u5BB6\u4EBA\u7684\u652F\u6301\\n\u548C\u81EA\u5DF1\u9858\u610F\u5805\u6301\u4E0B\u53BB\uFF0C\u7E3D\u6703\u6709\u6210\u529F\u7684\u4E00\u5929\u3002"
   m_Fader: {fileID: 114169994163038534}
