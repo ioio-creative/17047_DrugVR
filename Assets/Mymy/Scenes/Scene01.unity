@@ -279,6 +279,11 @@ Prefab:
       propertyPath: SceneClips.Array.size
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114167611169462972, guid: c4fa829701ba7bb42a976a9f719c2e15,
+        type: 2}
+      propertyPath: m_AudioLoops.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4348182473592100, guid: c4fa829701ba7bb42a976a9f719c2e15, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
