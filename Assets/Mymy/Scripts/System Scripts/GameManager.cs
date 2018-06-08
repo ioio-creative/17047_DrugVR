@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     private const string FOCUS_CONTROLLER_OBJECT_NAME = "/VIVEFocusWaveVR/FocusController";
     private const string HEAD_OBJECT_NAME = "/VIVEFocusWaveVR/head";
-    private const string LOGO_CONTAINER_OBJECT_NAME = "/System/LogoContainer";
+    private const string LOGO_CONTAINER_OBJECT_NAME = "/System/FloorDisc";
     
     // Put Path under Resources here
     private static string APP_IMAGE_SKY_DATA_PATH = "StillImg/";
