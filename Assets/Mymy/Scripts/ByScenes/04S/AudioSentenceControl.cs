@@ -18,6 +18,8 @@ public class AudioSentenceControl : VrButtonBase
 
     public bool IsBossOptionSelected { get { return m_IsBossOptionSelected; } }
 
+    [SerializeField]
+    private AudioClip m_SubmmisionClip;
     // 我戒咗差唔多一年喇，我希望你唔好擔心！
     private readonly int[] CorrectAnswer1 = new int[] { 0, 4, 6 };
     [SerializeField]
@@ -147,7 +149,7 @@ public class AudioSentenceControl : VrButtonBase
 
     /* audios */
 
-    private IEnumerator StartPlayClipsInSequence()
+    private IEnumerator StartPlaySubmmitedClips()
     {
         // boss option not selected yet
         if (!m_IsBossOptionSelected)
@@ -362,6 +364,7 @@ public class AudioSentenceControl : VrButtonBase
 
     private IEnumerator HandleDownSequenceOfActions()
     {
+        yield return StartCoroutine(PlayAudioClipAndWaitWhilePlaying(m_SubmmisionClip));
         if (IsBossOptionSelected)
         {
             m_BossSelectedClause.ForceDisableButton();
@@ -380,21 +383,21 @@ public class AudioSentenceControl : VrButtonBase
         switch (answerType)
         {
             case AnswerType.Correct1:
-                isGoodChoiceMade = true;
-                yield return StartCoroutine(base.PlayOnSelectedClipAndWaitWhilePlaying());
+                isGoodChoiceMade = true;             
                 yield return StartCoroutine(base.PlayAudioClipAndWaitWhilePlaying(m_CorrectAnswer1FullClip));
+                yield return StartCoroutine(base.PlayOnSelectedClipAndWaitWhilePlaying());
                 break;
             case AnswerType.Correct2:
-                isGoodChoiceMade = true;
-                yield return StartCoroutine(base.PlayOnSelectedClipAndWaitWhilePlaying());
+                isGoodChoiceMade = true;              
                 yield return StartCoroutine(base.PlayAudioClipAndWaitWhilePlaying(m_CorrectAnswer2FullClip));
+                yield return StartCoroutine(base.PlayOnSelectedClipAndWaitWhilePlaying());
                 break;
             case AnswerType.Boss:                
             case AnswerType.Wrong:
             default:
-                isGoodChoiceMade = false;
+                isGoodChoiceMade = false;               
+                yield return StartCoroutine(StartPlaySubmmitedClips());
                 yield return StartCoroutine(base.PlayOnErrorClipAndWaitWhilePlaying());
-                yield return StartCoroutine(StartPlayClipsInSequence());
                 break;
         }
 
