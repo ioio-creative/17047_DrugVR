@@ -74,14 +74,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117750894772996}
-  m_LocalRotation: {x: 0, y: 0.86602545, z: 0, w: 0.49999994}
-  m_LocalPosition: {x: 11.26, y: 0.36, z: -6.5}
+  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 11.25, y: 0.36, z: 6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224599566311154720}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 120, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
 --- !u!65 &65731988411763222
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.84313726, g: 0.9529412, b: 0.9529412, a: 1}
-    m_HighlightedColor: {r: 0.62352943, g: 1, b: 0.8117647, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.39607844, b: 0.9098039, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -353,6 +353,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 0.5
   m_UiGroupsToFade:
   - {fileID: 225938019387412406}
@@ -399,8 +401,6 @@ MonoBehaviour:
   m_Collider: {fileID: 65731988411763222}
   m_Button: {fileID: 114012481799595532}
   m_EventTrigger: {fileID: 114367196159959920}
-  m_DeviceToListen: 2
-  m_InputToListen: 16
   PartyOption: 3
   m_PartyManager: {fileID: 0}
   m_PartySFXAudioClip: {fileID: 0}

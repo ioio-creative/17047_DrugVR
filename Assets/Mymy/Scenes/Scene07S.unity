@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41003078, g: 0.40951416, b: 0.44542342, a: 1}
+  m_IndirectSpecularColor: {r: 0.5006836, g: 0.4861632, b: 0.52353346, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -689,14 +689,14 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 872896045}
   m_GameObject: {fileID: 487595110}
-  m_LocalRotation: {x: 0, y: -0.19851261, z: 0, w: 0.9800983}
-  m_LocalPosition: {x: -21.99, y: 7.28, z: 26.68}
+  m_LocalRotation: {x: 0, y: -0.40306604, z: 0, w: 0.9151709}
+  m_LocalPosition: {x: -28.85, y: 6.65, z: 13.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1777760688}
   m_Father: {fileID: 19370854}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -22.9, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -47.54, z: 0}
 --- !u!114 &487595113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1154,14 +1154,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1117750894772996, guid: 1fcf91fb47c2de5488ace033edc449be, type: 2}
-      propertyPath: m_Name
-      value: PartySelectionUIButton(Pool)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4956929130112868, guid: 1fcf91fb47c2de5488ace033edc449be, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 60
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1fcf91fb47c2de5488ace033edc449be, type: 2}
   m_IsPrefabParent: 0
@@ -1216,15 +1208,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -21.99
+      value: -28.85
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 7.28
+      value: 6.65
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 26.68
+      value: 13.25
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1232,7 +1224,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.19851261
+      value: -0.40306604
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalRotation.z
@@ -1240,7 +1232,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.9800983
+      value: 0.9151709
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_RootOrder
@@ -1327,6 +1319,10 @@ Prefab:
         type: 2}
       propertyPath: m_MinAlpha
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -47.54
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
@@ -1848,18 +1844,6 @@ Prefab:
     - target: {fileID: 4428202453951206, guid: 11e7bd415eaddfc4aa8071c83275588a, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1734229287091346, guid: 11e7bd415eaddfc4aa8071c83275588a, type: 2}
-      propertyPath: m_Name
-      value: PartySelectionUIButton(Drink)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428202453951206, guid: 11e7bd415eaddfc4aa8071c83275588a, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1734229287091346, guid: 11e7bd415eaddfc4aa8071c83275588a, type: 2}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 11e7bd415eaddfc4aa8071c83275588a, type: 2}
