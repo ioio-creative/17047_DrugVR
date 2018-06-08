@@ -110,7 +110,7 @@ public class HandLighterSwitchControl : MonoBehaviour
             {
                 lighterProgress.enabled = true;
                 handWaveProgress.enabled = false;
-                handWaveProgress.CheckAndFadeOutAndReset();
+                handWaveProgress.CheckAndFadeOutAndResetAndFadeInLighterInstruction();
 
                 ReplaceControllerByLighter();
             }
@@ -172,7 +172,10 @@ public class HandLighterSwitchControl : MonoBehaviour
     {
         if (currentScene != nextScene)
         {
-            lighterObject.SetActive(false);
+            if (lighterObject)
+            {
+                lighterObject.SetActive(false);
+            }
 
             controllerSwitch.ShowController(true, true);
 

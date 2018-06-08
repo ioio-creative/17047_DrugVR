@@ -376,17 +376,17 @@ public class LighterTriggerProgress : MonoBehaviour
         }      
     }
 
-    public void CheckAndFadeInHandWaveInstruction()
+    private void CheckAndFadeInHandWaveInstruction()
     {
-        if (!m_HandWaveInstructionFader.IsCompletelyFadedIn())
+        if (m_HandWaveInstructionFader.IsFadingOut() || m_HandWaveInstructionFader.IsCompletelyFadedOut())
         {
             StartCoroutine(m_HandWaveInstructionFader.InterruptAndFadeIn());
         }
     }
 
-    public void CheckAndFadeOutHandWaveInstruction()
+    private void CheckAndFadeOutHandWaveInstruction()
     {
-        if (!m_HandWaveInstructionFader.IsCompletelyFadedOut())
+        if (m_HandWaveInstructionFader.IsFadingIn() || m_HandWaveInstructionFader.IsCompletelyFadedIn())
         {
             StartCoroutine(m_HandWaveInstructionFader.InterruptAndFadeOut());
         }

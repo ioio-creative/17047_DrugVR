@@ -78,7 +78,6 @@ public class HandWaveProgressNew : MonoBehaviour
     private void OnDisable()
     {        
         m_ProgressBar.OnProgressComplete -= HandleProgressBarProgressComplete;
-        CheckAndFadeInLighterInstruction();
     }
 
     private void Start()
@@ -121,7 +120,7 @@ public class HandWaveProgressNew : MonoBehaviour
         if (IsHeadWithinTargetZone(m_HeadAzimuth, m_HeadZenith) && IsHandWithinTargetZone(m_HandZenith))
         {
             //Debug.Log("head in zone");
-            CheckAndFadeIn();
+            CheckAndFadeInAndFadeOutLighterInstruction();
             newHandAzimuth = (Mathf.Abs(newHandAzimuth) < 90 ? Mathf.Abs(newHandAzimuth) : 180 - Mathf.Abs(newHandAzimuth)) * Mathf.Sign(newHandAzimuth);
             m_HandImageTransform.localRotation = Quaternion.Euler(0, 0, newHandAzimuth);
 
@@ -130,24 +129,11 @@ public class HandWaveProgressNew : MonoBehaviour
             {
                 m_ProgressBar.StepIt();
             }
-
-            // if some progress exists
-            if (m_ProgressBar.Progress > m_ProgressBar.MinValue)
-            {
-                CheckAndFadeOutLighterInstruction();
-            }
-            // if no progress exists
-            else
-            {
-                CheckAndFadeInLighterInstruction();
-            }
         }
         else
         {
             //Debug.Log("head not in zone");
-            CheckAndFadeOutAndReset();
-
-            //CheckAndFadeInLighterInstruction();
+            CheckAndFadeOutAndResetAndFadeInLighterInstruction();            
         }
 
         m_HandAzimuth = newHandAzimuth;
@@ -186,48 +172,52 @@ public class HandWaveProgressNew : MonoBehaviour
     /* end of angle calculations */
 
 
-    /* Fader */
+    /* fader */
 
-    public void CheckAndFadeIn()    
+    public void CheckAndFadeInAndFadeOutLighterInstruction()    
     {
         if (m_HandWaveProgressFader.IsFadingOut() || m_HandWaveProgressFader.IsCompletelyFadedOut())
         {            
             StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeIn());
-        }        
+        }
+
+        CheckAndFadeOutLighterInstruction();
     }
     
-    public void CheckAndFadeOutAndReset()
+    public void CheckAndFadeOutAndResetAndFadeInLighterInstruction()
     {
         if (m_HandWaveProgressFader.IsFadingIn() || m_HandWaveProgressFader.IsCompletelyFadedIn())
         {
             InterruptAndFadeOutAndReset();
-        }        
+        }
+
+        CheckAndFadeInLighterInstruction();
     }
 
     // HandLigherSwitchControl can control fade out
     private void InterruptAndFadeOutAndReset()
     {
         StartCoroutine(m_HandWaveProgressFader.InterruptAndFadeOut());
-        m_ProgressBar.Reset();               
+        m_ProgressBar.Reset();      
     }
 
-    public void CheckAndFadeInLighterInstruction()
+    private void CheckAndFadeInLighterInstruction()
     {
-        if (!m_LighterInstructionFader.IsCompletelyFadedIn())
+        if (m_LighterInstructionFader.IsFadingOut() || m_LighterInstructionFader.IsCompletelyFadedOut())
         {
-            StartCoroutine(m_LighterInstructionFader.InterruptAndFadeIn());
+            StartCoroutine(m_LighterInstructionFader.InterruptAndFadeIn());            
         }
     }
 
-    public void CheckAndFadeOutLighterInstruction()
+    private void CheckAndFadeOutLighterInstruction()
     {
-        if (!m_LighterInstructionFader.IsCompletelyFadedOut())
+        if (m_LighterInstructionFader.IsFadingIn() || m_LighterInstructionFader.IsCompletelyFadedIn())
         {
             StartCoroutine(m_LighterInstructionFader.InterruptAndFadeOut());
         }
     }
 
-    /* end of Fader */
+    /* end of fader */
 
 
     /* event handlers */

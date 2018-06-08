@@ -139,7 +139,6 @@ GameObject:
   - component: {fileID: 81268681}
   - component: {fileID: 81268680}
   - component: {fileID: 81268679}
-  - component: {fileID: 81268682}
   m_Layer: 0
   m_Name: LighterInstruction
   m_TagString: Untagged
@@ -221,26 +220,6 @@ Transform:
   m_Father: {fileID: 1357175094}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &81268682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 81268678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82beeac61799dc34e99146981f498189, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FadeInAlphaThreshold: 1
-  m_FadeOutAlphaThreshold: 0
-  m_IsSetVisibleWhenAwake: 0
-  m_MaxAlpha: 1
-  m_MinAlpha: 0
-  m_FadeSpeed: 1.5
-  m_UiGroupsToFade: []
-  m_NonUiGroupsContainers:
-  - {fileID: 81268678}
 --- !u!1 &299474745
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +400,6 @@ GameObject:
   - component: {fileID: 358056161}
   - component: {fileID: 358056163}
   - component: {fileID: 358056162}
-  - component: {fileID: 358056164}
   m_Layer: 0
   m_Name: HandWaveInstruction
   m_TagString: Untagged
@@ -503,26 +481,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!114 &358056164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 358056160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82beeac61799dc34e99146981f498189, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FadeInAlphaThreshold: 1
-  m_FadeOutAlphaThreshold: 0
-  m_IsSetVisibleWhenAwake: 0
-  m_MaxAlpha: 1
-  m_MinAlpha: 0
-  m_FadeSpeed: 1.5
-  m_UiGroupsToFade: []
-  m_NonUiGroupsContainers:
-  - {fileID: 358056160}
 --- !u!1 &463433745
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +589,7 @@ MonoBehaviour:
   m_ProgressableFader: {fileID: 554476763}
   m_Progressable: {fileID: 312606328}
   m_Lighter: {fileID: 8686347}
-  m_HandWaveInstructionFader: {fileID: 358056164}
+  m_HandWaveInstructionFader: {fileID: 731662934}
   m_WeedBurnAnimator: {fileID: 1438348735}
   m_StaticForwardOffset: 177.5
   m_LighterTargetHorizontalHalfAngleRange: 20
@@ -727,6 +685,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 731662933}
+  - component: {fileID: 731662934}
   m_Layer: 0
   m_Name: HandWaveInstructionContainer
   m_TagString: Untagged
@@ -748,6 +707,26 @@ Transform:
   m_Father: {fileID: 1453683841}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -24.49, z: 0}
+--- !u!114 &731662934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731662932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82beeac61799dc34e99146981f498189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FadeInAlphaThreshold: 1
+  m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
+  m_FadeSpeed: 2
+  m_UiGroupsToFade: []
+  m_NonUiGroupsContainers:
+  - {fileID: 358056160}
 --- !u!1 &862729202
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,8 +855,8 @@ MonoBehaviour:
   lighterTriggerProgress: {fileID: 554476764}
   handWaveProgress: {fileID: 1453683844}
   fadersToStart:
-  - {fileID: 81268682}
-  - {fileID: 358056164}
+  - {fileID: 1357175095}
+  - {fileID: 731662934}
 --- !u!4 &1127897536
 Transform:
   m_ObjectHideFlags: 0
@@ -1064,6 +1043,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1357175094}
+  - component: {fileID: 1357175095}
   m_Layer: 0
   m_Name: LigherInstructionContainer
   m_TagString: Untagged
@@ -1085,6 +1065,26 @@ Transform:
   m_Father: {fileID: 554476762}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -70.69, z: 0}
+--- !u!114 &1357175095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1357175093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82beeac61799dc34e99146981f498189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FadeInAlphaThreshold: 1
+  m_FadeOutAlphaThreshold: 0
+  m_IsSetVisibleWhenAwake: 0
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
+  m_FadeSpeed: 2
+  m_UiGroupsToFade: []
+  m_NonUiGroupsContainers:
+  - {fileID: 81268678}
 --- !u!1 &1438348734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,7 +1257,7 @@ MonoBehaviour:
   m_ProgressBar: {fileID: 1453683843}
   m_Audio: {fileID: 1453683845}
   m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_LighterInstructionFader: {fileID: 81268682}
+  m_LighterInstructionFader: {fileID: 1357175095}
   m_StaticForwardOffset: 177.5
   m_HeadTargetHorizontalHalfAngleRange: 50
   m_HeadTargetVerticalHalfAngleRange: 20
