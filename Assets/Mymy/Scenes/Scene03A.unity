@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.47301197, g: 0.4356441, b: 0.4498775, a: 1}
+  m_IndirectSpecularColor: {r: 0.9591097, g: 0.9472951, b: 0.98035115, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -697,6 +697,7 @@ MonoBehaviour:
   m_UiGroupsToFade:
   - {fileID: 563835918}
   - {fileID: 818310784}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!4 &296442459 stripped
 Transform:
@@ -3109,8 +3110,9 @@ MonoBehaviour:
   m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade: []
-  m_NonUiGroupsContainers:
-  - {fileID: 1467972090}
+  m_SpritesToFade:
+  - {fileID: 1467972093}
+  m_NonUiGroupsContainers: []
 --- !u!4 &1472618609 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4476092266219802, guid: 632d5f6f36e22c842b31c225545e6523,
@@ -3422,6 +3424,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1091106825}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!114 &1709270187
 MonoBehaviour:

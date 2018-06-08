@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -151,22 +151,6 @@ Prefab:
     - target: {fileID: 4859409096898590, guid: b22e184238994574a80ef412f18cd47d, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4859409096898590, guid: b22e184238994574a80ef412f18cd47d, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4859409096898590, guid: b22e184238994574a80ef412f18cd47d, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1754149820209130, guid: b22e184238994574a80ef412f18cd47d, type: 2}
-      propertyPath: m_Name
-      value: ArrowContainer
-      objectReference: {fileID: 0}
-    - target: {fileID: 4859409096898590, guid: b22e184238994574a80ef412f18cd47d, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 25.71
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b22e184238994574a80ef412f18cd47d, type: 2}
@@ -2167,7 +2151,7 @@ Prefab:
     - target: {fileID: 224494173897399494, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
@@ -2256,6 +2240,7 @@ MonoBehaviour:
   m_FadeSpeed: 0.1
   m_UiGroupsToFade:
   - {fileID: 553727709}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!114 &2092076469
 MonoBehaviour:

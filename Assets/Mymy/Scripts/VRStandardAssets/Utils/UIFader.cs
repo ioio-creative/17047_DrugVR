@@ -45,6 +45,9 @@ namespace VRStandardAssets.Utils
         private CanvasGroup[] m_UiGroupsToFade;  // All the groups of UI elements that will fade in and out.
 
         [SerializeField]
+        private SpriteRenderer[] m_SpritesToFade;
+
+        [SerializeField]
         private GameObject[] m_NonUiGroupsContainers;
         private Renderer[] m_NonUiGroupsToFade;                 // All the groups of non-UIs elements that will fade in and out.        
         private Color m_FadeColor;                              // The colour the non-UI elements' material fades out to.
@@ -148,6 +151,15 @@ namespace VRStandardAssets.Utils
                         lowestAlpha = m_UiGroupsToFade[i].alpha;
                 }
 
+                for (int i = 0; i < m_SpritesToFade.Length; i++)
+                {
+                    float currentAlpha = m_SpritesToFade[i].color.a + m_FadeSpeed * Time.fixedDeltaTime;
+                    m_SpritesToFade[i].color = new Color(m_SpritesToFade[i].color.r, m_SpritesToFade[i].color.g, m_SpritesToFade[i].color.b, currentAlpha);
+
+                    if (currentAlpha < lowestAlpha)
+                        lowestAlpha = currentAlpha;
+                }
+
                 // https://forum.unity3d.com/threads/fade-in-and-fade-out-of-a-gameobject.4723/
                 // Go through all the non-UI elements...
                 if (m_NonUiGroupsToFade != null)
@@ -238,6 +250,15 @@ namespace VRStandardAssets.Utils
                         highestAlpha = m_UiGroupsToFade[i].alpha;
                 }
 
+                for (int i = 0; i < m_SpritesToFade.Length; i++)
+                {
+                    float currentAlpha = m_SpritesToFade[i].color.a - m_FadeSpeed * Time.fixedDeltaTime;
+                    m_SpritesToFade[i].color = new Color(m_SpritesToFade[i].color.r, m_SpritesToFade[i].color.g, m_SpritesToFade[i].color.b, currentAlpha);
+
+                    if (currentAlpha > highestAlpha)
+                        highestAlpha = currentAlpha;
+                }
+
                 if (m_NonUiGroupsToFade != null)
                 {
                     foreach (Renderer renderer in m_NonUiGroupsToFade)
@@ -248,7 +269,7 @@ namespace VRStandardAssets.Utils
 
                         if (currentAlpha > highestAlpha)
                             highestAlpha = currentAlpha;
-
+                        
                         //Debug.Log(renderer.material.color);
                     }
                 }

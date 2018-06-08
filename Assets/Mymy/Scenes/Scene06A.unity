@@ -214,7 +214,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 81268678}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 17.83}
+  m_LocalPosition: {x: -1.3, y: 0, z: 17.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1357175094}
@@ -568,6 +568,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1552835262}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!114 &554476764
 MonoBehaviour:
@@ -725,8 +726,9 @@ MonoBehaviour:
   m_MinAlpha: 0
   m_FadeSpeed: 2
   m_UiGroupsToFade: []
-  m_NonUiGroupsContainers:
-  - {fileID: 358056160}
+  m_SpritesToFade:
+  - {fileID: 358056163}
+  m_NonUiGroupsContainers: []
 --- !u!1 &862729202
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,14 +750,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 862729202}
-  m_LocalRotation: {x: 0, y: -0.4044234, z: 0, w: 0.91457194}
+  m_LocalRotation: {x: 0, y: -0.56121683, z: 0, w: 0.8276688}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1438348737}
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: -47.71, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -68.28, z: 0}
 --- !u!1 &999136569
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +956,7 @@ Prefab:
     - target: {fileID: 224494173897399494, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114006219282796550, guid: c4fa829701ba7bb42a976a9f719c2e15,
         type: 2}
@@ -1054,14 +1056,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1357175093}
-  m_LocalRotation: {x: 0, y: -0.57849836, z: 0, w: 0.8156836}
+  m_LocalRotation: {x: 0, y: -0.6184084, z: 0, w: 0.7858569}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 81268681}
   m_Father: {fileID: 554476762}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -70.69, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -76.4, z: 0}
 --- !u!114 &1357175095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1080,8 +1082,9 @@ MonoBehaviour:
   m_MinAlpha: 0
   m_FadeSpeed: 2
   m_UiGroupsToFade: []
-  m_NonUiGroupsContainers:
-  - {fileID: 81268678}
+  m_SpritesToFade:
+  - {fileID: 81268680}
+  m_NonUiGroupsContainers: []
 --- !u!1 &1438348734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,8 +1170,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1438348734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.17, z: 17.83}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.05, y: 0.8, z: 8.58}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children: []
   m_Father: {fileID: 862729203}
   m_RootOrder: 0
@@ -1226,6 +1229,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 299474747}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!114 &1453683843
 MonoBehaviour:

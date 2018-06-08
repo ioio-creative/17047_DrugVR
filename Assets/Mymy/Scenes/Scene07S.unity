@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5006836, g: 0.4861632, b: 0.52353346, a: 1}
+  m_IndirectSpecularColor: {r: 0.41076326, g: 0.41067937, b: 0.44639224, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -717,6 +717,7 @@ MonoBehaviour:
   m_FadeSpeed: 0.5
   m_UiGroupsToFade:
   - {fileID: 1777760689}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!82 &487595114
 AudioSource:

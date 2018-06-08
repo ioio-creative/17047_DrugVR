@@ -64,14 +64,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1754149820209130}
-  m_LocalRotation: {x: 0, y: 0.6234703, z: 0, w: 0.781847}
+  m_LocalRotation: {x: 0, y: 0.22248448, z: 0, w: 0.97493625}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4330800142044114}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 77.14, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 25.71, z: 0}
 --- !u!95 &95573513730221804
 Animator:
   serializedVersion: 3
@@ -119,8 +119,9 @@ MonoBehaviour:
   m_MinAlpha: 0
   m_FadeSpeed: 0.1
   m_UiGroupsToFade: []
-  m_NonUiGroupsContainers:
-  - {fileID: 1959249624012548}
+  m_SpritesToFade:
+  - {fileID: 212533348733668636}
+  m_NonUiGroupsContainers: []
 --- !u!212 &212533348733668636
 SpriteRenderer:
   m_ObjectHideFlags: 1
