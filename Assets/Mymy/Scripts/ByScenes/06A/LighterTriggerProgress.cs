@@ -113,6 +113,8 @@ public class LighterTriggerProgress : MonoBehaviour
         Quaternion rotationAlongY = Quaternion.Euler(0, sceneRotation + m_StaticForwardOffset, 0);
         SceneForward = rotationAlongY * SceneForward;
         SceneRight = rotationAlongY * SceneRight;
+
+        CheckAndFadeInHandWaveInstruction();
     }
 
     private void Update()

@@ -49,7 +49,7 @@ namespace VRStandardAssets.Utils
         private Renderer[] m_NonUiGroupsToFade;                 // All the groups of non-UIs elements that will fade in and out.        
         private Color m_FadeColor;                              // The colour the non-UI elements' material fades out to.
 
-        private bool m_Fading;                                  // Whether the UI elements are currently fading in or out.
+        private bool m_Fading = false;                                  // Whether the UI elements are currently fading in or out.
 
 
         public bool Visible { get; private set; }               // Whether the UI elements are currently visible.

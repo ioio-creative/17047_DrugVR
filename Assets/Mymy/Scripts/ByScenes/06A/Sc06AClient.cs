@@ -12,10 +12,6 @@ public class Sc06AClient : VideoSceneClientBase
     [SerializeField]
     private HandWaveProgressNew handWaveProgress;
 
-    [SerializeField]
-    private UIFader[] fadersToStart;
-
-
     /* MonoBehaviour */
 
     protected override void Awake()
@@ -25,10 +21,6 @@ public class Sc06AClient : VideoSceneClientBase
         // set default next scene
         nextSceneToLoadBase = nextSceneToLoadWhenHandWaveTriggered;
 
-        foreach (UIFader fader in fadersToStart)
-        {
-            StartCoroutine(fader.InterruptAndFadeIn());
-        }
     }
 
     protected override void OnEnable()

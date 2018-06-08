@@ -16,18 +16,19 @@ public class HandLighterSwitchControl : MonoBehaviour
     private LighterTriggerProgress lighterProgress;
     [SerializeField]
     private HandWaveProgressNew handWaveProgress;
-    private bool modelSwitch = true;
+    private bool controllerModelReplaced = true;
 
     [SerializeField]
     private GameObject lighterObject;
     private Transform lighterTransform;
     //private readonly Quaternion LighterFixedQuaternion = Quaternion.Euler(0, 0, 0);
 
-    [SerializeField]
+    [SerializeField]    
     private float lighterHeadDistanceMultiplier;
 
     private MyControllerSwtich controllerSwitch;
     private LaserPointer controllerLaser;
+    private Transform controllerTransform;
 
     private WaveVR_Controller.Device waveVrDevice;
     private bool isLighterOn = false;
@@ -43,8 +44,9 @@ public class HandLighterSwitchControl : MonoBehaviour
     {
         controllerSwitch = GameManager.Instance.ControllerSwitch;
         controllerLaser = controllerSwitch.LaserPointerRef;
+        controllerTransform = controllerSwitch.ControllerTransform;
 
-        lighterTransform = lighterObject.transform;
+        lighterTransform = lighterObject.transform;        
 
         headTransform = GameManager.Instance.HeadObject.transform;
 
@@ -93,7 +95,7 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     private void Update()
     {
-        if (modelSwitch)
+        if (controllerModelReplaced)
         {
             bool isPress = waveVrDevice.GetPress(inputToListen);
 
@@ -118,19 +120,49 @@ public class HandLighterSwitchControl : MonoBehaviour
 
         if (isLighterOn)
         {
+            //Debug.Log(controllerTransform.position.y);
+            //RemapFloat(controllerTransform.position.y, -0.85637f, 0.0646f, -0.12f, 0.0646f)
+
+            float oldControllerLowestY = -0.85637f;
+            float oldControllerHighestY = 0.0646f;
+
+            /* !!! Important !!! 
+             * percentageToRaiseControllerY may be the only param that needs to be tuned
+             * 0 <= percentageToRaiseControllerY <= 1
+             */
+            //float percentageToRaiseControllerY = 0;
+            float percentageToRaiseControllerY = 0.387f;
+
+            float newControllerLowestY =
+                oldControllerLowestY + percentageToRaiseControllerY * (oldControllerHighestY - oldControllerLowestY);
+            float newControllerHighestY = oldControllerHighestY;
+
+            Vector3 remappedControllerPosCopy = new Vector3
+            (
+               controllerTransform.position.x,
+               RemapFloat(controllerTransform.position.y, oldControllerLowestY, oldControllerHighestY, newControllerLowestY, newControllerHighestY),
+               controllerTransform.position.z
+            );
+            
             // update lighter transform
-            lighterTransform.position = (controllerSwitch.ControllerTransform.position - headTransform.position) * lighterHeadDistanceMultiplier + headTransform.position;
-            lighterTransform.rotation =
-                Quaternion.LookRotation(lighterTransform.position - headTransform.position);
+            // calculate 'contrained' controller position wrt HMD position, then multiply with distance multiplier
+            lighterTransform.position = (remappedControllerPosCopy - headTransform.position) * lighterHeadDistanceMultiplier + headTransform.position;
+
+            /* !!! Important !!!
+             * this is to make the lighter size looking the same, though it may not be needed
+             */            
+            //lighterTransform.localScale = lighterHeadDistanceMultiplier * lighterTransform.localScale;
+
+            Quaternion headToLighterLook = Quaternion.LookRotation(lighterTransform.position - headTransform.position);        
             // fix x-, z-axis rotation
-            lighterTransform.rotation = Quaternion.Euler(0, lighterTransform.eulerAngles.y, 0);
+            lighterTransform.rotation = Quaternion.Euler(0, headToLighterLook.eulerAngles.y, 0);
         }
     }
 
     /* end of MonoBehaviour */
 
 
-    private void ReplaceControllerByLighter()
+            private void ReplaceControllerByLighter()
     {
         if (!isLighterOn)
         {
@@ -187,13 +219,13 @@ public class HandLighterSwitchControl : MonoBehaviour
     private void HandleHandWaveSelectionComplete()
     {
         handWaveProgress.enabled = false;
-        modelSwitch = false;
+        controllerModelReplaced = false;
     }
 
     private void HandleLighterSelectionComplete()
     {
         lighterProgress.enabled = false;
-        modelSwitch = false;
+        controllerModelReplaced = false;
     }
 
     private void HandleShowMenu()
@@ -211,4 +243,10 @@ public class HandLighterSwitchControl : MonoBehaviour
     }
 
     /* end of event handlers */
+
+    private float RemapFloat(float input, float from1, float to1, float from2, float to2)
+    {
+        input = Mathf.Clamp(input, from1, to1);
+        return (input - from1) / (to1 - from1) * (to2 - from2) + from2;
+    }
 }
