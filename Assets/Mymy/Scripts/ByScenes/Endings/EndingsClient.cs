@@ -2,9 +2,8 @@
 using UnityEngine;
 
 public class EndingsClient : VideoSceneClientBase
-{
-    [SerializeField]
-    DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Summary;
+{    
+    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Summary;
 
     protected override void Awake()
     {

@@ -8,6 +8,18 @@ using wvr;
 // This class shares some similarity to SelectionProgress.
 public class LighterTriggerProgress : MonoBehaviour
 {
+    /* weed burn animation */
+
+    [SerializeField]
+    private string m_StartWeedBurnAnimatorTrigger = "StartWeedBurn";
+    [SerializeField]
+    private string m_StopWeedBurnAnimatorTrigger = "StopWeedBurn";
+
+    private bool m_IsWeedBurnAnimationOn = false;
+
+    /* end of weed burn animation */
+
+
     /* progress */
 
     public event Action OnSelectionComplete;
@@ -46,6 +58,9 @@ public class LighterTriggerProgress : MonoBehaviour
     // to make hand wave instruction fade out when lighter is in progress
     [SerializeField]
     private UIFader m_HandWaveInstructionFader;
+
+    [SerializeField]
+    private Animator m_WeedBurnAnimator;
 
     /* end of progressable */
 
@@ -254,10 +269,7 @@ public class LighterTriggerProgress : MonoBehaviour
             RaiseOnSelectedEvent();
             // The selection is now filled so the coroutine waiting for it can continue.
             m_SelectionFilled = true;
-        }
-        
-
-               
+        }         
     }
 
     private void StartSelectionFillRoutine()
@@ -317,7 +329,32 @@ public class LighterTriggerProgress : MonoBehaviour
     /* end of m_Progressable */
 
 
-    /* Fader */
+    /* weed burn */
+
+    private void StartWeedBurn()
+    {
+        if (!m_IsWeedBurnAnimationOn)
+        {
+            m_IsWeedBurnAnimationOn = true;
+            m_WeedBurnAnimator.SetTrigger(m_StartWeedBurnAnimatorTrigger);
+            //Debug.Log("Start weed burn animation.");
+        }
+    }
+
+    private void StopWeedBurn()
+    {
+        if (m_IsWeedBurnAnimationOn)
+        {
+            m_IsWeedBurnAnimationOn = false;
+            m_WeedBurnAnimator.SetTrigger(m_StopWeedBurnAnimatorTrigger);
+            //Debug.Log("Stop animation."); 
+        }
+    }
+
+    /* end of weed burn */
+
+
+    /* fader */
 
     public void CheckAndFadeIn()
     {
@@ -355,7 +392,7 @@ public class LighterTriggerProgress : MonoBehaviour
         }
     }
 
-    /* end of Fader */
+    /* end of fader */
 
 
     /* IHandleUiButton interfaces */
@@ -363,9 +400,12 @@ public class LighterTriggerProgress : MonoBehaviour
     private void HandleDown()
     {     
         m_ButtonPressed = true;
+        
         StartSelectionFillRoutine();
 
         CheckAndFadeOutHandWaveInstruction();
+
+        StartWeedBurn();
     }
 
     private void HandleEnter()
@@ -382,8 +422,10 @@ public class LighterTriggerProgress : MonoBehaviour
         StopSelectionFillRoutine();
 
         CheckAndFadeOut();
-
+        
         CheckAndFadeInHandWaveInstruction();
+
+        StopWeedBurn();
     }
 
     private void HandleUp()
@@ -392,9 +434,12 @@ public class LighterTriggerProgress : MonoBehaviour
         StopSelectionFillRoutine();
 
         CheckAndFadeInHandWaveInstruction();
+
+        StopWeedBurn();
     }
 
     /* end of IHandleUiButton interfaces */
+
 
     /* event handlers */
 

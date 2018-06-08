@@ -4,9 +4,7 @@ using VRStandardAssets.Utils;
 
 public class Sc06AClient : VideoSceneClientBase
 {
-    [SerializeField]
     private const DrugVR_SceneENUM nextSceneToLoadWhenLighterTriggered = DrugVR_SceneENUM.Sc06B;
-    [SerializeField]
     private const DrugVR_SceneENUM nextSceneToLoadWhenHandWaveTriggered = DrugVR_SceneENUM.Sc07;
 
     [SerializeField]
