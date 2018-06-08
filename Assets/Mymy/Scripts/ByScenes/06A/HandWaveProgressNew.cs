@@ -76,8 +76,9 @@ public class HandWaveProgressNew : MonoBehaviour
     }
 
     private void OnDisable()
-    {
+    {        
         m_ProgressBar.OnProgressComplete -= HandleProgressBarProgressComplete;
+        CheckAndFadeInLighterInstruction();
     }
 
     private void Start()
@@ -133,12 +134,12 @@ public class HandWaveProgressNew : MonoBehaviour
             // if some progress exists
             if (m_ProgressBar.Progress > m_ProgressBar.MinValue)
             {
-                //CheckAndFadeOutLighterInstruction();
+                CheckAndFadeOutLighterInstruction();
             }
             // if no progress exists
             else
             {
-                //CheckAndFadeInLighterInstruction();
+                CheckAndFadeInLighterInstruction();
             }
         }
         else

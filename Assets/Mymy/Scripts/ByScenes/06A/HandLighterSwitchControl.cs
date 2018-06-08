@@ -3,7 +3,10 @@ using UnityEngine;
 using wvr;
 
 public class HandLighterSwitchControl : MonoBehaviour
-{    
+{
+    private const DrugVR_SceneENUM currentScene = DrugVR_SceneENUM.Sc06A;
+
+
     [SerializeField]
     private WVR_DeviceType deviceToListen = WVR_DeviceType.WVR_DeviceType_Controller_Right;
     [SerializeField]
@@ -167,12 +170,15 @@ public class HandLighterSwitchControl : MonoBehaviour
 
     private void HandleSceneChange(DrugVR_SceneENUM nextScene)
     {
-        lighterObject.SetActive(false);
+        if (currentScene != nextScene)
+        {
+            lighterObject.SetActive(false);
 
-        controllerSwitch.ShowController(true, true);
+            controllerSwitch.ShowController(true, true);
 
-        enabled = false;        
-        Destroy(lighterObject);
+            enabled = false;
+            Destroy(lighterObject);
+        }
     }
 
     private void HandleHandWaveSelectionComplete()
