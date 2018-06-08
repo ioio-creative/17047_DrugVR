@@ -803,8 +803,11 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 1
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 0.5
-  m_UiGroupsToFade: []
+  m_UiGroupsToFade:
+  - {fileID: 447377214}
   m_NonUiGroupsContainers: []
 --- !u!114 &1449622618
 MonoBehaviour:
@@ -1025,7 +1028,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2589e1f83a2deae4894028de3be3bda0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneToLoad: 12
   m_ComicOrMeth:
   - {fileID: 1449622618}
   - {fileID: 1912900521}
@@ -1059,6 +1061,8 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 1
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 447377214}
@@ -1120,8 +1124,11 @@ MonoBehaviour:
   m_FadeInAlphaThreshold: 1
   m_FadeOutAlphaThreshold: 0
   m_IsSetVisibleWhenAwake: 1
+  m_MaxAlpha: 1
+  m_MinAlpha: 0
   m_FadeSpeed: 0.5
-  m_UiGroupsToFade: []
+  m_UiGroupsToFade:
+  - {fileID: 140402898}
   m_NonUiGroupsContainers: []
 --- !u!82 &1912900523
 AudioSource:

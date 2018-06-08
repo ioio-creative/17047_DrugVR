@@ -10,14 +10,17 @@ namespace VRStandardAssets.Utils
     // fading in different ways.
     public class UIFader : MonoBehaviour
     {
+        // This event is triggered when the UI elements have finished fading in.
+        public event Action OnFadeInComplete;                   
+        // This event is triggered when the UI elements have finished fading out.
+        public event Action OnFadeOutComplete;
+
         public float FadeSpeed { get { return m_FadeSpeed; } }
         public float FadeInAlphaThreshold { get { return m_FadeInAlphaThreshold; } }
         public float FadeOutAlphaThreshold { get { return m_FadeOutAlphaThreshold; } }
         public bool Fading { get { return m_Fading; } }
 
 
-        public event Action OnFadeInComplete;                   // This event is triggered when the UI elements have finished fading in.
-        public event Action OnFadeOutComplete;                  // This event is triggered when the UI elements have finished fading out.
 
         public event Action OnFadeInReachThreshold;                    // This event is triggered when the UI elements have reached certain alpha value when fading in.
         private bool m_FadeInThresholdTriggered;                       // If OnFadeInReachThreshold is triggered
@@ -271,6 +274,35 @@ namespace VRStandardAssets.Utils
             Visible = false;
         }
 
+        /* static functions */
+
+        public static IEnumerator WaitUntilFadersFadedOut(UIFader[] faders)
+        {
+            yield return WaitUntilFadersCompleteFading(faders, (x) => x.IsCompletelyFadedOut());
+        }
+
+        public static IEnumerator WaitUntilFadersFadedIn(UIFader[] faders)
+        {
+            yield return WaitUntilFadersCompleteFading(faders, (x) => x.IsCompletelyFadedIn());
+        }
+
+        private static IEnumerator WaitUntilFadersCompleteFading(UIFader[] faders, Predicate<UIFader> completeTransition)
+        {
+            yield return new WaitUntil(() =>
+            {
+                foreach (UIFader fader in faders)
+                {
+                    if (!completeTransition(fader))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+
+
+        /* end of static functions */
 
         // These functions are used if fades are required to be instant.
         public void SetVisible()

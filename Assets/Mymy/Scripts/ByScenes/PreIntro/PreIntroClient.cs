@@ -17,12 +17,12 @@ public class PreIntroClient : MonoBehaviour
 
     private void OnEnable()
     {
-        //m_StartButton.OnSelectionComplete += HandleStartButtonSelectionComplete;
+        m_StartButton.OnSelectionDown += HandleStartButtonSelectionComplete;
     }
 
     private void OnDisable()
     {
-        //m_StartButton.OnSelectionComplete -= HandleStartButtonSelectionComplete;
+        m_StartButton.OnSelectionDown -= HandleStartButtonSelectionComplete;
     }
 
     private void Start()
