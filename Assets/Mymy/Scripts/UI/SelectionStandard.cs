@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public class SelectionStandard : VrButtonBase
 {
     // This event is triggered when the bar has filled.
-    public event Action OnSelectionComplete;
+    public event Action OnSelectionDown;
+    public event Action OnSelectionDisappear;
 
     /* MonoBehaviour */
 
@@ -29,6 +32,14 @@ public class SelectionStandard : VrButtonBase
 
     /* end of audios */
 
+    private IEnumerator WaitForButtonFadeOutAndRaiseEvent()
+    {
+        yield return StartCoroutine(InterruptAndFadeOut());
+        if (OnSelectionDown != null)
+        {
+            OnSelectionDown();
+        }
+    }
 
     /* IHandleUiButton interfaces */
 
@@ -37,16 +48,20 @@ public class SelectionStandard : VrButtonBase
         base.HandleDown();
 
         PlayOnSelectedClip();
-
-        // If there is anything subscribed to OnSelectionComplete call it.
-        if (OnSelectionComplete != null)
-        { 
-            OnSelectionComplete();
+        if (OnSelectionDown != null)
+        {
+            OnSelectionDown();
         }
-
         if (DisappearOnSelection)
         {
-            StartCoroutine(InterruptAndFadeOut());
+            StartCoroutine(WaitForButtonFadeOutAndRaiseEvent());
+        }
+        else
+        {
+            if (OnSelectionDisappear != null)
+            {
+                OnSelectionDisappear();
+            }
         }
     }
 

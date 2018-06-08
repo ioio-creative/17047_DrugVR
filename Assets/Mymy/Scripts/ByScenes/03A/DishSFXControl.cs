@@ -14,8 +14,18 @@ public class DishSFXControl : MonoBehaviour
     private void Awake()
     {
         m_AudioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
         PickableConfinedToPlane.OnAnyPickableObjectPicked += HandlePlateStateChanged;
         PickableConfinedToPlane.OnAnyPickableObjectDestroyed += HandlePlateStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        PickableConfinedToPlane.OnAnyPickableObjectPicked -= HandlePlateStateChanged;
+        PickableConfinedToPlane.OnAnyPickableObjectDestroyed -= HandlePlateStateChanged;
     }
 
     private void PlayAudioClip(AudioClip aClip)

@@ -65,7 +65,7 @@ public class Sc03AClient : MonoBehaviour
     private void OnDisable()
     {
         m_BasinTrigger.OnProgressTrigger -= HandleBasinTriggerProgress;
-        m_StartGameButton.OnSelectionComplete -= HandleStartGameButtonSelectionComplete;
+        m_StartGameButton.OnSelectionDown -= HandleStartGameButtonSelectionClicked;
         m_PickupLaser.UnforceDisableGrab();
     }
 
@@ -125,7 +125,7 @@ public class Sc03AClient : MonoBehaviour
     {
         sphereFadeOutSwitch = true;
         m_SphereAnim.SetTrigger("FadeOutSphere");
-        m_StartGameButton.OnSelectionComplete += HandleStartGameButtonSelectionComplete;
+        m_StartGameButton.OnSelectionDown += HandleStartGameButtonSelectionClicked;
         StartCoroutine(m_StartGameButton.InterruptAndFadeIn());       
     }
 
@@ -174,12 +174,12 @@ public class Sc03AClient : MonoBehaviour
         yield return new WaitWhile(() => m_ClientAudioSource.isPlaying);
     }
 
-    private void HandleStartGameButtonSelectionComplete()
+    private void HandleStartGameButtonSelectionClicked()
     {
         m_InstructionAnim.SetTrigger("Stop");
         StartCoroutine(m_InstructionAnimFader.InterruptAndFadeOut());
         StartCoroutine(m_StartGameButton.InterruptAndFadeOut());
-        m_StartGameButton.OnSelectionComplete -= HandleStartGameButtonSelectionComplete;
+        m_StartGameButton.OnSelectionDown -= HandleStartGameButtonSelectionClicked;
         StartCoroutine(m_MemoButton.InterruptAndFadeIn());
         
         m_PickupLaser.UnforceDisableGrab();

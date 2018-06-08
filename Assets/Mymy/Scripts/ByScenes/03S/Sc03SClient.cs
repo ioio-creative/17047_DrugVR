@@ -1,6 +1,7 @@
 ﻿using DrugVR_Scribe;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Video;
 using VRStandardAssets.Utils;
@@ -11,16 +12,16 @@ public class Sc03SClient : VideoSceneClientBase
     [SerializeField]
     private SelectionStandard[] m_ComicOrMeth;
 
-    private UIFader m_ComicAndMethFader;
+    private UIFader[] m_ComicAndMethFaders;
 
     protected override void Awake()
     {
         base.Awake();
         nextSceneToLoadBase = nextSceneToLoad;
-        m_ComicAndMethFader = GetComponent<UIFader>();
+        m_ComicAndMethFaders = m_ComicOrMeth.Select( x => x.GetComponent<UIFader>()).ToArray();
         foreach (SelectionStandard vrButton in m_ComicOrMeth)
         {
-            vrButton.OnSelectionComplete += HandleButtonSelected;
+            vrButton.OnSelectionDown += HandleButtonSelected;
         }
         
     }
@@ -32,13 +33,16 @@ public class Sc03SClient : VideoSceneClientBase
 
     private void HandleButtonSelected()
     {
-        m_ComicAndMethFader.OnFadeOutComplete += HandleButtonFadeOutCompleted;
-        StartCoroutine(m_ComicAndMethFader.InterruptAndFadeOut());
-
+        foreach (UIFader fader in m_ComicAndMethFaders)
+        {
+            StartCoroutine(fader.InterruptAndFadeOut());
+        }
+        StartCoroutine(ButtonsFadeOutCompletedRoutine());
     }
 
-    private void HandleButtonFadeOutCompleted()
+    private IEnumerator ButtonsFadeOutCompletedRoutine()
     {
+        yield return StartCoroutine(UIFader.WaitUntilFadersFadedOut(m_ComicAndMethFaders));
         managerInst.PlayVideo();
     }
 

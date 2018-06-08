@@ -27,12 +27,12 @@ public class FadeSceneMenuOnSelected : MonoBehaviour
 
     private void OnEnable()
     {
-        m_Selection.OnSelectionComplete += HandleSelectionComplete;
+        m_Selection.OnSelectionDown += HandleSelectionComplete;
     }
 
     private void OnDisable()
     {
-        m_Selection.OnSelectionComplete -= HandleSelectionComplete;
+        m_Selection.OnSelectionDown -= HandleSelectionComplete;
     }
 
     private void Start()

@@ -62,7 +62,7 @@ public class Sc07SClient : VideoSceneClientBase
     {
         m_ExitButton.UnforceDisableButton();
         m_ExitUIAnimCtrl.ActivateUIAnimation();
-        m_ExitButton.OnSelectionComplete += HandleExitSelected;
+        m_ExitButton.OnSelectionDown += HandleExitSelected;
         StartCoroutine(m_ExitButton.InterruptAndFadeIn());
     }
 
@@ -70,7 +70,7 @@ public class Sc07SClient : VideoSceneClientBase
     {
         m_ExitButton.ForceDisableButton();
         m_ExitUIAnimCtrl.DeactivateUIAnimation();
-        m_ExitButton.OnSelectionComplete -= HandleExitSelected;
+        m_ExitButton.OnSelectionDown -= HandleExitSelected;
         StartCoroutine(m_ExitButton.InterruptAndFadeOut());
     }
 

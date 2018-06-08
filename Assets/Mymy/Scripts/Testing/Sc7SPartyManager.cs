@@ -125,7 +125,7 @@ namespace Scene07Party
                 StartCoroutine(fader.InterruptAndFadeOut());
             }
 
-            yield return StartCoroutine(WaitUntilAllFadedOut());
+            yield return StartCoroutine(UIFader.WaitUntilFadersFadedOut(m_OptionUIFaders));
 
             if (selectedPartyOption.PartyOption == PartyOptionEnum.METH)
             {
@@ -197,21 +197,6 @@ namespace Scene07Party
                 //Go To Next Scene if no more rounds to play
                 m_Sc7SClientRef.GoToSceneOnChoice();
             }
-        }
-
-        private IEnumerator WaitUntilAllFadedOut()
-        {
-            yield return new WaitUntil(() =>
-            {
-                foreach (UIFader fader in m_OptionUIFaders)
-                {
-                    if (fader.Visible || fader.Fading)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            });
         }
 
         private IEnumerator PersuadeMethRoutine()
