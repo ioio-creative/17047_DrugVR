@@ -3,13 +3,24 @@
 public class ChangeLogoTransform : MonoBehaviour
 {
     [SerializeField]
-    private Vector3 logoContainerPosition;
+    private float logoContainerScaleFactor = 1f;
 
-    private Transform logoContainerTransform;    
+    private Vector3 logoContainerOriginalScale;
+    private Transform logoContainerTransform;
 
-	private void Start()
+    private void OnEnable()
     {
         logoContainerTransform = GameManager.Instance.LogoContainerObject.transform;
-        logoContainerTransform.position = logoContainerPosition;
-    }		
+        logoContainerOriginalScale = logoContainerTransform.localScale;
+    }
+
+    private void OnDisable()
+    {
+        logoContainerTransform.localScale = logoContainerOriginalScale;
+    }
+
+    private void Start()
+    {
+        logoContainerTransform.localScale = logoContainerOriginalScale * logoContainerScaleFactor;
+    }	
 }
