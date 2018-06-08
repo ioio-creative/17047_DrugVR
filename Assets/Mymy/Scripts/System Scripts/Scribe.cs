@@ -129,7 +129,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 6 Side Taking
-        private static bool _Side05 = false;
+        private static bool _Side05 = true;
         public static bool Side05
         {
             get { return _Side05; }
@@ -143,7 +143,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 7 Side Taking
-        private static bool _Side06 = false;
+        private static bool _Side06 = true;
         public static bool Side06
         {
             get { return _Side06; }
