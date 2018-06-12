@@ -103,6 +103,7 @@ public class ReplyModeBroadcast : MonoBehaviour
 
     private void PlayAudioClip(AudioClip aClip)
     {
+        m_Audio.Stop();
         m_Audio.clip = aClip;
         if (m_Audio.clip != null)
         {

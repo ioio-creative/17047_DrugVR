@@ -209,7 +209,7 @@ public class HandWaveProgressNew : MonoBehaviour
         }
     }
 
-    private void CheckAndFadeOutLighterInstruction()
+    public void CheckAndFadeOutLighterInstruction()
     {
         if (m_LighterInstructionFader.IsFadingIn() || m_LighterInstructionFader.IsCompletelyFadedIn())
         {

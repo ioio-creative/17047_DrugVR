@@ -277,6 +277,7 @@ MonoBehaviour:
   m_FadeSpeed: 0.5
   m_UiGroupsToFade:
   - {fileID: 225717585132616404}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!114 &114618779966359204
 MonoBehaviour:
@@ -427,8 +428,8 @@ MonoBehaviour:
   m_DisappearOnSelection: 0
   m_Audio: {fileID: 82826685589289714}
   m_OnOverClip: {fileID: 8300000, guid: 34a4fcfa7c5fc854fb15af31e9848eac, type: 3}
-  m_OnSelectedClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
-  m_OnErrorClip: {fileID: 8300000, guid: 047ce9a926da0dd43b7ad33c9b5ad0b4, type: 3}
+  m_OnSelectedClip: {fileID: 8300000, guid: 26c4e08cf1d4df54188693295cb68c93, type: 3}
+  m_OnErrorClip: {fileID: 8300000, guid: 99cfea0cf3b88b54385b9d310fc0d502, type: 3}
   m_UIFader: {fileID: 114555832037089800}
   m_Collider: {fileID: 65019398652128774}
   m_Button: {fileID: 114718058568347790}

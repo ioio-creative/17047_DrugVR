@@ -2,7 +2,7 @@
 
 public class Sc03BClient : VideoSceneClientBase
 {    
-    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc04;
+    private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc03S;
 
     protected override void Awake()
     {

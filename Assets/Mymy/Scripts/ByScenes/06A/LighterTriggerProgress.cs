@@ -205,6 +205,7 @@ public class LighterTriggerProgress : MonoBehaviour
 
     public void PlayAudioClip(AudioClip aClip)
     {
+        m_Audio.Stop();
         m_Audio.clip = aClip;
         if (m_Audio.clip != null)
         {
@@ -386,7 +387,7 @@ public class LighterTriggerProgress : MonoBehaviour
         }
     }
 
-    private void CheckAndFadeOutHandWaveInstruction()
+    public void CheckAndFadeOutHandWaveInstruction()
     {
         if (m_HandWaveInstructionFader.IsFadingIn() || m_HandWaveInstructionFader.IsCompletelyFadedIn())
         {

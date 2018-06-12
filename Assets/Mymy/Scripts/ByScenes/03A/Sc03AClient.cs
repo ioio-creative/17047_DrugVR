@@ -146,6 +146,7 @@ public class Sc03AClient : MonoBehaviour
 
     private void PlayAudioClip(AudioClip aClip)
     {
+        m_ClientAudioSource.Stop();
         m_ClientAudioSource.clip = aClip;
         if (m_ClientAudioSource.clip != null)
         {

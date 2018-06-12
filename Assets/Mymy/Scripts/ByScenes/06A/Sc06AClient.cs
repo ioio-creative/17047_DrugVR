@@ -29,7 +29,8 @@ public class Sc06AClient : VideoSceneClientBase
         lighterTriggerProgress.OnSelectionFadeOutComplete +=
             HandleLighterTriggerProgressSelectionFadeOutComplete;
         handWaveProgress.OnSelectionFadeOutComplete +=
-            HandlerHandWaveProgressSelectionFadeOutComplete;
+            HandleHandWaveProgressSelectionFadeOutComplete;
+        handWaveProgress.OnSelectionComplete += HandleHandWaveProgressSelectionComplete;
     }
 
     protected override void OnDisable()
@@ -38,7 +39,7 @@ public class Sc06AClient : VideoSceneClientBase
         lighterTriggerProgress.OnSelectionFadeOutComplete -=
             HandleLighterTriggerProgressSelectionFadeOutComplete;
         handWaveProgress.OnSelectionFadeOutComplete -=
-            HandlerHandWaveProgressSelectionFadeOutComplete;
+            HandleHandWaveProgressSelectionFadeOutComplete;
     }
 
     /* end of MonoBehaviour */
@@ -46,7 +47,13 @@ public class Sc06AClient : VideoSceneClientBase
 
     /* event handlers */
 
-    private void HandlerHandWaveProgressSelectionFadeOutComplete()
+    private void HandleHandWaveProgressSelectionComplete()
+    {
+        lighterTriggerProgress.CheckAndFadeOutHandWaveInstruction();
+        BackgroundAudioControl.Instance.MasterFadeBackgroundAudioToTargetVolume(0.3f, 1.5f);
+    }
+
+    private void HandleHandWaveProgressSelectionFadeOutComplete()
     {
         Scribe.Side05 = true;
         nextSceneToLoadBase = nextSceneToLoadWhenHandWaveTriggered;

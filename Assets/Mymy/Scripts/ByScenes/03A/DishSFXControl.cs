@@ -30,6 +30,7 @@ public class DishSFXControl : MonoBehaviour
 
     private void PlayAudioClip(AudioClip aClip)
     {
+        m_AudioSource.Stop();
         m_AudioSource.clip = aClip;
         if (m_AudioSource.clip != null)
         {

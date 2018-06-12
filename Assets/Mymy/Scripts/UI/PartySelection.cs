@@ -67,6 +67,14 @@ namespace Scene07Party
             base.HandleDown();
             if (m_GazeOver)
             {
+                if (PartyOption == PartyOptionEnum.METH)
+                {
+                    PlayOnErrorClip();
+                }
+                else
+                {
+                    PlayOnSelectedClip();
+                }
                 RaiseOnSelectedEvent();
             }
         }

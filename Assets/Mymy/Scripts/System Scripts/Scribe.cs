@@ -72,8 +72,10 @@ namespace DrugVR_Scribe
         public static IDictionary<DrugVR_SceneENUM, Scroll> SceneDictionary =
             new Dictionary<DrugVR_SceneENUM, Scroll>(new DrugVREnumComparer());
 
+        //!! All sides should be false by default, 
+        //GameManager will use different Color for transition if sides which affects ending are true
         //Scene 1 Side Taking
-        private static bool _Side01 = true;
+        private static bool _Side01 = false;
         public static bool Side01
         {
             get{ return _Side01; }
@@ -87,7 +89,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 2 Side Taking
-        private static bool _Side02 = true;
+        private static bool _Side02 = false;
         public static bool Side02
         {
             get { return _Side02; }
@@ -101,7 +103,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 3 Side Taking
-        private static bool _Side03 = true;
+        private static bool _Side03 = false;
         public static bool Side03
         {
             get { return _Side03; }
@@ -115,7 +117,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 4 Side Taking
-        private static bool _Side04 = true;
+        private static bool _Side04 = false;
         public static bool Side04
         {
             get { return _Side04; }
@@ -129,7 +131,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 6 Side Taking
-        private static bool _Side05 = true;
+        private static bool _Side05 = false;
         public static bool Side05
         {
             get { return _Side05; }
@@ -143,7 +145,7 @@ namespace DrugVR_Scribe
             }
         }
         //Scene 7 Side Taking
-        private static bool _Side06 = true;
+        private static bool _Side06 = false;
         public static bool Side06
         {
             get { return _Side06; }

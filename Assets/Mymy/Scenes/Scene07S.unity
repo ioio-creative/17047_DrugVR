@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41076326, g: 0.41067937, b: 0.44639224, a: 1}
+  m_IndirectSpecularColor: {r: 0.5006836, g: 0.4861632, b: 0.52353346, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -689,14 +689,14 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 872896045}
   m_GameObject: {fileID: 487595110}
-  m_LocalRotation: {x: 0, y: -0.40306604, z: 0, w: 0.9151709}
-  m_LocalPosition: {x: -28.85, y: 6.65, z: 13.25}
+  m_LocalRotation: {x: 0.01897668, y: -0.46083507, z: 0.007006368, w: 0.8872553}
+  m_LocalPosition: {x: -29.5, y: 6.65, z: 13.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1777760688}
   m_Father: {fileID: 19370854}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -47.54, z: 0}
+  m_LocalEulerAnglesHint: {x: 2.3, y: -54.9, z: -0.29}
 --- !u!114 &487595113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,7 +1209,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -28.85
+      value: -29.5
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1217,23 +1217,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 13.25
+      value: 13.5
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.01897668
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.40306604
+      value: -0.46083507
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.007006368
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.9151709
+      value: 0.8872553
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_RootOrder
@@ -1323,7 +1323,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -47.54
+      value: -54.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4888011671624748, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.29
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7a7a84a68c2a9f4c8db7b06ece5c3a4, type: 2}
@@ -2053,13 +2061,13 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1784894935}
-  m_LocalRotation: {x: 0, y: -0.28317848, z: 0, w: 0.9590672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1.71}
   m_LocalScale: {x: 900, y: 900, z: 900}
   m_Children: []
   m_Father: {fileID: 19370854}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -32.9, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1784894937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2077,15 +2085,15 @@ MonoBehaviour:
   m_SphereVideos:
   - m_PartyOption: 1
     FXVideoClip: {fileID: 32900000, guid: 80fd772dfb8e8844f86ed77bee9c3d6c, type: 3}
-    EffectRotation: 320
+    EffectRotation: 292
     IsRepeat: 0
   - m_PartyOption: 2
     FXVideoClip: {fileID: 32900000, guid: 24b5db566ebc8474c9acf695a8d26363, type: 3}
-    EffectRotation: 320
+    EffectRotation: 292
     IsRepeat: 0
   - m_PartyOption: 3
     FXVideoClip: {fileID: 32900000, guid: be3573f07e7264746a7f82ce899239ca, type: 3}
-    EffectRotation: 320
+    EffectRotation: 292
     IsRepeat: 0
   m_SphereVideoTexture: {fileID: 8400000, guid: 109fb1c0ff6f80d4a8a9618fa596ad82,
     type: 2}

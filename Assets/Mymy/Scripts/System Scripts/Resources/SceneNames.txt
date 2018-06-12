@@ -20,12 +20,12 @@ Scene05A,VideoSky,128,Sc5A_Shot4A.mp4,1
 Scene05B,VideoSky,115,Sc5B_Shot12.mp4,1
 Scene06,VideoSky,130,Sc6_Shot13-15.mp4,1
 Scene06A,VideoSky,130,Sc6_Shot13-15_continous.mp4,0
-Scene06B,VideoSky,130,Sc6_Shot16 (Resolve).mp4,1
+Scene06B,VideoSky,151,Sc6_Shot16 (Resolve).mp4,1
 Scene07,VideoSky,65,Sc7_Shot17_1 (Updated 0511).mp4,1
 Scene07S,VideoSky,65,Sc7_Shot17_loop.mp4,1
 Scene07B,VideoSky,65,Sc7_Shot17 (Resolve).mp4,1
 Scene08,VideoSky,117,EndA.mp4,1
 Scene09,VideoSky,100,EndB.mp4,1
 Scene10,VideoSky,260,EndC_sound revised.mp4,1
-Summary,ImageSky,0,Summary_Sky,0,//Summary,VideoSky,90,good end outro.mp4,1
+Summary,ImageSky,0,Summary_Sky,0
 Menu,ImageSky,0,Summary_Sky

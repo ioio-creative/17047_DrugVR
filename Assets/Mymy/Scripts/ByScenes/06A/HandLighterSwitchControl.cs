@@ -162,7 +162,7 @@ public class HandLighterSwitchControl : MonoBehaviour
     /* end of MonoBehaviour */
 
 
-            private void ReplaceControllerByLighter()
+    private void ReplaceControllerByLighter()
     {
         if (!isLighterOn)
         {

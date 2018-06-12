@@ -289,6 +289,7 @@ public class GameManager : MonoBehaviour
             SkyVideoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
             SkyVideoPlayer.controlledAudioTrackCount = 1;
             SkyVideoPlayer.SetTargetAudioSource(0, SkyVideoPlayer.GetComponent<AudioSource>());
+            SkyVideoPlayer.GetComponent<AudioSource>().mute = true;
             SkyVideoPlayer.Prepare();
 
             yield return StartCoroutine(WaitForVideoPrepared());
@@ -296,6 +297,7 @@ public class GameManager : MonoBehaviour
 
             if (scroll.VideoAutoPlay)
             {
+                SkyVideoPlayer.GetComponent<AudioSource>().mute = false;
                 SkyVideoPlayer.GetComponent<AudioSource>().volume = 1;
                 PlayVideo();
             }
@@ -303,7 +305,6 @@ public class GameManager : MonoBehaviour
             {
                 SkyVideoPlayer.sendFrameReadyEvents = true;
                 SkyVideoPlayer.frameReady += OnNewVideoFrameArrived;
-                SkyVideoPlayer.GetComponent<AudioSource>().mute = true;
                 PlayVideo();
             }            
         }
@@ -377,7 +378,14 @@ public class GameManager : MonoBehaviour
     {
         if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("FadeIn"))
         {
-            yield return StartCoroutine(FadeOutRoutine());
+            if (Scribe.EndingForPlayer == Ending.EndingA)
+            {
+                yield return StartCoroutine(FadeOutToWhiteRoutine());
+            }
+            else
+            {
+                yield return StartCoroutine(FadeOutToBlackRoutine());
+            } 
         }
 
         StopVideo();
@@ -407,8 +415,9 @@ public class GameManager : MonoBehaviour
         //trigger FadeIn on the animator so our scene will fade back in 
         if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("FadeOut"))
         {
-            yield return StartCoroutine(FadeInRoutine());
+            yield return StartCoroutine(FadeInRoutine()); 
         }
+
         isLoadingScene = false;
     }
     
@@ -465,12 +474,14 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator FadeToColorRoutine(Color color)
     {
+        //!! Must assign current alpha channel to input color before changing Image color
+        color.a = m_fadeImage.color.a;
         m_fadeImage.color = color;
         yield return StartCoroutine(FadeOutRoutine());
     }
 
     public IEnumerator FadeOutRoutine()
-    {       
+    {     
         m_anim.SetTrigger("FadeOut");
         //wait until the fade image is entirely black (alpha=1) then load next scene
         yield return new WaitUntil(() => m_fadeImage.color.a == 1);

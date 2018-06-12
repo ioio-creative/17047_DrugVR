@@ -67,6 +67,11 @@ public class BackgroundAudioControl : MonoBehaviour
         GameManager.OnSceneChange -= HandleSceneChange;
     }
 
+    public void MasterFadeBackgroundAudioToTargetVolume(float endVol, float duration)
+    {
+        StartCoroutine(AudioUtils.FadeAudioToTargetVolume(BackgroundAudioSrcs, endVol, duration));
+    }
+
     private void HandleSceneChange(DrugVR_SceneENUM nextScene)
     {
         IEnumerable<AudioLoopPackage> applicableAudioLoops =
