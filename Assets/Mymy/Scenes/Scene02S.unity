@@ -1144,9 +1144,10 @@ MonoBehaviour:
   m_MaxAlpha: 1
   m_MinAlpha: 0
   m_FadeSpeed: 1
-  m_UiGroupsToFade:
-  - {fileID: 97699301}
-  m_SpritesToFade: []
+  m_UiGroupsToFade: []
+  m_SpritesToFade:
+  - {fileID: 481911831}
+  - {fileID: 1059295754}
   m_NonUiGroupsContainers: []
 --- !u!1 &1059295751
 GameObject:
@@ -1335,6 +1336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd6a0b8ce1fe5a4680076993ca2e971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InstructionsFader: {fileID: 986780162}
   m_PopupMsgOnPhoneFader: {fileID: 2107685982}
   m_Reply: {fileID: 2107685981}
   m_SecondsToWaitBeforeTransitionToNext: 0.5

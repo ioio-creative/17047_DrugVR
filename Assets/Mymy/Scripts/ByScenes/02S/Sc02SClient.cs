@@ -6,6 +6,9 @@ using VRStandardAssets.Utils;
 public class Sc02SClient : VideoSceneClientBase
 {
     private const DrugVR_SceneENUM nextSceneToLoad = DrugVR_SceneENUM.Sc03;
+
+    [SerializeField]
+    private UIFader m_InstructionsFader;
     [SerializeField]
     private UIFader m_PopupMsgOnPhoneFader;
     [SerializeField]
@@ -67,7 +70,7 @@ public class Sc02SClient : VideoSceneClientBase
 
     private IEnumerator TransitionToNextWhenIsReply()
     {
-        yield return new WaitForSeconds(m_SecondsToWaitBeforeTransitionToNext);
+        yield return StartCoroutine(m_InstructionsFader.InterruptAndFadeOut());
         managerInst.PlayVideo();
     }
 

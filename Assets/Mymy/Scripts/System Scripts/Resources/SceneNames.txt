@@ -1,5 +1,5 @@
 Format:[SceneName][SceneSky][SkyShaderDefaultRotation][Video_or_ImgPath][VideoAutoPlayOnSceneChange]
-PreIntro,ImageSky,0,PreIntro_Sky,0
+MainTitle,ImageSky,0,PreIntro_Sky,0
 Introduction,VideoSky,90,Drug VR Intro.mp4,1
 Scene01,VideoSky,170,Sc1_Shot1.mp4,1
 Scene01S,ImageSky,170,Sc01S_Sky,0
