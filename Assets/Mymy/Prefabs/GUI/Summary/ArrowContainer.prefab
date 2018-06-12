@@ -117,7 +117,7 @@ MonoBehaviour:
   m_IsSetVisibleWhenAwake: 0
   m_MaxAlpha: 1
   m_MinAlpha: 0
-  m_FadeSpeed: 0.1
+  m_FadeSpeed: 0.2
   m_UiGroupsToFade: []
   m_SpritesToFade:
   - {fileID: 212533348733668636}

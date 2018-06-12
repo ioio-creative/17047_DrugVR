@@ -157,9 +157,10 @@ MonoBehaviour:
   m_IsSetVisibleWhenAwake: 0
   m_MaxAlpha: 1
   m_MinAlpha: 0
-  m_FadeSpeed: 0.1
+  m_FadeSpeed: 0.2
   m_UiGroupsToFade:
   - {fileID: 225509444597208904}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!114 &114187466951530174
 MonoBehaviour:
