@@ -2039,6 +2039,11 @@ MonoBehaviour:
     indicationOffset: {x: 0, y: 0, z: 0}
     indicationText: system
     followButtonRotation: 1
+  - keyType: 5
+    alignment: 0
+    indicationOffset: {x: 0, y: 0, z: 0}
+    indicationText: system
+    followButtonRotation: 1
 --- !u!114 &114575016029923280
 MonoBehaviour:
   m_ObjectHideFlags: 1
