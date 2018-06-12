@@ -36,7 +36,9 @@ public class SceneChoiceDisplay : MonoBehaviour
     /* MonoBehaviour */
 
     private void Start()
-    {       
+    {
+        //Double check m_SceneChoiceName DOES NOT set to "Side02" in editor:
+        //Side02 (text message reply) doesn't affect major narrative change
         m_SceneChoice = Scribe.GetSideValueByName(m_SceneChoiceName);
 
         m_ChoiceImage.sprite = m_SceneChoice ?
