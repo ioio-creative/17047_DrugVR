@@ -1850,7 +1850,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: debug log
+  m_Text: 
 --- !u!114 &114943538587385728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2287,7 +2287,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 4096, y: 3840}
+  m_SizeDelta: {x: 3072, y: 3072}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224362794680004502
 RectTransform:
