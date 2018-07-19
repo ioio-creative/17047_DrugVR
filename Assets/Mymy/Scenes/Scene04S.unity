@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: a5dc82d49b2032b4ebfba70fc2b6a96e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.47301197, g: 0.4356441, b: 0.4498775, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1856889852}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!1 &55948202
 GameObject:
@@ -459,6 +460,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1936585351}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!1001 &263376435
 Prefab:
@@ -1272,6 +1274,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 620404865}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!1 &1011338737
 GameObject:
@@ -1865,6 +1868,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 2021177802}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!1 &1411371569
 GameObject:
@@ -1915,6 +1919,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 224289035}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!1 &1561051754
 GameObject:
@@ -2138,6 +2143,7 @@ MonoBehaviour:
   m_FadeSpeed: 1
   m_UiGroupsToFade:
   - {fileID: 1989472221}
+  m_SpritesToFade: []
   m_NonUiGroupsContainers: []
 --- !u!82 &1706952027
 AudioSource:

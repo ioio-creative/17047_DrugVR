@@ -18,5 +18,12 @@ public class EndingsClient : VideoSceneClientBase
     private void Start()
     {
         nextSceneToLoadBase = nextSceneToLoad;
+
+        //This is an alt. ver requested by FYG to have Sc08 appears at the end 
+        //of Sc09 or 10, regardless of Player's ending
+        if (GameManager.Instance.CurrentScene != DrugVR_SceneENUM.Sc08)
+        {
+            nextSceneToLoadBase = DrugVR_SceneENUM.Sc08;
+        }
     }
 }
